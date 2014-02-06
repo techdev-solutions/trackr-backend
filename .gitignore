@@ -1,6 +1,13 @@
-*.class
+# gradle / Maven
+target/
+build/
+.gradle/
 
-# Package Files #
-*.jar
-*.war
-*.ear
+# IDEA
+.idea/
+*.iml
+*.ipr
+
+# Eclipse
+.settings/
+.project
