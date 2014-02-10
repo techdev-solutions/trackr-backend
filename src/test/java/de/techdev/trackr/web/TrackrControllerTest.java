@@ -2,9 +2,8 @@ package de.techdev.trackr.web;
 
 import org.junit.Test;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
  * @author Moritz Schulze
@@ -18,9 +17,7 @@ public class TrackrControllerTest extends MockMvcTest {
      */
     @Test
     public void welcomePage() throws Exception {
-        mockMvc.perform(get("/")).andExpect(result ->
-            assertThat(result.getResponse().getContentAsString(), is("Welcome to trackr!"))
-        );
+        mockMvc.perform(get("/")).andExpect(status().isOk());
     }
 }
 

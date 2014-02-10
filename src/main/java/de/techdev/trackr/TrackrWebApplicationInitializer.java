@@ -1,29 +1,25 @@
 package de.techdev.trackr;
 
-import org.springframework.web.WebApplicationInitializer;
-import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
-import org.springframework.web.servlet.DispatcherServlet;
-
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRegistration;
+import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 /**
+ * Creates the dispatcher servlet with the correct configuration classes.
  * @author Moritz Schulze
  */
-public class TrackrWebApplicationInitializer implements WebApplicationInitializer {
+public class TrackrWebApplicationInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 
-    /**
-     * Initializes the servlet container with a Spring Dispatcher Servlet.
-     * @param servletContext The servlet context to use
-     * @throws ServletException
-     */
     @Override
-    public void onStartup(ServletContext servletContext) throws ServletException {
-        AnnotationConfigWebApplicationContext appContext = new AnnotationConfigWebApplicationContext();
-        appContext.register(TrackrApplication.class);
-        ServletRegistration.Dynamic dispatcher = servletContext.addServlet("dispatcher", new DispatcherServlet(appContext));
-        dispatcher.setLoadOnStartup(1);
-        dispatcher.addMapping("/");
+    protected Class<?>[] getRootConfigClasses() {
+        return new Class<?>[] {SecurityConfiguration.class};
+    }
+
+    @Override
+    protected Class<?>[] getServletConfigClasses() {
+        return new Class<?>[] {TrackrApplication.class};
+    }
+
+    @Override
+    protected String[] getServletMappings() {
+        return new String[] {"/"};
     }
 }
