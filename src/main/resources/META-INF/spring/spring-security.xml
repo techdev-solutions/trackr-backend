@@ -8,8 +8,8 @@
 
     <authentication-manager>
         <authentication-provider>
-            <user-service>
-                <user name="https://www.google.com/accounts/o8/id?id=" password="" authorities="ROLE_USER"/>
+            <user-service id="adminUserService">
+                <user name="admin" password="techdev" authorities="ROLE_ADMIN"/>
             </user-service>
         </authentication-provider>
     </authentication-manager>
@@ -20,13 +20,14 @@
         <intercept-url pattern="/app/bower_components/**" access="permitAll"/>
         <intercept-url pattern="/app/**" access="isFullyAuthenticated()"/>
         <intercept-url pattern="/api/**" access="isFullyAuthenticated()"/>
-        <openid-login login-page="/" default-target-url="/app/index.html" authentication-failure-url="/?error=true">
+        <openid-login default-target-url="/app/index.html" authentication-failure-url="/" user-service-ref="trackrUserDetailsService">
             <attribute-exchange>
                 <openid-attribute name="email" type="http://schema.openid.net/contact/email" required="true"/>
                 <openid-attribute name="first" type="http://schema.openid.net/namePerson/first" required="true"/>
                 <openid-attribute name="last" type="http://schema.openid.net/namePerson/last" required="true"/>
             </attribute-exchange>
         </openid-login>
+        <form-login default-target-url="/app/index.html" authentication-failure-url="/"/>
         <logout logout-success-url="/?logout=true" logout-url="/logout"/>
     </http>
 

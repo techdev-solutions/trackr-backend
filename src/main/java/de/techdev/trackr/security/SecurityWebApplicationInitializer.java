@@ -1,4 +1,4 @@
-package de.techdev.trackr;
+package de.techdev.trackr.security;
 
 import org.springframework.security.web.context.AbstractSecurityWebApplicationInitializer;
 

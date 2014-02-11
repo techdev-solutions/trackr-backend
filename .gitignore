@@ -11,3 +11,6 @@ build/
 # Eclipse
 .settings/
 .project
+
+# OSX
+.DS_Store

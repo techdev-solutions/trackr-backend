@@ -1,4 +1,4 @@
-package de.techdev.trackr;
+package de.techdev.trackr.repository;
 
 import org.apache.commons.dbcp.BasicDataSource;
 import org.hibernate.ejb.HibernatePersistence;

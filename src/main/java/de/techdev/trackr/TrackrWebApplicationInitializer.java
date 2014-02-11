@@ -1,5 +1,7 @@
 package de.techdev.trackr;
 
+import de.techdev.trackr.repository.JpaConfiguration;
+import de.techdev.trackr.security.SecurityConfiguration;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 /**
@@ -10,7 +12,7 @@ public class TrackrWebApplicationInitializer extends AbstractAnnotationConfigDis
 
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return new Class<?>[] {SecurityConfiguration.class};
+        return new Class<?>[] {TrackrRootConfiguration.class, SecurityConfiguration.class, JpaConfiguration.class};
     }
 
     @Override

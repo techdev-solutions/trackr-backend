@@ -1,30 +1,21 @@
 package de.techdev.trackr.domain;
 
 import lombok.Data;
+import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
-import java.util.List;
 
 /**
  * @author Moritz Schulze
  */
 @Data
 @Entity
-public class Employee {
+public class Authority implements GrantedAuthority {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private String firstName;
-
-    private String lastName;
-
     @Column(unique = true)
-    private String email;
-
-    private boolean active;
-
-    @OneToMany
-    private List<Authority> authorities;
+    private String authority;
 }

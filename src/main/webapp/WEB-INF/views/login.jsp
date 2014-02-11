@@ -18,8 +18,10 @@
             <div class="panel panel-default">
                 <div class="panel-heading"><h3 class="panel-title">Login</h3></div>
                 <div class="panel-body">
-                    <c:if test="${param.error == 'true'}">
-                        <div class="alert alert-warning">Login fehlgeschlagen. Bitte nur techdev Accounts nutzen!</div>
+                    <c:if test="${not empty SPRING_SECURITY_LAST_EXCEPTION}">
+                        <div class="alert alert-warning">
+                            <c:out value="${SPRING_SECURITY_LAST_EXCEPTION.message}"/>
+                        </div>
                     </c:if>
                     <c:if test="${param.logout == 'true'}">
                         <div class="alert alert-success">Erfolgreich ausgeloggt!</div>

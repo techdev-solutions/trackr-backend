@@ -1,4 +1,4 @@
-package de.techdev.trackr;
+package de.techdev.trackr.web;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
