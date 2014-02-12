@@ -25,6 +25,7 @@ dependencies {
     compile "org.springframework:spring-webmvc:$project.springVersion"
     compile "javax.servlet:jstl:1.2"
     compile "com.fasterxml.jackson.core:jackson-databind:2.3.1"
+    compile "ch.qos.logback:logback-classic:1.0.13"
 
     //security
     compile "org.springframework.security:spring-security-openid:$project.springSecurityVersion"
