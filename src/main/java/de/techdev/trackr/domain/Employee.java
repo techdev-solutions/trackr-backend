@@ -23,8 +23,8 @@ public class Employee {
     @Column(unique = true)
     private String email;
 
-    private boolean active;
+    private boolean enabled;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     private List<Authority> authorities;
 }

@@ -27,7 +27,7 @@
                         <div class="alert alert-success">Erfolgreich ausgeloggt!</div>
                     </c:if>
                     <p>Um sich bei Trackr mit Google einzuloggen bitte auf den Knopf drücken.</p>
-                    <form class="form" action="/j_spring_openid_security_check" method="post">
+                    <form class="form" action="/login/openid" method="post">
                         <input name="openid_identifier" type="hidden" value="https://www.google.com/accounts/o8/id"/>
                         <button type="submit" class="btn btn-primary">Login mit Google</button>
                     </form>

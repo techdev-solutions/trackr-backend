@@ -24,8 +24,7 @@ public class TrackrUserDetailsService implements UserDetailsService, Authenticat
     /**
      * Loads user details from an OpenID token.
      * If a user is found by the e-mail, UserDetails are created and returned.
-     * If no user is found but the e-mail ends with techdev.de, a new but deactivated
-     * user is created in the database.
+     * If no user is found but the e-mail ends with techdev.de, a new but deactivated user is created in the database.
      * @param token The open id token obtained from the login
      * @return User details if found.
      * @throws UsernameNotFoundException
@@ -33,21 +32,22 @@ public class TrackrUserDetailsService implements UserDetailsService, Authenticat
     @Override
     @Transactional(noRollbackFor = UsernameNotFoundException.class)
     public UserDetails loadUserDetails(OpenIDAuthenticationToken token) throws UsernameNotFoundException {
-        Map<String, String> attributes = convertAttributesToMap(token);
+        Map<String, String> attributes = convertOpenIdAttributesToMap(token);
         String email = attributes.get("email");
         Employee employee = employeeRepository.findByEmail(email);
         if (employee == null) {
             if(email.endsWith("@techdev.de")) {
                 createDeactivatedEmployee(email, attributes.get("first"), attributes.get("last"));
+                throw new UsernameNotFoundException("Your user has been created and is now waiting to be activated.");
             }
-            throw new UsernameNotFoundException("Username " + email + " not found");
+            throw new UsernameNotFoundException("User not found.");
         }
-        if(!employee.isActive()) {
-            //Why do i have to do this by myself??
-            throw new UsernameNotFoundException("User " + email + " not active");
+        if(!employee.isEnabled()) {
+            //Unfortunately Spring Security ignores the enabled flag when using OpenID, so we have to do this in
+            //this hacky way ourselves.
+            throw new UsernameNotFoundException("User " + email + " is deactivated. Please wait for activation.");
         }
-        User user = new User(employee.getEmail(), "", employee.isActive(), employee.isActive(), true, true, employee.getAuthorities());
-        return user;
+        return new User(employee.getEmail(), "", employee.isEnabled(), true, true, true, employee.getAuthorities());
     }
 
     private void createDeactivatedEmployee(String email, String first, String last) {
@@ -55,7 +55,7 @@ public class TrackrUserDetailsService implements UserDetailsService, Authenticat
         employee.setFirstName(first);
         employee.setLastName(last);
         employee.setEmail(email);
-        employee.setActive(false);
+        employee.setEnabled(false);
         employeeRepository.saveAndFlush(employee);
     }
 
@@ -65,12 +65,11 @@ public class TrackrUserDetailsService implements UserDetailsService, Authenticat
     }
 
     /**
-     * Conveniently transform the attributes to a map containing the first value of
-     * each attribute.
+     * Conveniently transform the attributes to a map containing the first value of each attribute.
      * @param token The OpenID authentication token to transform
      * @return A map containing a name->value mapping
      */
-    private Map<String, String> convertAttributesToMap(OpenIDAuthenticationToken token) {
+    private Map<String, String> convertOpenIdAttributesToMap(OpenIDAuthenticationToken token) {
         Map<String, String> attributeMap = new HashMap<>();
         for (OpenIDAttribute attribute : token.getAttributes()) {
             attributeMap.put(attribute.getName(), attribute.getValues().get(0));

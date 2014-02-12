@@ -40,6 +40,6 @@ public class TrackrController {
 
     @RequestMapping("/admin")
     public String adminForm() {
-        return "adminLogin";
+        return "admin";
     }
 }
