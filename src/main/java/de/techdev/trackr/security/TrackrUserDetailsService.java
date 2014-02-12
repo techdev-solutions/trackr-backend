@@ -1,6 +1,8 @@
 package de.techdev.trackr.security;
 
+import de.techdev.trackr.domain.Credentials;
 import de.techdev.trackr.domain.Employee;
+import de.techdev.trackr.repository.CredentialsRepository;
 import de.techdev.trackr.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.*;
@@ -19,6 +21,9 @@ import java.util.Map;
 public class TrackrUserDetailsService implements UserDetailsService, AuthenticationUserDetailsService<OpenIDAuthenticationToken> {
 
     @Autowired
+    private CredentialsRepository credentialsRepository;
+
+    @Autowired
     private EmployeeRepository employeeRepository;
 
     /**
@@ -34,28 +39,31 @@ public class TrackrUserDetailsService implements UserDetailsService, Authenticat
     public UserDetails loadUserDetails(OpenIDAuthenticationToken token) throws UsernameNotFoundException {
         Map<String, String> attributes = convertOpenIdAttributesToMap(token);
         String email = attributes.get("email");
-        Employee employee = employeeRepository.findByEmail(email);
-        if (employee == null) {
+        Credentials credentials = credentialsRepository.findByEmail(email);
+        if (credentials == null) {
             if(email.endsWith("@techdev.de")) {
                 createDeactivatedEmployee(email, attributes.get("first"), attributes.get("last"));
                 throw new UsernameNotFoundException("Your user has been created and is now waiting to be activated.");
             }
             throw new UsernameNotFoundException("User not found.");
         }
-        if(!employee.isEnabled()) {
+        if(!credentials.isEnabled()) {
             //Unfortunately Spring Security ignores the enabled flag when using OpenID, so we have to do this in
             //this hacky way ourselves.
             throw new UsernameNotFoundException("User " + email + " is deactivated. Please wait for activation.");
         }
-        return new User(employee.getEmail(), "", employee.isEnabled(), true, true, true, employee.getAuthorities());
+        return new User(credentials.getEmail(), "", credentials.isEnabled(), true, true, true, credentials.getAuthorities());
     }
 
     private void createDeactivatedEmployee(String email, String first, String last) {
         Employee employee = new Employee();
+        Credentials credentials = new Credentials();
         employee.setFirstName(first);
         employee.setLastName(last);
-        employee.setEmail(email);
-        employee.setEnabled(false);
+        credentials.setEmail(email);
+        credentials.setEnabled(false);
+        credentials.setEmployee(employee);
+        employee.setCredentials(credentials);
         employeeRepository.saveAndFlush(employee);
     }
 

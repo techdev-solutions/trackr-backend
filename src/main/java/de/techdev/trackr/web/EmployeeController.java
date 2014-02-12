@@ -27,7 +27,7 @@ public class EmployeeController {
     public @ResponseBody Employee current() {
         Authentication token = SecurityContextHolder.getContext().getAuthentication();
         String email = token.getName();
-        return employeeRepository.findByEmail(email);
+        return employeeRepository.findByCredentials_Email(email);
     }
 
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)

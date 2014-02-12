@@ -3,9 +3,9 @@ package de.techdev.trackr.domain;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.util.List;
 
 /**
+ * Represents any employee of techdev.
  * @author Moritz Schulze
  */
 @Data
@@ -20,11 +20,7 @@ public class Employee {
 
     private String lastName;
 
-    @Column(unique = true)
-    private String email;
-
-    private boolean enabled;
-
-    @OneToMany(fetch = FetchType.EAGER)
-    private List<Authority> authorities;
+    @OneToOne(cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn
+    private Credentials credentials;
 }
