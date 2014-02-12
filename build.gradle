@@ -24,11 +24,13 @@ dependencies {
     compile "org.springframework:spring-context:$project.springVersion"
     compile "org.springframework:spring-webmvc:$project.springVersion"
     compile "javax.servlet:jstl:1.2"
+    compile "com.fasterxml.jackson.core:jackson-databind:2.3.1"
 
     //security
     compile "org.springframework.security:spring-security-openid:$project.springSecurityVersion"
     compile "org.springframework.security:spring-security-web:$project.springSecurityVersion"
     compile "org.springframework.security:spring-security-config:$project.springSecurityVersion"
+    compile "org.springframework.security:spring-security-aspects:$project.springSecurityVersion"
 
     //database
     compile "commons-dbcp:commons-dbcp:1.4"

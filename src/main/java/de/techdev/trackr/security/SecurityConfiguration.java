@@ -2,16 +2,15 @@ package de.techdev.trackr.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.ImportResource;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl;
 import org.springframework.security.access.vote.RoleHierarchyVoter;
 import org.springframework.security.access.vote.RoleVoter;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.annotation.web.servlet.configuration.EnableWebMvcSecurity;
 import org.springframework.security.core.userdetails.AuthenticationUserDetailsService;
 import org.springframework.security.openid.OpenIDAuthenticationToken;
 
@@ -19,7 +18,6 @@ import org.springframework.security.openid.OpenIDAuthenticationToken;
  * @author Moritz Schulze
  */
 @Configuration
-@EnableWebMvcSecurity
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
@@ -79,5 +77,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Bean
     public RoleVoter roleVoter() {
         return new RoleHierarchyVoter(roleHierarchy());
+    }
+
+    @Bean
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
     }
 }
