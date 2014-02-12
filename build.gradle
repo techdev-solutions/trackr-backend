@@ -20,6 +20,14 @@ repositories {
     mavenCentral()
 }
 
+//TODO: this shouldn't be before compileJava..
+compileJava.dependsOn('npm')
+compileJava.dependsOn('bower')
+
+test.doLast {
+    tasks['gruntTest'].execute()
+}
+
 dependencies {
     compile "org.springframework:spring-context:$project.springVersion"
     compile "org.springframework:spring-webmvc:$project.springVersion"
@@ -51,4 +59,25 @@ dependencies {
 
 task wrapper(type: Wrapper) {
     gradleVersion = '1.10'
+}
+
+// install bower dependencies
+task bower(type: Exec) {
+    workingDir 'src/main/webapp/WEB-INF/app'
+    commandLine 'bower'
+    args 'install'
+}
+
+// install npm dependencies
+task npm(type: Exec) {
+    workingDir 'src/main/webapp/WEB-INF/app'
+    commandLine 'npm'
+    args 'install'
+}
+
+// execute grunt tests
+task gruntTest(type: Exec) {
+    workingDir 'src/main/webapp/WEB-INF/app'
+    commandLine 'grunt'
+    args 'test'
 }
