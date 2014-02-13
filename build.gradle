@@ -6,6 +6,7 @@ sourceCompatibility = 1.8
 project.ext {
     springVersion = '4.0.1.RELEASE'
     springSecurityVersion = '3.2.0.RELEASE'
+    tomcatHome = "$System.env.TOMCAT_HOME"
 }
 
 version = '1.0'
@@ -14,6 +15,10 @@ sourceSets {
     war {
         exclude 'WEB-INF/app/node_modules/*'
     }
+}
+
+war {
+    archiveName "trackr-${version}.war"
 }
 
 repositories {
@@ -81,4 +86,10 @@ task gruntTest(type: Exec) {
     workingDir 'src/main/webapp/WEB-INF/app'
     commandLine 'grunt'
     args 'test'
+}
+
+//copy the war to the tomcat directory
+task deployToTomcat(type: Copy) {
+    from war
+    into "${project.tomcatHome}/webapps"
 }
