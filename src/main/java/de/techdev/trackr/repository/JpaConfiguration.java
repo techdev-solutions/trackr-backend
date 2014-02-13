@@ -29,6 +29,12 @@ public class JpaConfiguration {
     @Value("${database.url}")
     private String dbUrl;
 
+    @Value("${database.username")
+    private String username;
+
+    @Value("${database.password")
+    private String password;
+
     @Value("${database.hibernateDialect}")
     private String hibernateDialect;
 
@@ -37,6 +43,8 @@ public class JpaConfiguration {
         BasicDataSource dataSource = new BasicDataSource();
         dataSource.setDriverClassName(dbDriver);
         dataSource.setUrl(dbUrl);
+        dataSource.setUsername(username);
+        dataSource.setPassword(password);
         return dataSource;
     }
 
