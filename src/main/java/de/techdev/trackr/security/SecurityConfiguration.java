@@ -39,7 +39,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/", "/app/bower_components/**").permitAll() //the login page should be able to access CSS and JS files
+                .antMatchers("/", "/app/src/bower_components/**").permitAll() //the login page should be able to access CSS and JS files
                 .antMatchers("/app/**").authenticated()
                 .antMatchers("/api/**").authenticated();
 
