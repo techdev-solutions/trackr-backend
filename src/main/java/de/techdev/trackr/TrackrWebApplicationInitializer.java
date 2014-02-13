@@ -12,7 +12,7 @@ public class TrackrWebApplicationInitializer extends AbstractAnnotationConfigDis
 
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return new Class<?>[] {TrackrRootConfiguration.class, SecurityConfiguration.class, JpaConfiguration.class};
+        return new Class<?>[] {SecurityConfiguration.class, JpaConfiguration.class};
     }
 
     @Override

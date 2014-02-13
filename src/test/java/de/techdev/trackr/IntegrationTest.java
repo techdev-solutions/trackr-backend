@@ -12,7 +12,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
  * @author Moritz Schulze
  */
 @WebAppConfiguration
-@ContextConfiguration(classes = {TrackrApplication.class, TrackrRootConfiguration.class, SecurityConfiguration.class, JpaConfiguration.class})
+@ContextConfiguration(classes = {TrackrApplication.class, SecurityConfiguration.class, JpaConfiguration.class})
 @RunWith(SpringJUnit4ClassRunner.class)
 public abstract class IntegrationTest {
 }
