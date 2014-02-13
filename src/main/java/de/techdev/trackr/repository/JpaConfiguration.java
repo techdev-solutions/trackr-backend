@@ -29,10 +29,10 @@ public class JpaConfiguration {
     @Value("${database.url}")
     private String dbUrl;
 
-    @Value("${database.username")
+    @Value("${database.username}")
     private String username;
 
-    @Value("${database.password")
+    @Value("${database.password}")
     private String password;
 
     @Value("${database.hibernateDialect}")
