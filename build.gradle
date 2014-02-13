@@ -2,14 +2,16 @@ apply plugin: 'java'
 apply plugin: 'war'
 
 sourceCompatibility = 1.8
-
+version = '1.0'
 project.ext {
     springVersion = '4.0.1.RELEASE'
     springSecurityVersion = '3.2.0.RELEASE'
     tomcatHome = "$System.env.TOMCAT_HOME"
 }
 
-version = '1.0'
+repositories {
+    mavenCentral()
+}
 
 sourceSets {
     war {
@@ -17,12 +19,13 @@ sourceSets {
     }
 }
 
-war {
-    archiveName "trackr-${version}.war"
+war.doFirst {
+    tasks['gruntDist'].execute()
 }
 
-repositories {
-    mavenCentral()
+war {
+    //to tell tomcat to use it as the root application we use ROOT.war as the name
+    archiveName "ROOT.war"
 }
 
 //TODO: this shouldn't be before compileJava..
@@ -86,6 +89,13 @@ task gruntTest(type: Exec) {
     workingDir 'src/main/webapp/WEB-INF/app'
     commandLine 'grunt'
     args 'test'
+}
+
+//build the distibution
+task gruntDist(type: Exec) {
+    workingDir 'src/main/webapp/WEB-INF/app'
+    commandLine 'grunt'
+    args 'dist'
 }
 
 //copy the war to the tomcat directory
