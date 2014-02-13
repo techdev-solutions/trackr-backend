@@ -72,7 +72,7 @@ task wrapper(type: Wrapper) {
 
 // install bower dependencies
 task bower(type: Exec) {
-    workingDir 'src/main/webapp/WEB-INF/app'
+    workingDir 'src/main/webapp/WEB-INF/app/src'
     commandLine 'bower'
     args 'install'
 }
