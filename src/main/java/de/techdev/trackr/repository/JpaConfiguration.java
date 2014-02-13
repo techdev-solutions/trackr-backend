@@ -20,7 +20,7 @@ import java.util.Properties;
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories(basePackages = "de.techdev.trackr.repository")
-@PropertySource({"classpath:/META-INF/spring/database.properties"})
+@PropertySource({"classpath:/META-INF/spring/database_${spring.profiles.active:dev}.properties"})
 public class JpaConfiguration {
 
     @Value("${database.driverClassName}")
@@ -28,6 +28,9 @@ public class JpaConfiguration {
 
     @Value("${database.url}")
     private String dbUrl;
+
+    @Value("${database.hibernateDialect}")
+    private String hibernateDialect;
 
     @Bean
     public DataSource dataSource() {
@@ -49,7 +52,7 @@ public class JpaConfiguration {
 
     private Properties hibernateProperties() {
         Properties properties = new Properties();
-        properties.put("hibernate.dialect", "org.hibernate.dialect.H2Dialect");
+        properties.put("hibernate.dialect", hibernateDialect);
         properties.put("hibernate.hbm2ddl.auto", "create");
         return properties;
     }
