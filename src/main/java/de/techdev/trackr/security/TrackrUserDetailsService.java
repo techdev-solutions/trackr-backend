@@ -1,8 +1,9 @@
 package de.techdev.trackr.security;
 
-import de.techdev.trackr.domain.Credentials;
+import de.techdev.trackr.domain.Credential;
+import de.techdev.trackr.domain.Credential;
 import de.techdev.trackr.domain.Employee;
-import de.techdev.trackr.repository.CredentialsRepository;
+import de.techdev.trackr.repository.CredentialRepository;
 import de.techdev.trackr.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.*;
@@ -21,7 +22,7 @@ import java.util.Map;
 public class TrackrUserDetailsService implements UserDetailsService, AuthenticationUserDetailsService<OpenIDAuthenticationToken> {
 
     @Autowired
-    private CredentialsRepository credentialsRepository;
+    private CredentialRepository credentialRepository;
 
     @Autowired
     private EmployeeRepository employeeRepository;
@@ -39,31 +40,31 @@ public class TrackrUserDetailsService implements UserDetailsService, Authenticat
     public UserDetails loadUserDetails(OpenIDAuthenticationToken token) throws UsernameNotFoundException {
         Map<String, String> attributes = convertOpenIdAttributesToMap(token);
         String email = attributes.get("email");
-        Credentials credentials = credentialsRepository.findByEmail(email);
-        if (credentials == null) {
+        Credential credential = credentialRepository.findByEmail(email);
+        if (credential == null) {
             if(email.endsWith("@techdev.de")) {
                 createDeactivatedEmployee(email, attributes.get("first"), attributes.get("last"));
                 throw new UsernameNotFoundException("Your user has been created and is now waiting to be activated.");
             }
             throw new UsernameNotFoundException("User not found.");
         }
-        if(!credentials.isEnabled()) {
+        if(!credential.isEnabled()) {
             //Unfortunately Spring Security ignores the enabled flag when using OpenID, so we have to do this in
             //this hacky way ourselves.
             throw new UsernameNotFoundException("User " + email + " is deactivated. Please wait for activation.");
         }
-        return new User(credentials.getEmail(), "", credentials.isEnabled(), true, true, true, credentials.getAuthorities());
+        return new User(credential.getEmail(), "", credential.isEnabled(), true, true, true, credential.getAuthorities());
     }
 
     private void createDeactivatedEmployee(String email, String first, String last) {
         Employee employee = new Employee();
-        Credentials credentials = new Credentials();
+        Credential credential = new Credential();
         employee.setFirstName(first);
         employee.setLastName(last);
-        credentials.setEmail(email);
-        credentials.setEnabled(false);
-        credentials.setEmployee(employee);
-        employee.setCredentials(credentials);
+        credential.setEmail(email);
+        credential.setEnabled(false);
+        credential.setEmployee(employee);
+        employee.setCredential(credential);
         employeeRepository.saveAndFlush(employee);
     }
 

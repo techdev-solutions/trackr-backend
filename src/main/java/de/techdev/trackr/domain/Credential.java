@@ -15,13 +15,13 @@ import java.util.List;
 @ToString(exclude = "employee")
 @Entity
 @JsonIgnoreProperties({"employee"})
-public class Credentials {
+public class Credential {
 
     @Id
     private Long id;
 
     @MapsId
-    @OneToOne(mappedBy = "credentials")
+    @OneToOne(mappedBy = "credential")
     @JoinColumn(name = "id")
     private Employee employee;
 

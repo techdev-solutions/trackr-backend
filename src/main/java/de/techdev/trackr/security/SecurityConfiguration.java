@@ -38,6 +38,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        //TODO: this configuration is currently only being used in the API servlet but also secures the app.
         http.authorizeRequests()
                 .antMatchers("/", "/app/src/bower_components/**").permitAll() //the login page should be able to access CSS and JS files
                 .antMatchers("/app/**").authenticated()

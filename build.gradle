@@ -11,6 +11,10 @@ project.ext {
 
 repositories {
     mavenCentral()
+    maven {
+        url 'http://repo.springsource.org/libs-milestone/'
+    }
+
 }
 
 sourceSets {
@@ -38,10 +42,16 @@ test.doLast {
 
 dependencies {
     compile "org.springframework:spring-context:$project.springVersion"
+
+    //web
     compile "org.springframework:spring-webmvc:$project.springVersion"
-    compile "javax.servlet:jstl:1.2"
     compile "com.fasterxml.jackson.core:jackson-databind:2.3.1"
+    compile "javax.servlet:jstl:1.2"
+    compile "org.springframework.data:spring-data-rest-webmvc:2.0.0.RC1"
+
+    compile "javax.validation:validation-api:1.0.0.GA"
     compile "ch.qos.logback:logback-classic:1.0.13"
+    compile "org.projectlombok:lombok:1.12.4"
 
     //security
     compile "org.springframework.security:spring-security-openid:$project.springSecurityVersion"
@@ -57,11 +67,8 @@ dependencies {
     compile "org.springframework:spring-orm:$project.springVersion"
     compile "org.hibernate:hibernate-entitymanager:4.1.8.Final"
     compile "org.hibernate:hibernate-validator:4.3.1.Final"
-    compile "javax.validation:validation-api:1.0.0.GA"
     //needed because java 8 compability
     compile "org.javassist:javassist:3.18.1-GA"
-
-    compile "org.projectlombok:lombok:1.12.4"
 
     //tomcat
     providedCompile "javax.servlet:javax.servlet-api:3.0.1"

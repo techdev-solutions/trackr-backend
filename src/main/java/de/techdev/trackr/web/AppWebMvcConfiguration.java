@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -14,9 +16,15 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
  * @author Moritz Schulze
  */
 @Configuration
-@ComponentScan(basePackages = "de.techdev.trackr.web")
+@ComponentScan(basePackages = "de.techdev.trackr.web.app")
 @EnableWebMvc
-public class WebMvcConfiguration extends WebMvcConfigurerAdapter {
+@PropertySource({"classpath:application_${spring.profiles.active:dev}.properties"})
+public class AppWebMvcConfiguration extends WebMvcConfigurerAdapter {
+
+    @Bean
+    public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
+        return new PropertySourcesPlaceholderConfigurer();
+    }
 
     @Value("${angular.path}")
     private String angularPath;

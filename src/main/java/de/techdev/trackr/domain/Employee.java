@@ -22,5 +22,5 @@ public class Employee {
 
     @OneToOne(cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
-    private Credentials credentials;
+    private Credential credential;
 }

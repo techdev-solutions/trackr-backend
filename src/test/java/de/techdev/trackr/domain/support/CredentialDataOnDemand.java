@@ -1,7 +1,7 @@
 package de.techdev.trackr.domain.support;
 
 import de.techdev.trackr.domain.Authority;
-import de.techdev.trackr.domain.Credentials;
+import de.techdev.trackr.domain.Credential;
 import de.techdev.trackr.domain.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -12,7 +12,7 @@ import static java.util.Arrays.asList;
  * @author Moritz Schulze
  */
 @Component
-public class CredentialsDataOnDemand extends AbstractDataOnDemand<Credentials> {
+public class CredentialDataOnDemand extends AbstractDataOnDemand<Credential> {
 
     @Autowired
     private EmployeeDataOnDemand employeeDataOnDemand;
@@ -20,22 +20,22 @@ public class CredentialsDataOnDemand extends AbstractDataOnDemand<Credentials> {
     @Autowired
     private AuthorityDataOnDemand authorityDataOnDemand;
 
-    public Credentials getRandomCredentials() {
+    public Credential getRandomCredentials() {
         init();
-        Credentials obj = data.get(rnd.nextInt(data.size()));
+        Credential obj = data.get(rnd.nextInt(data.size()));
         Long id = obj.getId();
         return repository.findOne(id);
     }
 
     @Override
-    public Credentials getNewTransientObject(int i) {
-        Credentials credentials = new Credentials();
-        credentials.setEnabled(false);
-        credentials.setEmail("email_" + i + "@techdev.de");
+    public Credential getNewTransientObject(int i) {
+        Credential credential = new Credential();
+        credential.setEnabled(false);
+        credential.setEmail("email_" + i + "@techdev.de");
         Employee employee = employeeDataOnDemand.getNewTransientObject(i);
-        credentials.setEmployee(employee);
+        credential.setEmployee(employee);
         Authority authority = authorityDataOnDemand.getRandomAuthority();
-        credentials.setAuthorities(asList(authority));
-        return credentials;
+        credential.setAuthorities(asList(authority));
+        return credential;
     }
 }
