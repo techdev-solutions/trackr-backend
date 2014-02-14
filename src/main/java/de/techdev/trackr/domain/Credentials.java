@@ -2,6 +2,7 @@ package de.techdev.trackr.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.List;
  * @author Moritz Schulze
  */
 @Data
+@ToString(exclude = "employee")
 @Entity
 @JsonIgnoreProperties({"employee"})
 public class Credentials {

@@ -56,6 +56,8 @@ dependencies {
     compile "org.springframework.data:spring-data-jpa:1.4.3.RELEASE"
     compile "org.springframework:spring-orm:$project.springVersion"
     compile "org.hibernate:hibernate-entitymanager:4.1.8.Final"
+    compile "org.hibernate:hibernate-validator:4.3.1.Final"
+    compile "javax.validation:validation-api:1.0.0.GA"
 
     compile "org.projectlombok:lombok:1.12.4"
 
@@ -64,6 +66,7 @@ dependencies {
 
     testCompile "org.springframework:spring-test:$project.springVersion"
     testCompile group: "junit", name: "junit", version: "4.11"
+    testCompile "org.echocat.jomon:testing:1.4.3"
 }
 
 task wrapper(type: Wrapper) {
