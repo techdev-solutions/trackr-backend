@@ -58,6 +58,8 @@ dependencies {
     compile "org.hibernate:hibernate-entitymanager:4.1.8.Final"
     compile "org.hibernate:hibernate-validator:4.3.1.Final"
     compile "javax.validation:validation-api:1.0.0.GA"
+    //needed because java 8 compability
+    compile "org.javassist:javassist:3.18.1-GA"
 
     compile "org.projectlombok:lombok:1.12.4"
 

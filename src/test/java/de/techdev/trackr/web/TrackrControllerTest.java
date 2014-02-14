@@ -1,8 +1,12 @@
 package de.techdev.trackr.web;
 
 import org.junit.Test;
+import org.springframework.http.MediaType;
+
+import java.security.Principal;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
@@ -18,6 +22,13 @@ public class TrackrControllerTest extends MockMvcTest {
     @Test
     public void welcomePage() throws Exception {
         mockMvc.perform(get("/")).andExpect(status().isOk());
+    }
+
+    @Test
+    public void principal() throws Exception {
+        mockMvc.perform(get("/api/principal").principal(() -> "admin"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
     }
 }
 
