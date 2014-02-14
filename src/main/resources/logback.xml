@@ -8,6 +8,8 @@
 
     <logger name="org.springframework.web" level="info"/>
 
+    <logger name="org.springframework.security" level="info"/>
+
     <logger name="de.techdev" level="debug"/>
 
     <root level="warn">

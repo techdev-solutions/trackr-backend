@@ -5,6 +5,8 @@ import de.techdev.trackr.domain.Credential;
 import de.techdev.trackr.domain.Employee;
 import de.techdev.trackr.repository.CredentialRepository;
 import de.techdev.trackr.repository.EmployeeRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.*;
 import org.springframework.security.openid.OpenIDAttribute;
@@ -20,6 +22,8 @@ import java.util.Map;
  * @author Moritz Schulze
  */
 public class TrackrUserDetailsService implements UserDetailsService, AuthenticationUserDetailsService<OpenIDAuthenticationToken> {
+
+    private Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
     private CredentialRepository credentialRepository;
@@ -40,9 +44,11 @@ public class TrackrUserDetailsService implements UserDetailsService, Authenticat
     public UserDetails loadUserDetails(OpenIDAuthenticationToken token) throws UsernameNotFoundException {
         Map<String, String> attributes = convertOpenIdAttributesToMap(token);
         String email = attributes.get("email");
+        logger.debug("Loading user {} from the database.", email);
         Credential credential = credentialRepository.findByEmail(email);
         if (credential == null) {
             if(email.endsWith("@techdev.de")) {
+                logger.debug("New techdev user with email {} found.", email);
                 createDeactivatedEmployee(email, attributes.get("first"), attributes.get("last"));
                 throw new UsernameNotFoundException("Your user has been created and is now waiting to be activated.");
             }
@@ -51,6 +57,7 @@ public class TrackrUserDetailsService implements UserDetailsService, Authenticat
         if(!credential.isEnabled()) {
             //Unfortunately Spring Security ignores the enabled flag when using OpenID, so we have to do this in
             //this hacky way ourselves.
+            logger.debug("User {} is disabled, preventing log in.", email);
             throw new UsernameNotFoundException("User " + email + " is deactivated. Please wait for activation.");
         }
         return new User(credential.getEmail(), "", credential.isEnabled(), true, true, true, credential.getAuthorities());
