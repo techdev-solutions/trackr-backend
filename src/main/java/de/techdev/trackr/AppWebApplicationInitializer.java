@@ -11,7 +11,6 @@ public class AppWebApplicationInitializer extends AbstractAnnotationConfigDispat
 
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        //TODO: this should also include the Security configuration for the app, but currently this fails
         return new Class<?>[] {};
     }
 

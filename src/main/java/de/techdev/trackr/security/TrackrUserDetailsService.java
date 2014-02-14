@@ -1,14 +1,16 @@
 package de.techdev.trackr.security;
 
 import de.techdev.trackr.domain.Credential;
-import de.techdev.trackr.domain.Credential;
 import de.techdev.trackr.domain.Employee;
 import de.techdev.trackr.repository.CredentialRepository;
 import de.techdev.trackr.repository.EmployeeRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.*;
+import org.springframework.security.core.userdetails.AuthenticationUserDetailsService;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.openid.OpenIDAttribute;
 import org.springframework.security.openid.OpenIDAuthenticationToken;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,7 +23,7 @@ import java.util.Map;
  * If a user has a techdev email but is not in the database, create a locked account.
  * @author Moritz Schulze
  */
-public class TrackrUserDetailsService implements UserDetailsService, AuthenticationUserDetailsService<OpenIDAuthenticationToken> {
+public class TrackrUserDetailsService implements AuthenticationUserDetailsService<OpenIDAuthenticationToken> {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -73,11 +75,6 @@ public class TrackrUserDetailsService implements UserDetailsService, Authenticat
         credential.setEmployee(employee);
         employee.setCredential(credential);
         employeeRepository.saveAndFlush(employee);
-    }
-
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        throw new UsernameNotFoundException("Login by username not allowed");
     }
 
     /**
