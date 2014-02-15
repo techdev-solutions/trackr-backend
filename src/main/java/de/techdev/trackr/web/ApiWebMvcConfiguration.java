@@ -15,7 +15,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
  */
 @Configuration
 @EnableWebMvc
-@Import(MethodSecurityConfiguration.class) //for global method security to work in a webmvc context we need to have access to the authentiacionManager, this config does that
+@Import(MethodSecurityConfiguration.class) //for global method security to work in a webmvc context we need to have access to the authenticationManager, this config does that
 @EnableGlobalMethodSecurity(prePostEnabled = true) //this enables security annotations for all extra controllers in the api (i.e. not spring-data-rest)
 @ComponentScan(basePackages = "de.techdev.trackr.web.api")
 public class ApiWebMvcConfiguration extends RepositoryRestMvcConfiguration {

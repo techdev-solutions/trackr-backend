@@ -4,7 +4,7 @@ import de.techdev.trackr.web.AppWebMvcConfiguration;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 /**
- * Creates the dispatcher servlet with the correct configuration classes.
+ * Creates the dispatcher servlet for the app with the correct configuration classes.
  * @author Moritz Schulze
  */
 public class AppWebApplicationInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {

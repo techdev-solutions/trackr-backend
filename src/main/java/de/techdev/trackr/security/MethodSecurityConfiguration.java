@@ -11,9 +11,12 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.method.configuration.GlobalMethodSecurityConfiguration;
 
 /**
- * This class is needed to enable the global method security in the controllers which are in only in the
- * dispatcher context, but the security is in the root context.
- * It provides the authentication manager from the root security context.
+ * This class is needed to enable the global method security via {@link org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity}
+ * in the controllers which are only in other contexts than the security configuration.
+ * <p>
+ * It provides the authentication manager from the root security context and sets the role hierarchy for
+ * method security expressions so {@link org.springframework.security.access.prepost.PreAuthorize} works.
+ *
  * @author Moritz Schulze
  */
 @Configuration
@@ -21,7 +24,7 @@ import org.springframework.security.config.annotation.method.configuration.Globa
 public class MethodSecurityConfiguration extends GlobalMethodSecurityConfiguration {
 
     /**
-     * This is needed so @PreAuthorize and so on know the role hierarchy.
+     * This is needed so {@link org.springframework.security.access.prepost.PreAuthorize} and so on know the role hierarchy.
      */
     @Override
     protected MethodSecurityExpressionHandler createExpressionHandler() {

@@ -5,8 +5,10 @@ import de.techdev.trackr.security.SecurityConfiguration;
 import org.springframework.security.web.context.AbstractSecurityWebApplicationInitializer;
 
 /**
- * Register the Spring Security filter chain
- * Loads the JpaConfiguration as it is needed in the UserService
+ * Register the Spring Security filter chain.
+ * <p>
+ * Loads the {@link de.techdev.trackr.repository.JpaConfiguration} as it is needed in {@link de.techdev.trackr.security.TrackrUserDetailsService}
+ *
  * @author Moritz Schulze
  */
 public class SecurityWebApplicationInitializer extends AbstractSecurityWebApplicationInitializer {

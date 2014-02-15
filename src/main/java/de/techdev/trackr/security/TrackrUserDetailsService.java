@@ -19,8 +19,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Load user details from the database
+ * Load user details from the database.
+ * <p>
  * If a user has a techdev email but is not in the database, create a locked account.
+ *
  * @author Moritz Schulze
  */
 public class TrackrUserDetailsService implements AuthenticationUserDetailsService<OpenIDAuthenticationToken> {
@@ -34,9 +36,8 @@ public class TrackrUserDetailsService implements AuthenticationUserDetailsServic
     private EmployeeRepository employeeRepository;
 
     /**
-     * Loads user details from an OpenID token.
-     * If a user is found by the e-mail, UserDetails are created and returned.
      * If no user is found but the e-mail ends with techdev.de, a new but deactivated user is created in the database.
+     *
      * @param token The open id token obtained from the login
      * @return User details if found.
      * @throws UsernameNotFoundException
@@ -49,14 +50,14 @@ public class TrackrUserDetailsService implements AuthenticationUserDetailsServic
         logger.debug("Loading user {} from the database.", email);
         Credential credential = credentialRepository.findByEmail(email);
         if (credential == null) {
-            if(email.endsWith("@techdev.de")) {
+            if (email.endsWith("@techdev.de")) {
                 logger.debug("New techdev user with email {} found.", email);
                 createDeactivatedEmployee(email, attributes.get("first"), attributes.get("last"));
                 throw new UsernameNotFoundException("Your user has been created and is now waiting to be activated.");
             }
             throw new UsernameNotFoundException("User not found.");
         }
-        if(!credential.isEnabled()) {
+        if (!credential.isEnabled()) {
             //Unfortunately Spring Security ignores the enabled flag when using OpenID, so we have to do this in
             //this hacky way ourselves.
             logger.debug("User {} is disabled, preventing log in.", email);
@@ -79,6 +80,7 @@ public class TrackrUserDetailsService implements AuthenticationUserDetailsServic
 
     /**
      * Conveniently transform the attributes to a map containing the first value of each attribute.
+     *
      * @param token The OpenID authentication token to transform
      * @return A map containing a name->value mapping
      */
