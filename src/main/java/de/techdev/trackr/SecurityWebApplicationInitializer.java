@@ -1,6 +1,7 @@
 package de.techdev.trackr;
 
 import de.techdev.trackr.repository.JpaConfiguration;
+import de.techdev.trackr.security.MethodSecurityConfiguration;
 import de.techdev.trackr.security.SecurityConfiguration;
 import org.springframework.security.web.context.AbstractSecurityWebApplicationInitializer;
 
@@ -14,6 +15,6 @@ import org.springframework.security.web.context.AbstractSecurityWebApplicationIn
 public class SecurityWebApplicationInitializer extends AbstractSecurityWebApplicationInitializer {
 
     public SecurityWebApplicationInitializer() {
-        super(SecurityConfiguration.class, JpaConfiguration.class);
+        super(SecurityConfiguration.class, JpaConfiguration.class, MethodSecurityConfiguration.class);
     }
 }

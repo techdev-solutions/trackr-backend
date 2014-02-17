@@ -14,7 +14,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
  * @author Moritz Schulze
  */
 @WebAppConfiguration
-@ContextConfiguration(classes = {ApiWebMvcConfiguration.class, SecurityConfiguration.class, JpaConfiguration.class, DataOnDemandConfiguration.class})
+@ContextConfiguration(classes = {ApiWebMvcConfiguration.class, JpaConfiguration.class, DataOnDemandConfiguration.class})
 @RunWith(SpringJUnit4ClassRunner.class)
 public abstract class IntegrationTest {
 }

@@ -1,5 +1,6 @@
 package de.techdev.trackr;
 
+import de.techdev.trackr.security.MethodSecurityConfiguration;
 import de.techdev.trackr.web.ApiWebMvcConfiguration;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
@@ -16,7 +17,9 @@ public class ApiWebApplicationInitializer extends AbstractAnnotationConfigDispat
 
     @Override
     protected Class<?>[] getServletConfigClasses() {
-        return new Class<?>[] {ApiWebMvcConfiguration.class};
+        //The global method security is only in the root context, to protect RequestMappings in custom controllers
+        //we load the the MethodSecurityConfiguration here, too.
+        return new Class<?>[] {ApiWebMvcConfiguration.class, MethodSecurityConfiguration.class};
     }
 
     @Override

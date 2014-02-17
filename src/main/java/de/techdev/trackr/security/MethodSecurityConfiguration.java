@@ -11,11 +11,11 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.method.configuration.GlobalMethodSecurityConfiguration;
 
 /**
- * This class is needed to enable the global method security via {@link org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity}
- * in the controllers which are only in other contexts than the security configuration.
- * <p>
- * It provides the authentication manager from the root security context and sets the role hierarchy for
- * method security expressions so {@link org.springframework.security.access.prepost.PreAuthorize} works.
+ * This class enables global method security via {@link org.springframework.security.access.prepost.PreAuthorize} in JPA Repositories
+ * and other controllers. It also enables the role hierarchy in them.
+ *
+ * It gets loaded in the security web application {@link de.techdev.trackr.SecurityWebApplicationInitializer} for JPA Repositories
+ * and in {@link de.techdev.trackr.ApiWebApplicationInitializer} for all other API controllers.
  *
  * @author Moritz Schulze
  */

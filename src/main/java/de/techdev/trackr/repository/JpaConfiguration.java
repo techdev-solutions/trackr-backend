@@ -10,7 +10,6 @@ import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
@@ -22,7 +21,6 @@ import java.util.Properties;
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories(basePackages = "de.techdev.trackr.repository")
-@EnableGlobalMethodSecurity(prePostEnabled = true) //as we use spring-data-rest our jpa repositories must be able to process security annotations
 @PropertySource({"classpath:/META-INF/spring/database_${spring.profiles.active:dev}.properties"})
 public class JpaConfiguration {
 
