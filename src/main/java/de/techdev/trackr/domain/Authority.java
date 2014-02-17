@@ -8,6 +8,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
+import javax.validation.constraints.DecimalMin;
 
 /**
  * @author Moritz Schulze
@@ -26,5 +27,12 @@ public class Authority implements GrantedAuthority {
     @NotEmpty
     @Column(unique = true)
     private String authority;
+
+    @NotEmpty
+    private String screenName;
+
+    @DecimalMin(value = "0")
+    @Column(name = "authorityOrder")
+    private Integer order;
 
 }

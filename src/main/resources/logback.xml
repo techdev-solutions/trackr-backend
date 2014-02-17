@@ -6,7 +6,14 @@
         </encoder>
     </appender>
 
+    <!-- show hibernate sql with debug -->
+    <logger name="org.hibernate.SQL" level="info"/>
+    <!-- show bound hibernate parameters with trace -->
+    <logger name="org.hibernate.type" level="info"/>
+
     <logger name="org.springframework.web" level="info"/>
+
+    <logger name="org.springframework.data.rest" level="info"/>
 
     <logger name="org.springframework.security" level="info"/>
 
