@@ -22,6 +22,13 @@ public class CredentialRepositoryTest extends TransactionalIntegrationTest {
     private CredentialRepository credentialRepository;
 
     @Test
+    public void findById() throws Exception {
+        Credential credential = credentialDataOnDemand.getRandomCredentials();
+        Credential one = credentialRepository.findOne(credential.getId());
+        assertThat(one, isNotNull());
+    }
+
+    @Test
     public void findByEmail() throws Exception {
         Credential credential = credentialDataOnDemand.getRandomCredentials();
         assertThat(credentialRepository.findByEmail(credential.getEmail()), isNotNull());

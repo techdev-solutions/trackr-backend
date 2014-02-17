@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
@@ -22,6 +23,7 @@ public class Authority implements GrantedAuthority {
     private Long id;
 
     @NonNull
+    @NotEmpty
     @Column(unique = true)
     private String authority;
 
