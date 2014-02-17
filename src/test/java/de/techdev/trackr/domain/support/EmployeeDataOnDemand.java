@@ -11,6 +11,12 @@ import java.math.BigDecimal;
 @Component
 public class EmployeeDataOnDemand extends AbstractDataOnDemand<Employee> {
 
+    @Override
+    protected int getExpectedElements() {
+        //the admin is expected
+        return 1;
+    }
+
     public Employee getRandomEmployee() {
         init();
         Employee obj = data.get(rnd.nextInt(data.size()));
@@ -27,15 +33,5 @@ public class EmployeeDataOnDemand extends AbstractDataOnDemand<Employee> {
         employee.setPhoneNumber("phoneNumber_" + i);
         employee.setTitle("title_" + i);
         return employee;
-    }
-
-    /**
-     * The admin will always be in the repository, but we want it to have ten random elements.
-     */
-    @Override
-    public void init() {
-        repository.deleteAll();
-        repository.flush();
-        super.init();
     }
 }

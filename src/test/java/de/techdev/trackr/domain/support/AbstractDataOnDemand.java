@@ -22,6 +22,14 @@ public abstract class AbstractDataOnDemand<S> {
 
     protected SecureRandom rnd;
 
+    /**
+     * If there's more elements in the repository than this method returns, no new elements will be generated.
+     * Used to keep the admin account for the EmployeeRepository but also generate random ones.
+     */
+    protected int getExpectedElements() {
+        return 0;
+    }
+
     public AbstractDataOnDemand() {
         rnd = new SecureRandom();
     }
@@ -33,7 +41,7 @@ public abstract class AbstractDataOnDemand<S> {
         if (data == null) {
             throw new IllegalStateException("Find entries implementation for 'Component' illegally returned null");
         }
-        if (!data.isEmpty()) {
+        if (data.size() > getExpectedElements()) {
             return;
         }
 
