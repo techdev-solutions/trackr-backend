@@ -14,6 +14,8 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
  */
 public abstract class MockMvcTest extends IntegrationTest {
 
+    protected final String standardContentType = "application/hal+json";
+
     protected MockMvc mockMvc;
 
     @Autowired
