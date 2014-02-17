@@ -3,6 +3,7 @@ package de.techdev.trackr.domain;
 import lombok.Data;
 import org.hibernate.validator.constraints.NotEmpty;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Version;
@@ -20,6 +21,10 @@ public class Company {
 
     @Version
     private Integer version;
+
+    @NotEmpty
+    @Column(unique = true)
+    private String companyId;
 
     @NotEmpty
     private String name;

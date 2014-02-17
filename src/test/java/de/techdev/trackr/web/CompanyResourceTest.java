@@ -1,5 +1,6 @@
 package de.techdev.trackr.web;
 
+import de.techdev.trackr.domain.Company;
 import de.techdev.trackr.domain.support.CompanyDataOnDemand;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,5 +26,18 @@ public class CompanyResourceTest extends MockMvcTest {
     @Test
     public void root() throws Exception {
         mockMvc.perform(get("/companies")).andExpect(status().isOk()).andExpect(content().contentType(standardContentType));
+    }
+
+    @Test
+    public void one() throws Exception {
+        Company company = companyDataOnDemand.getRandomCompany();
+        mockMvc.perform(get("/companies/" + company.getId())).andExpect(status().isOk()).andExpect(content().contentType(standardContentType));
+    }
+
+    @Test
+    public void findByCompanyId() throws Exception {
+        Company company = companyDataOnDemand.getRandomCompany();
+        mockMvc.perform(get("/companies/search/findByCompanyId").param("companyId", company.getCompanyId()))
+                .andExpect(status().isOk()).andExpect(content().contentType(standardContentType));
     }
 }

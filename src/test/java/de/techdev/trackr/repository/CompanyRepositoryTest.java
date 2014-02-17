@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
+import static org.echocat.jomon.testing.BaseMatchers.is;
 import static org.echocat.jomon.testing.BaseMatchers.isNotEmpty;
 import static org.echocat.jomon.testing.BaseMatchers.isNotNull;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -35,5 +36,12 @@ public class CompanyRepositoryTest extends TransactionalIntegrationTest {
         companyDataOnDemand.init();
         List<Company> all = companyRepository.findAll();
         assertThat(all, isNotEmpty());
+    }
+
+    @Test
+    public void findByCompanyId() throws Exception {
+        Company company = companyDataOnDemand.getRandomCompany();
+        Company byCompanyId = companyRepository.findByCompanyId(company.getCompanyId());
+        assertThat(byCompanyId.getId(), is(company.getId()));
     }
 }
