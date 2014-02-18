@@ -80,4 +80,43 @@ public abstract class MockMvcTest extends IntegrationTest {
             }
         };
     }
+
+    protected Authentication supervisorAuthentication() {
+        return new Authentication() {
+            @Override
+            public Collection<? extends GrantedAuthority> getAuthorities() {
+                return asList(new Authority("ROLE_SUPERVISOR"));
+            }
+
+            @Override
+            public Object getCredentials() {
+                return null;
+            }
+
+            @Override
+            public Object getDetails() {
+                return null;
+            }
+
+            @Override
+            public Object getPrincipal() {
+                return ((Principal)() -> "admin");
+            }
+
+            @Override
+            public boolean isAuthenticated() {
+                return true;
+            }
+
+            @Override
+            public void setAuthenticated(boolean isAuthenticated) throws IllegalArgumentException {
+
+            }
+
+            @Override
+            public String getName() {
+                return null;
+            }
+        };
+    }
 }

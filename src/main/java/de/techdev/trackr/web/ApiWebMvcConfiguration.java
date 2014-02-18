@@ -21,5 +21,6 @@ public class ApiWebMvcConfiguration extends RepositoryRestMvcConfiguration {
     protected void configureRepositoryRestConfiguration(RepositoryRestConfiguration config) {
         config.exposeIdsFor(new Class[] {Employee.class, Credential.class, Authority.class});
         config.setReturnBodyOnUpdate(true);
+        config.setReturnBodyOnCreate(true);
     }
 }

@@ -9,6 +9,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class AuthorityDataOnDemand extends AbstractDataOnDemand<Authority> {
 
+    @Override
+    protected int getExpectedElements() {
+        return 3;
+    }
+
     public Authority getRandomAuthority() {
         init();
         Authority obj = data.get(rnd.nextInt(data.size()));
@@ -20,6 +25,8 @@ public class AuthorityDataOnDemand extends AbstractDataOnDemand<Authority> {
     public Authority getNewTransientObject(int i) {
         Authority authority = new Authority();
         authority.setAuthority("authority_" + i);
+        authority.setScreenName("screenName_" + i);
+        authority.setOrder(i);
         return authority;
     }
 }

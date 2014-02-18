@@ -1,6 +1,7 @@
-package de.techdev.trackr.web;
+package de.techdev.trackr.web.api;
 
 import de.techdev.trackr.domain.support.EmployeeDataOnDemand;
+import de.techdev.trackr.web.MockMvcTest;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
