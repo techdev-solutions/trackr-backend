@@ -9,7 +9,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>trackr login</title>
-    <link rel="stylesheet" href="/app/src/vendor/bootstrap/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/src/vendor/bootstrap/dist/css/bootstrap.min.css"/>
 </head>
 <body>
 <div class="container">

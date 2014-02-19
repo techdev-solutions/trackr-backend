@@ -35,11 +35,11 @@ public class LoginControllerTest {
 
     @Test
     public void home() throws Exception {
-        mockMvc.perform(get("/")).andExpect(status().isOk()).andExpect(view().name("login"));
+        mockMvc.perform(get("/login")).andExpect(status().isOk()).andExpect(view().name("views/login.jsp"));
     }
 
     @Test
     public void admin() throws Exception {
-        mockMvc.perform(get("/admin")).andExpect(status().isOk()).andExpect(view().name("admin"));
+        mockMvc.perform(get("/admin")).andExpect(status().isOk()).andExpect(view().name("views/admin.jsp"));
     }
 }

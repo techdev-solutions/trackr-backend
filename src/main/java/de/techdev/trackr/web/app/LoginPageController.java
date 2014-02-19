@@ -10,12 +10,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class LoginPageController {
 
     @RequestMapping("/")
+    public String root() {
+        return "app/index.html";
+    }
+
+    @RequestMapping("/login")
     public String loginForm() {
-        return "login";
+        return "views/login.jsp";
     }
 
     @RequestMapping("/admin")
     public String adminForm() {
-        return "admin";
+        return "views/admin.jsp";
     }
 }

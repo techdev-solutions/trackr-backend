@@ -31,14 +31,15 @@ public class AppWebMvcConfiguration extends WebMvcConfigurerAdapter {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/app/**").addResourceLocations(angularPath);
+        //this is only needed for the login page, the view Resolver seems to want to load "WEB-INF/app/index.html" instead of "/WEB-INF/...".
+        registry.addResourceHandler("WEB-INF/app/*.html").addResourceLocations(angularPath);
+        registry.addResourceHandler("/**").addResourceLocations(angularPath);
     }
 
     @Bean
     public ViewResolver viewResolver() {
         InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
-        viewResolver.setPrefix("/WEB-INF/views/");
-        viewResolver.setSuffix(".jsp");
+        viewResolver.setPrefix("/WEB-INF/");
         return viewResolver;
     }
 
