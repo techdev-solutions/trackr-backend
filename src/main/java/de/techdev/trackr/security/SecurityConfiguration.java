@@ -40,7 +40,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         //TODO: this configuration is currently only being used in the API servlet but also secures the app.
         http.authorizeRequests()
-                .antMatchers("/", "/app/src/bower_components/**").permitAll() //the login page should be able to access CSS and JS files
+                .antMatchers("/", "/app/src/vendor/**").permitAll() //the login page should be able to access CSS and JS files
                 .antMatchers("/app/**").authenticated()
                 .antMatchers("/api/**").authenticated();
 
@@ -50,11 +50,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             formLogin() //this is only for the admin account
                 .loginPage("/") //redirect to / if no authenticated session is active
                 .loginProcessingUrl("/login/admin") //form has to post to /login/admin
-                .defaultSuccessUrl("/app/index.html")
+                .defaultSuccessUrl("/app/index.html#/")
             .and()
             .openidLogin()
                 .loginPage("/") //see above
-                .defaultSuccessUrl("/app/index.html")
+                .defaultSuccessUrl("/app/index.html#/")
                 .failureUrl("/")
                 .authenticationUserDetailsService(trackrUserDetailsService()) //use our user detail service to map google accounts to techdev accounts
                 .attributeExchange("https://www.google.com/.*")

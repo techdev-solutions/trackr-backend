@@ -1,7 +1,7 @@
 INSERT INTO employee (id, version, firstName, lastName) VALUES (0, 0, 'admin', 'admin');
 INSERT INTO employee (id, version, firstName, lastName) VALUES (1, 0, 'Moritz', 'Schulze');
 INSERT INTO credential (id, email, enabled) VALUES (0, 'admin', true);
-INSERT INTO credential (id, email, enabled) VALUES (1, 'moritz.schulze@techdev.de', true);
+INSERT INTO credential (id, email, enabled) VALUES (1, 'moritz.schulze2@techdev.de', true);
 INSERT INTO authority (id, authority, screenName, authorityOrder) VALUES (0, 'ROLE_ADMIN', 'Administrator', 0);
 INSERT INTO authority (id, authority, screenName, authorityOrder) VALUES (1, 'ROLE_SUPERVISOR', 'Supervisor', 1);
 INSERT INTO authority (id, authority, screenName, authorityOrder) VALUES (2, 'ROLE_EMPLOYEE', 'Angestellter', 2);

@@ -2,6 +2,7 @@ package de.techdev.trackr.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -15,6 +16,7 @@ import java.util.List;
  */
 @Data
 @ToString(exclude = "employee")
+@EqualsAndHashCode(exclude = "employee")
 @Entity
 @JsonIgnoreProperties({"employee"})
 public class Credential {
