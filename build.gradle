@@ -36,7 +36,7 @@ war {
 
 //TODO: this shouldn't be before compileJava..
 compileJava.dependsOn('npm')
-compileJava.dependsOn('bower')
+compileJava.dependsOn('bowerInstall')
 
 test.doLast {
     tasks['gruntTest'].execute()
@@ -84,32 +84,40 @@ task wrapper(type: Wrapper) {
     gradleVersion = '1.10'
 }
 
-// install bower dependencies
-task bower(type: Exec) {
-    workingDir 'src/main/webapp/WEB-INF/app/src'
-    commandLine 'bower'
-    args 'install'
+//prune old dependencies
+task bowerPrune(type: Exec) {
+    workingDir = 'src/main/webapp/WEB-INF/app'
+    executable = 'bower'
+    args = ['prune']
 }
+
+// install bower dependencies
+task bowerInstall(type: Exec) {
+    workingDir = 'src/main/webapp/WEB-INF/app'
+    executable = 'bower'
+    args = ['install']
+}
+bowerInstall.dependsOn('bowerPrune')
 
 // install npm dependencies
 task npm(type: Exec) {
     workingDir 'src/main/webapp/WEB-INF/app'
-    commandLine 'npm'
-    args 'install'
+    executable = 'npm'
+    args = ['install']
 }
 
 // execute grunt tests
 task gruntTest(type: Exec) {
     workingDir 'src/main/webapp/WEB-INF/app'
-    commandLine 'grunt'
-    args 'test'
+    executable = 'grunt'
+    args = ['test']
 }
 
 //build the distibution
 task gruntDist(type: Exec) {
     workingDir 'src/main/webapp/WEB-INF/app'
-    commandLine 'grunt'
-    args 'dist'
+    executable = 'grunt'
+    args = ['dist']
 }
 
 //copy the war to the tomcat directory
