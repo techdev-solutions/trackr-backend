@@ -8,8 +8,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 import org.springframework.data.rest.webmvc.config.RepositoryRestMvcConfiguration;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerExceptionResolver;
-import org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver;
 
 /**
  * @author Moritz Schulze
@@ -24,10 +22,5 @@ public class ApiWebMvcConfiguration extends RepositoryRestMvcConfiguration {
         config.exposeIdsFor(new Class[] {Employee.class, Credential.class, Authority.class});
         config.setReturnBodyOnUpdate(true);
         config.setReturnBodyOnCreate(true);
-    }
-
-    @Override
-    protected void configureExceptionHandlerExceptionResolver(ExceptionHandlerExceptionResolver exceptionResolver) {
-        exceptionResolver.setOrder(1);
     }
 }

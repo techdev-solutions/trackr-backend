@@ -6,8 +6,10 @@ import de.techdev.trackr.web.MockMvcTest;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -40,5 +42,11 @@ public class CompanyResourceTest extends MockMvcTest {
         Company company = companyDataOnDemand.getRandomCompany();
         mockMvc.perform(get("/companies/search/findByCompanyId").param("companyId", company.getCompanyId().toString()))
                 .andExpect(status().isOk()).andExpect(content().contentType(standardContentType));
+    }
+
+    @Test
+    public void constraintViolation() throws Exception {
+        SecurityContextHolder.getContext().setAuthentication(adminAuthentication());
+        mockMvc.perform(post("/companies").content("{ \"companyId\": \"1234\" }")).andExpect(status().isBadRequest());
     }
 }
