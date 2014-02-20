@@ -16,7 +16,7 @@ INSERT INTO authority (id, authority, screenName, authorityOrder) VALUES (0, 'RO
 INSERT INTO authority (id, authority, screenName, authorityOrder) VALUES (1, 'ROLE_SUPERVISOR', 'Supervisor', 1);
 INSERT INTO authority (id, authority, screenName, authorityOrder) VALUES (2, 'ROLE_EMPLOYEE', 'Angestellter', 2);
 INSERT INTO credential_authority (credential_id, authorities_id) VALUES (0, 0);
-INSERT INTO credential_authority (credential_id, authorities_id) VALUES (1, 0);
+INSERT INTO credential_authority (credential_id, authorities_id) VALUES (1, 1);
 INSERT INTO credential_authority (credential_id, authorities_id) VALUES (2, 1);
 INSERT INTO credential_authority (credential_id, authorities_id) VALUES (3, 1);
 INSERT INTO credential_authority (credential_id, authorities_id) VALUES (4, 1);
