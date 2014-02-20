@@ -5,6 +5,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
 import javax.validation.Valid;
+import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -22,6 +23,7 @@ public class Company {
     private Integer version;
 
     @NotNull
+    @DecimalMin("0")
     @Column(unique = true)
     private Long companyId;
 
