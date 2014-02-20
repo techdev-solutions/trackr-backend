@@ -8,4 +8,5 @@ INSERT INTO authority (id, authority, screenName, authorityOrder) VALUES (2, 'RO
 INSERT INTO credential_authority (credential_id, authorities_id) VALUES (0, 0);
 INSERT INTO credential_authority (credential_id, authorities_id) VALUES (1, 2);
 
--- INSERT INTO company (id, version, companyId, name, street, houseNumber, zipCode, city, country) VALUES (0, 0, '00001.1', 'techdev Solutions UG', 'Bismarckstraße', '47', '76133', 'Karlsruhe', 'Deutschland');
+INSERT INTO company (id, version, companyId, name, street, houseNumber, zipCode, city, country) VALUES (0, 0, '00001.1', 'techdev Solutions UG', 'Bismarckstraße', '47', '76133', 'Karlsruhe', 'Deutschland');
+INSERT INTO company (id, version, companyId, name, street, houseNumber, zipCode, city, country) VALUES (1, 0, '00001.2', 'cofinpro AG', 'Zur Gießerei', '19a', '76123', 'Karlsruhe', 'Deutschland');

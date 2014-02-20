@@ -3,11 +3,9 @@ package de.techdev.trackr.domain;
 import lombok.Data;
 import org.hibernate.validator.constraints.NotEmpty;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Version;
+import javax.persistence.*;
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 /**
  * @author Moritz Schulze
@@ -17,6 +15,7 @@ import javax.validation.Valid;
 public class Company {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Version
@@ -30,5 +29,6 @@ public class Company {
     private String name;
 
     @Valid
+    @NotNull
     private Address address;
 }
