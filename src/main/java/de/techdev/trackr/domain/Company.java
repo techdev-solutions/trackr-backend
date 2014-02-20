@@ -21,7 +21,7 @@ public class Company {
     @Version
     private Integer version;
 
-    @NotEmpty
+    @NotNull
     @Column(unique = true)
     private Long companyId;
 
