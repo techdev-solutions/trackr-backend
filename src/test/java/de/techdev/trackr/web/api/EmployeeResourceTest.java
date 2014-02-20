@@ -25,12 +25,20 @@ public class EmployeeResourceTest extends MockMvcTest {
 
     @Test
     public void root() throws Exception {
-        mockMvc.perform(get("/employees")).andExpect(status().isOk()).andExpect(content().contentType(standardContentType));
+        mockMvc.perform(
+                get("/employees")
+                        .session(basicSession()))
+               .andExpect(status().isOk())
+               .andExpect(content().contentType(standardContentType));
     }
 
     @Test
     public void one() throws Exception {
-        mockMvc.perform(get("/employees/0")).andExpect(status().isOk()).andExpect(content().contentType(standardContentType));
+        mockMvc.perform(
+                get("/employees/0")
+                        .session(basicSession()))
+               .andExpect(status().isOk())
+               .andExpect(content().contentType(standardContentType));
     }
 
 }

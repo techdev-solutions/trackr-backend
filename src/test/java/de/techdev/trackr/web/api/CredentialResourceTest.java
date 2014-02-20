@@ -38,46 +38,54 @@ public class CredentialResourceTest extends MockMvcTest {
     @Test
     public void findByEmail() throws Exception {
         Credential credentials = credentialDataOnDemand.getRandomCredentials();
-        mockMvc.perform(get("/credentials/search/findByEmail").param("email", credentials.getEmail()))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(standardContentType));
+        mockMvc.perform(
+                get("/credentials/search/findByEmail")
+                        .param("email", credentials.getEmail())
+                        .session(basicSession()))
+               .andExpect(status().isOk())
+               .andExpect(content().contentType(standardContentType));
     }
 
     @Test
     public void addAuthority() throws Exception {
-        SecurityContextHolder.getContext().setAuthentication(adminAuthentication());
         Credential credentials = credentialDataOnDemand.getRandomCredentials();
         Authority authority = authorityDataOnDemand.getRandomAuthority();
-        mockMvc.perform(patch("/credentials/" + credentials.getId() + "/authorities")
-                .header("Content-Type", "text/uri-list")
-                .content("/authorities/" + authority.getId()))
-                .andExpect(status().isNoContent());
+        mockMvc.perform(
+                patch("/credentials/" + credentials.getId() + "/authorities")
+                        .session(adminSession())
+                        .header("Content-Type", "text/uri-list")
+                        .content("/authorities/" + authority.getId()))
+               .andExpect(status().isNoContent());
     }
 
     @Test
     public void deleteAuthority() throws Exception {
-        SecurityContextHolder.getContext().setAuthentication(adminAuthentication());
         Credential credentials = credentialDataOnDemand.getRandomCredentials();
-        mockMvc.perform(delete("/credentials/" + credentials.getId() + "/authorities/0"))
-                .andExpect(status().isNoContent());
+        mockMvc.perform(
+                delete("/credentials/" + credentials.getId() + "/authorities/0")
+                        .session(adminSession()))
+               .andExpect(status().isNoContent());
     }
 
-    //TODO: with mock mvc this does not return HTTP 403 which is bad.
-    @Test(expected = NestedServletException.class)
+    @Test
     public void addAuthorityNotAllowedForSupervisor() throws Exception {
-        SecurityContextHolder.getContext().setAuthentication(supervisorAuthentication());
         Credential credentials = credentialDataOnDemand.getRandomCredentials();
         Authority authority = authorityDataOnDemand.getRandomAuthority();
-        mockMvc.perform(patch("/credentials/" + credentials.getId() + "/authorities")
-                .header("Content-Type", "text/uri-list")
-                .content("/authorities/" + authority.getId()));
+        mockMvc.perform(
+                patch("/credentials/" + credentials.getId() + "/authorities")
+                        .session(supervisorSession())
+                        .header("Content-Type", "text/uri-list")
+                        .content("/authorities/" + authority.getId()))
+               .andExpect(status().isForbidden());
     }
 
-    @Test(expected = NestedServletException.class)
+    @Test
     public void deleteAuthorityNotAllowedForSupervisor() throws Exception {
-        SecurityContextHolder.getContext().setAuthentication(supervisorAuthentication());
         Credential credentials = credentialDataOnDemand.getRandomCredentials();
-        mockMvc.perform(delete("/credentials/" + credentials.getId() + "/authorities/0"));
+        mockMvc.perform(
+                delete("/credentials/" + credentials.getId() + "/authorities/0")
+                        .session(supervisorSession()))
+               .andExpect(status().isForbidden());
     }
 
 }
