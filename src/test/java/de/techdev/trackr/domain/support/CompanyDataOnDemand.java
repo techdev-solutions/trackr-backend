@@ -26,7 +26,7 @@ public class CompanyDataOnDemand extends AbstractDataOnDemand<Company> {
         Company company = new Company();
         company.setId((long) i);
         company.setName("name_" + i);
-        company.setCompanyId("companyId_" + i);
+        company.setCompanyId((long)i);
         Address address = addressDataOnDemand.getNewTransientObject(i);
         company.setAddress(address);
         return company;

@@ -38,7 +38,7 @@ public class CompanyResourceTest extends MockMvcTest {
     @Test
     public void findByCompanyId() throws Exception {
         Company company = companyDataOnDemand.getRandomCompany();
-        mockMvc.perform(get("/companies/search/findByCompanyId").param("companyId", company.getCompanyId()))
+        mockMvc.perform(get("/companies/search/findByCompanyId").param("companyId", company.getCompanyId().toString()))
                 .andExpect(status().isOk()).andExpect(content().contentType(standardContentType));
     }
 }

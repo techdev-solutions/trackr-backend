@@ -23,7 +23,7 @@ public class Company {
 
     @NotEmpty
     @Column(unique = true)
-    private String companyId;
+    private Long companyId;
 
     @NotEmpty
     private String name;
