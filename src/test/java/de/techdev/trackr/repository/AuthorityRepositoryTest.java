@@ -23,7 +23,7 @@ public class AuthorityRepositoryTest extends TransactionalIntegrationTest {
 
     @Test
     public void findById() throws Exception {
-        Authority authority = authorityDataOnDemand.getRandomAuthority();
+        Authority authority = authorityDataOnDemand.getRandomObject();
         Authority one = authorityRepository.findOne(authority.getId());
         assertThat(one, isNotNull());
     }

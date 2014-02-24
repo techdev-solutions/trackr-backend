@@ -23,7 +23,7 @@ public class EmployeeRepositoryTest extends TransactionalIntegrationTest {
 
     @Test
     public void findById() throws Exception {
-        Employee employee = employeeDataOnDemand.getRandomEmployee();
+        Employee employee = employeeDataOnDemand.getRandomObject();
         Employee one = employeeRepository.findOne(employee.getId());
         assertThat(one, isNotNull());
     }

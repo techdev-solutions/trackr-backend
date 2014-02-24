@@ -1,10 +1,13 @@
 package de.techdev.trackr.domain.support;
 
+import de.techdev.trackr.domain.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -30,6 +33,28 @@ public abstract class AbstractDataOnDemand<S> {
         return 0;
     }
 
+    /**
+     * Returns a random object from the pool.
+     * <p>
+     * Creates objects if none exist.
+     *
+     * @return A random object of the entity class.
+     */
+    public S getRandomObject() {
+        init();
+        S obj = data.get(rnd.nextInt(data.size()));
+        Long id;
+        try {
+            Method getIdMethod = obj.getClass().getMethod("getId");
+            id = (Long) getIdMethod.invoke(obj);
+        } catch (NoSuchMethodException e) {
+            throw new IllegalStateException("Entity has no getId method");
+        } catch (InvocationTargetException | IllegalAccessException e) {
+            throw new IllegalStateException("Could not execute getId method");
+        }
+        return repository.findOne(id);
+    }
+
     public AbstractDataOnDemand() {
         rnd = new SecureRandom();
     }
@@ -52,9 +77,10 @@ public abstract class AbstractDataOnDemand<S> {
                 repository.save(obj);
             } catch (final ConstraintViolationException e) {
                 final StringBuilder msg = new StringBuilder();
-                for (Iterator<ConstraintViolation<?>> iter = e.getConstraintViolations().iterator(); iter.hasNext();) {
+                for (Iterator<ConstraintViolation<?>> iter = e.getConstraintViolations().iterator(); iter.hasNext(); ) {
                     final ConstraintViolation<?> cv = iter.next();
-                    msg.append("[").append(cv.getRootBean().getClass().getName()).append(".").append(cv.getPropertyPath()).append(": ").append(cv.getMessage()).append(" (invalid value = ").append(cv.getInvalidValue()).append(")").append("]");
+                    msg.append("[").append(cv.getRootBean().getClass().getName()).append(".").append(cv.getPropertyPath()).append(": ").append(cv.getMessage())
+                       .append(" (invalid value = ").append(cv.getInvalidValue()).append(")").append("]");
                 }
                 throw new IllegalStateException(msg.toString(), e);
             }

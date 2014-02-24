@@ -37,7 +37,7 @@ public class CredentialResourceTest extends MockMvcTest {
 
     @Test
     public void findByEmail() throws Exception {
-        Credential credentials = credentialDataOnDemand.getRandomCredentials();
+        Credential credentials = credentialDataOnDemand.getRandomObject();
         mockMvc.perform(
                 get("/credentials/search/findByEmail")
                         .param("email", credentials.getEmail())
@@ -48,8 +48,8 @@ public class CredentialResourceTest extends MockMvcTest {
 
     @Test
     public void addAuthority() throws Exception {
-        Credential credentials = credentialDataOnDemand.getRandomCredentials();
-        Authority authority = authorityDataOnDemand.getRandomAuthority();
+        Credential credentials = credentialDataOnDemand.getRandomObject();
+        Authority authority = authorityDataOnDemand.getRandomObject();
         mockMvc.perform(
                 patch("/credentials/" + credentials.getId() + "/authorities")
                         .session(adminSession())
@@ -60,7 +60,7 @@ public class CredentialResourceTest extends MockMvcTest {
 
     @Test
     public void deleteAuthority() throws Exception {
-        Credential credentials = credentialDataOnDemand.getRandomCredentials();
+        Credential credentials = credentialDataOnDemand.getRandomObject();
         mockMvc.perform(
                 delete("/credentials/" + credentials.getId() + "/authorities/0")
                         .session(adminSession()))
@@ -69,8 +69,8 @@ public class CredentialResourceTest extends MockMvcTest {
 
     @Test
     public void addAuthorityNotAllowedForSupervisor() throws Exception {
-        Credential credentials = credentialDataOnDemand.getRandomCredentials();
-        Authority authority = authorityDataOnDemand.getRandomAuthority();
+        Credential credentials = credentialDataOnDemand.getRandomObject();
+        Authority authority = authorityDataOnDemand.getRandomObject();
         mockMvc.perform(
                 patch("/credentials/" + credentials.getId() + "/authorities")
                         .session(supervisorSession())
@@ -81,7 +81,7 @@ public class CredentialResourceTest extends MockMvcTest {
 
     @Test
     public void deleteAuthorityNotAllowedForSupervisor() throws Exception {
-        Credential credentials = credentialDataOnDemand.getRandomCredentials();
+        Credential credentials = credentialDataOnDemand.getRandomObject();
         mockMvc.perform(
                 delete("/credentials/" + credentials.getId() + "/authorities/0")
                         .session(supervisorSession()))

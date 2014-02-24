@@ -17,13 +17,6 @@ public class EmployeeDataOnDemand extends AbstractDataOnDemand<Employee> {
         return 1;
     }
 
-    public Employee getRandomEmployee() {
-        init();
-        Employee obj = data.get(rnd.nextInt(data.size()));
-        Long id = obj.getId();
-        return repository.findOne(id);
-    }
-
     @Override
     public Employee getNewTransientObject(int i) {
         Employee employee = new Employee();

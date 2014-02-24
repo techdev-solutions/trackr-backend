@@ -20,13 +20,6 @@ public class CredentialDataOnDemand extends AbstractDataOnDemand<Credential> {
     @Autowired
     private AuthorityDataOnDemand authorityDataOnDemand;
 
-    public Credential getRandomCredentials() {
-        init();
-        Credential obj = data.get(rnd.nextInt(data.size()));
-        Long id = obj.getId();
-        return repository.findOne(id);
-    }
-
     @Override
     public Credential getNewTransientObject(int i) {
         Credential credential = new Credential();
@@ -34,7 +27,7 @@ public class CredentialDataOnDemand extends AbstractDataOnDemand<Credential> {
         credential.setEmail("email_" + i + "@techdev.de");
         Employee employee = employeeDataOnDemand.getNewTransientObject(i);
         credential.setEmployee(employee);
-        Authority authority = authorityDataOnDemand.getRandomAuthority();
+        Authority authority = authorityDataOnDemand.getRandomObject();
         credential.setAuthorities(asList(authority));
         return credential;
     }

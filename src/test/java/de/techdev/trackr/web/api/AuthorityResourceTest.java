@@ -35,7 +35,7 @@ public class AuthorityResourceTest extends MockMvcTest {
 
     @Test
     public void findOne() throws Exception {
-        Authority authority = authorityDataOnDemand.getRandomAuthority();
+        Authority authority = authorityDataOnDemand.getRandomObject();
         mockMvc.perform(
                 get("/authorities/" + authority.getId())
                         .session(basicSession()))
@@ -54,7 +54,7 @@ public class AuthorityResourceTest extends MockMvcTest {
 
     @Test
     public void putDisabled() throws Exception {
-        Authority authority = authorityDataOnDemand.getRandomAuthority();
+        Authority authority = authorityDataOnDemand.getRandomObject();
         mockMvc.perform(
                 put("/authorities/" + authority.getId())
                         .session(basicSession())
@@ -65,7 +65,7 @@ public class AuthorityResourceTest extends MockMvcTest {
 
     @Test
     public void deleteDisabled() throws Exception {
-        Authority authority = authorityDataOnDemand.getRandomAuthority();
+        Authority authority = authorityDataOnDemand.getRandomObject();
         mockMvc.perform(
                 delete("/authorities/" + authority.getId())
                         .session(basicSession()))

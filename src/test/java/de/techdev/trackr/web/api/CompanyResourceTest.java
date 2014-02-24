@@ -40,7 +40,7 @@ public class CompanyResourceTest extends MockMvcTest {
 
     @Test
     public void one() throws Exception {
-        Company company = companyDataOnDemand.getRandomCompany();
+        Company company = companyDataOnDemand.getRandomObject();
         mockMvc.perform(
                 get("/companies/" + company.getId())
                         .session(basicSession()))
@@ -50,7 +50,7 @@ public class CompanyResourceTest extends MockMvcTest {
 
     @Test
     public void findByCompanyId() throws Exception {
-        Company company = companyDataOnDemand.getRandomCompany();
+        Company company = companyDataOnDemand.getRandomObject();
         mockMvc.perform(
                 get("/companies/search/findByCompanyId")
                         .param("companyId", company.getCompanyId().toString())

@@ -14,13 +14,6 @@ public class AuthorityDataOnDemand extends AbstractDataOnDemand<Authority> {
         return 3;
     }
 
-    public Authority getRandomAuthority() {
-        init();
-        Authority obj = data.get(rnd.nextInt(data.size()));
-        Long id = obj.getId();
-        return repository.findOne(id);
-    }
-
     @Override
     public Authority getNewTransientObject(int i) {
         Authority authority = new Authority();

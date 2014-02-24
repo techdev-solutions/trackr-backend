@@ -26,7 +26,7 @@ public class CompanyRepositoryTest extends TransactionalIntegrationTest {
 
     @Test
     public void findById() throws Exception {
-        Company company = companyDataOnDemand.getRandomCompany();
+        Company company = companyDataOnDemand.getRandomObject();
         Company one = companyRepository.findOne(company.getId());
         assertThat(one, isNotNull());
     }
@@ -40,7 +40,7 @@ public class CompanyRepositoryTest extends TransactionalIntegrationTest {
 
     @Test
     public void findByCompanyId() throws Exception {
-        Company company = companyDataOnDemand.getRandomCompany();
+        Company company = companyDataOnDemand.getRandomObject();
         Company byCompanyId = companyRepository.findByCompanyId(company.getCompanyId());
         assertThat(byCompanyId.getId(), is(company.getId()));
     }

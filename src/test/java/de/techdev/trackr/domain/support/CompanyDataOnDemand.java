@@ -14,13 +14,6 @@ public class CompanyDataOnDemand extends AbstractDataOnDemand<Company> {
     @Autowired
     private AddressDataOnDemand addressDataOnDemand;
 
-    public Company getRandomCompany() {
-        init();
-        Company obj = data.get(rnd.nextInt(data.size()));
-        Long id = obj.getId();
-        return repository.findOne(id);
-    }
-
     @Override
     public Company getNewTransientObject(int i) {
         Company company = new Company();
