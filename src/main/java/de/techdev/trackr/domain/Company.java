@@ -7,6 +7,7 @@ import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 /**
  * @author Moritz Schulze
@@ -33,4 +34,7 @@ public class Company {
     @Valid
     @NotNull
     private Address address;
+
+    @OneToMany(mappedBy = "company")
+    private List<ContactPerson> contactPersons;
 }

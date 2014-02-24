@@ -1,6 +1,7 @@
 package de.techdev.trackr.web;
 
 import de.techdev.trackr.domain.Authority;
+import de.techdev.trackr.domain.Company;
 import de.techdev.trackr.domain.Credential;
 import de.techdev.trackr.domain.Employee;
 import org.springframework.context.annotation.ComponentScan;
@@ -19,7 +20,7 @@ public class ApiWebMvcConfiguration extends RepositoryRestMvcConfiguration {
 
     @Override
     protected void configureRepositoryRestConfiguration(RepositoryRestConfiguration config) {
-        config.exposeIdsFor(new Class[] {Employee.class, Credential.class, Authority.class});
+        config.exposeIdsFor(new Class[] {Employee.class, Credential.class, Authority.class, Company.class});
         config.setReturnBodyOnUpdate(true);
         config.setReturnBodyOnCreate(true);
     }
