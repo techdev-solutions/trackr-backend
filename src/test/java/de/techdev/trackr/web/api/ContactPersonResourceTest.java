@@ -1,6 +1,8 @@
 package de.techdev.trackr.web.api;
 
+import de.techdev.trackr.domain.Company;
 import de.techdev.trackr.domain.ContactPerson;
+import de.techdev.trackr.domain.support.CompanyDataOnDemand;
 import de.techdev.trackr.domain.support.ContactPersonDataOnDemand;
 import de.techdev.trackr.web.MockMvcTest;
 import org.junit.Before;
@@ -17,10 +19,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 public class ContactPersonResourceTest extends MockMvcTest {
 
-    private String contactPersonJson = "{\"salutation\": \"salutation_1\", \"firstName\" : \"firstName_1\", \"lastName\": \"lastName_1\", \"email\": \"email@test.com\", \"phone\": \"123452345\", \"company\": \"/companies/0\"}";
+    private String contactPersonJson = "{\"salutation\": \"salutation_1\", \"firstName\" : \"firstName_1\", \"lastName\": \"lastName_1\", \"email\": \"email@test.com\", \"phone\": \"123452345\", \"company\": \"/companies/%d\"}";
 
     @Autowired
     private ContactPersonDataOnDemand contactPersonDataOnDemand;
+
+    @Autowired
+    private CompanyDataOnDemand companyDataOnDemand;
 
     @Before
     public void setUp() throws Exception {
@@ -48,19 +53,22 @@ public class ContactPersonResourceTest extends MockMvcTest {
 
     @Test
     public void postAllowedForSupervisor() throws Exception {
+        Company company = companyDataOnDemand.getRandomObject();
+        String json = String.format(contactPersonJson, company.getId());
         mockMvc.perform(
                 post("/contactPersons")
                         .session(supervisorSession())
-                        .content(contactPersonJson))
+                        .content(json))
                .andExpect(status().isCreated());
     }
 
     @Test
     public void postNotAllowedForEmployee() throws Exception {
+        String json = String.format(contactPersonJson, 0);
         mockMvc.perform(
                 post("/contactPersons")
                         .session(basicSession())
-                        .content(contactPersonJson))
+                        .content(json))
                .andExpect(status().isForbidden());
     }
 

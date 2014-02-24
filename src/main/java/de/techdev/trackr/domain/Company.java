@@ -39,6 +39,6 @@ public class Company {
     @NotNull
     private Address address;
 
-    @OneToMany(mappedBy = "company")
+    @OneToMany(mappedBy = "company", cascade = CascadeType.REMOVE)
     private List<ContactPerson> contactPersons;
 }
