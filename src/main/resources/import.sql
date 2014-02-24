@@ -1,10 +1,10 @@
 INSERT INTO employee (id, version, firstName, lastName) VALUES (0, 0, 'admin', 'admin');
-INSERT INTO employee (id, version, firstName, lastName) VALUES (1, 0, 'Moritz', 'Schulze');
-INSERT INTO employee (id, version, firstName, lastName) VALUES (2, 0, 'Viktor', 'Widiker');
-INSERT INTO employee (id, version, firstName, lastName) VALUES (3, 0, 'Alexander', 'Hanschke');
-INSERT INTO employee (id, version, firstName, lastName) VALUES (4, 0, 'Adrian', 'Krion');
-INSERT INTO employee (id, version, firstName, lastName) VALUES (5, 0, 'Angelika', 'Gutjahr');
-INSERT INTO employee (id, version, firstName, lastName) VALUES (6, 0, 'Nikolaj', 'Weise');
+INSERT INTO employee (id, version, firstName, lastName, title, hourlyCostRate, salary) VALUES (1, 0, 'Moritz', 'Schulze', 'Hausmeister', 0.25, 40);
+INSERT INTO employee (id, version, firstName, lastName, title, hourlyCostRate, salary) VALUES (2, 0, 'Viktor', 'Widiker', 'Software Consultant', 123, 456);
+INSERT INTO employee (id, version, firstName, lastName, title, hourlyCostRate, salary) VALUES (3, 0, 'Alexander', 'Hanschke', 'Praktikant', 321, 654.32);
+INSERT INTO employee (id, version, firstName, lastName, title, hourlyCostRate, salary) VALUES (4, 0, 'Adrian', 'Krion', 'Sekretär', 6854, 123455);
+INSERT INTO employee (id, version, firstName, lastName, title, hourlyCostRate, salary) VALUES (5, 0, 'Angelika', 'Gutjahr', 'Entertainerin', 900.1, 500000);
+INSERT INTO employee (id, version, firstName, lastName, title, hourlyCostRate, salary) VALUES (6, 0, 'Nikolaj', 'Weise', 'Empfang', 100.5, 123.4);
 INSERT INTO credential (id, email, enabled) VALUES (0, 'admin', true);
 INSERT INTO credential (id, email, enabled) VALUES (1, 'moritz.schulze@techdev.de', true);
 INSERT INTO credential (id, email, enabled) VALUES (2, 'viktor.widiker@techdev.de', true);
