@@ -26,6 +26,11 @@ import java.util.Properties;
 public class JpaConfiguration {
 
     @Bean
+    public ContactPersonEventHandler contactPersonEventHandler() {
+        return new ContactPersonEventHandler();
+    }
+
+    @Bean
     public CompanyEventHandler companyEventHandler() {
         return new CompanyEventHandler();
     }

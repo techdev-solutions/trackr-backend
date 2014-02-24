@@ -1,7 +1,9 @@
 package de.techdev.trackr.web.api;
 
 import de.techdev.trackr.domain.Company;
+import de.techdev.trackr.domain.ContactPerson;
 import de.techdev.trackr.domain.support.CompanyDataOnDemand;
+import de.techdev.trackr.domain.support.ContactPersonDataOnDemand;
 import de.techdev.trackr.web.MockMvcTest;
 import org.junit.Before;
 import org.junit.Test;
@@ -10,8 +12,7 @@ import org.springframework.mock.web.MockHttpSession;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -24,6 +25,9 @@ public class CompanyResourceTest extends MockMvcTest {
 
     @Autowired
     private CompanyDataOnDemand companyDataOnDemand;
+
+    @Autowired
+    private ContactPersonDataOnDemand contactPersonDataOnDemand;
 
     @Before
     public void setUp() throws Exception {
@@ -85,6 +89,30 @@ public class CompanyResourceTest extends MockMvcTest {
                         .session(adminSession())
                         .content("{ \"companyId\": \"1234\" }"))
                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void addContactPersonSupervisor() throws Exception {
+        Company company = companyDataOnDemand.getRandomObject();
+        ContactPerson contactPerson = contactPersonDataOnDemand.getRandomObject();
+        mockMvc.perform(
+                patch("/companies/" + company.getId() + "/contactPersons")
+                        .session(supervisorSession())
+                        .header("Content-Type", "text/uri-list")
+                        .content("/contactPersons/" + contactPerson.getId()))
+               .andExpect(status().isNoContent());
+    }
+
+    @Test
+    public void addContactForbiddenForEmployee() throws Exception {
+        Company company = companyDataOnDemand.getRandomObject();
+        ContactPerson contactPerson = contactPersonDataOnDemand.getRandomObject();
+        mockMvc.perform(
+                patch("/companies/" + company.getId() + "/contactPersons")
+                        .session(basicSession())
+                        .header("Content-Type", "text/uri-list")
+                        .content("/contactPersons/" + contactPerson.getId()))
+               .andExpect(status().isForbidden());
     }
 
     @Test
