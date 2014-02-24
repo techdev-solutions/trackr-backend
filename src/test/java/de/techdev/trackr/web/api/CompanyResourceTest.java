@@ -21,6 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class CompanyResourceTest extends MockMvcTest {
 
     private final String companyJson = "{\"companyId\": 12345, \"name\": \"techdev\", \"address\": {\"street\": \"strasse\", \"houseNumber\": \"11\", \"city\": \"Karlsruhe\", \"zipCode\": \"12345\", \"country\": \"Germany\"}}";
+
     @Autowired
     private CompanyDataOnDemand companyDataOnDemand;
 
@@ -60,7 +61,7 @@ public class CompanyResourceTest extends MockMvcTest {
     }
 
     @Test
-    public void postAdmin() throws Exception {
+    public void postAllowedForAdmin() throws Exception {
         mockMvc.perform(
                 post("/companies")
                         .session(adminSession())
@@ -84,5 +85,23 @@ public class CompanyResourceTest extends MockMvcTest {
                         .session(adminSession())
                         .content("{ \"companyId\": \"1234\" }"))
                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void deleteAllowedForAdmin() throws Exception {
+        Company company = companyDataOnDemand.getRandomObject();
+        mockMvc.perform(
+                delete("/companies/" + company.getId())
+                        .session(adminSession()))
+               .andExpect(status().isNoContent());
+    }
+
+    @Test
+    public void deleteForbiddenForSupervisor() throws Exception {
+        Company company = companyDataOnDemand.getRandomObject();
+        mockMvc.perform(
+                delete("/companies/" + company.getId())
+                        .session(supervisorSession()))
+               .andExpect(status().isForbidden());
     }
 }

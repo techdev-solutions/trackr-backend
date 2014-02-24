@@ -47,7 +47,7 @@ public class CredentialResourceTest extends MockMvcTest {
     }
 
     @Test
-    public void addAuthority() throws Exception {
+    public void addAuthorityToCredentials() throws Exception {
         Credential credentials = credentialDataOnDemand.getRandomObject();
         Authority authority = authorityDataOnDemand.getRandomObject();
         mockMvc.perform(

@@ -1,6 +1,8 @@
 package de.techdev.trackr.domain;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
@@ -13,6 +15,8 @@ import java.util.List;
  * @author Moritz Schulze
  */
 @Data
+@ToString(exclude = "contactPersons")
+@EqualsAndHashCode(exclude = "contactPersons")
 @Entity
 public class Company {
 
