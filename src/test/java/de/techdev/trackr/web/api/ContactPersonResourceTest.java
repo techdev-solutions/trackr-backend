@@ -9,6 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -79,5 +80,23 @@ public class ContactPersonResourceTest extends MockMvcTest {
                         .session(supervisorSession())
                         .content("{}"))
                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void deleteAllowedForSupervisor() throws Exception {
+        ContactPerson contactPerson = contactPersonDataOnDemand.getRandomObject();
+        mockMvc.perform(
+                delete("/contactPersons/" + contactPerson.getId())
+                        .session(supervisorSession()))
+               .andExpect(status().isNoContent());
+    }
+
+    @Test
+    public void deleteForbiddenForEmployee() throws Exception {
+        ContactPerson contactPerson = contactPersonDataOnDemand.getRandomObject();
+        mockMvc.perform(
+                delete("/contactPersons/" + contactPerson.getId())
+                        .session(basicSession()))
+               .andExpect(status().isForbidden());
     }
 }
