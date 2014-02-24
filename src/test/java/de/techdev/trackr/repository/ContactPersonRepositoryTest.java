@@ -1,0 +1,39 @@
+package de.techdev.trackr.repository;
+
+import de.techdev.trackr.TransactionalIntegrationTest;
+import de.techdev.trackr.domain.ContactPerson;
+import de.techdev.trackr.domain.support.ContactPersonDataOnDemand;
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.List;
+
+import static org.echocat.jomon.testing.BaseMatchers.isNotEmpty;
+import static org.echocat.jomon.testing.BaseMatchers.isNotNull;
+import static org.hamcrest.MatcherAssert.assertThat;
+
+/**
+ * @author Moritz Schulze
+ */
+public class ContactPersonRepositoryTest extends TransactionalIntegrationTest {
+
+    @Autowired
+    private ContactPersonDataOnDemand contactPersonDataOnDemand;
+
+    @Autowired
+    private ContactPersonRepository contactPersonRepository;
+
+    @Test
+    public void one() throws Exception {
+        ContactPerson contactPerson = contactPersonDataOnDemand.getRandomObject();
+        ContactPerson one = contactPersonRepository.findOne(contactPerson.getId());
+        assertThat(one, isNotNull());
+    }
+
+    @Test
+    public void all() throws Exception {
+        contactPersonDataOnDemand.init();
+        List<ContactPerson> all = contactPersonRepository.findAll();
+        assertThat(all, isNotEmpty());
+    }
+}

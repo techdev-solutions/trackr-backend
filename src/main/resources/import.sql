@@ -25,3 +25,6 @@ INSERT INTO credential_authority (credential_id, authorities_id) VALUES (6, 1);
 
 INSERT INTO company (id, version, companyId, name, street, houseNumber, zipCode, city, country) VALUES (0, 0, 1000, 'techdev Solutions UG', 'Bismarckstraße', '47', '76133', 'Karlsruhe', 'Deutschland');
 INSERT INTO company (id, version, companyId, name, street, houseNumber, zipCode, city, country) VALUES (1, 0, 1001, 'cofinpro AG', 'Zur Gießerei', '19a', '76123', 'Karlsruhe', 'Deutschland');
+
+INSERT INTO contactPerson (id, version, firstName, lastName, email, salutation, phone, company) VALUES(0, 0, 'Alexander', 'Hanschke', 'alexander.hanschke@techdev.de', 'Herr', '0178/11234566', 0);
+INSERT INTO contactPerson (id, version, firstName, lastName, email, salutation, phone, company) VALUES(1, 0, 'Adrian', 'Krion', 'adrian.krion@techdev.de', 'Herr', '0178/234586923', 0);

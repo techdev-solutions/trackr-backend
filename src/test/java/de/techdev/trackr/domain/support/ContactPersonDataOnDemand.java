@@ -1,0 +1,27 @@
+package de.techdev.trackr.domain.support;
+
+import de.techdev.trackr.domain.ContactPerson;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+/**
+ * @author Moritz Schulze
+ */
+@Component
+public class ContactPersonDataOnDemand extends AbstractDataOnDemand<ContactPerson> {
+
+    @Autowired
+    private CompanyDataOnDemand companyDataOnDemand;
+
+    @Override
+    public ContactPerson getNewTransientObject(int i) {
+        ContactPerson contactPerson = new ContactPerson();
+        contactPerson.setEmail("email_" + i + "@test.com");
+        contactPerson.setFirstName("firstName_" + i);
+        contactPerson.setLastName("lastName_" + i);
+        contactPerson.setPhone("phone_" + i);
+        contactPerson.setSalutation("salutation_" + i);
+        contactPerson.setCompany(companyDataOnDemand.getRandomObject());
+        return contactPerson;
+    }
+}
