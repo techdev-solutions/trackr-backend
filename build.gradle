@@ -14,9 +14,6 @@ repositories {
     maven {
         url 'http://repo.springsource.org/libs-milestone/'
     }
-    maven {
-        url 'http://repo.spring.io/snapshot'
-    }
 }
 
 sourceSets {
@@ -49,7 +46,7 @@ dependencies {
     compile "org.springframework:spring-webmvc:$project.springVersion"
     compile "com.fasterxml.jackson.core:jackson-databind:2.3.1"
     compile "javax.servlet:jstl:1.2"
-    compile 'org.springframework.data:spring-data-rest-webmvc:2.0.0.BUILD-SNAPSHOT'
+    compile 'org.springframework.data:spring-data-rest-webmvc:2.0.0.RELEASE'
 
     compile "javax.validation:validation-api:1.0.0.GA"
     compile "ch.qos.logback:logback-classic:1.0.13"
