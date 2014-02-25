@@ -33,7 +33,7 @@ public class Credential {
     @Email
     private String email;
 
-    private boolean enabled;
+    private Boolean enabled;
 
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Authority> authorities;

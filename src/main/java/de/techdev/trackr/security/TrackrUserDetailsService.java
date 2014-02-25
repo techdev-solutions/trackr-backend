@@ -55,13 +55,13 @@ public class TrackrUserDetailsService implements AuthenticationUserDetailsServic
             }
             throw new UsernameNotFoundException("User not found.");
         }
-        if (!credential.isEnabled()) {
+        if (!credential.getEnabled()) {
             //Unfortunately Spring Security ignores the enabled flag when using OpenID, so we have to do this in
             //this hacky way ourselves.
             log.debug("User {} is disabled, preventing log in.", email);
             throw new UsernameNotFoundException("User " + email + " is deactivated. Please wait for activation.");
         }
-        return new User(credential.getEmail(), "", credential.isEnabled(), true, true, true, credential.getAuthorities());
+        return new User(credential.getEmail(), "", credential.getEnabled(), true, true, true, credential.getAuthorities());
     }
 
     private void createDeactivatedEmployee(String email, String first, String last) {
