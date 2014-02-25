@@ -1,7 +1,6 @@
 package de.techdev.trackr.web.api;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.TransactionSystemException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -9,7 +8,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-import javax.transaction.RollbackException;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import java.util.HashMap;
@@ -21,9 +19,8 @@ import static org.springframework.http.HttpStatus.BAD_REQUEST;
  * @author Moritz Schulze
  */
 @ControllerAdvice
+@Slf4j
 public class ConstraintViolationExceptionHandler {
-
-    private Logger logger = LoggerFactory.getLogger(getClass());
 
     @ResponseBody
     @ResponseStatus(BAD_REQUEST)
@@ -54,7 +51,7 @@ public class ConstraintViolationExceptionHandler {
     @ExceptionHandler(TransactionSystemException.class)
     public Map<String, FieldError> handleTransactionSystemException(TransactionSystemException e) {
         if (e.getCause() != null && e.getCause().getCause() != null && ConstraintViolationException.class.isAssignableFrom(e.getCause().getCause().getClass())) {
-            logger.debug("Extracting ConstraintViolationException from TransactionSystemException");
+            log.debug("Extracting ConstraintViolationException from TransactionSystemException");
             return handleConstraintViolationException((ConstraintViolationException) e.getCause().getCause());
         }
         return null;

@@ -2,8 +2,7 @@ package de.techdev.trackr.repository;
 
 import de.techdev.trackr.domain.Authority;
 import de.techdev.trackr.domain.Credential;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.rest.core.annotation.HandleBeforeLinkDelete;
 import org.springframework.data.rest.core.annotation.HandleBeforeLinkSave;
 import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
@@ -15,9 +14,8 @@ import java.util.List;
  * @author Moritz Schulze
  */
 @RepositoryEventHandler(Credential.class)
+@Slf4j
 public class CredentialEventHandler {
-
-    private Logger logger = LoggerFactory.getLogger(getClass());
 
     /**
      * Only admins may add roles.
@@ -28,7 +26,7 @@ public class CredentialEventHandler {
     @HandleBeforeLinkSave
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void beforeAuthoritySave(Credential credential, List<Authority> authorities) {
-        logger.debug("Updating credential authorities for user {} to {}.", credential, authorities);
+        log.debug("Updating credential authorities for user {} to {}.", credential, authorities);
     }
 
     /**
@@ -38,6 +36,6 @@ public class CredentialEventHandler {
     @HandleBeforeLinkDelete
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void beforeAuthorityDelete(Credential credential) {
-        logger.debug("Deleted linked object from credential, is now {}.", credential);
+        log.debug("Deleted linked object from credential, is now {}.", credential);
     }
 }
