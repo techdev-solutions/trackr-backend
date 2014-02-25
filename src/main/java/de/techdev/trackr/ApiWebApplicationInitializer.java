@@ -4,6 +4,8 @@ import de.techdev.trackr.security.MethodSecurityConfiguration;
 import de.techdev.trackr.web.ApiWebMvcConfiguration;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
+import javax.servlet.ServletRegistration;
+
 /**
  * Creates the api-dispatcher for the API servlet with the correct configuration classes.
  * @author Moritz Schulze
@@ -30,5 +32,10 @@ public class ApiWebApplicationInitializer extends AbstractAnnotationConfigDispat
     @Override
     protected String getServletName() {
         return "api-dispatcher";
+    }
+
+    @Override
+    protected void customizeRegistration(ServletRegistration.Dynamic registration) {
+        registration.setInitParameter("dispatchOptionsRequest", "true");
     }
 }
