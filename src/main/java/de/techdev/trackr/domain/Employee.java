@@ -1,5 +1,6 @@
 package de.techdev.trackr.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -37,5 +38,6 @@ public class Employee {
 
     @OneToOne(cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
+    @JsonIgnore
     private Credential credential;
 }

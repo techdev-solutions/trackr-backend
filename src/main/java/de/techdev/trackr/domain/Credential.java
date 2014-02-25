@@ -1,9 +1,9 @@
 package de.techdev.trackr.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
@@ -18,7 +18,6 @@ import java.util.List;
 @ToString(exclude = "employee")
 @EqualsAndHashCode(exclude = "employee")
 @Entity
-@JsonIgnoreProperties({"employee"})
 public class Credential {
 
     @Id
@@ -31,6 +30,7 @@ public class Credential {
 
     @Column(unique = true)
     @NotEmpty
+    @Email
     private String email;
 
     private boolean enabled;
