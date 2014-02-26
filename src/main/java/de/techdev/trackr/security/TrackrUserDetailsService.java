@@ -27,6 +27,9 @@ import java.util.Map;
 @Slf4j
 public class TrackrUserDetailsService implements AuthenticationUserDetailsService<OpenIDAuthenticationToken> {
 
+    public static final String USER_NOT_FOUND = "User not found.";
+    public static final String USER_CREATED = "Your user has been created and is now waiting to be activated.";
+
     @Autowired
     private CredentialRepository credentialRepository;
 
@@ -48,12 +51,8 @@ public class TrackrUserDetailsService implements AuthenticationUserDetailsServic
         log.debug("Loading user {} from the database.", email);
         Credential credential = credentialRepository.findByEmail(email);
         if (credential == null) {
-            if (email.endsWith("@techdev.de")) {
-                log.debug("New techdev user with email {} found.", email);
-                createDeactivatedEmployee(email, attributes.get("first"), attributes.get("last"));
-                throw new UsernameNotFoundException("Your user has been created and is now waiting to be activated.");
-            }
-            throw new UsernameNotFoundException("User not found.");
+            String errorMessage = handleNullCredential(attributes);
+            throw new UsernameNotFoundException(errorMessage);
         }
         if (!credential.getEnabled()) {
             //Unfortunately Spring Security ignores the enabled flag when using OpenID, so we have to do this in
@@ -64,7 +63,23 @@ public class TrackrUserDetailsService implements AuthenticationUserDetailsServic
         return new User(credential.getEmail(), "", credential.getEnabled(), true, true, true, credential.getAuthorities());
     }
 
-    private void createDeactivatedEmployee(String email, String first, String last) {
+    /**
+     * If no credentials were found this method checks if it is a possible new techdev user and creates a deactivated user if so.
+     * @param attributes The OpenID Attribute map
+     * @return An error message, either "User created but deactivated" or "User not found"
+     */
+    protected String handleNullCredential(Map<String, String> attributes) {
+        String email = attributes.get("email");
+        if (email.endsWith("@techdev.de")) {
+            log.debug("New techdev user with email {} found.", email);
+            Employee employee = createDeactivatedEmployee(email, attributes.get("first"), attributes.get("last"));
+            employeeRepository.saveAndFlush(employee);
+            return USER_CREATED;
+        }
+        return USER_NOT_FOUND;
+    }
+
+    protected Employee createDeactivatedEmployee(String email, String first, String last) {
         Employee employee = new Employee();
         Credential credential = new Credential();
         employee.setFirstName(first);
@@ -73,7 +88,7 @@ public class TrackrUserDetailsService implements AuthenticationUserDetailsServic
         credential.setEnabled(false);
         credential.setEmployee(employee);
         employee.setCredential(credential);
-        employeeRepository.saveAndFlush(employee);
+        return employee;
     }
 
     /**
@@ -82,7 +97,7 @@ public class TrackrUserDetailsService implements AuthenticationUserDetailsServic
      * @param token The OpenID authentication token to transform
      * @return A map containing a name->value mapping
      */
-    private Map<String, String> convertOpenIdAttributesToMap(OpenIDAuthenticationToken token) {
+    protected Map<String, String> convertOpenIdAttributesToMap(OpenIDAuthenticationToken token) {
         Map<String, String> attributeMap = new HashMap<>();
         for (OpenIDAttribute attribute : token.getAttributes()) {
             attributeMap.put(attribute.getName(), attribute.getValues().get(0));

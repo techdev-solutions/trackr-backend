@@ -75,6 +75,7 @@ dependencies {
     testCompile "org.springframework:spring-test:$project.springVersion"
     testCompile group: "junit", name: "junit", version: "4.11"
     testCompile "org.echocat.jomon:testing:1.4.3"
+    testCompile "org.mockito:mockito-all:1.9.5"
 }
 
 task wrapper(type: Wrapper) {
