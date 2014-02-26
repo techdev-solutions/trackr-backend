@@ -1,5 +1,6 @@
 package de.techdev.trackr.web.api;
 
+import de.techdev.trackr.domain.Employee;
 import de.techdev.trackr.domain.support.EmployeeDataOnDemand;
 import de.techdev.trackr.web.MockMvcTest;
 import org.junit.Before;
@@ -34,11 +35,21 @@ public class EmployeeResourceTest extends MockMvcTest {
 
     @Test
     public void one() throws Exception {
+        Employee employee = employeeDataOnDemand.getRandomObject();
         mockMvc.perform(
-                get("/employees/0")
+                get("/employees/" + employee.getId())
                         .session(basicSession()))
                .andExpect(status().isOk())
                .andExpect(content().contentType(standardContentType));
     }
 
+    @Test
+    public void getCredential() throws Exception {
+        Employee employee = employeeDataOnDemand.getRandomObject();
+        mockMvc.perform(
+                get("/employees/" + employee.getId() + "/credential")
+                        .session(basicSession()))
+               .andExpect(status().isOk())
+               .andExpect(content().contentType(standardContentType));
+    }
 }

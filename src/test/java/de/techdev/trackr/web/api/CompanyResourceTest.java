@@ -116,6 +116,24 @@ public class CompanyResourceTest extends MockMvcTest {
     }
 
     @Test
+    public void deleteContactAllowedForSupervisor() throws Exception {
+        Company company = companyDataOnDemand.getRandomObject();
+        mockMvc.perform(
+                delete("/companies/" + company.getId() + "/contactPersons/0")
+                        .session(supervisorSession()))
+               .andExpect(status().isNoContent());
+    }
+
+    @Test
+    public void deleteContactNotAllowedForEmployee() throws Exception {
+        Company company = companyDataOnDemand.getRandomObject();
+        mockMvc.perform(
+                delete("/companies/" + company.getId() + "/contactPersons/0")
+                        .session(basicSession()))
+               .andExpect(status().isForbidden());
+    }
+
+    @Test
     public void deleteAllowedForAdmin() throws Exception {
         Company company = companyDataOnDemand.getRandomObject();
         mockMvc.perform(

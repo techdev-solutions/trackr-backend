@@ -25,4 +25,12 @@ public interface AddressRepository extends JpaRepository<Address, Long> {
     @Override
     @RestResource(exported = false)
     List<Address> findAll(Sort sort);
+
+    @Override
+    @RestResource(exported = false)
+    void delete(Long aLong);
+
+    @Override
+    @RestResource(exported = false)
+    void delete(Address entity);
 }

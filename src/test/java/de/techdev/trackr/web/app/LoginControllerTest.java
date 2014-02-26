@@ -42,4 +42,9 @@ public class LoginControllerTest {
     public void admin() throws Exception {
         mockMvc.perform(get("/admin")).andExpect(status().isOk()).andExpect(view().name("views/admin.jsp"));
     }
+
+    @Test
+    public void root() throws Exception {
+        mockMvc.perform(get("/")).andExpect(status().isOk()).andExpect(view().name("app/index.html"));
+    }
 }
