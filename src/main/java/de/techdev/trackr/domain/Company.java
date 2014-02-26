@@ -35,8 +35,9 @@ public class Company {
     @NotEmpty
     private String name;
 
-    @Valid
     @NotNull
+    @OneToOne
+    @JoinColumn(name = "address_id")
     private Address address;
 
     @OneToMany(mappedBy = "company", cascade = CascadeType.REMOVE)

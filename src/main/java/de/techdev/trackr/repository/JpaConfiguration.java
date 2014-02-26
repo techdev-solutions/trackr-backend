@@ -8,7 +8,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.data.rest.core.event.AnnotatedHandlerBeanPostProcessor;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -24,29 +23,6 @@ import java.util.Properties;
 @EnableJpaRepositories(basePackages = "de.techdev.trackr.repository")
 @PropertySource({"classpath:/META-INF/spring/database_${spring.profiles.active:dev}.properties"})
 public class JpaConfiguration {
-
-    @Bean
-    public ContactPersonEventHandler contactPersonEventHandler() {
-        return new ContactPersonEventHandler();
-    }
-
-    @Bean
-    public CompanyEventHandler companyEventHandler() {
-        return new CompanyEventHandler();
-    }
-
-    @Bean
-    public CredentialEventHandler credentialEventHandler() {
-        return new CredentialEventHandler();
-    }
-
-    /**
-     * This bean is needed for the repository event handlers to work.
-     */
-    @Bean
-    public AnnotatedHandlerBeanPostProcessor repositoryEventListener() {
-        return new AnnotatedHandlerBeanPostProcessor();
-    }
 
     @Bean
     public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {

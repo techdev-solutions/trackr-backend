@@ -3,14 +3,21 @@ package de.techdev.trackr.domain;
 import lombok.Data;
 import org.hibernate.validator.constraints.NotEmpty;
 
-import javax.persistence.Embeddable;
+import javax.persistence.*;
 
 /**
  * @author Moritz Schulze
  */
-@Embeddable
+@Entity
 @Data
 public class Address {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+
+    @Version
+    private Integer version;
 
     @NotEmpty
     private String street;

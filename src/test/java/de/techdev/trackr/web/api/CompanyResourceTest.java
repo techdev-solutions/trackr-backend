@@ -21,7 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 public class CompanyResourceTest extends MockMvcTest {
 
-    private final String companyJson = "{\"companyId\": 12345, \"name\": \"techdev\", \"address\": {\"street\": \"strasse\", \"houseNumber\": \"11\", \"city\": \"Karlsruhe\", \"zipCode\": \"12345\", \"country\": \"Germany\"}}";
+    private final String companyJson = "{\"companyId\": 12345, \"name\": \"techdev\", \"address\": \"/address/0\"}";
 
     @Autowired
     private CompanyDataOnDemand companyDataOnDemand;
@@ -131,5 +131,15 @@ public class CompanyResourceTest extends MockMvcTest {
                 delete("/companies/" + company.getId())
                         .session(supervisorSession()))
                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    public void getAddress() throws Exception {
+        Company company = companyDataOnDemand.getRandomObject();
+        mockMvc.perform(
+                get("/companies/" + company.getId() + "/address")
+                        .session(basicSession()))
+               .andExpect(status().isOk())
+               .andExpect(content().contentType(standardContentType));
     }
 }

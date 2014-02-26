@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
  * @author Moritz Schulze
  */
 @Component
-public class AddressDataOnDemand {
+public class AddressDataOnDemand extends AbstractDataOnDemand<Address> {
 
     public Address getNewTransientObject(int i) {
         Address address = new Address();

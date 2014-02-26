@@ -20,7 +20,7 @@ public class CompanyDataOnDemand extends AbstractDataOnDemand<Company> {
         company.setId((long) i);
         company.setName("name_" + i);
         company.setCompanyId((long)i);
-        Address address = addressDataOnDemand.getNewTransientObject(i);
+        Address address = addressDataOnDemand.getRandomObject();
         company.setAddress(address);
         return company;
     }
