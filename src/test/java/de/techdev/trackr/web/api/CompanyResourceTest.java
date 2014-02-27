@@ -8,20 +8,20 @@ import de.techdev.trackr.web.MockMvcTest;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mock.web.MockHttpSession;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 
+import javax.json.stream.JsonGenerator;
+import java.io.StringWriter;
+
+import static org.echocat.jomon.testing.BaseMatchers.isNot;
+import static org.echocat.jomon.testing.BaseMatchers.isNotNull;
+import static org.hamcrest.CoreMatchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
  * @author Moritz Schulze
  */
 public class CompanyResourceTest extends MockMvcTest {
-
-    private final String companyJson = "{\"companyId\": %d, \"name\": \"techdev\", \"address\": \"/address/0\"}";
 
     @Autowired
     private CompanyDataOnDemand companyDataOnDemand;
@@ -36,6 +36,7 @@ public class CompanyResourceTest extends MockMvcTest {
 
     /**
      * Root is accessible.
+     *
      * @throws Exception
      */
     @Test
@@ -44,11 +45,13 @@ public class CompanyResourceTest extends MockMvcTest {
                 get("/companies")
                         .session(basicSession()))
                .andExpect(status().isOk())
-               .andExpect(content().contentType(standardContentType));
+               .andExpect(content().contentType(standardContentType))
+               .andExpect(jsonPath("_embedded.companies[0].id", isNotNull()));
     }
 
     /**
      * One company is accessible
+     *
      * @throws Exception
      */
     @Test
@@ -58,11 +61,13 @@ public class CompanyResourceTest extends MockMvcTest {
                 get("/companies/" + company.getId())
                         .session(basicSession()))
                .andExpect(status().isOk())
-               .andExpect(content().contentType(standardContentType));
+               .andExpect(content().contentType(standardContentType))
+               .andExpect(jsonPath("id", is(company.getId().intValue())));
     }
 
     /**
      * A company can be found via the findByCompanyId finder
+     *
      * @throws Exception
      */
     @Test
@@ -73,40 +78,45 @@ public class CompanyResourceTest extends MockMvcTest {
                         .param("companyId", company.getCompanyId().toString())
                         .session(basicSession()))
                .andExpect(status().isOk())
-               .andExpect(content().contentType(standardContentType));
+               .andExpect(content().contentType(standardContentType))
+               .andExpect(jsonPath("_embedded.companies[0].companyId", is(company.getCompanyId().intValue())));
     }
 
     /**
      * An admin can create companies.
+     *
      * @throws Exception
      */
     @Test
     public void postAllowedForAdmin() throws Exception {
-        String json = String.format(companyJson, 12345);
+        Company company = companyDataOnDemand.getNewTransientObject(500);
         mockMvc.perform(
                 post("/companies")
                         .session(adminSession())
-                        .content(json))
-               .andExpect(status().isCreated());
+                        .content(generateCompanyJson(company)))
+               .andExpect(status().isCreated())
+               .andExpect(jsonPath("id", isNotNull()));
     }
 
     /**
      * An admin can edit companies.
+     *
      * @throws Exception
      */
     @Test
     public void putAllowedForAdmin() throws Exception {
         Company company = companyDataOnDemand.getRandomObject();
-        String json = String.format(companyJson, company.getCompanyId());
         mockMvc.perform(
                 put("/companies/" + company.getId())
                         .session(adminSession())
-                        .content(json))
-               .andExpect(status().isOk());
+                        .content(generateCompanyJson(company)))
+               .andExpect(status().isOk())
+               .andExpect(jsonPath("id", is(company.getId().intValue())));
     }
 
     /**
      * An admin can edit companies via PATCH.
+     *
      * @throws Exception
      */
     @Test
@@ -116,40 +126,43 @@ public class CompanyResourceTest extends MockMvcTest {
                 patch("/companies/" + company.getId())
                         .session(adminSession())
                         .content("{\"name\": \"test\"}"))
-               .andExpect(status().isOk());
+               .andExpect(status().isOk())
+               .andExpect(jsonPath("name", is("test")));
     }
 
     /**
      * A supervisor can not create companies-
+     *
      * @throws Exception
      */
     @Test
     public void postForbiddenForSupervisor() throws Exception {
-        String json = String.format(companyJson, 12345);
+        Company company = companyDataOnDemand.getNewTransientObject(500);
         mockMvc.perform(
                 post("/companies")
                         .session(supervisorSession())
-                        .content(json))
+                        .content(generateCompanyJson(company)))
                .andExpect(status().isForbidden());
     }
 
     /**
      * A supervisor can not edit companies.
+     *
      * @throws Exception
      */
     @Test
     public void putForbiddenForSupervisor() throws Exception {
         Company company = companyDataOnDemand.getRandomObject();
-        String json = String.format(companyJson, company.getCompanyId());
         mockMvc.perform(
                 put("/companies/" + company.getId())
                         .session(supervisorSession())
-                        .content(json))
+                        .content(generateCompanyJson(company)))
                .andExpect(status().isForbidden());
     }
 
     /**
      * A supervisor can not edit companies via PATCH.
+     *
      * @throws Exception
      */
     @Test
@@ -164,6 +177,7 @@ public class CompanyResourceTest extends MockMvcTest {
 
     /**
      * Wrong data leads to HTTP 400.
+     *
      * @throws Exception
      */
     @Test
@@ -177,6 +191,7 @@ public class CompanyResourceTest extends MockMvcTest {
 
     /**
      * A supervisor can add a contact person.
+     *
      * @throws Exception
      */
     @Test
@@ -193,6 +208,7 @@ public class CompanyResourceTest extends MockMvcTest {
 
     /**
      * An employee can not add a contact person.
+     *
      * @throws Exception
      */
     @Test
@@ -209,6 +225,7 @@ public class CompanyResourceTest extends MockMvcTest {
 
     /**
      * A supervisor can delete a contact person.
+     *
      * @throws Exception
      */
     @Test
@@ -222,6 +239,7 @@ public class CompanyResourceTest extends MockMvcTest {
 
     /**
      * An employee can not delete a contact person.
+     *
      * @throws Exception
      */
     @Test
@@ -235,6 +253,7 @@ public class CompanyResourceTest extends MockMvcTest {
 
     /**
      * An admin can delete companies.
+     *
      * @throws Exception
      */
     @Test
@@ -248,6 +267,7 @@ public class CompanyResourceTest extends MockMvcTest {
 
     /**
      * A supervisor can not delete companies.
+     *
      * @throws Exception
      */
     @Test
@@ -261,6 +281,7 @@ public class CompanyResourceTest extends MockMvcTest {
 
     /**
      * The address of a company is accessible.
+     *
      * @throws Exception
      */
     @Test
@@ -271,5 +292,19 @@ public class CompanyResourceTest extends MockMvcTest {
                         .session(basicSession()))
                .andExpect(status().isOk())
                .andExpect(content().contentType(standardContentType));
+    }
+
+    protected String generateCompanyJson(Company company) {
+        StringWriter writer = new StringWriter();
+        JsonGenerator jg = jsonGeneratorFactory.createGenerator(writer);
+        jg.writeStartObject()
+          .write("name", company.getName())
+          .write("companyId", company.getCompanyId())
+          .write("address", "/api/addresses/" + company.getAddress().getId());
+        if (company.getId() != null) {
+            jg.write("id", company.getId());
+        }
+        jg.writeEnd().close();
+        return writer.toString();
     }
 }

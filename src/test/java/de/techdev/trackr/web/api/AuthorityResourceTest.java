@@ -8,8 +8,11 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 
+import static org.echocat.jomon.testing.BaseMatchers.isNotNull;
+import static org.hamcrest.CoreMatchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
@@ -30,7 +33,9 @@ public class AuthorityResourceTest extends MockMvcTest {
         mockMvc.perform(
                 get("/authorities")
                         .session(basicSession()))
-               .andExpect(status().isOk()).andExpect(content().contentType(standardContentType));
+               .andExpect(status().isOk())
+               .andExpect(content().contentType(standardContentType))
+               .andExpect(jsonPath("_embedded.authorities[0].id", isNotNull()));
     }
 
     @Test
@@ -40,7 +45,8 @@ public class AuthorityResourceTest extends MockMvcTest {
                 get("/authorities/" + authority.getId())
                         .session(basicSession()))
                .andExpect(status().isOk())
-               .andExpect(content().contentType(standardContentType));
+               .andExpect(content().contentType(standardContentType))
+               .andExpect(jsonPath("authority", is(authority.getAuthority())));
     }
 
     @Test

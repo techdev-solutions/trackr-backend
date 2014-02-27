@@ -1,30 +1,27 @@
 package de.techdev.trackr.web.api;
 
-import de.techdev.trackr.domain.Company;
 import de.techdev.trackr.domain.ContactPerson;
-import de.techdev.trackr.domain.support.CompanyDataOnDemand;
 import de.techdev.trackr.domain.support.ContactPersonDataOnDemand;
 import de.techdev.trackr.web.MockMvcTest;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.json.stream.JsonGenerator;
+import java.io.StringWriter;
+
+import static org.echocat.jomon.testing.BaseMatchers.isNotNull;
+import static org.hamcrest.CoreMatchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
  * @author Moritz Schulze
  */
 public class ContactPersonResourceTest extends MockMvcTest {
 
-    private String contactPersonJson = "{\"salutation\": \"salutation_1\", \"firstName\" : \"firstName_1\", \"lastName\": \"lastName_1\", \"email\": \"email@test.com\", \"phone\": \"123452345\", \"company\": \"/companies/%d\"}";
-
     @Autowired
     private ContactPersonDataOnDemand contactPersonDataOnDemand;
-
-    @Autowired
-    private CompanyDataOnDemand companyDataOnDemand;
 
     @Before
     public void setUp() throws Exception {
@@ -33,6 +30,7 @@ public class ContactPersonResourceTest extends MockMvcTest {
 
     /**
      * Root URL is accessible
+     *
      * @throws Exception
      */
     @Test
@@ -46,6 +44,7 @@ public class ContactPersonResourceTest extends MockMvcTest {
 
     /**
      * One contact person is accessible
+     *
      * @throws Exception
      */
     @Test
@@ -55,56 +54,60 @@ public class ContactPersonResourceTest extends MockMvcTest {
                 get("/contactPersons/" + contactPerson.getId())
                         .session(basicSession()))
                .andExpect(status().isOk())
-               .andExpect(content().contentType(standardContentType));
+               .andExpect(content().contentType(standardContentType))
+               .andExpect(jsonPath("id", is(contactPerson.getId().intValue())));
     }
 
     /**
      * A Supervisor can create contact persons
+     *
      * @throws Exception
      */
     @Test
     public void postAllowedForSupervisor() throws Exception {
-        Company company = companyDataOnDemand.getRandomObject();
-        String json = String.format(contactPersonJson, company.getId());
+        ContactPerson contactPerson = contactPersonDataOnDemand.getNewTransientObject(500);
         mockMvc.perform(
                 post("/contactPersons")
                         .session(supervisorSession())
-                        .content(json))
-               .andExpect(status().isCreated());
+                        .content(generateCompanyJson(contactPerson)))
+               .andExpect(status().isCreated())
+               .andExpect(jsonPath("id", isNotNull()));
     }
 
     /**
      * A Supervisor can edit contact persons
+     *
      * @throws Exception
      */
     @Test
     public void putAllowedForSupervisor() throws Exception {
         ContactPerson contactPerson = contactPersonDataOnDemand.getRandomObject();
-        String json = String.format(contactPersonJson, contactPerson.getCompany().getId());
         mockMvc.perform(
                 put("/contactPersons/" + contactPerson.getId())
                         .session(supervisorSession())
-                        .content(json))
-               .andExpect(status().isOk());
+                        .content(generateCompanyJson(contactPerson)))
+               .andExpect(status().isOk())
+               .andExpect(jsonPath("id", is(contactPerson.getId().intValue())));
     }
 
     /**
      * An employee can not edit contact persons
+     *
      * @throws Exception
      */
     @Test
     public void putNotAllowedForEmployee() throws Exception {
         ContactPerson contactPerson = contactPersonDataOnDemand.getRandomObject();
-        String json = String.format(contactPersonJson, contactPerson.getCompany().getId());
         mockMvc.perform(
                 put("/contactPersons/" + contactPerson.getId())
                         .session(basicSession())
-                        .content(json))
+                        .content(generateCompanyJson(contactPerson)))
                .andExpect(status().isForbidden());
     }
 
     /**
      * A supervisor can edit contact persons via PATCH
+     *
      * @throws Exception
      */
     @Test
@@ -114,11 +117,13 @@ public class ContactPersonResourceTest extends MockMvcTest {
                 patch("/contactPersons/" + contactPerson.getId())
                         .session(supervisorSession())
                         .content("{\"firstName\": \"Test\"}"))
-               .andExpect(status().isOk());
+               .andExpect(status().isOk())
+               .andExpect(jsonPath("firstName", is("Test")));
     }
 
     /**
      * An employee can not edit contact persons via PATCH
+     *
      * @throws Exception
      */
     @Test
@@ -133,20 +138,22 @@ public class ContactPersonResourceTest extends MockMvcTest {
 
     /**
      * An employee can not create contact persons
+     *
      * @throws Exception
      */
     @Test
     public void postNotAllowedForEmployee() throws Exception {
-        String json = String.format(contactPersonJson, 0);
+        ContactPerson contactPerson = contactPersonDataOnDemand.getNewTransientObject(500);
         mockMvc.perform(
                 post("/contactPersons")
                         .session(basicSession())
-                        .content(json))
+                        .content(generateCompanyJson(contactPerson)))
                .andExpect(status().isForbidden());
     }
 
     /**
      * Wrong data leads to HTTP 400
+     *
      * @throws Exception
      */
     @Test
@@ -160,6 +167,7 @@ public class ContactPersonResourceTest extends MockMvcTest {
 
     /**
      * A supervisor can delete contact persons
+     *
      * @throws Exception
      */
     @Test
@@ -173,6 +181,7 @@ public class ContactPersonResourceTest extends MockMvcTest {
 
     /**
      * An employee can not delete contact persons
+     *
      * @throws Exception
      */
     @Test
@@ -182,5 +191,23 @@ public class ContactPersonResourceTest extends MockMvcTest {
                 delete("/contactPersons/" + contactPerson.getId())
                         .session(basicSession()))
                .andExpect(status().isForbidden());
+    }
+
+    protected String generateCompanyJson(ContactPerson contactPerson) {
+        StringWriter writer = new StringWriter();
+        JsonGenerator jg = jsonGeneratorFactory.createGenerator(writer);
+        jg.writeStartObject()
+          .write("firstName", contactPerson.getFirstName())
+          .write("lastName", contactPerson.getLastName())
+          .write("salutation", contactPerson.getSalutation())
+          .write("email", contactPerson.getEmail())
+          .write("phone", contactPerson.getPhone())
+          .write("company", "/api/companies/" + contactPerson.getCompany().getId());
+
+        if (contactPerson.getId() != null) {
+            jg.write("id", contactPerson.getId());
+        }
+        jg.writeEnd().close();
+        return writer.toString();
     }
 }
