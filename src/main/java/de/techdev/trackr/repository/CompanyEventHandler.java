@@ -18,6 +18,12 @@ public class CompanyEventHandler {
     @HandleBeforeCreate
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void checkSaveAuthority(Company company) {
+        log.debug("Creating company {}", company);
+    }
+
+    @HandleBeforeSave
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public void checkUpdateAuthority(Company company) {
         log.debug("Updating company {}", company);
     }
 
