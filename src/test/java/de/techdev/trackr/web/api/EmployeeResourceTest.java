@@ -52,22 +52,22 @@ public class EmployeeResourceTest extends MockMvcTest {
     }
 
     @Test
-    public void one() throws Exception {
+    public void oneIsAllowedForSupervisor() throws Exception {
         Employee employee = employeeDataOnDemand.getRandomObject();
         mockMvc.perform(
                 get("/employees/" + employee.getId())
-                        .session(basicSession()))
+                        .session(supervisorSession()))
                .andExpect(status().isOk())
                .andExpect(content().contentType(standardContentType))
                .andExpect(jsonPath("id", is(employee.getId().intValue())));
     }
 
     @Test
-    public void getCredential() throws Exception {
+    public void getCredentialAllowedForSupervisor() throws Exception {
         Employee employee = credentialDataOnDemand.getRandomObject().getEmployee();
         mockMvc.perform(
                 get("/employees/" + employee.getId() + "/credential")
-                        .session(basicSession()))
+                        .session(supervisorSession()))
                .andExpect(status().isOk())
                .andExpect(content().contentType(standardContentType))
                .andExpect(jsonPath("email", is(employee.getCredential().getEmail())));
