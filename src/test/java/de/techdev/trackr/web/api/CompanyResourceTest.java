@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import javax.json.stream.JsonGenerator;
 import java.io.StringWriter;
 
-import static org.echocat.jomon.testing.BaseMatchers.isNot;
 import static org.echocat.jomon.testing.BaseMatchers.isNotNull;
 import static org.hamcrest.CoreMatchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;

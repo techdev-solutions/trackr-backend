@@ -1,4 +1,4 @@
-INSERT INTO employee (id, version, firstName, lastName) VALUES (0, 0, 'admin', 'admin');
+INSERT INTO employee (id, version, firstName, lastName, title, hourlyCostRate, salary) VALUES (0, 0, 'admin', 'admin', '', 0, 0);
 INSERT INTO employee (id, version, firstName, lastName, title, hourlyCostRate, salary) VALUES (1, 0, 'Moritz', 'Schulze', 'Hausmeister', 0.25, 40);
 INSERT INTO employee (id, version, firstName, lastName, title, hourlyCostRate, salary) VALUES (2, 0, 'Viktor', 'Widiker', 'Software Consultant', 123, 456);
 INSERT INTO employee (id, version, firstName, lastName, title, hourlyCostRate, salary) VALUES (3, 0, 'Alexander', 'Hanschke', 'Praktikant', 321, 654.32);
