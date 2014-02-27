@@ -1,10 +1,7 @@
 package de.techdev.trackr.web;
 
 import de.techdev.trackr.domain.*;
-import de.techdev.trackr.repository.AddressEventHandler;
-import de.techdev.trackr.repository.CompanyEventHandler;
-import de.techdev.trackr.repository.ContactPersonEventHandler;
-import de.techdev.trackr.repository.CredentialEventHandler;
+import de.techdev.trackr.repository.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -26,6 +23,11 @@ public class ApiWebMvcConfiguration extends RepositoryRestMvcConfiguration {
         config.exposeIdsFor(new Class[] {Employee.class, Credential.class, Authority.class, Company.class, ContactPerson.class, Address.class});
         config.setReturnBodyOnUpdate(true);
         config.setReturnBodyOnCreate(true);
+    }
+
+    @Bean
+    public EmployeeEventHandler employeeEventHandler() {
+        return new EmployeeEventHandler();
     }
 
     @Bean
