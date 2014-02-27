@@ -4,6 +4,7 @@ import de.techdev.trackr.domain.ContactPerson;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.rest.core.annotation.HandleBeforeCreate;
 import org.springframework.data.rest.core.annotation.HandleBeforeDelete;
+import org.springframework.data.rest.core.annotation.HandleBeforeSave;
 import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
 import org.springframework.security.access.prepost.PreAuthorize;
 
@@ -18,6 +19,12 @@ public class ContactPersonEventHandler {
     @PreAuthorize("hasRole('ROLE_SUPERVISOR')")
     public void checkCreateAuthority(ContactPerson contactPerson) {
         log.debug("Creating contact person {}", contactPerson);
+    }
+
+    @HandleBeforeSave
+    @PreAuthorize("hasRole('ROLE_SUPERVISOR')")
+    public void checkUpdateAuthority(ContactPerson contactPerson) {
+        log.debug("Updating contact person {}", contactPerson);
     }
 
     @HandleBeforeDelete
