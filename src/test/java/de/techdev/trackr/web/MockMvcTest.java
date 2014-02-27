@@ -10,13 +10,14 @@ import org.springframework.mock.web.MockHttpSession;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.FilterChainProxy;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.WebApplicationContext;
 
+import javax.json.Json;
+import javax.json.stream.JsonGeneratorFactory;
 import java.security.Principal;
 import java.util.Collection;
 
@@ -33,6 +34,7 @@ public abstract class MockMvcTest extends IntegrationTest {
     protected final String standardContentType = "application/hal+json";
 
     protected MockMvc mockMvc;
+    protected JsonGeneratorFactory jsonGeneratorFactory;
 
     @Autowired
     private FilterChainProxy filterChainProxy;
@@ -43,6 +45,11 @@ public abstract class MockMvcTest extends IntegrationTest {
     @Before
     public final void setUpMockMvc() throws Exception {
         mockMvc = webAppContextSetup(webApplicationContext).addFilter(filterChainProxy).build();
+    }
+
+    @Before
+    public void setUpJsonGeneratorFactory() throws Exception {
+        jsonGeneratorFactory = Json.createGeneratorFactory(null);
     }
 
     private MockHttpSession buildSession(Authentication authentication) {

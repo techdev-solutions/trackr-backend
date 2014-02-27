@@ -4,20 +4,19 @@ import de.techdev.trackr.domain.Authority;
 import de.techdev.trackr.domain.Credential;
 import de.techdev.trackr.domain.support.AuthorityDataOnDemand;
 import de.techdev.trackr.domain.support.CredentialDataOnDemand;
+import de.techdev.trackr.repository.EmployeeRepository;
 import de.techdev.trackr.web.MockMvcTest;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.util.NestedServletException;
 
-import java.util.List;
+import javax.json.stream.JsonGenerator;
+import java.io.StringWriter;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.echocat.jomon.testing.BaseMatchers.isNotNull;
+import static org.hamcrest.CoreMatchers.is;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
  * @author Moritz Schulze
@@ -43,7 +42,9 @@ public class CredentialResourceTest extends MockMvcTest {
                         .param("email", credentials.getEmail())
                         .session(basicSession()))
                .andExpect(status().isOk())
-               .andExpect(content().contentType(standardContentType));
+               .andExpect(content().contentType(standardContentType))
+               .andExpect(jsonPath("_embedded.credentials[0].email", is(credentials.getEmail())))
+               .andExpect(jsonPath("_embedded.credentials[0].enabled", is(credentials.getEnabled())));
     }
 
     @Test
@@ -88,4 +89,89 @@ public class CredentialResourceTest extends MockMvcTest {
                .andExpect(status().isForbidden());
     }
 
+    @Test
+    public void putAllowedForAdmins() throws Exception {
+        Credential credential = credentialDataOnDemand.getRandomObject();
+        String json = getCredentialJson(credential);
+        mockMvc.perform(
+                put("/credentials/" + credential.getId())
+                        .session(adminSession())
+                        .content(json))
+               .andExpect(status().isOk());
+    }
+
+    @Autowired
+    private EmployeeRepository employeeRepository;
+
+    @Test
+    public void postAllowedForAdmins() throws Exception {
+        Credential credential = credentialDataOnDemand.getNewTransientObject(500);
+        //Credentials must have a saved employee
+        employeeRepository.saveAndFlush(credential.getEmployee());
+        String json = getCredentialJson(credential);
+        mockMvc.perform(
+                post("/credentials")
+                        .session(adminSession())
+                        .content(json))
+               .andExpect(status().isCreated())
+               .andExpect(jsonPath("id", isNotNull()));
+    }
+
+    @Test
+    public void deleteAllowedForAdmins() throws Exception {
+        Credential credential = credentialDataOnDemand.getRandomObject();
+        mockMvc.perform(
+                delete("/credentials/" + credential.getId())
+                        .session(adminSession()))
+               .andExpect(status().isNoContent());
+    }
+
+    @Test
+    public void putForbiddenForSupervisors() throws Exception {
+        Credential credential = credentialDataOnDemand.getRandomObject();
+        String json = getCredentialJson(credential);
+        mockMvc.perform(
+                put("/credentials/" + credential.getId())
+                        .session(supervisorSession())
+                        .content(json))
+               .andExpect(status().isForbidden());
+    }
+
+    @Test
+    public void postForbiddenForSupervisors() throws Exception {
+        Credential credential = credentialDataOnDemand.getNewTransientObject(500);
+        //Credentials must have a saved employee
+        employeeRepository.saveAndFlush(credential.getEmployee());
+        String json = getCredentialJson(credential);
+        mockMvc.perform(
+                post("/credentials")
+                        .session(supervisorSession())
+                        .content(json))
+               .andExpect(status().isForbidden());
+    }
+
+    @Test
+    public void deleteForbiddenForSupervisors() throws Exception {
+        Credential credential = credentialDataOnDemand.getRandomObject();
+        mockMvc.perform(
+                delete("/credentials/" + credential.getId())
+                        .session(supervisorSession()))
+               .andExpect(status().isForbidden());
+    }
+
+    protected String getCredentialJson(Credential credential) {
+        StringWriter writer = new StringWriter();
+        JsonGenerator jsonGenerator = jsonGeneratorFactory.createGenerator(writer);
+        JsonGenerator jg = jsonGenerator
+                .writeStartObject()
+                .write("email", credential.getEmail())
+                .write("enabled", credential.getEnabled())
+                .write("employee", "/api/employees/" + credential.getEmployee().getId());
+        if(credential.getId() != null) {
+            jg.write("id", credential.getId());
+        }
+
+        jg.writeEnd().close();
+        return writer.toString();
+    }
 }
