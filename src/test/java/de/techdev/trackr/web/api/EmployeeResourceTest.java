@@ -119,7 +119,7 @@ public class EmployeeResourceTest extends MockMvcTest {
         Employee employee = employeeDataOnDemand.getRandomObject();
         mockMvc.perform(
                 put("/employees/" + employee.getId())
-                        .session(basicSession())
+                        .session(basicSession(employee.getId()))
                         .content(generateEmployeeJson(employee)))
                .andExpect(status().isForbidden());
     }

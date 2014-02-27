@@ -5,7 +5,7 @@ INSERT INTO employee (id, version, firstName, lastName, title, hourlyCostRate, s
 INSERT INTO employee (id, version, firstName, lastName, title, hourlyCostRate, salary) VALUES (4, 0, 'Adrian', 'Krion', 'Sekretär', 6854, 123455);
 INSERT INTO employee (id, version, firstName, lastName, title, hourlyCostRate, salary) VALUES (5, 0, 'Angelika', 'Gutjahr', 'Entertainerin', 900.1, 500000);
 INSERT INTO employee (id, version, firstName, lastName, title, hourlyCostRate, salary) VALUES (6, 0, 'Nikolaj', 'Weise', 'Empfang', 100.5, 123.4);
-INSERT INTO credential (id, email, enabled) VALUES (0, 'admin', true);
+INSERT INTO credential (id, email, enabled) VALUES (0, 'admin@techdev.de', true);
 INSERT INTO credential (id, email, enabled) VALUES (1, 'moritz.schulze@techdev.de', true);
 INSERT INTO credential (id, email, enabled) VALUES (2, 'viktor.widiker@techdev.de', true);
 INSERT INTO credential (id, email, enabled) VALUES (3, 'alexander.hanschke@techdev.de', true);

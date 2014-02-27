@@ -15,9 +15,11 @@ public class TrackrControllerTest extends MockMvcTest {
 
     @Test
     public void principal() throws Exception {
-        mockMvc.perform(get("/principal").session(adminSession()))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
+        mockMvc.perform(
+                get("/principal")
+                        .session(adminSession()))
+               .andExpect(status().isOk())
+               .andExpect(content().contentType(MediaType.APPLICATION_JSON));
     }
 }
 

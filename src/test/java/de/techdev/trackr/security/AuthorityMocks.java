@@ -15,6 +15,10 @@ import static java.util.Arrays.asList;
 public class AuthorityMocks {
 
     public static Authentication basicAuthentication() {
+        return basicAuthentication(100L);
+    }
+
+    public static Authentication basicAuthentication(Long id) {
         return new Authentication() {
             @Override
             public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -33,7 +37,7 @@ public class AuthorityMocks {
 
             @Override
             public Object getPrincipal() {
-                return ((Principal) () -> "user@techdev.de");
+                return new TrackrUser("user@techdev.de", true, getAuthorities(), id);
             }
 
             @Override
@@ -77,7 +81,7 @@ public class AuthorityMocks {
 
             @Override
             public Object getPrincipal() {
-                return ((Principal)() -> "admin");
+                return new TrackrUser(getName(), true, getAuthorities(), 0L);
             }
 
             @Override
@@ -92,7 +96,7 @@ public class AuthorityMocks {
 
             @Override
             public String getName() {
-                return "admin";
+                return "admin@techdev.de";
             }
         };
     }
@@ -116,7 +120,7 @@ public class AuthorityMocks {
 
             @Override
             public Object getPrincipal() {
-                return ((Principal)() -> "supervisor");
+                return new TrackrUser("supervisor", true, getAuthorities(), 1L);
             }
 
             @Override

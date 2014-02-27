@@ -54,6 +54,10 @@ public abstract class MockMvcTest extends IntegrationTest {
         return session;
     }
 
+    protected MockHttpSession basicSession(Long id) {
+        return buildSession(AuthorityMocks.basicAuthentication(id));
+    }
+
     protected MockHttpSession basicSession() {
         return buildSession(AuthorityMocks.basicAuthentication());
     }

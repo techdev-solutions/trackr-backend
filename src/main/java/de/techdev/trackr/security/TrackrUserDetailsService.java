@@ -60,7 +60,7 @@ public class TrackrUserDetailsService implements AuthenticationUserDetailsServic
             log.debug("User {} is disabled, preventing log in.", email);
             throw new UsernameNotFoundException("User " + email + " is deactivated. Please wait for activation.");
         }
-        return new User(credential.getEmail(), "", credential.getEnabled(), true, true, true, credential.getAuthorities());
+        return new TrackrUser(credential.getEmail(), credential.getEnabled(), credential.getAuthorities(), credential.getId());
     }
 
     /**
