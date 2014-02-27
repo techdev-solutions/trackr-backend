@@ -1,8 +1,11 @@
 package de.techdev.trackr.domain.support;
 
 import de.techdev.trackr.domain.Employee;
+import de.techdev.trackr.security.AuthorityMocks;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
@@ -62,6 +65,8 @@ public abstract class AbstractDataOnDemand<S> {
     public void init() {
         int from = 0;
         int to = 10;
+        //Some repositories might have security annotations so we temporary acquire admin rights.
+        SecurityContextHolder.getContext().setAuthentication(AuthorityMocks.adminAuthentication());
         data = repository.findAll(new org.springframework.data.domain.PageRequest(from / to, to)).getContent();
         if (data == null) {
             throw new IllegalStateException("Find entries implementation for 'Component' illegally returned null");
@@ -70,7 +75,7 @@ public abstract class AbstractDataOnDemand<S> {
             return;
         }
 
-        data = new ArrayList<S>();
+        data = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
             S obj = getNewTransientObject(i);
             try {
@@ -87,6 +92,7 @@ public abstract class AbstractDataOnDemand<S> {
             repository.flush();
             data.add(obj);
         }
+        SecurityContextHolder.getContext().setAuthentication(null);
     }
 
     public abstract S getNewTransientObject(int i);

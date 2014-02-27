@@ -1,14 +1,13 @@
 package de.techdev.trackr.web;
 
 import de.techdev.trackr.IntegrationTest;
-import de.techdev.trackr.domain.Authority;
+import de.techdev.trackr.security.AuthorityMocks;
 import de.techdev.trackr.security.MethodSecurityConfiguration;
 import de.techdev.trackr.security.SecurityConfiguration;
 import org.junit.Before;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.web.FilterChainProxy;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
@@ -18,10 +17,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import javax.json.Json;
 import javax.json.stream.JsonGeneratorFactory;
-import java.security.Principal;
-import java.util.Collection;
 
-import static java.util.Arrays.asList;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
 /**
@@ -59,137 +55,15 @@ public abstract class MockMvcTest extends IntegrationTest {
     }
 
     protected MockHttpSession basicSession() {
-        return buildSession(basicAuthentication());
+        return buildSession(AuthorityMocks.basicAuthentication());
     }
 
     protected MockHttpSession supervisorSession() {
-        return buildSession(supervisorAuthentication());
+        return buildSession(AuthorityMocks.supervisorAuthentication());
     }
 
     protected MockHttpSession adminSession() {
-        return buildSession(adminAuthentication());
-    }
-
-    private Authentication basicAuthentication() {
-        return new Authentication() {
-            @Override
-            public Collection<? extends GrantedAuthority> getAuthorities() {
-                return asList(new Authority("ROLE_EMPLOYEE"));
-            }
-
-            @Override
-            public Object getCredentials() {
-                return null;
-            }
-
-            @Override
-            public Object getDetails() {
-                return null;
-            }
-
-            @Override
-            public Object getPrincipal() {
-                return ((Principal) () -> "user@techdev.de");
-            }
-
-            @Override
-            public boolean isAuthenticated() {
-                return true;
-            }
-
-            @Override
-            public void setAuthenticated(boolean isAuthenticated) throws IllegalArgumentException {
-
-            }
-
-            @Override
-            public String getName() {
-                return "user@techdev.de";
-            }
-        };
-    }
-
-    /**
-     * Get an admin authentication object.
-     * Use with SecurityContextHolder.getContext().setAuthentication(adminAuthentication());
-     * @return An admin authentication object, i.e. principal = "admin" and auhtorities = {"ROLE_ADMIN"}
-     */
-    private Authentication adminAuthentication() {
-        return new Authentication() {
-            @Override
-            public Collection<? extends GrantedAuthority> getAuthorities() {
-                return asList(new Authority("ROLE_ADMIN"));
-            }
-
-            @Override
-            public Object getCredentials() {
-                return null;
-            }
-
-            @Override
-            public Object getDetails() {
-                return null;
-            }
-
-            @Override
-            public Object getPrincipal() {
-                return ((Principal)() -> "admin");
-            }
-
-            @Override
-            public boolean isAuthenticated() {
-                return true;
-            }
-
-            @Override
-            public void setAuthenticated(boolean isAuthenticated) throws IllegalArgumentException {
-
-            }
-
-            @Override
-            public String getName() {
-                return "admin";
-            }
-        };
-    }
-
-    private Authentication supervisorAuthentication() {
-        return new Authentication() {
-            @Override
-            public Collection<? extends GrantedAuthority> getAuthorities() {
-                return asList(new Authority("ROLE_SUPERVISOR"));
-            }
-
-            @Override
-            public Object getCredentials() {
-                return null;
-            }
-
-            @Override
-            public Object getDetails() {
-                return null;
-            }
-
-            @Override
-            public Object getPrincipal() {
-                return ((Principal)() -> "supervisor");
-            }
-
-            @Override
-            public boolean isAuthenticated() {
-                return true;
-            }
-
-            @Override
-            public void setAuthenticated(boolean isAuthenticated) throws IllegalArgumentException {
-
-            }
-
-            @Override
-            public String getName() {
-                return "supervisor";
-            }
-        };
+        return buildSession(AuthorityMocks.adminAuthentication());
     }
 
     /**
