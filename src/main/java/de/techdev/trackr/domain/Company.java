@@ -6,7 +6,6 @@ import lombok.ToString;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
-import javax.validation.Valid;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -42,4 +41,10 @@ public class Company {
 
     @OneToMany(mappedBy = "company", cascade = CascadeType.REMOVE)
     private List<ContactPerson> contactPersons;
+
+    @OneToMany(mappedBy = "company", cascade = CascadeType.REMOVE)
+    private List<Project> projects;
+
+    @OneToMany(mappedBy = "debitor", cascade = CascadeType.REMOVE)
+    private List<Project> debitorProjects;
 }

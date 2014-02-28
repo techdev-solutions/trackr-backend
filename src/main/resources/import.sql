@@ -25,9 +25,14 @@ INSERT INTO credential_authority (credential_id, authorities_id) VALUES (6, 1);
 
 INSERT INTO address (id, version, street, houseNumber, zipCode, city, country) VALUES (0, 0, 'Bismarckstraße', '47', '76133', 'Karlsruhe', 'Deutschland');
 INSERT INTO address (id, version, street, houseNumber, zipCode, city, country) VALUES (1, 0, 'Zur Gießerei', '19a', '76123', 'Karlsruhe', 'Deutschland');
+INSERT INTO address (id, version, street, houseNumber, zipCode, city, country) VALUES (2, 0, 'Friedrichstraße', '123', '10521', 'Berlin', 'Deutschland');
 
 INSERT INTO company (id, version, companyId, name, address_id) VALUES (0, 0, 1000, 'techdev Solutions UG', 0);
 INSERT INTO company (id, version, companyId, name, address_id) VALUES (1, 0, 1001, 'cofinpro AG', 1);
+INSERT INTO company (id, version, companyId, name, address_id) VALUES (2, 0, 5000, 'Hays', 2);
 
-INSERT INTO contactPerson (id, version, firstName, lastName, email, salutation, phone, company) VALUES(0, 0, 'Alexander', 'Hanschke', 'alexander.hanschke@techdev.de', 'Herr', '0178/11234566', 0);
-INSERT INTO contactPerson (id, version, firstName, lastName, email, salutation, phone, company) VALUES(1, 0, 'Adrian', 'Krion', 'adrian.krion@techdev.de', 'Herr', '0178/234586923', 0);
+INSERT INTO contactPerson (id, version, firstName, lastName, email, salutation, phone, company) VALUES (0, 0, 'Alexander', 'Hanschke', 'alexander.hanschke@techdev.de', 'Herr', '0178/11234566', 0);
+INSERT INTO contactPerson (id, version, firstName, lastName, email, salutation, phone, company) VALUES (1, 0, 'Adrian', 'Krion', 'adrian.krion@techdev.de', 'Herr', '0178/234586923', 0);
+
+INSERT INTO project (id, version, identifier, name, company_id, volume, fixedPrice, debitor_id) VALUES (0, 0, '1001.1', 'Freiberuflerverwaltung', 1, 142, 500000.01, 2);
+INSERT INTO project (id, version, identifier, name, company_id, volume, fixedPrice) VALUES (1, 0, '5000.1', 'Zaun streichen', 2, 1, 3.14);

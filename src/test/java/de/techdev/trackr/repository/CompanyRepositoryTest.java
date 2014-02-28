@@ -3,12 +3,12 @@ package de.techdev.trackr.repository;
 import de.techdev.trackr.TransactionalIntegrationTest;
 import de.techdev.trackr.domain.Company;
 import de.techdev.trackr.domain.ContactPerson;
+import de.techdev.trackr.domain.Project;
 import de.techdev.trackr.domain.support.CompanyDataOnDemand;
 import de.techdev.trackr.domain.support.ContactPersonDataOnDemand;
+import de.techdev.trackr.domain.support.ProjectDataOnDemand;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -28,6 +28,9 @@ public class CompanyRepositoryTest extends TransactionalIntegrationTest {
 
     @Autowired
     private ContactPersonDataOnDemand contactPersonDataOnDemand;
+
+    @Autowired
+    private ProjectDataOnDemand projectDataOnDemand;
 
     @Test
     public void findById() throws Exception {
@@ -51,9 +54,14 @@ public class CompanyRepositoryTest extends TransactionalIntegrationTest {
     }
 
     @Test
-    @Transactional(propagation = Propagation.NEVER) //TODO: whithout this and no cascade on the entity the test does not fail, why?
     public void deleteWithContactPersons() throws Exception {
         ContactPerson contactPerson = contactPersonDataOnDemand.getRandomObject();
         companyRepository.delete(contactPerson.getCompany());
+    }
+
+    @Test
+    public void deleteWithProject() throws Exception {
+        Project project = projectDataOnDemand.getRandomObject();
+        companyRepository.delete(project.getCompany());
     }
 }
