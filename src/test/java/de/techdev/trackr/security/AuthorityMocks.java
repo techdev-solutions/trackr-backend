@@ -4,7 +4,6 @@ import de.techdev.trackr.domain.Authority;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 
-import java.security.Principal;
 import java.util.Collection;
 
 import static java.util.Arrays.asList;
@@ -14,11 +13,20 @@ import static java.util.Arrays.asList;
  */
 public class AuthorityMocks {
 
+    /**
+     * @return An authentication object for an employee with the id 100.
+     */
     public static Authentication basicAuthentication() {
-        return basicAuthentication(100L);
+        return employeeAuthentication(100L);
     }
 
-    public static Authentication basicAuthentication(Long id) {
+    /**
+     * An authentication of an employee with the id id.
+     *
+     * @param id The desired id of the employee.
+     * @return An authentication object for an employee.
+     */
+    public static Authentication employeeAuthentication(Long id) {
         return new Authentication() {
             @Override
             public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -60,7 +68,8 @@ public class AuthorityMocks {
     /**
      * Get an admin authentication object.
      * Use with SecurityContextHolder.getContext().setAuthentication(adminAuthentication());
-     * @return An admin authentication object, i.e. principal = "admin" and auhtorities = {"ROLE_ADMIN"}
+     *
+     * @return An admin authentication object, i.e. principal = "admin@techdev.de" and auhtorities = {"ROLE_ADMIN"}
      */
     public static Authentication adminAuthentication() {
         return new Authentication() {
@@ -120,7 +129,7 @@ public class AuthorityMocks {
 
             @Override
             public Object getPrincipal() {
-                return new TrackrUser("supervisor", true, getAuthorities(), 1L);
+                return new TrackrUser(getName(), true, getAuthorities(), 1L);
             }
 
             @Override
@@ -135,7 +144,7 @@ public class AuthorityMocks {
 
             @Override
             public String getName() {
-                return "supervisor";
+                return "supervisor@techdev.de";
             }
         };
     }

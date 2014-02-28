@@ -37,7 +37,7 @@ public class ContactPersonResourceTest extends MockMvcTest {
     public void root() throws Exception {
         mockMvc.perform(
                 get("/contactPersons")
-                        .session(basicSession()))
+                        .session(employeeSession()))
                .andExpect(status().isOk())
                .andExpect(content().contentType(standardContentType));
     }
@@ -52,7 +52,7 @@ public class ContactPersonResourceTest extends MockMvcTest {
         ContactPerson contactPerson = contactPersonDataOnDemand.getRandomObject();
         mockMvc.perform(
                 get("/contactPersons/" + contactPerson.getId())
-                        .session(basicSession()))
+                        .session(employeeSession()))
                .andExpect(status().isOk())
                .andExpect(content().contentType(standardContentType))
                .andExpect(jsonPath("id", is(contactPerson.getId().intValue())));
@@ -100,7 +100,7 @@ public class ContactPersonResourceTest extends MockMvcTest {
         ContactPerson contactPerson = contactPersonDataOnDemand.getRandomObject();
         mockMvc.perform(
                 put("/contactPersons/" + contactPerson.getId())
-                        .session(basicSession())
+                        .session(employeeSession())
                         .content(generateCompanyJson(contactPerson)))
                .andExpect(status().isForbidden());
     }
@@ -131,7 +131,7 @@ public class ContactPersonResourceTest extends MockMvcTest {
         ContactPerson contactPerson = contactPersonDataOnDemand.getRandomObject();
         mockMvc.perform(
                 patch("/contactPersons/" + contactPerson.getId())
-                        .session(basicSession())
+                        .session(employeeSession())
                         .content("{\"firstName\": \"Test\"}"))
                .andExpect(status().isForbidden());
     }
@@ -146,7 +146,7 @@ public class ContactPersonResourceTest extends MockMvcTest {
         ContactPerson contactPerson = contactPersonDataOnDemand.getNewTransientObject(500);
         mockMvc.perform(
                 post("/contactPersons")
-                        .session(basicSession())
+                        .session(employeeSession())
                         .content(generateCompanyJson(contactPerson)))
                .andExpect(status().isForbidden());
     }
@@ -189,7 +189,7 @@ public class ContactPersonResourceTest extends MockMvcTest {
         ContactPerson contactPerson = contactPersonDataOnDemand.getRandomObject();
         mockMvc.perform(
                 delete("/contactPersons/" + contactPerson.getId())
-                        .session(basicSession()))
+                        .session(employeeSession()))
                .andExpect(status().isForbidden());
     }
 

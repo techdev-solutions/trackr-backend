@@ -37,7 +37,7 @@ public class AddressResourceTest extends MockMvcTest {
     public void findAllNotExported() throws Exception {
         mockMvc.perform(
                 get("/addresses")
-                        .session(basicSession()))
+                        .session(employeeSession()))
                .andExpect(status().isMethodNotAllowed());
     }
 
@@ -51,7 +51,7 @@ public class AddressResourceTest extends MockMvcTest {
         Address address = addressDataOnDemand.getRandomObject();
         mockMvc.perform(
                 get("/addresses/" + address.getId())
-                        .session(basicSession()))
+                        .session(employeeSession()))
                .andExpect(status().isOk())
                .andExpect(content().contentType(standardContentType))
                .andExpect(jsonPath("id", isNotNull()));

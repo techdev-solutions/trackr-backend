@@ -1,6 +1,5 @@
 package de.techdev.trackr.web.api;
 
-import de.techdev.trackr.domain.Credential;
 import de.techdev.trackr.domain.Employee;
 import de.techdev.trackr.domain.support.CredentialDataOnDemand;
 import de.techdev.trackr.domain.support.EmployeeDataOnDemand;
@@ -33,14 +32,24 @@ public class EmployeeResourceTest extends MockMvcTest {
         employeeDataOnDemand.init();
     }
 
+    /**
+     * Employees are not listable by not supervisors or admins
+     *
+     * @throws Exception
+     */
     @Test
     public void rootNotAllowedForEmployees() throws Exception {
         mockMvc.perform(
                 get("/employees")
-                        .session(basicSession()))
+                        .session(employeeSession()))
                .andExpect(status().isForbidden());
     }
 
+    /**
+     * Supervisors may list employees.
+     *
+     * @throws Exception
+     */
     @Test
     public void rootAllowedForSupervisors() throws Exception {
         mockMvc.perform(
@@ -51,6 +60,11 @@ public class EmployeeResourceTest extends MockMvcTest {
                .andExpect(jsonPath("_embedded.employees[0].id", isNotNull()));
     }
 
+    /**
+     * Supervisors may access one employee.
+     *
+     * @throws Exception
+     */
     @Test
     public void oneIsAllowedForSupervisor() throws Exception {
         Employee employee = employeeDataOnDemand.getRandomObject();
@@ -62,6 +76,41 @@ public class EmployeeResourceTest extends MockMvcTest {
                .andExpect(jsonPath("id", is(employee.getId().intValue())));
     }
 
+    /**
+     * An employee may access him/herself.
+     *
+     * @throws Exception
+     */
+    @Test
+    public void oneIsAllowedForSelf() throws Exception {
+        Employee employee = employeeDataOnDemand.getRandomObject();
+        mockMvc.perform(
+                get("/employees/" + employee.getId())
+                        .session(employeeSession(employee.getId())))
+               .andExpect(status().isOk())
+               .andExpect(content().contentType(standardContentType))
+               .andExpect(jsonPath("id", is(employee.getId().intValue())));
+    }
+
+    /**
+     * An employee may not access other employees.
+     *
+     * @throws Exception
+     */
+    @Test
+    public void oneIsForbiddenForOtherEmployee() throws Exception {
+        Employee employee = employeeDataOnDemand.getRandomObject();
+        mockMvc.perform(
+                get("/employees/" + employee.getId())
+                        .session(employeeSession(employee.getId() + 1)))
+               .andExpect(status().isForbidden());
+    }
+
+    /**
+     * Credentials are accessible for supervisors.
+     *
+     * @throws Exception
+     */
     @Test
     public void getCredentialAllowedForSupervisor() throws Exception {
         Employee employee = credentialDataOnDemand.getRandomObject().getEmployee();
@@ -73,6 +122,41 @@ public class EmployeeResourceTest extends MockMvcTest {
                .andExpect(jsonPath("email", is(employee.getCredential().getEmail())));
     }
 
+    /**
+     * An employee may access his own credentials.
+     *
+     * @throws Exception
+     */
+    @Test
+    public void getCredentialAllowedForSelf() throws Exception {
+        Employee employee = credentialDataOnDemand.getRandomObject().getEmployee();
+        mockMvc.perform(
+                get("/employees/" + employee.getId() + "/credential")
+                        .session(employeeSession(employee.getId())))
+               .andExpect(status().isOk())
+               .andExpect(content().contentType(standardContentType))
+               .andExpect(jsonPath("email", is(employee.getCredential().getEmail())));
+    }
+
+    /**
+     * An employee may not access other employees credentials.
+     *
+     * @throws Exception
+     */
+    @Test
+    public void getCredentialForbiddenForOther() throws Exception {
+        Employee employee = credentialDataOnDemand.getRandomObject().getEmployee();
+        mockMvc.perform(
+                get("/employees/" + employee.getId() + "/credential")
+                        .session(employeeSession(employee.getId() + 1)))
+               .andExpect(status().isForbidden());
+    }
+
+    /**
+     * An admin may create employees.
+     *
+     * @throws Exception
+     */
     @Test
     public void postAllowedForAdmins() throws Exception {
         Employee employee = employeeDataOnDemand.getNewTransientObject(500);
@@ -84,6 +168,11 @@ public class EmployeeResourceTest extends MockMvcTest {
                .andExpect(jsonPath("id", isNotNull()));
     }
 
+    /**
+     * An supervisor may edit employees.
+     *
+     * @throws Exception
+     */
     @Test
     public void putAllowedForSupervisors() throws Exception {
         Employee employee = employeeDataOnDemand.getRandomObject();
@@ -95,6 +184,27 @@ public class EmployeeResourceTest extends MockMvcTest {
                .andExpect(jsonPath("id", is(employee.getId().intValue())));
     }
 
+    /**
+     * An supervisor may edit employees via patch.
+     *
+     * @throws Exception
+     */
+    @Test
+    public void patchAllowedForSupervisors() throws Exception {
+        Employee employee = employeeDataOnDemand.getRandomObject();
+        mockMvc.perform(
+                patch("/employees/" + employee.getId())
+                        .session(supervisorSession())
+                        .content("{\"firstName\": \"Test\"}"))
+               .andExpect(status().isOk())
+               .andExpect(jsonPath("firstName", is("Test")));
+    }
+
+    /**
+     * An admin may delete employees.
+     *
+     * @throws Exception
+     */
     @Test
     public void deleteAllowedForAdmins() throws Exception {
         Employee employee = employeeDataOnDemand.getRandomObject();
@@ -104,6 +214,11 @@ public class EmployeeResourceTest extends MockMvcTest {
                .andExpect(status().isNoContent());
     }
 
+    /**
+     * A supervisor can not create employees.
+     *
+     * @throws Exception
+     */
     @Test
     public void postForbiddenForSupervisor() throws Exception {
         Employee employee = employeeDataOnDemand.getNewTransientObject(500);
@@ -114,16 +229,26 @@ public class EmployeeResourceTest extends MockMvcTest {
                .andExpect(status().isForbidden());
     }
 
+    /**
+     * A employee may not edit an employee entity.
+     *
+     * @throws Exception
+     */
     @Test
     public void putForbiddenForEmployee() throws Exception {
         Employee employee = employeeDataOnDemand.getRandomObject();
         mockMvc.perform(
                 put("/employees/" + employee.getId())
-                        .session(basicSession(employee.getId()))
+                        .session(employeeSession(employee.getId()))
                         .content(generateEmployeeJson(employee)))
                .andExpect(status().isForbidden());
     }
 
+    /**
+     * A supervisor can not delete employees.
+     *
+     * @throws Exception
+     */
     @Test
     public void deleteForbiddenForSupervisor() throws Exception {
         Employee employee = employeeDataOnDemand.getRandomObject();
@@ -133,6 +258,11 @@ public class EmployeeResourceTest extends MockMvcTest {
                .andExpect(status().isForbidden());
     }
 
+    /**
+     * The credentials reference is not changeable.
+     *
+     * @throws Exception
+     */
     @Test
     public void changeCredentialForbidden() throws Exception {
         Employee employee = employeeDataOnDemand.getRandomObject();
@@ -144,6 +274,11 @@ public class EmployeeResourceTest extends MockMvcTest {
                .andExpect(status().isForbidden());
     }
 
+    /**
+     * The credentials reference is not deletable.
+     *
+     * @throws Exception
+     */
     @Test
     public void deleteCredentialForbidden() throws Exception {
         Employee employee = employeeDataOnDemand.getRandomObject();
@@ -152,16 +287,6 @@ public class EmployeeResourceTest extends MockMvcTest {
                         .session(adminSession()))
                .andExpect(status().isForbidden());
     }
-
-    @Test
-    public void deleteAuthorityNotAllowedForSupervisor() throws Exception {
-        Credential credentials = credentialDataOnDemand.getRandomObject();
-        mockMvc.perform(
-                delete("/credentials/" + credentials.getId() + "/authorities/0")
-                        .session(supervisorSession()))
-               .andExpect(status().isForbidden());
-    }
-
 
     protected String generateEmployeeJson(Employee employee) {
         StringWriter writer = new StringWriter();

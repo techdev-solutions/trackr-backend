@@ -42,7 +42,7 @@ public class CompanyResourceTest extends MockMvcTest {
     public void root() throws Exception {
         mockMvc.perform(
                 get("/companies")
-                        .session(basicSession()))
+                        .session(employeeSession()))
                .andExpect(status().isOk())
                .andExpect(content().contentType(standardContentType))
                .andExpect(jsonPath("_embedded.companies[0].id", isNotNull()));
@@ -58,7 +58,7 @@ public class CompanyResourceTest extends MockMvcTest {
         Company company = companyDataOnDemand.getRandomObject();
         mockMvc.perform(
                 get("/companies/" + company.getId())
-                        .session(basicSession()))
+                        .session(employeeSession()))
                .andExpect(status().isOk())
                .andExpect(content().contentType(standardContentType))
                .andExpect(jsonPath("id", is(company.getId().intValue())));
@@ -75,7 +75,7 @@ public class CompanyResourceTest extends MockMvcTest {
         mockMvc.perform(
                 get("/companies/search/findByCompanyId")
                         .param("companyId", company.getCompanyId().toString())
-                        .session(basicSession()))
+                        .session(employeeSession()))
                .andExpect(status().isOk())
                .andExpect(content().contentType(standardContentType))
                .andExpect(jsonPath("_embedded.companies[0].companyId", is(company.getCompanyId().intValue())));
@@ -216,7 +216,7 @@ public class CompanyResourceTest extends MockMvcTest {
         ContactPerson contactPerson = contactPersonDataOnDemand.getRandomObject();
         mockMvc.perform(
                 patch("/companies/" + company.getId() + "/contactPersons")
-                        .session(basicSession())
+                        .session(employeeSession())
                         .header("Content-Type", "text/uri-list")
                         .content("/contactPersons/" + contactPerson.getId()))
                .andExpect(status().isForbidden());
@@ -246,7 +246,7 @@ public class CompanyResourceTest extends MockMvcTest {
         Company company = companyDataOnDemand.getRandomObject();
         mockMvc.perform(
                 delete("/companies/" + company.getId() + "/contactPersons/0")
-                        .session(basicSession()))
+                        .session(employeeSession()))
                .andExpect(status().isForbidden());
     }
 
@@ -288,7 +288,7 @@ public class CompanyResourceTest extends MockMvcTest {
         Company company = companyDataOnDemand.getRandomObject();
         mockMvc.perform(
                 get("/companies/" + company.getId() + "/address")
-                        .session(basicSession()))
+                        .session(employeeSession()))
                .andExpect(status().isOk())
                .andExpect(content().contentType(standardContentType));
     }

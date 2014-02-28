@@ -32,7 +32,7 @@ public class AuthorityResourceTest extends MockMvcTest {
     public void findAll() throws Exception {
         mockMvc.perform(
                 get("/authorities")
-                        .session(basicSession()))
+                        .session(employeeSession()))
                .andExpect(status().isOk())
                .andExpect(content().contentType(standardContentType))
                .andExpect(jsonPath("_embedded.authorities[0].id", isNotNull()));
@@ -43,7 +43,7 @@ public class AuthorityResourceTest extends MockMvcTest {
         Authority authority = authorityDataOnDemand.getRandomObject();
         mockMvc.perform(
                 get("/authorities/" + authority.getId())
-                        .session(basicSession()))
+                        .session(employeeSession()))
                .andExpect(status().isOk())
                .andExpect(content().contentType(standardContentType))
                .andExpect(jsonPath("authority", is(authority.getAuthority())));
@@ -54,7 +54,7 @@ public class AuthorityResourceTest extends MockMvcTest {
         mockMvc.perform(
                 post("/authorities")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .session(basicSession()).content("{}"))
+                        .session(employeeSession()).content("{}"))
                .andExpect(status().isMethodNotAllowed());
     }
 
@@ -63,7 +63,7 @@ public class AuthorityResourceTest extends MockMvcTest {
         Authority authority = authorityDataOnDemand.getRandomObject();
         mockMvc.perform(
                 put("/authorities/" + authority.getId())
-                        .session(basicSession())
+                        .session(employeeSession())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{}"))
                .andExpect(status().isMethodNotAllowed());
@@ -74,7 +74,7 @@ public class AuthorityResourceTest extends MockMvcTest {
         Authority authority = authorityDataOnDemand.getRandomObject();
         mockMvc.perform(
                 delete("/authorities/" + authority.getId())
-                        .session(basicSession()))
+                        .session(employeeSession()))
                .andExpect(status().isMethodNotAllowed());
     }
 }

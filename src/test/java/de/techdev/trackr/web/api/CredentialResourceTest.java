@@ -40,7 +40,7 @@ public class CredentialResourceTest extends MockMvcTest {
         mockMvc.perform(
                 get("/credentials/search/findByEmail")
                         .param("email", credentials.getEmail())
-                        .session(basicSession()))
+                        .session(employeeSession()))
                .andExpect(status().isOk())
                .andExpect(content().contentType(standardContentType))
                .andExpect(jsonPath("_embedded.credentials[0].email", is(credentials.getEmail())))

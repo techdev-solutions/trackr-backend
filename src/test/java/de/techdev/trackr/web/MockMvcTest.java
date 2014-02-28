@@ -22,6 +22,7 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 
 /**
  * A base class for tests that access the web mvc resources.
+ *
  * @author Moritz Schulze
  */
 @ContextConfiguration(classes = {MethodSecurityConfiguration.class, SecurityConfiguration.class})
@@ -54,25 +55,46 @@ public abstract class MockMvcTest extends IntegrationTest {
         return session;
     }
 
-    protected MockHttpSession basicSession(Long id) {
-        return buildSession(AuthorityMocks.basicAuthentication(id));
+    /**
+     * An http session for an employee.
+     *
+     * @param id The desired id of the employee.
+     * @return The mock session object.
+     */
+    protected MockHttpSession employeeSession(Long id) {
+        return buildSession(AuthorityMocks.employeeAuthentication(id));
     }
 
-    protected MockHttpSession basicSession() {
+    /**
+     * An http session for an employee with id 100.
+     *
+     * @return The mock session object.
+     */
+    protected MockHttpSession employeeSession() {
         return buildSession(AuthorityMocks.basicAuthentication());
     }
 
+    /**
+     * An http session for a supervisor.
+     *
+     * @return The mock session object.
+     */
     protected MockHttpSession supervisorSession() {
         return buildSession(AuthorityMocks.supervisorAuthentication());
     }
 
+    /**
+     * An http session for an admin.
+     *
+     * @return The mock session object.
+     */
     protected MockHttpSession adminSession() {
         return buildSession(AuthorityMocks.adminAuthentication());
     }
 
     /**
      * Mock for the security context to provide our own authentications in a MockHttpSession.
-     *
+     * <p>
      * See <a href="http://stackoverflow.com/questions/15203485/spring-test-security-how-to-mock-authentication">stackoverflow</a> for this idea.
      */
     protected class MockSecurityContext implements SecurityContext {
