@@ -26,6 +26,11 @@ public class ApiWebMvcConfiguration extends RepositoryRestMvcConfiguration {
     }
 
     @Bean
+    public ProjectEventHandler projectEventHandler() {
+        return new ProjectEventHandler();
+    }
+
+    @Bean
     public EmployeeEventHandler employeeEventHandler() {
         return new EmployeeEventHandler();
     }

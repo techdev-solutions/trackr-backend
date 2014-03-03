@@ -3,6 +3,7 @@ package de.techdev.trackr.repository;
 import de.techdev.trackr.TransactionalIntegrationTest;
 import de.techdev.trackr.domain.Project;
 import de.techdev.trackr.domain.support.ProjectDataOnDemand;
+import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -23,6 +24,11 @@ public class ProjectRepositoryTest extends TransactionalIntegrationTest {
     @Autowired
     private ProjectRepository projectRepository;
 
+    @Before
+    public void setUp() throws Exception {
+        projectDataOnDemand.init();
+    }
+
     @Test
     public void one() throws Exception {
         Project project = projectDataOnDemand.getRandomObject();
@@ -34,5 +40,12 @@ public class ProjectRepositoryTest extends TransactionalIntegrationTest {
     public void all() throws Exception {
         List<Project> all = projectRepository.findAll();
         assertThat(all, isNotEmpty());
+    }
+
+    @Test
+    public void findByIdentifier() throws Exception {
+        Project project = projectDataOnDemand.getRandomObject();
+        Project byIdentifier = projectRepository.findByIdentifier(project.getIdentifier());
+        assertThat(byIdentifier.getId(), is(project.getId()));
     }
 }
