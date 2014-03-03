@@ -7,13 +7,14 @@ import org.hibernate.validator.constraints.NotEmpty;
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * @author Moritz Schulze
  */
 @Entity
 @Data
-@ToString(exclude = {"company", "debitor"})
+@ToString(exclude = {"company", "debitor", "workTimes"})
 public class Project {
 
     @Id
@@ -49,4 +50,7 @@ public class Project {
     @ManyToOne
     @JoinColumn(name = "debitor_id", nullable = true)
     private Company debitor;
+
+    @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "project")
+    private List<WorkTime> workTimes;
 }

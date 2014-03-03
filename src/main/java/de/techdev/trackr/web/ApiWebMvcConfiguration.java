@@ -20,7 +20,7 @@ public class ApiWebMvcConfiguration extends RepositoryRestMvcConfiguration {
 
     @Override
     protected void configureRepositoryRestConfiguration(RepositoryRestConfiguration config) {
-        config.exposeIdsFor(new Class[] {Employee.class, Credential.class, Authority.class, Company.class, ContactPerson.class, Address.class, Project.class});
+        config.exposeIdsFor(new Class[] {Employee.class, Credential.class, Authority.class, Company.class, ContactPerson.class, Address.class, Project.class, WorkTime.class});
         config.setReturnBodyOnUpdate(true);
         config.setReturnBodyOnCreate(true);
     }
