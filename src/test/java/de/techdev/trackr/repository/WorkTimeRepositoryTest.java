@@ -7,10 +7,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
-import static org.echocat.jomon.testing.BaseMatchers.isNotEmpty;
-import static org.echocat.jomon.testing.BaseMatchers.isNotNull;
+import static org.echocat.jomon.testing.BaseMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
@@ -40,5 +40,27 @@ public class WorkTimeRepositoryTest extends TransactionalIntegrationTest {
     public void all() throws Exception {
         List<WorkTime> all = workTimeRepository.findAll();
         assertThat(all, isNotEmpty());
+    }
+
+    @Test
+    public void findByEmployeeAndDate() throws Exception {
+        WorkTime workTime = workTimeDataOnDemand.getRandomObject();
+        List<WorkTime> workTimes = workTimeRepository.findByEmployeeAndDateOrderByStartAsc(workTime.getEmployee(), workTime.getDate());
+        assertThat(workTimes, isNotEmpty());
+    }
+
+    @Test
+    public void findByEmployeeAndDateOnlyRespectsDatePart() throws Exception {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        WorkTime workTime1 = workTimeDataOnDemand.getRandomObject();
+        workTime1.setDate(sdf.parse("2014-03-04 10:00"));
+        workTimeRepository.save(workTime1);
+        WorkTime workTime2 = workTimeDataOnDemand.getRandomObject();
+        workTime2.setEmployee(workTime1.getEmployee());
+        workTime2.setDate(sdf.parse("2014-03-04 11:00"));
+        workTimeRepository.save(workTime2);
+
+        List<WorkTime> workTimes = workTimeRepository.findByEmployeeAndDateOrderByStartAsc(workTime1.getEmployee(), sdf.parse("2014-03-04 09:00:00"));
+        assertThat(workTimes.size(), isGreaterThanOrEqualTo(2));
     }
 }
