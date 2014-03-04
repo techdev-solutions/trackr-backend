@@ -35,9 +35,9 @@ public class WorkTime {
     @Temporal(TemporalType.DATE)
     private Date date;
 
-    private Time start;
+    private Time startTime;
 
-    private Time end;
+    private Time endTime;
 
     private String comment;
 

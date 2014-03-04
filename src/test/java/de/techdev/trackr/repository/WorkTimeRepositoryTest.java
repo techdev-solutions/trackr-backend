@@ -45,7 +45,7 @@ public class WorkTimeRepositoryTest extends TransactionalIntegrationTest {
     @Test
     public void findByEmployeeAndDate() throws Exception {
         WorkTime workTime = workTimeDataOnDemand.getRandomObject();
-        List<WorkTime> workTimes = workTimeRepository.findByEmployeeAndDateOrderByStartAsc(workTime.getEmployee(), workTime.getDate());
+        List<WorkTime> workTimes = workTimeRepository.findByEmployeeAndDateOrderByStartTimeAsc(workTime.getEmployee(), workTime.getDate());
         assertThat(workTimes, isNotEmpty());
     }
 
@@ -60,7 +60,7 @@ public class WorkTimeRepositoryTest extends TransactionalIntegrationTest {
         workTime2.setDate(sdf.parse("2014-03-04 11:00"));
         workTimeRepository.saveAndFlush(workTime2);
 
-        List<WorkTime> workTimes = workTimeRepository.findByEmployeeAndDateOrderByStartAsc(workTime1.getEmployee(), sdf.parse("2014-03-04 09:00:00"));
+        List<WorkTime> workTimes = workTimeRepository.findByEmployeeAndDateOrderByStartTimeAsc(workTime1.getEmployee(), sdf.parse("2014-03-04 09:00:00"));
         assertThat(workTimes.size(), isGreaterThanOrEqualTo(2));
     }
 }

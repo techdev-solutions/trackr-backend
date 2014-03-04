@@ -37,9 +37,9 @@ INSERT INTO contactPerson (id, version, firstName, lastName, email, salutation, 
 INSERT INTO project (id, version, identifier, name, company_id, volume, fixedPrice, debitor_id) VALUES (0, 0, '1001.1', 'Freiberuflerverwaltung', 1, 142, 500000.01, 2);
 INSERT INTO project (id, version, identifier, name, company_id, volume, fixedPrice) VALUES (1, 0, '5000.1', 'Zaun streichen', 2, 1, 3.14);
 
-INSERT INTO workTime (id, version, project, employee, date, start, end, comment) VALUES (0, 0, 0, 1, '2014-03-03', '09:00:00', '17:00:00', 'Kommentar 1');
-INSERT INTO workTime (id, version, project, employee, date, start, end, comment) VALUES (1, 0, 0, 1, '2014-03-04', '09:00:00', '17:00:00', 'Kommentar 2');
-INSERT INTO workTime (id, version, project, employee, date, start, end, comment) VALUES (2, 0, 1, 1, '2014-03-05', '09:00:00', '12:00:00', 'Kommentar 3');
-INSERT INTO workTime (id, version, project, employee, date, start, end, comment) VALUES (3, 0, 0, 1, '2014-03-05', '13:00:00', '17:00:00', 'Kommentar 4');
-INSERT INTO workTime (id, version, project, employee, date, start, end, comment) VALUES (4, 0, 0, 1, '2014-03-06', '09:00:00', '17:00:00', 'Kommentar 5');
-INSERT INTO workTime (id, version, project, employee, date, start, end, comment) VALUES (5, 0, 0, 1, '2014-03-07', '09:00:00', '17:00:00', 'Kommentar 6');
+INSERT INTO workTime (id, version, project, employee, date, startTime, endTime, comment) VALUES (0, 0, 0, 1, '2014-03-03', '09:00:00', '17:00:00', 'Kommentar 1');
+INSERT INTO workTime (id, version, project, employee, date, startTime, endTime, comment) VALUES (1, 0, 0, 1, '2014-03-04', '09:00:00', '17:00:00', 'Kommentar 2');
+INSERT INTO workTime (id, version, project, employee, date, startTime, endTime, comment) VALUES (2, 0, 1, 1, '2014-03-05', '09:00:00', '12:00:00', 'Kommentar 3');
+INSERT INTO workTime (id, version, project, employee, date, startTime, endTime, comment) VALUES (3, 0, 0, 1, '2014-03-05', '13:00:00', '17:00:00', 'Kommentar 4');
+INSERT INTO workTime (id, version, project, employee, date, startTime, endTime, comment) VALUES (4, 0, 0, 1, '2014-03-06', '09:00:00', '17:00:00', 'Kommentar 5');
+INSERT INTO workTime (id, version, project, employee, date, startTime, endTime, comment) VALUES (5, 0, 0, 1, '2014-03-07', '09:00:00', '17:00:00', 'Kommentar 6');

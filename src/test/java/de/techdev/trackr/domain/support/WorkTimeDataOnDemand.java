@@ -30,8 +30,8 @@ public class WorkTimeDataOnDemand extends AbstractDataOnDemand<WorkTime> {
         workTime.setEmployee(employeeDataOnDemand.getRandomObject());
         workTime.setProject(projectDataOnDemand.getRandomObject());
         workTime.setDate(new Date());
-        workTime.setStart(Time.valueOf("09:00:00"));
-        workTime.setEnd(Time.valueOf("17:00:00"));
+        workTime.setStartTime(Time.valueOf("09:00:00"));
+        workTime.setEndTime(Time.valueOf("17:00:00"));
         workTime.setComment("comment_" + i);
         return workTime;
     }
