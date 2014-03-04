@@ -1,34 +1,44 @@
 package de.techdev.trackr.domain.support;
 
-import de.techdev.trackr.domain.Authority;
 import de.techdev.trackr.domain.Credential;
-import de.techdev.trackr.domain.Employee;
+import de.techdev.trackr.repository.CredentialRepository;
+import de.techdev.trackr.security.AuthorityMocks;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
-import static java.util.Arrays.asList;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.security.SecureRandom;
+import java.util.List;
 
 /**
  * @author Moritz Schulze
  */
 @Component
-public class CredentialDataOnDemand extends AbstractDataOnDemand<Credential> {
+public class CredentialDataOnDemand {
+
+    @Autowired
+    private CredentialRepository credentialRepository;
 
     @Autowired
     private EmployeeDataOnDemand employeeDataOnDemand;
 
-    @Autowired
-    private AuthorityDataOnDemand authorityDataOnDemand;
+    private List<Credential> data;
 
-    @Override
-    public Credential getNewTransientObject(int i) {
-        Credential credential = new Credential();
-        credential.setEnabled(false);
-        credential.setEmail("email_" + i + "@techdev.de");
-        Employee employee = employeeDataOnDemand.getNewTransientObject(i);
-        credential.setEmployee(employee);
-        Authority authority = authorityDataOnDemand.getRandomObject();
-        credential.setAuthorities(asList(authority));
-        return credential;
+    protected SecureRandom rnd;
+
+    public CredentialDataOnDemand() {
+        rnd = new SecureRandom();
+    }
+
+    public void init() {
+        employeeDataOnDemand.init();
+        data = credentialRepository.findAll();
+    }
+
+    public Credential getRandomObject() {
+        Credential obj = data.get(rnd.nextInt(data.size()));
+        return credentialRepository.findOne(obj.getId());
     }
 }

@@ -31,6 +31,7 @@ public class EmployeeResourceTest extends MockMvcTest {
     @Before
     public void setUp() throws Exception {
         employeeDataOnDemand.init();
+        credentialDataOnDemand.init();
     }
 
     /**

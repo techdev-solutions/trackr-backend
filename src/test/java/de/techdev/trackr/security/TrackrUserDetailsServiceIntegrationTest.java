@@ -60,13 +60,14 @@ public class TrackrUserDetailsServiceIntegrationTest extends TransactionalIntegr
         } else {
             trackrUserDetailsService = (TrackrUserDetailsService) userDetailsService; // expected to be cglib proxy then, which is simply a specialized class
         }
+        credentialDataOnDemand.init();
     }
 
     @Test
     public void loadUserDetails() throws Exception {
         Credential credential = credentialDataOnDemand.getRandomObject();
         credential.setEnabled(true);
-        credentialRepository.saveAndFlush(credential);
+        credentialRepository.save(credential);
 
         OpenIDAuthenticationToken tokenMock = getOpenIDAuthenticationTokenMock(credential);
         UserDetails userDetails = trackrUserDetailsService.loadUserDetails(tokenMock);
@@ -84,7 +85,7 @@ public class TrackrUserDetailsServiceIntegrationTest extends TransactionalIntegr
     public void loadUserDetailsCreated() throws Exception {
         Credential credential = credentialDataOnDemand.getRandomObject();
         credential.setEnabled(false);
-        credentialRepository.saveAndFlush(credential);
+        credentialRepository.save(credential);
 
         OpenIDAuthenticationToken tokenMock = getOpenIDAuthenticationTokenMock(credential);
         trackrUserDetailsService.loadUserDetails(tokenMock);

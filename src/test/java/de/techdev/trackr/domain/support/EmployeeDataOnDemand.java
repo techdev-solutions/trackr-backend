@@ -1,9 +1,14 @@
 package de.techdev.trackr.domain.support;
 
+import de.techdev.trackr.domain.Authority;
+import de.techdev.trackr.domain.Credential;
 import de.techdev.trackr.domain.Employee;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Moritz Schulze
@@ -16,6 +21,9 @@ public class EmployeeDataOnDemand extends AbstractDataOnDemand<Employee> {
         return 7;
     }
 
+    @Autowired
+    private AuthorityDataOnDemand authorityDataOnDemand;
+
     @Override
     public Employee getNewTransientObject(int i) {
         Employee employee = new Employee();
@@ -24,6 +32,14 @@ public class EmployeeDataOnDemand extends AbstractDataOnDemand<Employee> {
         employee.setHourlyCostRate(BigDecimal.TEN.multiply(new BigDecimal(i)));
         employee.setPhoneNumber("phoneNumber_" + i);
         employee.setTitle("title_" + i);
+        Credential credential = new Credential();
+        credential.setEmployee(employee);
+        credential.setEmail("email_" + i + "@techdev.de");
+        credential.setEnabled(false);
+        List<Authority> authorities = new ArrayList<>();
+        authorities.add(authorityDataOnDemand.getRandomObject());
+        credential.setAuthorities(authorities);
+        employee.setCredential(credential);
         return employee;
     }
 }

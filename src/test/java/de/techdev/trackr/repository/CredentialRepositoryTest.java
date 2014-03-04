@@ -3,6 +3,7 @@ package de.techdev.trackr.repository;
 import de.techdev.trackr.TransactionalIntegrationTest;
 import de.techdev.trackr.domain.Credential;
 import de.techdev.trackr.domain.support.CredentialDataOnDemand;
+import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -21,6 +22,11 @@ public class CredentialRepositoryTest extends TransactionalIntegrationTest {
     @Autowired
     private CredentialRepository credentialRepository;
 
+    @Before
+    public void setUp() throws Exception {
+        credentialDataOnDemand.init();
+    }
+
     @Test
     public void findById() throws Exception {
         Credential credential = credentialDataOnDemand.getRandomObject();
@@ -36,7 +42,6 @@ public class CredentialRepositoryTest extends TransactionalIntegrationTest {
 
     @Test
     public void findAll() throws Exception {
-        credentialDataOnDemand.init();
         assertThat(credentialRepository.findAll(), isNotEmpty());
     }
 }

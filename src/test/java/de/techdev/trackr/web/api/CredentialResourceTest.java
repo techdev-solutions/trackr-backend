@@ -2,6 +2,7 @@ package de.techdev.trackr.web.api;
 
 import de.techdev.trackr.domain.Authority;
 import de.techdev.trackr.domain.Credential;
+import de.techdev.trackr.domain.Employee;
 import de.techdev.trackr.domain.support.AuthorityDataOnDemand;
 import de.techdev.trackr.domain.support.CredentialDataOnDemand;
 import de.techdev.trackr.repository.EmployeeRepository;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import javax.json.stream.JsonGenerator;
 import java.io.StringWriter;
 
+import static java.util.Arrays.asList;
 import static org.echocat.jomon.testing.BaseMatchers.isNotNull;
 import static org.hamcrest.CoreMatchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -105,9 +107,16 @@ public class CredentialResourceTest extends MockMvcTest {
 
     @Test
     public void postAllowedForAdmins() throws Exception {
-        Credential credential = credentialDataOnDemand.getNewTransientObject(500);
-        //Credentials must have a saved employee
-        employeeRepository.saveAndFlush(credential.getEmployee());
+        //Because of the 1:1 id mapping for credential and employees we have to create everything ourselves and cannot use the data on demand objects.
+        Credential credential = new Credential();
+        credential.setEmail("email_500@techdev.de");
+        credential.setEnabled(false);
+        credential.setAuthorities(asList(new Authority("ROLE_TEST")));
+        Employee employee = new Employee();
+        employee.setFirstName("firstName");
+        employee.setLastName("lastName");
+        employeeRepository.saveAndFlush(employee);
+        credential.setEmployee(employee);
         String json = getCredentialJson(credential);
         mockMvc.perform(
                 post("/credentials")
@@ -139,9 +148,16 @@ public class CredentialResourceTest extends MockMvcTest {
 
     @Test
     public void postForbiddenForSupervisors() throws Exception {
-        Credential credential = credentialDataOnDemand.getNewTransientObject(500);
-        //Credentials must have a saved employee
-        employeeRepository.saveAndFlush(credential.getEmployee());
+        //Because of the 1:1 id mapping for credential and employees we have to create everything ourselves and cannot use the data on demand objects.
+        Credential credential = new Credential();
+        credential.setEmail("email_500@techdev.de");
+        credential.setEnabled(false);
+        credential.setAuthorities(asList(new Authority("ROLE_TEST")));
+        Employee employee = new Employee();
+        employee.setFirstName("firstName");
+        employee.setLastName("lastName");
+        employeeRepository.saveAndFlush(employee);
+        credential.setEmployee(employee);
         String json = getCredentialJson(credential);
         mockMvc.perform(
                 post("/credentials")
