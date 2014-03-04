@@ -32,6 +32,7 @@ public class WorkTime {
     private Project project;
 
     @NotNull
+    @Temporal(TemporalType.DATE)
     private Date date;
 
     private Time start;
