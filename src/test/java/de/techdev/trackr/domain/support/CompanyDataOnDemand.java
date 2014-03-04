@@ -11,6 +11,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class CompanyDataOnDemand extends AbstractDataOnDemand<Company> {
 
+    @Override
+    protected int getExpectedElements() {
+        return 3;
+    }
+
     @Autowired
     private AddressDataOnDemand addressDataOnDemand;
 

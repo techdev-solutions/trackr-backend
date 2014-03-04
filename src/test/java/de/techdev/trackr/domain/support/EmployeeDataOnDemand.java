@@ -13,8 +13,7 @@ public class EmployeeDataOnDemand extends AbstractDataOnDemand<Employee> {
 
     @Override
     protected int getExpectedElements() {
-        //the admin is expected
-        return 1;
+        return 7;
     }
 
     @Override

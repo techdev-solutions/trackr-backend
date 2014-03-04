@@ -55,7 +55,11 @@ public abstract class AbstractDataOnDemand<S> {
         } catch (InvocationTargetException | IllegalAccessException e) {
             throw new IllegalStateException("Could not execute getId method");
         }
-        return repository.findOne(id);
+        //This might need admin rights
+        SecurityContextHolder.getContext().setAuthentication(AuthorityMocks.adminAuthentication());
+        S one = repository.findOne(id);
+        SecurityContextHolder.getContext().setAuthentication(null);
+        return one;
     }
 
     public AbstractDataOnDemand() {

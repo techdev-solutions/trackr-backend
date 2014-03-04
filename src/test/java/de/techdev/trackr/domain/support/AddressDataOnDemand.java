@@ -9,6 +9,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class AddressDataOnDemand extends AbstractDataOnDemand<Address> {
 
+    @Override
+    protected int getExpectedElements() {
+        return 3;
+    }
+
     public Address getNewTransientObject(int i) {
         Address address = new Address();
         address.setStreet("street_" + i);
