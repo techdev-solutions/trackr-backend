@@ -18,7 +18,7 @@ public class CredentialEventHandler {
     @HandleBeforeCreate
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void beforeSaveAuthority(Credential credential) {
-        log.debug("Updating credential {}", credential);
+        log.debug("Creating credential {}", credential);
     }
 
     @HandleBeforeSave
@@ -30,7 +30,7 @@ public class CredentialEventHandler {
     @HandleBeforeDelete
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void beforeDeleteAuthority(Credential credential) {
-        log.debug("Updating credential {}", credential);
+        log.debug("Deleting credential {}", credential);
     }
 
     /**
