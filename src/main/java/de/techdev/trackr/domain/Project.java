@@ -7,6 +7,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -52,5 +53,5 @@ public class Project {
     private Company debitor;
 
     @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "project")
-    private List<WorkTime> workTimes;
+    private List<WorkTime> workTimes = new ArrayList<>();
 }

@@ -8,6 +8,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 import javax.persistence.*;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -39,12 +40,12 @@ public class Company {
     @JoinColumn(name = "address_id")
     private Address address;
 
-    @OneToMany(mappedBy = "company", cascade = CascadeType.REMOVE)
-    private List<ContactPerson> contactPersons;
+    @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "company")
+    private List<ContactPerson> contactPersons = new ArrayList<>();
 
-    @OneToMany(mappedBy = "company", cascade = CascadeType.REMOVE)
-    private List<Project> projects;
+    @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "company")
+    private List<Project> projects = new ArrayList<>();
 
-    @OneToMany(mappedBy = "debitor", cascade = CascadeType.REMOVE)
-    private List<Project> debitorProjects;
+    @OneToMany(cascade = CascadeType.REMOVE)
+    private List<Project> debitorProjects = new ArrayList<>();
 }

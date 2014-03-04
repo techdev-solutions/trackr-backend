@@ -6,6 +6,8 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Represents any employee of techdev.
@@ -40,4 +42,8 @@ public class Employee {
     @PrimaryKeyJoinColumn
     @JsonIgnore
     private Credential credential;
+
+    @OneToMany(cascade = CascadeType.REMOVE)
+    @JsonIgnore
+    private List<WorkTime> workTimes = new ArrayList<>();
 }
