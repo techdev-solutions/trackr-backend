@@ -17,4 +17,8 @@ public interface WorkTimeRepository extends JpaRepository<WorkTime, Long> {
 
     List<WorkTime> findByEmployeeAndDateOrderByStartAsc(@Param("employee") Employee employee, @Param("date") @Temporal(TemporalType.DATE) Date date);
 
+    List<WorkTime> findByEmployeeAndDateBetweenOrderByDateAscStartAsc(@Param("employee") Employee employee,
+                                                               @Param("start") @Temporal(TemporalType.DATE) Date start,
+                                                               @Param("end") @Temporal(TemporalType.DATE) Date end);
+
 }
