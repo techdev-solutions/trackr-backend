@@ -1,7 +1,9 @@
 package de.techdev.trackr.web.api;
 
 import de.techdev.trackr.domain.Project;
+import de.techdev.trackr.domain.WorkTime;
 import de.techdev.trackr.domain.support.ProjectDataOnDemand;
+import de.techdev.trackr.domain.support.WorkTimeDataOnDemand;
 import de.techdev.trackr.web.MockMvcTest;
 import org.junit.Before;
 import org.junit.Test;
@@ -23,9 +25,13 @@ public class ProjectResourceTest extends MockMvcTest {
     @Autowired
     private ProjectDataOnDemand projectDataOnDemand;
 
+    @Autowired
+    private WorkTimeDataOnDemand workTimeDataOnDemand;
+
     @Before
     public void setUp() throws Exception {
         projectDataOnDemand.init();
+        workTimeDataOnDemand.init();
     }
 
     @Test
@@ -213,22 +219,21 @@ public class ProjectResourceTest extends MockMvcTest {
 
     @Test
     public void deleteWorktimesAllowedForAdmin() throws Exception {
-        Project project = projectDataOnDemand.getRandomObject();
+        WorkTime workTime = workTimeDataOnDemand.getRandomObject();
         mockMvc.perform(
-                delete("/projects/" + project.getId() + "/workTimes/0")
+                delete("/projects/" + workTime.getProject().getId() + "/workTimes/" + workTime.getId())
                         .session(adminSession()))
                .andExpect(status().isNoContent());
     }
 
     @Test
     public void deleteWorktimesForbiddenForSupervisor() throws Exception {
-        Project project = projectDataOnDemand.getRandomObject();
+        WorkTime workTime = workTimeDataOnDemand.getRandomObject();
         mockMvc.perform(
-                delete("/projects/" + project.getId() + "/workTimes/0")
+                delete("/projects/" + workTime.getProject().getId() + "/workTimes/" + workTime.getId())
                         .session(supervisorSession()))
                .andExpect(status().isForbidden());
     }
-
 
     protected String generateProjectJson(Project project) {
         StringWriter writer = new StringWriter();

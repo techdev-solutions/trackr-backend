@@ -4,6 +4,7 @@ import de.techdev.trackr.domain.Company;
 import de.techdev.trackr.domain.ContactPerson;
 import de.techdev.trackr.domain.support.CompanyDataOnDemand;
 import de.techdev.trackr.domain.support.ContactPersonDataOnDemand;
+import de.techdev.trackr.repository.CompanyRepository;
 import de.techdev.trackr.web.MockMvcTest;
 import org.junit.Before;
 import org.junit.Test;
@@ -31,6 +32,7 @@ public class CompanyResourceTest extends MockMvcTest {
     @Before
     public void setUp() throws Exception {
         companyDataOnDemand.init();
+        contactPersonDataOnDemand.init();
     }
 
     /**
@@ -229,9 +231,9 @@ public class CompanyResourceTest extends MockMvcTest {
      */
     @Test
     public void deleteContactAllowedForSupervisor() throws Exception {
-        Company company = companyDataOnDemand.getRandomObject();
+        ContactPerson contactPerson = contactPersonDataOnDemand.getRandomObject();
         mockMvc.perform(
-                delete("/companies/" + company.getId() + "/contactPersons/0")
+                delete("/companies/" + contactPerson.getCompany().getId() + "/contactPersons/" + contactPerson.getId())
                         .session(supervisorSession()))
                .andExpect(status().isNoContent());
     }
@@ -243,9 +245,9 @@ public class CompanyResourceTest extends MockMvcTest {
      */
     @Test
     public void deleteContactNotAllowedForEmployee() throws Exception {
-        Company company = companyDataOnDemand.getRandomObject();
+        ContactPerson contactPerson = contactPersonDataOnDemand.getRandomObject();
         mockMvc.perform(
-                delete("/companies/" + company.getId() + "/contactPersons/0")
+                delete("/companies/" + contactPerson.getCompany().getId() + "/contactPersons/" + contactPerson.getId())
                         .session(employeeSession()))
                .andExpect(status().isForbidden());
     }

@@ -1,6 +1,6 @@
 package de.techdev.trackr.web;
 
-import de.techdev.trackr.IntegrationTest;
+import de.techdev.trackr.TransactionalIntegrationTest;
 import de.techdev.trackr.security.AuthorityMocks;
 import de.techdev.trackr.security.MethodSecurityConfiguration;
 import de.techdev.trackr.security.SecurityConfiguration;
@@ -26,7 +26,7 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
  * @author Moritz Schulze
  */
 @ContextConfiguration(classes = {MethodSecurityConfiguration.class, SecurityConfiguration.class})
-public abstract class MockMvcTest extends IntegrationTest {
+public abstract class MockMvcTest extends TransactionalIntegrationTest {
 
     protected final String standardContentType = "application/hal+json";
 
