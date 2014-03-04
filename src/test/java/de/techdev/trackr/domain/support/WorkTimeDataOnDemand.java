@@ -15,7 +15,7 @@ public class WorkTimeDataOnDemand extends AbstractDataOnDemand<WorkTime> {
 
     @Override
     protected int getExpectedElements() {
-        return 1;
+        return 6;
     }
 
     @Autowired
