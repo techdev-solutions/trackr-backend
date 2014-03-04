@@ -2,9 +2,11 @@ package de.techdev.trackr.web;
 
 import de.techdev.trackr.domain.*;
 import de.techdev.trackr.repository.*;
+import de.techdev.trackr.web.converters.DateConverter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.convert.support.ConfigurableConversionService;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 import org.springframework.data.rest.webmvc.config.RepositoryRestMvcConfiguration;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -52,5 +54,11 @@ public class ApiWebMvcConfiguration extends RepositoryRestMvcConfiguration {
     @Bean
     public CredentialEventHandler credentialEventHandler() {
         return new CredentialEventHandler();
+    }
+
+    @Override
+    protected void configureConversionService(ConfigurableConversionService conversionService) {
+        conversionService.addConverter(new DateConverter());
+        super.configureConversionService(conversionService);
     }
 }
