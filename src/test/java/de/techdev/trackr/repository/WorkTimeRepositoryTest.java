@@ -8,6 +8,7 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import static org.echocat.jomon.testing.BaseMatchers.*;
@@ -49,6 +50,11 @@ public class WorkTimeRepositoryTest extends TransactionalIntegrationTest {
         assertThat(workTimes, isNotEmpty());
     }
 
+    /**
+     * This finder must only respect the date but not time part of the second parameter.
+     *
+     * @throws Exception
+     */
     @Test
     public void findByEmployeeAndDateOnlyRespectsDatePart() throws Exception {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
@@ -62,5 +68,24 @@ public class WorkTimeRepositoryTest extends TransactionalIntegrationTest {
 
         List<WorkTime> workTimes = workTimeRepository.findByEmployeeAndDateOrderByStartTimeAsc(workTime1.getEmployee(), sdf.parse("2014-03-04 09:00:00"));
         assertThat(workTimes.size(), isGreaterThanOrEqualTo(2));
+    }
+
+    @Test
+    public void findByEmployeeAndDateBetweenOrderByDateAscStartTimeAsc() throws Exception {
+        WorkTime workTime1 = workTimeRepository.findOne(0L);
+        workTimeRepository.saveAndFlush(workTime1);
+        WorkTime workTime2 = workTimeRepository.findOne(1L);
+        workTime2.setEmployee(workTime1.getEmployee());
+        workTimeRepository.saveAndFlush(workTime2);
+        Date low, high;
+        if(workTime1.getDate().compareTo(workTime2.getDate()) <= 0) {
+            low = workTime1.getDate();
+            high = workTime2.getDate();
+        } else {
+            low = workTime2.getDate();
+            high = workTime1.getDate();
+        }
+        List<WorkTime> all = workTimeRepository.findByEmployeeAndDateBetweenOrderByDateAscStartTimeAsc(workTime1.getEmployee(), low, high);
+        assertThat(all.size(), isGreaterThanOrEqualTo(2));
     }
 }
