@@ -49,7 +49,7 @@ public class Project {
     private BigDecimal fixedPrice;
 
     @ManyToOne
-    @JoinColumn(name = "debitor_id", nullable = true)
+    @JoinColumn(name = "debitor_id")
     private Company debitor;
 
     @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "project")
