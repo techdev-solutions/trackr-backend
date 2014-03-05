@@ -1,6 +1,7 @@
 package de.techdev.trackr.repository;
 
 import de.techdev.trackr.domain.Employee;
+import de.techdev.trackr.domain.Project;
 import de.techdev.trackr.domain.WorkTime;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -48,5 +49,10 @@ public interface WorkTimeRepository extends JpaRepository<WorkTime, Long> {
     List<WorkTime> findByEmployeeAndDateBetweenOrderByDateAscStartTimeAsc(@Param("employee") Employee employee,
                                                                @Param("start") @Temporal(TemporalType.DATE) Date start,
                                                                @Param("end") @Temporal(TemporalType.DATE) Date end);
+
+    @PreAuthorize("hasRole('ROLE_SUPERVISOR')")
+    List<WorkTime> findByProjectAndDateBetweenOrderByDateAscStartTimeAsc(@Param("project") Project project,
+                                                                         @Param("start") @Temporal(TemporalType.DATE) Date start,
+                                                                         @Param("end") @Temporal(TemporalType.DATE) Date end);
 
 }

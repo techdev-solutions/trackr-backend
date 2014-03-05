@@ -87,4 +87,22 @@ public class WorkTimeRepositoryTest extends TransactionalIntegrationTest {
         List<WorkTime> all = workTimeRepository.findByEmployeeAndDateBetweenOrderByDateAscStartTimeAsc(workTime1.getEmployee(), low, high);
         assertThat(all.size(), isGreaterThanOrEqualTo(2));
     }
+
+    @Test
+    public void findByProjectAndDateBetweenOrderByDateAscStartTimeAsc() throws Exception {
+        WorkTime workTime1 = workTimeRepository.findOne(0L);
+        WorkTime workTime2 = workTimeRepository.findOne(1L);
+        workTime2.setProject(workTime1.getProject());
+        workTimeRepository.saveAndFlush(workTime2);
+        Date low, high;
+        if(workTime1.getDate().compareTo(workTime2.getDate()) <= 0) {
+            low = workTime1.getDate();
+            high = workTime2.getDate();
+        } else {
+            low = workTime2.getDate();
+            high = workTime1.getDate();
+        }
+        List<WorkTime> all = workTimeRepository.findByProjectAndDateBetweenOrderByDateAscStartTimeAsc(workTime1.getProject(), low, high);
+        assertThat(all.size(), isGreaterThanOrEqualTo(2));
+    }
 }

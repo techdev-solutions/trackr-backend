@@ -307,25 +307,13 @@ public class WorkTimeResourceTest extends MockMvcTest {
     @Test
     @Ignore
     public void findByEmployeeAndDateBetweenOrderByDateAscStartTimeAscForbiddenForOther() throws Exception {
-        WorkTime workTime1 = workTimeDataOnDemand.getRandomObject();
-        WorkTime workTime2 = workTimeDataOnDemand.getRandomObject();
-        workTime2.setEmployee(workTime1.getEmployee());
-        workTimeRepository.saveAndFlush(workTime2);
-        Date low, high;
-        if(workTime1.getDate().compareTo(workTime2.getDate()) <= 0) {
-            low = workTime1.getDate();
-            high = workTime2.getDate();
-        } else {
-            low = workTime2.getDate();
-            high = workTime1.getDate();
-        }
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        WorkTime workTime = workTimeDataOnDemand.getRandomObject();
         mockMvc.perform(
                 get("/workTimes/search/findByEmployeeAndDateBetweenOrderByDateAscStartTimeAsc")
-                        .session(employeeSession(workTime1.getEmployee().getId() + 1))
-                        .param("employee", workTime1.getEmployee().getId().toString())
-                        .param("start", sdf.format(low))
-                        .param("end", sdf.format(high)))
+                        .session(employeeSession(workTime.getEmployee().getId() + 1))
+                        .param("employee", workTime.getEmployee().getId().toString())
+                        .param("start", "2014-01-01")
+                        .param("end", "2014-12-01"))
                .andExpect(status().isForbidden());
     }
 
@@ -345,6 +333,43 @@ public class WorkTimeResourceTest extends MockMvcTest {
                         .session(employeeSession(workTime.getEmployee().getId()))
                         .param("employee", workTime.getEmployee().getId().toString())
                         .param("date", sdf.format(workTime.getDate())))
+               .andExpect(status().isForbidden());
+    }
+
+    @Test
+    public void findByProjectAndDateBetweenOrderByDateAscStartTimeAscAllowedForSupervisor() throws Exception {
+        WorkTime workTime1 = workTimeDataOnDemand.getRandomObject();
+        WorkTime workTime2 = workTimeDataOnDemand.getRandomObject();
+        workTime2.setProject(workTime1.getProject());
+        workTimeRepository.saveAndFlush(workTime2);
+        Date low, high;
+        if(workTime1.getDate().compareTo(workTime2.getDate()) <= 0) {
+            low = workTime1.getDate();
+            high = workTime2.getDate();
+        } else {
+            low = workTime2.getDate();
+            high = workTime1.getDate();
+        }
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        mockMvc.perform(
+                get("/workTimes/search/findByProjectAndDateBetweenOrderByDateAscStartTimeAsc")
+                        .session(supervisorSession())
+                        .param("project", workTime1.getProject().getId().toString())
+                        .param("start", sdf.format(low))
+                        .param("end", sdf.format(high)))
+               .andExpect(status().isOk())
+               .andExpect(jsonPath("_embedded.workTimes[0].id", isNotNull()));
+    }
+
+    @Test
+    public void findByProjectAndDateBetweenOrderByDateAscStartTimeAscForbiddenForEmployee() throws Exception {
+        WorkTime workTime = workTimeDataOnDemand.getRandomObject();
+        mockMvc.perform(
+                get("/workTimes/search/findByProjectAndDateBetweenOrderByDateAscStartTimeAsc")
+                        .session(employeeSession())
+                        .param("project", workTime.getProject().getId().toString())
+                        .param("start", "2014-01-01")
+                        .param("end", "2014-12-01"))
                .andExpect(status().isForbidden());
     }
 
