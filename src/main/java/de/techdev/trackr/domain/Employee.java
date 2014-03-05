@@ -2,6 +2,7 @@ package de.techdev.trackr.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.ToString;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
@@ -15,6 +16,7 @@ import java.util.List;
  */
 @Data
 @Entity
+@ToString(exclude = {"workTimes"})
 public class Employee {
 
     @Id
