@@ -129,7 +129,7 @@ public class AuthorityMocks {
 
             @Override
             public Object getPrincipal() {
-                return new TrackrUser(getName(), true, getAuthorities(), 1L);
+                return new TrackrUser(getName(), true, getAuthorities(), 5000L);
             }
 
             @Override

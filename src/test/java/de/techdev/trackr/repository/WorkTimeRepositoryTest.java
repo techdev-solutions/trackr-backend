@@ -73,7 +73,6 @@ public class WorkTimeRepositoryTest extends TransactionalIntegrationTest {
     @Test
     public void findByEmployeeAndDateBetweenOrderByDateAscStartTimeAsc() throws Exception {
         WorkTime workTime1 = workTimeRepository.findOne(0L);
-        workTimeRepository.saveAndFlush(workTime1);
         WorkTime workTime2 = workTimeRepository.findOne(1L);
         workTime2.setEmployee(workTime1.getEmployee());
         workTimeRepository.saveAndFlush(workTime2);
