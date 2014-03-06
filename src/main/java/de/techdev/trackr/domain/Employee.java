@@ -1,9 +1,10 @@
 package de.techdev.trackr.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.ToString;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.data.rest.core.annotation.RestResource;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -17,6 +18,7 @@ import java.util.List;
 @Data
 @Entity
 @ToString(exclude = {"workTimes"})
+@JsonIgnoreProperties({"credential", "workTimes"})
 public class Employee {
 
     @Id
@@ -42,10 +44,9 @@ public class Employee {
 
     @OneToOne(cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
-    @JsonIgnore
     private Credential credential;
 
     @OneToMany(cascade = CascadeType.REMOVE)
-    @JsonIgnore
+    @RestResource(exported = false)
     private List<WorkTime> workTimes = new ArrayList<>();
 }

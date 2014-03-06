@@ -1,8 +1,10 @@
 package de.techdev.trackr.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.ToString;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.data.rest.core.annotation.RestResource;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
@@ -16,6 +18,7 @@ import java.util.List;
 @Entity
 @Data
 @ToString(exclude = {"company", "debitor", "workTimes"})
+@JsonIgnoreProperties({"workTimes"})
 public class Project {
 
     @Id
@@ -53,5 +56,6 @@ public class Project {
     private Company debitor;
 
     @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "project")
+    @RestResource(exported = false)
     private List<WorkTime> workTimes = new ArrayList<>();
 }

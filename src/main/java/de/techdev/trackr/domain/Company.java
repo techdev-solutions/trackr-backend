@@ -1,9 +1,11 @@
 package de.techdev.trackr.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.data.rest.core.annotation.RestResource;
 
 import javax.persistence.*;
 import javax.validation.constraints.DecimalMin;
@@ -18,6 +20,7 @@ import java.util.List;
 @ToString(exclude = "contactPersons")
 @EqualsAndHashCode(exclude = "contactPersons")
 @Entity
+@JsonIgnoreProperties({"debitorProjects"})
 public class Company {
 
     @Id
@@ -47,5 +50,6 @@ public class Company {
     private List<Project> projects = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.REMOVE)
+    @RestResource(exported = false)
     private List<Project> debitorProjects = new ArrayList<>();
 }
