@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.convert.support.ConfigurableConversionService;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 import org.springframework.data.rest.webmvc.config.RepositoryRestMvcConfiguration;
+import org.springframework.format.FormatterRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 /**
@@ -61,9 +62,22 @@ public class ApiWebMvcConfiguration extends RepositoryRestMvcConfiguration {
         return new CredentialEventHandler();
     }
 
+    @Bean
+    public DateConverter dateConverter() {
+        return new DateConverter();
+    }
+
     @Override
     protected void configureConversionService(ConfigurableConversionService conversionService) {
-        conversionService.addConverter(new DateConverter());
         super.configureConversionService(conversionService);
+        conversionService.addConverter(dateConverter());
+    }
+
+    /**
+     * Somehow the "normal" Spring MVC (not spring-data-rest) does not use the converter registered in {@link #configureConversionService} so we have to register it again.
+     */
+    @Override
+    public void addFormatters(FormatterRegistry registry) {
+        registry.addConverter(dateConverter());
     }
 }
