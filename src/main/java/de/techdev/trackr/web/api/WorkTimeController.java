@@ -15,8 +15,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.sql.Time;
+import java.time.Duration;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.*;
 
@@ -36,9 +37,10 @@ public class WorkTimeController {
 
     /**
      * Finds all workTimes for a project in a given interval and converts them to a mapping of employee id to worktimes.
+     *
      * @param projectId The id of the project
-     * @param start The start of the interval
-     * @param end The end of the interval
+     * @param start     The start of the interval
+     * @param end       The end of the interval
      * @return The mapping of employee id to a DTO object that contains the employee along the work times.
      */
     @RequestMapping(value = "/findEmployeeMappingByProjectAndDateBetween", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -80,14 +82,35 @@ public class WorkTimeController {
     protected static class WorkTimeEmployee {
         private Long id;
         private String name;
-        private List<CustomWorkTime> workTimes = new ArrayList<>();
+        private List<CustomWorkTime> workTimes;
 
+        /**
+         * Create a WorkTimeEmployee out of an Employee and a list of workTimes. It is the responsibility of the caller to
+         * assure that the workTimes belong to the employee.
+         *
+         * This method will aggregate the workTimes by date and sum up the worked hours.
+         * @param employee The employee to use
+         * @param workTimes The list of workTimes to use.
+         * @return A workTime employee
+         */
         public static WorkTimeEmployee valueOf(Employee employee, List<CustomWorkTime> workTimes) {
             WorkTimeEmployee workTimeEmployee = new WorkTimeEmployee();
             workTimeEmployee.id = employee.getId();
             workTimeEmployee.name = employee.getFirstName() + " " + employee.getLastName();
-            workTimeEmployee.workTimes = workTimes;
+            workTimeEmployee.workTimes = reduceAndSortWorktimes(workTimes);
             return workTimeEmployee;
+        }
+
+        /**
+         * Add up work times that belong to the same date.
+         * @param workTimes The worktimes to add
+         * @return A sorted list of worktimes.
+         */
+        protected static List<CustomWorkTime> reduceAndSortWorktimes(List<CustomWorkTime> workTimes) {
+            CustomWorkTime identity = new CustomWorkTime();
+            identity.setMinutes(0L);
+            Map<Date, CustomWorkTime> mapped = workTimes.stream().collect(groupingBy(CustomWorkTime::getDate, reducing(identity, CustomWorkTime::addOtherWorkTime)));
+            return mapped.values().stream().sorted().collect(Collectors.toList());
         }
     }
 
@@ -95,19 +118,27 @@ public class WorkTimeController {
      * DTO that contains only the needed information for the method findEmployeeMappingByProjectAndDateBetween.
      */
     @Data
-    protected static class CustomWorkTime {
+    protected static class CustomWorkTime implements Comparable<CustomWorkTime> {
         private Date date;
-        private Time start;
-        private Time end;
-        private String comment;
+        private Long minutes;
+
+        public CustomWorkTime addOtherWorkTime(CustomWorkTime other) {
+            CustomWorkTime added = new CustomWorkTime();
+            added.setDate(other.getDate());
+            added.setMinutes(this.getMinutes() + other.getMinutes());
+            return added;
+        }
 
         public static CustomWorkTime valueOf(WorkTime workTime) {
             CustomWorkTime customWorkTime = new CustomWorkTime();
+            customWorkTime.minutes = Duration.between(workTime.getStartTime().toLocalTime(), workTime.getEndTime().toLocalTime()).toMinutes();
             customWorkTime.date = workTime.getDate();
-            customWorkTime.start = workTime.getStartTime();
-            customWorkTime.end = workTime.getEndTime();
-            customWorkTime.comment = workTime.getComment();
             return customWorkTime;
+        }
+
+        @Override
+        public int compareTo(CustomWorkTime o) {
+            return this.getDate().compareTo(o.getDate());
         }
     }
 }
