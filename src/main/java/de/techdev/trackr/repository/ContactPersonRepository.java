@@ -1,11 +1,11 @@
 package de.techdev.trackr.repository;
 
 import de.techdev.trackr.domain.ContactPerson;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.CrudRepository;
 
 /**
  * @author Moritz Schulze
  */
-public interface ContactPersonRepository extends JpaRepository<ContactPerson, Long> {
+public interface ContactPersonRepository extends CrudRepository<ContactPerson, Long> {
 
 }

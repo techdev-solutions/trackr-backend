@@ -60,11 +60,11 @@ public class WorkTimeRepositoryTest extends TransactionalIntegrationTest {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         WorkTime workTime1 = workTimeRepository.findOne(0L);
         workTime1.setDate(sdf.parse("2014-03-04 10:00"));
-        workTimeRepository.saveAndFlush(workTime1);
+        workTimeRepository.save(workTime1);
         WorkTime workTime2 = workTimeRepository.findOne(1L);
         workTime2.setEmployee(workTime1.getEmployee());
         workTime2.setDate(sdf.parse("2014-03-04 11:00"));
-        workTimeRepository.saveAndFlush(workTime2);
+        workTimeRepository.save(workTime2);
 
         List<WorkTime> workTimes = workTimeRepository.findByEmployeeAndDateOrderByStartTimeAsc(workTime1.getEmployee(), sdf.parse("2014-03-04 09:00:00"));
         assertThat(workTimes.size(), isGreaterThanOrEqualTo(2));
@@ -75,7 +75,7 @@ public class WorkTimeRepositoryTest extends TransactionalIntegrationTest {
         WorkTime workTime1 = workTimeRepository.findOne(0L);
         WorkTime workTime2 = workTimeRepository.findOne(1L);
         workTime2.setEmployee(workTime1.getEmployee());
-        workTimeRepository.saveAndFlush(workTime2);
+        workTimeRepository.save(workTime2);
         Date low, high;
         if(workTime1.getDate().compareTo(workTime2.getDate()) <= 0) {
             low = workTime1.getDate();
@@ -93,7 +93,7 @@ public class WorkTimeRepositoryTest extends TransactionalIntegrationTest {
         WorkTime workTime1 = workTimeRepository.findOne(0L);
         WorkTime workTime2 = workTimeRepository.findOne(1L);
         workTime2.setProject(workTime1.getProject());
-        workTimeRepository.saveAndFlush(workTime2);
+        workTimeRepository.save(workTime2);
         Date low, high;
         if(workTime1.getDate().compareTo(workTime2.getDate()) <= 0) {
             low = workTime1.getDate();

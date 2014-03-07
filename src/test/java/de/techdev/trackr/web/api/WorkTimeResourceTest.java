@@ -253,7 +253,7 @@ public class WorkTimeResourceTest extends MockMvcTest {
         WorkTime workTime1 = workTimeDataOnDemand.getRandomObject();
         WorkTime workTime2 = workTimeDataOnDemand.getRandomObject();
         workTime2.setEmployee(workTime1.getEmployee());
-        workTimeRepository.saveAndFlush(workTime2);
+        workTimeRepository.save(workTime2);
         Date low, high;
         if(workTime1.getDate().compareTo(workTime2.getDate()) <= 0) {
             low = workTime1.getDate();
@@ -278,7 +278,7 @@ public class WorkTimeResourceTest extends MockMvcTest {
         WorkTime workTime1 = workTimeDataOnDemand.getRandomObject();
         WorkTime workTime2 = workTimeDataOnDemand.getRandomObject();
         workTime2.setEmployee(workTime1.getEmployee());
-        workTimeRepository.saveAndFlush(workTime2);
+        workTimeRepository.save(workTime2);
         Date low, high;
         if(workTime1.getDate().compareTo(workTime2.getDate()) <= 0) {
             low = workTime1.getDate();
@@ -341,7 +341,7 @@ public class WorkTimeResourceTest extends MockMvcTest {
         WorkTime workTime1 = workTimeDataOnDemand.getRandomObject();
         WorkTime workTime2 = workTimeDataOnDemand.getRandomObject();
         workTime2.setProject(workTime1.getProject());
-        workTimeRepository.saveAndFlush(workTime2);
+        workTimeRepository.save(workTime2);
         Date low, high;
         if(workTime1.getDate().compareTo(workTime2.getDate()) <= 0) {
             low = workTime1.getDate();

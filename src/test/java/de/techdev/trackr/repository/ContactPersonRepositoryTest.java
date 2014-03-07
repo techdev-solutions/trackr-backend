@@ -33,7 +33,7 @@ public class ContactPersonRepositoryTest extends TransactionalIntegrationTest {
     @Test
     public void all() throws Exception {
         contactPersonDataOnDemand.init();
-        List<ContactPerson> all = contactPersonRepository.findAll();
+        Iterable<ContactPerson> all = contactPersonRepository.findAll();
         assertThat(all, isNotEmpty());
     }
 }

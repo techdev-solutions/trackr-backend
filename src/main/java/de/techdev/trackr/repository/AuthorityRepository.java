@@ -1,13 +1,13 @@
 package de.techdev.trackr.repository;
 
 import de.techdev.trackr.domain.Authority;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.rest.core.annotation.RestResource;
 
 /**
  * @author Moritz Schulze
  */
-public interface AuthorityRepository extends JpaRepository<Authority, Long> {
+public interface AuthorityRepository extends CrudRepository<Authority, Long> {
 
     @Override
     @RestResource(exported = false)

@@ -1,9 +1,13 @@
 package de.techdev.trackr.domain.support;
 
+import com.google.common.collect.Collections2;
+import com.google.common.collect.Iterators;
+import com.google.common.collect.Lists;
 import de.techdev.trackr.domain.Employee;
 import de.techdev.trackr.security.AuthorityMocks;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
@@ -22,7 +26,7 @@ import java.util.List;
 public abstract class AbstractDataOnDemand<S> {
 
     @Autowired
-    protected JpaRepository<S, Long> repository;
+    protected CrudRepository<S, Long> repository;
 
     protected List<S> data;
 
@@ -71,7 +75,7 @@ public abstract class AbstractDataOnDemand<S> {
         int to = 10;
         //Some repositories might have security annotations so we temporary acquire admin rights.
         SecurityContextHolder.getContext().setAuthentication(AuthorityMocks.adminAuthentication());
-        data = repository.findAll(new org.springframework.data.domain.PageRequest(from / to, to)).getContent();
+        data = Lists.newArrayList(repository.findAll());
         if (data == null) {
             throw new IllegalStateException("Find entries implementation for 'Component' illegally returned null");
         }
@@ -93,7 +97,6 @@ public abstract class AbstractDataOnDemand<S> {
                 }
                 throw new IllegalStateException(msg.toString(), e);
             }
-            repository.flush();
             data.add(obj);
         }
         SecurityContextHolder.getContext().setAuthentication(null);
