@@ -8,6 +8,11 @@ import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.convert.ConversionService;
+import org.springframework.data.rest.webmvc.support.RepositoryEntityLinks;
+import org.springframework.hateoas.EntityLinks;
+import org.springframework.hateoas.Link;
+import org.springframework.hateoas.LinkBuilder;
+import org.springframework.hateoas.ResourceSupport;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,10 +21,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.time.Duration;
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.*;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
 /**
  * @author Moritz Schulze
@@ -70,32 +80,39 @@ public class WorkTimeController {
                 )).entrySet().stream().collect(
                 HashMap<Long, WorkTimeEmployee>::new,
                 (resultMap, entry) -> {
-                    resultMap.put(entry.getKey().getId(), WorkTimeEmployee.valueOf(entry.getKey(), entry.getValue()));
+                    Link link = repositoryEntityLinks.linkToSingleResource(Employee.class, entry.getKey().getId());
+                    WorkTimeEmployee workTimeEmployee = WorkTimeEmployee.valueOf(entry.getKey(), entry.getValue());
+                    workTimeEmployee.add(link.withSelfRel());
+                    resultMap.put(entry.getKey().getId(), workTimeEmployee);
                 },
                 HashMap<Long, WorkTimeEmployee>::putAll);
     }
 
+    @Autowired
+    private EntityLinks repositoryEntityLinks;
+
     /**
      * DTO that contains only the needed information for the method findEmployeeMappingByProjectAndDateBetween.
+     * <p>
+     * It extends {@link org.springframework.hateoas.ResourceSupport} so a link to the employee entity can be added.
      */
     @Data
-    protected static class WorkTimeEmployee {
-        private Long id;
+    protected static class WorkTimeEmployee extends ResourceSupport {
         private String name;
         private List<CustomWorkTime> workTimes;
 
         /**
          * Create a WorkTimeEmployee out of an Employee and a list of workTimes. It is the responsibility of the caller to
          * assure that the workTimes belong to the employee.
-         *
+         * <p>
          * This method will aggregate the workTimes by date and sum up the worked hours.
-         * @param employee The employee to use
+         *
+         * @param employee  The employee to use
          * @param workTimes The list of workTimes to use.
          * @return A workTime employee
          */
         public static WorkTimeEmployee valueOf(Employee employee, List<CustomWorkTime> workTimes) {
             WorkTimeEmployee workTimeEmployee = new WorkTimeEmployee();
-            workTimeEmployee.id = employee.getId();
             workTimeEmployee.name = employee.getFirstName() + " " + employee.getLastName();
             workTimeEmployee.workTimes = reduceAndSortWorktimes(workTimes);
             return workTimeEmployee;
@@ -103,6 +120,7 @@ public class WorkTimeController {
 
         /**
          * Add up work times that belong to the same date.
+         *
          * @param workTimes The worktimes to add
          * @return A sorted list of worktimes.
          */
