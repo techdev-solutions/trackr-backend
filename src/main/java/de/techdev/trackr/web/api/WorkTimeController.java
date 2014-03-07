@@ -5,6 +5,7 @@ import de.techdev.trackr.domain.Project;
 import de.techdev.trackr.domain.WorkTime;
 import de.techdev.trackr.repository.WorkTimeRepository;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.convert.ConversionService;
@@ -97,6 +98,7 @@ public class WorkTimeController {
      * It extends {@link org.springframework.hateoas.ResourceSupport} so a link to the employee entity can be added.
      */
     @Data
+    @EqualsAndHashCode(callSuper = false)
     protected static class WorkTimeEmployee extends ResourceSupport {
         private String name;
         private List<CustomWorkTime> workTimes;
