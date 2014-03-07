@@ -1,8 +1,10 @@
 package de.techdev.trackr.domain;
 
+import com.sun.tools.jdi.IntegerValueImpl;
 import lombok.Data;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
@@ -33,4 +35,8 @@ public class BillableTime {
     @NotNull
     @Temporal(TemporalType.DATE)
     private Date date;
+
+    @NotNull
+    @Min(0)
+    private Integer hours;
 }
