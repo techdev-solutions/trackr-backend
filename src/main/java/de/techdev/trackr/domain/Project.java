@@ -17,7 +17,7 @@ import java.util.List;
  */
 @Entity
 @Data
-@ToString(exclude = {"company", "debitor", "workTimes"})
+@ToString(exclude = {"company", "debitor", "workTimes", "billableTimes"})
 @JsonIgnoreProperties({"workTimes", "billableTimes"})
 public class Project {
 
