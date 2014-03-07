@@ -18,7 +18,7 @@ import java.util.List;
 @Entity
 @Data
 @ToString(exclude = {"company", "debitor", "workTimes"})
-@JsonIgnoreProperties({"workTimes"})
+@JsonIgnoreProperties({"workTimes", "billableTimes"})
 public class Project {
 
     @Id
@@ -58,4 +58,8 @@ public class Project {
     @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "project")
     @RestResource(exported = false)
     private List<WorkTime> workTimes = new ArrayList<>();
+
+    @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "project")
+    @RestResource(exported = false)
+    private List<BillableTime> billableTimes = new ArrayList<>();
 }

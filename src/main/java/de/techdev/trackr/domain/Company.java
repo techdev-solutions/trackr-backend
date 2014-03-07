@@ -49,7 +49,7 @@ public class Company {
     @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "company")
     private List<Project> projects = new ArrayList<>();
 
-    @OneToMany(cascade = CascadeType.REMOVE)
+    @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "debitor")
     @RestResource(exported = false)
     private List<Project> debitorProjects = new ArrayList<>();
 }

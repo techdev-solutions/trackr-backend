@@ -18,7 +18,7 @@ import java.util.List;
 @Data
 @Entity
 @ToString(exclude = {"workTimes"})
-@JsonIgnoreProperties({"credential", "workTimes"})
+@JsonIgnoreProperties({"credential", "workTimes", "billableTimes"})
 public class Employee {
 
     @Id
@@ -46,7 +46,11 @@ public class Employee {
     @PrimaryKeyJoinColumn
     private Credential credential;
 
-    @OneToMany(cascade = CascadeType.REMOVE)
+    @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "employee")
     @RestResource(exported = false)
     private List<WorkTime> workTimes = new ArrayList<>();
+
+    @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "employee")
+    @RestResource(exported = false)
+    private List<BillableTime> billableTimes = new ArrayList<>();
 }
