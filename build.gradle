@@ -45,6 +45,7 @@ dependencies {
     //web
     compile "org.springframework:spring-webmvc:$project.springVersion"
     compile "com.fasterxml.jackson.core:jackson-databind:2.3.1"
+    compile "org.codehaus.jackson:jackson-core-asl:1.9.13"
     compile "javax.servlet:jstl:1.2"
     compile 'org.springframework.data:spring-data-rest-webmvc:2.0.0.RELEASE'
 

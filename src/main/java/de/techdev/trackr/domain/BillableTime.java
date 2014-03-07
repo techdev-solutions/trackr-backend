@@ -1,6 +1,5 @@
 package de.techdev.trackr.domain;
 
-import com.sun.tools.jdi.IntegerValueImpl;
 import lombok.Data;
 
 import javax.persistence.*;

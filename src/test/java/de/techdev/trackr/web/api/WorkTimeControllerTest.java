@@ -4,6 +4,9 @@ import de.techdev.trackr.domain.Employee;
 import de.techdev.trackr.domain.WorkTime;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Matchers;
+import org.springframework.hateoas.EntityLinks;
+import org.springframework.hateoas.Link;
 
 import java.sql.Time;
 import java.text.ParseException;
@@ -16,6 +19,8 @@ import static java.util.Arrays.asList;
 import static org.echocat.jomon.testing.BaseMatchers.isNotNull;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
  * @author Moritz Schulze
@@ -27,6 +32,10 @@ public class WorkTimeControllerTest {
     @Before
     public void setUp() throws Exception {
         workTimeController = new WorkTimeController();
+        workTimeController.repositoryEntityLinks = mock(EntityLinks.class);
+        Link link = mock(Link.class);
+        when(link.withSelfRel()).thenReturn(link);
+        when(workTimeController.repositoryEntityLinks.linkToSingleResource(Matchers.any(), Matchers.any())).thenReturn(link);
     }
 
     @Test

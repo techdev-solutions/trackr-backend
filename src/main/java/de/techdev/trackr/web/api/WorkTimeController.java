@@ -90,7 +90,7 @@ public class WorkTimeController {
     }
 
     @Autowired
-    private EntityLinks repositoryEntityLinks;
+    protected EntityLinks repositoryEntityLinks;
 
     /**
      * DTO that contains only the needed information for the method findEmployeeMappingByProjectAndDateBetween.
