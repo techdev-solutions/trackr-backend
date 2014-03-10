@@ -31,7 +31,6 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.*;
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 
 /**
  * @author Moritz Schulze
@@ -147,7 +146,7 @@ public class WorkTimeController {
             workTimes.forEach(ctw -> {
                 if(dateBillableTimeMapping != null && dateBillableTimeMapping.get(ctw.getDate()) != null) {
                     ctw.setBilledTimeId(dateBillableTimeMapping.get(ctw.getDate()).getId());
-                    ctw.setBilledMinutes(dateBillableTimeMapping.get(ctw.getDate()).getMinutes().longValue());
+                    ctw.setHours(dateBillableTimeMapping.get(ctw.getDate()).getMinutes().doubleValue() / 60);
                 }
             });
         }
@@ -160,7 +159,7 @@ public class WorkTimeController {
          */
         protected static List<CustomWorkTime> reduceAndSortWorktimes(List<CustomWorkTime> workTimes) {
             CustomWorkTime identity = new CustomWorkTime();
-            identity.setMinutes(0L);
+            identity.setEnteredMinutes(0L);
             Map<Date, CustomWorkTime> mapped = workTimes.stream().collect(groupingBy(CustomWorkTime::getDate, reducing(identity, CustomWorkTime::addOtherWorkTime)));
             return mapped.values().stream().sorted().collect(Collectors.toList());
         }
@@ -172,20 +171,20 @@ public class WorkTimeController {
     @Data
     protected static class CustomWorkTime implements Comparable<CustomWorkTime> {
         private Date date;
-        private Long minutes;
-        private Long billedMinutes;
+        private Long enteredMinutes;
+        private Double hours;
         private Long billedTimeId;
 
         public CustomWorkTime addOtherWorkTime(CustomWorkTime other) {
             CustomWorkTime added = new CustomWorkTime();
             added.setDate(other.getDate());
-            added.setMinutes(this.getMinutes() + other.getMinutes());
+            added.setEnteredMinutes(this.getEnteredMinutes() + other.getEnteredMinutes());
             return added;
         }
 
         public static CustomWorkTime valueOf(WorkTime workTime) {
             CustomWorkTime customWorkTime = new CustomWorkTime();
-            customWorkTime.minutes = Duration.between(workTime.getStartTime().toLocalTime(), workTime.getEndTime().toLocalTime()).toMinutes();
+            customWorkTime.enteredMinutes = Duration.between(workTime.getStartTime().toLocalTime(), workTime.getEndTime().toLocalTime()).toMinutes();
             customWorkTime.date = workTime.getDate();
             return customWorkTime;
         }

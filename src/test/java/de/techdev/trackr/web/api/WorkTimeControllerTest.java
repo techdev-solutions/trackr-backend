@@ -88,28 +88,28 @@ public class WorkTimeControllerTest {
         workTime21.setStartTime(Time.valueOf("09:00:00"));
         workTime21.setEndTime(Time.valueOf("17:00:00"));
         WorkTimeController.CustomWorkTime customWorkTime = WorkTimeController.CustomWorkTime.valueOf(workTime21);
-        assertThat(customWorkTime.getMinutes(), is(480L));
+        assertThat(customWorkTime.getEnteredMinutes(), is(480L));
     }
 
     @Test
     public void reduceWorkTimes() throws Exception {
         List<WorkTimeController.CustomWorkTime> reduced = WorkTimeController.WorkTimeEmployee.reduceAndSortWorktimes(createCustomWorkTimes());
         assertThat(reduced.size(), is(2));
-        assertThat(reduced.get(0).getMinutes(), is(300L));
-        assertThat(reduced.get(1).getMinutes(), is(480L));
+        assertThat(reduced.get(0).getEnteredMinutes(), is(300L));
+        assertThat(reduced.get(1).getEnteredMinutes(), is(480L));
     }
 
     private List<WorkTimeController.CustomWorkTime> createCustomWorkTimes() throws ParseException {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         WorkTimeController.CustomWorkTime ctw1 = new WorkTimeController.CustomWorkTime();
         ctw1.setDate(sdf.parse("2014-01-01"));
-        ctw1.setMinutes(240L);
+        ctw1.setEnteredMinutes(240L);
         WorkTimeController.CustomWorkTime ctw2 = new WorkTimeController.CustomWorkTime();
         ctw2.setDate(sdf.parse("2014-01-01"));
-        ctw2.setMinutes(60L);
+        ctw2.setEnteredMinutes(60L);
         WorkTimeController.CustomWorkTime ctw3 = new WorkTimeController.CustomWorkTime();
         ctw3.setDate(sdf.parse("2014-01-02"));
-        ctw3.setMinutes(480L);
+        ctw3.setEnteredMinutes(480L);
         return asList(ctw1, ctw2, ctw3);
     }
 }
