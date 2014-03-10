@@ -8,10 +8,7 @@ import de.techdev.trackr.repository.CredentialRepository;
 import de.techdev.trackr.repository.EmployeeRepository;
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.aop.framework.Advised;
-import org.springframework.aop.support.AopUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.AuthenticationUserDetailsService;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.openid.OpenIDAttribute;
@@ -44,9 +41,6 @@ public class TrackrUserDetailsServiceIntegrationTest extends TransactionalIntegr
     @Autowired
     private CredentialRepository credentialRepository;
 
-    @Autowired
-    private AuthenticationUserDetailsService<OpenIDAuthenticationToken> userDetailsService;
-
     private TrackrUserDetailsService trackrUserDetailsService;
 
     /**
@@ -55,11 +49,10 @@ public class TrackrUserDetailsServiceIntegrationTest extends TransactionalIntegr
      */
     @Before
     public void setUp() throws Exception {
-        if (AopUtils.isJdkDynamicProxy(userDetailsService)) {
-            trackrUserDetailsService = (TrackrUserDetailsService) ((Advised)userDetailsService).getTargetSource().getTarget();
-        } else {
-            trackrUserDetailsService = (TrackrUserDetailsService) userDetailsService; // expected to be cglib proxy then, which is simply a specialized class
-        }
+        trackrUserDetailsService = new TrackrUserDetailsService();
+        trackrUserDetailsService.setCredentialRepository(credentialRepository);
+        trackrUserDetailsService.setEmployeeRepository(employeeRepository);
+
         credentialDataOnDemand.init();
     }
 

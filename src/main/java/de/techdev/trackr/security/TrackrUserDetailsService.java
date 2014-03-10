@@ -4,6 +4,7 @@ import de.techdev.trackr.domain.Credential;
 import de.techdev.trackr.domain.Employee;
 import de.techdev.trackr.repository.CredentialRepository;
 import de.techdev.trackr.repository.EmployeeRepository;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.AuthenticationUserDetailsService;
@@ -25,6 +26,7 @@ import java.util.Map;
  * @author Moritz Schulze
  */
 @Slf4j
+@Setter
 public class TrackrUserDetailsService implements AuthenticationUserDetailsService<OpenIDAuthenticationToken> {
 
     public static final String USER_NOT_FOUND = "User not found.";
