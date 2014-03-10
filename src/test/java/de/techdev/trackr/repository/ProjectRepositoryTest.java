@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
+import static org.echocat.jomon.testing.BaseMatchers.isNot;
 import static org.echocat.jomon.testing.BaseMatchers.isNotEmpty;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
@@ -47,5 +48,19 @@ public class ProjectRepositoryTest extends TransactionalIntegrationTest {
         Project project = projectDataOnDemand.getRandomObject();
         Project byIdentifier = projectRepository.findByIdentifier(project.getIdentifier());
         assertThat(byIdentifier.getId(), is(project.getId()));
+    }
+
+    @Test
+    public void findByNameLikeOrIdentifierLikeOrderByNameAscOnlyIdentifier() throws Exception {
+        Project project = projectDataOnDemand.getRandomObject();
+        List<Project> all = projectRepository.findByNameLikeOrIdentifierLikeOrderByNameAsc(project.getIdentifier(), project.getIdentifier());
+        assertThat(all, isNotEmpty());
+    }
+
+    @Test
+    public void findByNameLikeOrIdentifierLikeOrderByNameAscOnlyName() throws Exception {
+        Project project = projectDataOnDemand.getRandomObject();
+        List<Project> all = projectRepository.findByNameLikeOrIdentifierLikeOrderByNameAsc(project.getName(), project.getName());
+        assertThat(all, isNotEmpty());
     }
 }
