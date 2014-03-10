@@ -1,18 +1,18 @@
 package de.techdev.trackr.web.api;
 
+import de.techdev.trackr.domain.BillableTime;
 import de.techdev.trackr.domain.Employee;
 import de.techdev.trackr.domain.Project;
 import de.techdev.trackr.domain.WorkTime;
+import de.techdev.trackr.repository.BillableTimeRepository;
 import de.techdev.trackr.repository.WorkTimeRepository;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.convert.ConversionService;
-import org.springframework.data.rest.webmvc.support.RepositoryEntityLinks;
 import org.springframework.hateoas.EntityLinks;
 import org.springframework.hateoas.Link;
-import org.springframework.hateoas.LinkBuilder;
 import org.springframework.hateoas.ResourceSupport;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -27,11 +27,11 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.*;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
 /**
  * @author Moritz Schulze
@@ -46,6 +46,9 @@ public class WorkTimeController {
 
     @Autowired
     private WorkTimeRepository workTimeRepository;
+
+    @Autowired
+    private BillableTimeRepository billableTimeRepository;
 
     /**
      * Finds all workTimes for a project in a given interval and converts them to a mapping of employee id to worktimes.
@@ -65,17 +68,34 @@ public class WorkTimeController {
         //TODO: Make spring do the conversion automatically
         Project project = conversionService.convert(Long.valueOf(projectId), Project.class);
         List<WorkTime> workTimes = workTimeRepository.findByProjectAndDateBetweenOrderByDateAscStartTimeAsc(project, start, end);
-        return convertStreamOfWorkTimesToMap(workTimes);
+        return convertStreamOfWorkTimesToMap(workTimes, getBilledMinutesMapping(start, end, project));
+    }
+
+    /**
+     * Maps employees via id to the already billed times in a given interval.
+     * @param start The start of the interval
+     * @param end The end of the interval
+     * @param project The project
+     * @return A map of employee id to a map of date to billable times.
+     */
+    protected Map<Long, Map<Date, BillableTime>> getBilledMinutesMapping(Date start, Date end, Project project) {
+        List<BillableTime> billableTimes = billableTimeRepository.findByProjectAndDateBetweenOrderByDateAsc(project, start, end);
+        return billableTimes.stream().collect(
+                groupingBy(bt -> bt.getEmployee().getId(),
+                        mapping(billableTime -> billableTime,
+                                toMap(BillableTime::getDate, Function.<BillableTime>identity()))));
     }
 
     /**
      * Takes a list of workTimes, groups them by employee while transforming the WorkTime objects to CustomWorkTime DTOs and afterwards maps it
      * to a map of long (employee id) to the WorkTimeEmployee DTO.
      *
+     *
      * @param workTimes The list of worktimes to transform
+     * @param billedMinutesMapping Mapping of already billed minutes
      * @return The mapping of Long to WorkTimeEmployee
      */
-    protected Map<Long, WorkTimeEmployee> convertStreamOfWorkTimesToMap(List<WorkTime> workTimes) {
+    protected Map<Long, WorkTimeEmployee> convertStreamOfWorkTimesToMap(List<WorkTime> workTimes, Map<Long, Map<Date, BillableTime>> billedMinutesMapping) {
         return workTimes.stream().collect(
                 groupingBy(
                         WorkTime::getEmployee,
@@ -85,6 +105,7 @@ public class WorkTimeController {
                 (resultMap, entry) -> {
                     Link link = repositoryEntityLinks.linkToSingleResource(Employee.class, entry.getKey().getId());
                     WorkTimeEmployee workTimeEmployee = WorkTimeEmployee.valueOf(entry.getKey(), entry.getValue());
+                    workTimeEmployee.addBilledMinutes(billedMinutesMapping.get(entry.getKey().getId()));
                     workTimeEmployee.add(link.withSelfRel());
                     resultMap.put(entry.getKey().getId(), workTimeEmployee);
                 },
@@ -122,6 +143,15 @@ public class WorkTimeController {
             return workTimeEmployee;
         }
 
+        public void addBilledMinutes(Map<Date, BillableTime> dateBillableTimeMapping) {
+            workTimes.forEach(ctw -> {
+                if(dateBillableTimeMapping != null && dateBillableTimeMapping.get(ctw.getDate()) != null) {
+                    ctw.setBilledTimeId(dateBillableTimeMapping.get(ctw.getDate()).getId());
+                    ctw.setBilledMinutes(dateBillableTimeMapping.get(ctw.getDate()).getMinutes().longValue());
+                }
+            });
+        }
+
         /**
          * Add up work times that belong to the same date.
          *
@@ -143,6 +173,8 @@ public class WorkTimeController {
     protected static class CustomWorkTime implements Comparable<CustomWorkTime> {
         private Date date;
         private Long minutes;
+        private Long billedMinutes;
+        private Long billedTimeId;
 
         public CustomWorkTime addOtherWorkTime(CustomWorkTime other) {
             CustomWorkTime added = new CustomWorkTime();

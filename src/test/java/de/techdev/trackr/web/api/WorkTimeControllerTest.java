@@ -12,6 +12,7 @@ import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -40,7 +41,7 @@ public class WorkTimeControllerTest {
 
     @Test
     public void convertStreamOfWorkTimesToMap() throws Exception {
-        Map<Long,WorkTimeController.WorkTimeEmployee> map = workTimeController.convertStreamOfWorkTimesToMap(createTestWorktimes());
+        Map<Long,WorkTimeController.WorkTimeEmployee> map = workTimeController.convertStreamOfWorkTimesToMap(createTestWorktimes(), new HashMap<>());
         assertThat("The map must contain two employee mappings", map.keySet().size(), is(2));
         assertThat("One mapping must be for id 1", map.get(1L), isNotNull());
         assertThat("One mapping must be for id 2", map.get(2L), isNotNull());
