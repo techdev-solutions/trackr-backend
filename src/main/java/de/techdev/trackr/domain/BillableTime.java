@@ -12,6 +12,7 @@ import java.util.Date;
  */
 @Entity
 @Data
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"employee", "project", "date"}))
 public class BillableTime {
 
     @Id
