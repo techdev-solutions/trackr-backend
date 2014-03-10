@@ -190,7 +190,7 @@ public class BillableTimeResourceTest extends MockMvcTest {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         jg.writeStartObject()
                 .write("date", sdf.format(billableTime.getDate()))
-                .write("hours", billableTime.getHours())
+                .write("minutes", billableTime.getMinutes())
                 .write("employee", "/employees/" + billableTime.getEmployee().getId())
                 .write("project", "/projects/" + billableTime.getProject().getId());
         if (billableTime.getId() != null) {

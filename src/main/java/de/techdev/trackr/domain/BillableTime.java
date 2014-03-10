@@ -37,5 +37,5 @@ public class BillableTime {
 
     @NotNull
     @Min(0)
-    private Integer hours;
+    private Integer minutes;
 }

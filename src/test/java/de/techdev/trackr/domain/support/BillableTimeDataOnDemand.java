@@ -24,7 +24,7 @@ public class BillableTimeDataOnDemand extends AbstractDataOnDemand<BillableTime>
         billableTime.setEmployee(employeeDataOnDemand.getRandomObject());
         billableTime.setProject(projectDataOnDemand.getRandomObject());
         billableTime.setDate(new Date());
-        billableTime.setHours(i);
+        billableTime.setMinutes(i);
         return billableTime;
     }
 }
