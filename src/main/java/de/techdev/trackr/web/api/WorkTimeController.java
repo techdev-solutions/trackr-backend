@@ -15,6 +15,7 @@ import org.springframework.hateoas.Link;
 import org.springframework.hateoas.LinkBuilder;
 import org.springframework.hateoas.ResourceSupport;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -54,6 +55,7 @@ public class WorkTimeController {
      * @param end       The end of the interval
      * @return The mapping of employee id to a DTO object that contains the employee along the work times.
      */
+    @PreAuthorize("hasRole('ROLE_SUPERVISOR')")
     @RequestMapping(value = "/findEmployeeMappingByProjectAndDateBetween", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public Map<Long, WorkTimeEmployee> findEmployeeMappingByProjectAndDateBetween(
