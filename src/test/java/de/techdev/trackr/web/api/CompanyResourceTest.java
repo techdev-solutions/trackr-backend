@@ -66,6 +66,18 @@ public class CompanyResourceTest extends MockMvcTest {
                .andExpect(jsonPath("id", is(company.getId().intValue())));
     }
 
+    @Test
+    public void findByNameLikeOrderByNameAsc() throws Exception {
+        Company company = companyDataOnDemand.getRandomObject();
+        mockMvc.perform(
+                get("/companies/search/findByNameLikeOrderByNameAsc")
+                        .session(employeeSession())
+                        .param("name", company.getName()))
+               .andExpect(status().isOk())
+               .andExpect(content().contentType(standardContentType))
+               .andExpect(jsonPath("_embedded.companies[0].id", isNotNull()));
+    }
+
     /**
      * A company can be found via the findByCompanyId finder
      *

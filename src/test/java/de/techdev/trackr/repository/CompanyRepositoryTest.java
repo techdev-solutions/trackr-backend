@@ -54,6 +54,13 @@ public class CompanyRepositoryTest extends TransactionalIntegrationTest {
     }
 
     @Test
+    public void findByNameLikeOrderByNameAsc() throws Exception {
+        Company company = companyDataOnDemand.getRandomObject();
+        List<Company> byNameLikeOrderByNameAsc = companyRepository.findByNameLikeOrderByNameAsc(company.getName());
+        assertThat(byNameLikeOrderByNameAsc, isNotEmpty());
+    }
+
+    @Test
     public void deleteWithContactPersons() throws Exception {
         ContactPerson contactPerson = contactPersonDataOnDemand.getRandomObject();
         companyRepository.delete(contactPerson.getCompany());
