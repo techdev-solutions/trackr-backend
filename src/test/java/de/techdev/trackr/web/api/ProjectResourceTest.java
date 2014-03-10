@@ -6,6 +6,7 @@ import de.techdev.trackr.domain.support.ProjectDataOnDemand;
 import de.techdev.trackr.domain.support.WorkTimeDataOnDemand;
 import de.techdev.trackr.web.MockMvcTest;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -209,6 +210,7 @@ public class ProjectResourceTest extends MockMvcTest {
     }
 
     @Test
+    @Ignore
     public void deleteDebitorForbiddenForSupervisor() throws Exception {
         Project project = projectDataOnDemand.getRandomObject();
         mockMvc.perform(
