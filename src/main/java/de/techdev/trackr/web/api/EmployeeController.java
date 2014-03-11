@@ -1,12 +1,19 @@
 package de.techdev.trackr.web.api;
 
+import de.techdev.trackr.domain.Credential;
 import de.techdev.trackr.domain.Employee;
+import de.techdev.trackr.repository.CredentialRepository;
 import de.techdev.trackr.repository.EmployeeRepository;
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindException;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 /**
  * A controller for special operations on Employees not exportable by spring-data-rest
@@ -19,6 +26,9 @@ public class EmployeeController {
 
     @Autowired
     private EmployeeRepository employeeRepository;
+
+    @Autowired
+    private CredentialRepository credentialRepository;
 
     /**
      * This method allows an employee to change some values of his entity on his own, namely the one
@@ -50,5 +60,36 @@ public class EmployeeController {
     public @ResponseBody SelfEmployee get(@PathVariable("employee") Long employeeId) {
         Employee employee = employeeRepository.findOne(employeeId);
         return SelfEmployee.valueOf(employee);
+    }
+
+    /**
+     * Create a new employee along with his/her credentials. Used so binding errors for both entities are displayed at the same time.
+     * @param createEmployee Wrapper for an employee and a credential entity.
+     * @param bindingResult Spring binding result.
+     * @return The newly created employee
+     * @throws BindException If the bindingResult had errors.
+     */
+    @RequestMapping(value = "/createWithCredential", method = {RequestMethod.POST}, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public Employee createWithCredential(@RequestBody @Valid CreateEmployee createEmployee, BindingResult bindingResult) throws BindException {
+        if(bindingResult.hasErrors()) {
+            throw new BindException(bindingResult);
+        }
+        createEmployee.getEmployee().setCredential(createEmployee.getCredential());
+        createEmployee.getCredential().setEmployee(createEmployee.getEmployee());
+
+        return employeeRepository.save(createEmployee.getEmployee());
+    }
+
+    /**
+     * Wrapper DTO for an employee and a credential.
+     */
+    @Data
+    public static class CreateEmployee {
+        @Valid
+        private Employee employee;
+
+        @Valid
+        private Credential credential;
     }
 }

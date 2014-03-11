@@ -2,6 +2,7 @@ package de.techdev.trackr.web.api;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.TransactionSystemException;
+import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -21,6 +22,17 @@ import static org.springframework.http.HttpStatus.BAD_REQUEST;
 @ControllerAdvice
 @Slf4j
 public class ConstraintViolationExceptionHandler {
+
+    @ResponseBody
+    @ResponseStatus(BAD_REQUEST)
+    @ExceptionHandler(BindException.class)
+    public Map<String, FieldError> handleBindException(BindException ex) {
+        Map<String, FieldError> errorMessages = new HashMap<>();
+        for (FieldError fieldError : ex.getFieldErrors()) {
+            errorMessages.put(fieldError.getField(), fieldError);
+        }
+        return errorMessages;
+    }
 
     @ResponseBody
     @ResponseStatus(BAD_REQUEST)
