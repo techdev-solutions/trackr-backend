@@ -1,14 +1,9 @@
 package de.techdev.trackr.domain.support;
 
-import com.google.common.collect.Collections2;
-import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
-import de.techdev.trackr.domain.Employee;
 import de.techdev.trackr.security.AuthorityMocks;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import javax.validation.ConstraintViolation;
@@ -99,7 +94,7 @@ public abstract class AbstractDataOnDemand<S> {
             }
             data.add(obj);
         }
-        SecurityContextHolder.getContext().setAuthentication(null);
+//        SecurityContextHolder.getContext().setAuthentication(null);
     }
 
     public abstract S getNewTransientObject(int i);
