@@ -137,7 +137,7 @@ public class WorkTimeController {
          */
         public static WorkTimeEmployee valueOf(Employee employee, List<CustomWorkTime> workTimes) {
             WorkTimeEmployee workTimeEmployee = new WorkTimeEmployee();
-            workTimeEmployee.name = employee.getFirstName() + " " + employee.getLastName();
+            workTimeEmployee.name = employee.fullName();
             workTimeEmployee.workTimes = reduceAndSortWorktimes(workTimes);
             return workTimeEmployee;
         }

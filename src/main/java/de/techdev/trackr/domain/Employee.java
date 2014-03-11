@@ -57,4 +57,8 @@ public class Employee {
     @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "employee")
     @RestResource(exported = false)
     private List<BillableTime> billableTimes = new ArrayList<>();
+
+    public String fullName() {
+        return getFirstName() + " " + getLastName();
+    }
 }
