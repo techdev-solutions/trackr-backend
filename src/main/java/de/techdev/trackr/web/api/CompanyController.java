@@ -5,15 +5,13 @@ import de.techdev.trackr.domain.Company;
 import de.techdev.trackr.repository.CompanyRepository;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -29,6 +27,7 @@ public class CompanyController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @ResponseBody
+    @ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(value = "/createWithAddress", method = {RequestMethod.POST}, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public Company createWithAddress(@RequestBody @Valid CreateCompany createCompany, BindingResult bindingResult) throws BindException {
         if (bindingResult.hasErrors()) {

@@ -5,6 +5,7 @@ import de.techdev.trackr.domain.Employee;
 import de.techdev.trackr.repository.EmployeeRepository;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -70,6 +71,7 @@ public class EmployeeController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value = "/createWithCredential", method = {RequestMethod.POST}, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
+    @ResponseStatus(HttpStatus.CREATED)
     public Employee createWithCredential(@RequestBody @Valid CreateEmployee createEmployee, BindingResult bindingResult) throws BindException {
         if(bindingResult.hasErrors()) {
             throw new BindException(bindingResult);
