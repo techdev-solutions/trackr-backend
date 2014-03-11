@@ -9,6 +9,7 @@ import org.springframework.data.rest.core.annotation.RestResource;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -41,6 +42,9 @@ public class Employee {
     private BigDecimal salary;
 
     private BigDecimal hourlyCostRate;
+
+    @Temporal(TemporalType.DATE)
+    private Date joinDate;
 
     @OneToOne(cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn

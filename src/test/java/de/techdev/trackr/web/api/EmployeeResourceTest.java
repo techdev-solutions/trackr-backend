@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.json.stream.JsonGenerator;
 import java.io.StringWriter;
+import java.text.SimpleDateFormat;
 
 import static org.echocat.jomon.testing.BaseMatchers.isNotNull;
 import static org.hamcrest.CoreMatchers.is;
@@ -294,6 +295,7 @@ public class EmployeeResourceTest extends MockMvcTest {
     protected String generateEmployeeJson(Employee employee) {
         StringWriter writer = new StringWriter();
         JsonGenerator jg = jsonGeneratorFactory.createGenerator(writer);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         jg.writeStartObject()
           .write("firstName", employee.getFirstName())
           .write("lastName", employee.getLastName())
@@ -301,6 +303,9 @@ public class EmployeeResourceTest extends MockMvcTest {
           .write("salary", employee.getSalary())
           .write("title", employee.getTitle());
 
+        if(employee.getJoinDate() != null) {
+            jg.write("joinDate", sdf.format(employee.getJoinDate()));
+        }
         if (employee.getPhoneNumber() != null) {
             jg.write("phoneNumber", employee.getPhoneNumber());
         }

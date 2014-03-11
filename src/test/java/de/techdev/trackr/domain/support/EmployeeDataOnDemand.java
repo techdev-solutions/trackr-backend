@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -32,6 +33,7 @@ public class EmployeeDataOnDemand extends AbstractDataOnDemand<Employee> {
         employee.setHourlyCostRate(BigDecimal.TEN.multiply(new BigDecimal(i)));
         employee.setPhoneNumber("phoneNumber_" + i);
         employee.setTitle("title_" + i);
+        employee.setJoinDate(new Date());
         Credential credential = new Credential();
         credential.setEmployee(employee);
         credential.setEmail("email_" + i + "@techdev.de");
