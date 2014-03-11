@@ -46,6 +46,9 @@ public class Employee {
     @Temporal(TemporalType.DATE)
     private Date joinDate;
 
+    @Temporal(TemporalType.DATE)
+    private Date leaveDate;
+
     @OneToOne(cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
     private Credential credential;

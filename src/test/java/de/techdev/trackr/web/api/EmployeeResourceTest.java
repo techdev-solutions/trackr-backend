@@ -1,20 +1,26 @@
 package de.techdev.trackr.web.api;
 
+import de.techdev.trackr.domain.Credential;
 import de.techdev.trackr.domain.Employee;
 import de.techdev.trackr.domain.support.CredentialDataOnDemand;
 import de.techdev.trackr.domain.support.EmployeeDataOnDemand;
+import de.techdev.trackr.repository.EmployeeRepository;
+import de.techdev.trackr.security.AuthorityMocks;
 import de.techdev.trackr.web.MockMvcTest;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import javax.json.stream.JsonGenerator;
 import java.io.StringWriter;
 import java.text.SimpleDateFormat;
 
 import static org.echocat.jomon.testing.BaseMatchers.isNotNull;
+import static org.echocat.jomon.testing.BaseMatchers.isTrue;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -28,6 +34,9 @@ public class EmployeeResourceTest extends MockMvcTest {
 
     @Autowired
     private CredentialDataOnDemand credentialDataOnDemand;
+
+    @Autowired
+    private EmployeeRepository employeeRepository;
 
     @Before
     public void setUp() throws Exception {
@@ -292,6 +301,38 @@ public class EmployeeResourceTest extends MockMvcTest {
                .andExpect(status().isForbidden());
     }
 
+    @Test
+    public void setLeaveDateDeactivatesEmployeeIfIsInPast() throws Exception {
+        Employee employee = employeeDataOnDemand.getRandomObject();
+        SecurityContextHolder.getContext().setAuthentication(AuthorityMocks.adminAuthentication());
+        employee.getCredential().setEnabled(true);
+        employeeRepository.saveAndFlush(employee);
+        mockMvc.perform(
+                patch("/employees/" + employee.getId())
+                .session(adminSession())
+                .content("{\"leaveDate\": \"2014-01-01\"}"))
+                .andExpect(status().isOk());
+        SecurityContextHolder.getContext().setAuthentication(AuthorityMocks.adminAuthentication());
+        Credential credential = employeeRepository.findOne(employee.getId()).getCredential();
+        assertThat(credential.getEnabled(), is(false));
+    }
+
+    @Test
+    public void setLeaveDateDoesNotDeactivatesEmployeeIfIsInFuture() throws Exception {
+        Employee employee = employeeDataOnDemand.getRandomObject();
+        SecurityContextHolder.getContext().setAuthentication(AuthorityMocks.adminAuthentication());
+        employee.getCredential().setEnabled(true);
+        employeeRepository.saveAndFlush(employee);
+        mockMvc.perform(
+                patch("/employees/" + employee.getId())
+                        .session(adminSession())
+                        .content("{\"leaveDate\": \"3014-01-01\"}"))
+               .andExpect(status().isOk());
+        SecurityContextHolder.getContext().setAuthentication(AuthorityMocks.adminAuthentication());
+        Credential credential = employeeRepository.findOne(employee.getId()).getCredential();
+        assertThat(credential.getEnabled(), isTrue());
+    }
+
     protected String generateEmployeeJson(Employee employee) {
         StringWriter writer = new StringWriter();
         JsonGenerator jg = jsonGeneratorFactory.createGenerator(writer);
@@ -306,6 +347,11 @@ public class EmployeeResourceTest extends MockMvcTest {
         if(employee.getJoinDate() != null) {
             jg.write("joinDate", sdf.format(employee.getJoinDate()));
         }
+
+        if(employee.getLeaveDate() != null) {
+            jg.write("leaveDate", sdf.format(employee.getLeaveDate()));
+        }
+
         if (employee.getPhoneNumber() != null) {
             jg.write("phoneNumber", employee.getPhoneNumber());
         }
