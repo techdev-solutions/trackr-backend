@@ -2,7 +2,6 @@ package de.techdev.trackr.web.api;
 
 import de.techdev.trackr.domain.Credential;
 import de.techdev.trackr.domain.Employee;
-import de.techdev.trackr.repository.CredentialRepository;
 import de.techdev.trackr.repository.EmployeeRepository;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,9 +26,6 @@ public class EmployeeController {
     @Autowired
     private EmployeeRepository employeeRepository;
 
-    @Autowired
-    private CredentialRepository credentialRepository;
-
     /**
      * This method allows an employee to change some values of his entity on his own, namely the one
      * in SelfEmployee.
@@ -39,8 +35,9 @@ public class EmployeeController {
      * @return The updated data.
      */
     @PreAuthorize("isAuthenticated() and #employeeId == principal.id")
+    @ResponseBody
     @RequestMapping(value = "/{employee}/self", method = {RequestMethod.PUT, RequestMethod.PATCH}, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody SelfEmployee updateSelf(@PathVariable("employee") Long employeeId, @RequestBody SelfEmployee selfEmployee) {
+    public SelfEmployee updateSelf(@PathVariable("employee") Long employeeId, @RequestBody SelfEmployee selfEmployee) {
         Employee employee = employeeRepository.findOne(employeeId);
         //Since patch is allowed all fields can be null and shouldn't be overwritten in that case.
         if (selfEmployee.getFirstName() != null) {
@@ -57,7 +54,8 @@ public class EmployeeController {
     }
 
     @RequestMapping(value = "/{employee}/self", method = {RequestMethod.GET})
-    public @ResponseBody SelfEmployee get(@PathVariable("employee") Long employeeId) {
+    @ResponseBody
+    public SelfEmployee get(@PathVariable("employee") Long employeeId) {
         Employee employee = employeeRepository.findOne(employeeId);
         return SelfEmployee.valueOf(employee);
     }
@@ -69,6 +67,7 @@ public class EmployeeController {
      * @return The newly created employee
      * @throws BindException If the bindingResult had errors.
      */
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value = "/createWithCredential", method = {RequestMethod.POST}, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public Employee createWithCredential(@RequestBody @Valid CreateEmployee createEmployee, BindingResult bindingResult) throws BindException {
@@ -83,9 +82,11 @@ public class EmployeeController {
 
     /**
      * Wrapper DTO for an employee and a credential.
+     * <p>
+     * This class <b>must</b> be static, otherwise the binding errors will not work correctly.
      */
     @Data
-    public static class CreateEmployee {
+    protected static class CreateEmployee {
         @Valid
         private Employee employee;
 
