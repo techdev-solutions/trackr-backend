@@ -36,8 +36,8 @@ public interface WorkTimeRepository extends CrudRepository<WorkTime, Long> {
 
     @PreAuthorize("hasRole('ROLE_SUPERVISOR') or ( isAuthenticated() and #employee.id == principal.id )")
     List<WorkTime> findByEmployeeAndDateBetweenOrderByDateAscStartTimeAsc(@Param("employee") Employee employee,
-                                                               @Param("start") @Temporal(TemporalType.DATE) Date start,
-                                                               @Param("end") @Temporal(TemporalType.DATE) Date end);
+                                                                          @Param("start") @Temporal(TemporalType.DATE) Date start,
+                                                                          @Param("end") @Temporal(TemporalType.DATE) Date end);
 
     @PreAuthorize("hasRole('ROLE_SUPERVISOR')")
     List<WorkTime> findByProjectAndDateBetweenOrderByDateAscStartTimeAsc(@Param("project") Project project,
