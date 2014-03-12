@@ -345,6 +345,10 @@ public class EmployeeResourceTest extends MockMvcTest {
           .write("title", employee.getTitle())
           .write("federalState", employee.getFederalState().getName());
 
+        if(employee.getVacationEntitlement() != null) {
+            jg.write("vacationEntitlement", employee.getVacationEntitlement());
+        }
+
         if (employee.getJoinDate() != null) {
             jg.write("joinDate", sdf.format(employee.getJoinDate()));
         }

@@ -7,6 +7,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.rest.core.annotation.RestResource;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -53,6 +54,8 @@ public class Employee {
     @Enumerated(EnumType.STRING)
     @NotNull
     private FederalState federalState;
+
+    private Float vacationEntitlement;
 
     @OneToOne(cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn

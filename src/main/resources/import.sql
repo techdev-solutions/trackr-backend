@@ -1,5 +1,5 @@
 INSERT INTO employee (id, version, firstName, lastName, title, hourlyCostRate, salary, federalState) VALUES (0, 0, 'admin', 'admin', '', 0, 0, 'BERLIN');
-INSERT INTO employee (id, version, firstName, lastName, title, hourlyCostRate, salary, federalState, joinDate) VALUES (1, 0, 'Moritz', 'Schulze', 'Hausmeister', 0.25, 40, 'BERLIN', '2014-02-01');
+INSERT INTO employee (id, version, firstName, lastName, title, hourlyCostRate, salary, federalState, joinDate, vacationEntitlement) VALUES (1, 0, 'Moritz', 'Schulze', 'Hausmeister', 0.25, 40, 'BERLIN', '2014-02-01', 30.5);
 INSERT INTO employee (id, version, firstName, lastName, title, hourlyCostRate, salary, federalState) VALUES (2, 0, 'Viktor', 'Widiker', 'Software Consultant', 123, 456, 'BERLIN');
 INSERT INTO employee (id, version, firstName, lastName, title, hourlyCostRate, salary, federalState) VALUES (3, 0, 'Alexander', 'Hanschke', 'Praktikant', 321, 654.32, 'BADEN_WUERTTEMBERG');
 INSERT INTO employee (id, version, firstName, lastName, title, hourlyCostRate, salary, federalState) VALUES (4, 0, 'Adrian', 'Krion', 'Sekretär', 6854, 123455, 'HESSEN');

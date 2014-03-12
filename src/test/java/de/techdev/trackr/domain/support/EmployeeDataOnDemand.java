@@ -36,6 +36,7 @@ public class EmployeeDataOnDemand extends AbstractDataOnDemand<Employee> {
         employee.setTitle("title_" + i);
         employee.setJoinDate(new Date());
         employee.setFederalState(FederalState.BERLIN);
+        employee.setVacationEntitlement((float) i);
         Credential credential = new Credential();
         credential.setEmployee(employee);
         credential.setEmail("email_" + i + "@techdev.de");
