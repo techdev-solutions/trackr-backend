@@ -3,6 +3,7 @@ package de.techdev.trackr.web.api;
 import de.techdev.trackr.domain.Authority;
 import de.techdev.trackr.domain.Credential;
 import de.techdev.trackr.domain.Employee;
+import de.techdev.trackr.domain.FederalState;
 import de.techdev.trackr.domain.support.AuthorityDataOnDemand;
 import de.techdev.trackr.domain.support.CredentialDataOnDemand;
 import de.techdev.trackr.repository.EmployeeRepository;
@@ -115,6 +116,7 @@ public class CredentialResourceTest extends MockMvcTest {
         Employee employee = new Employee();
         employee.setFirstName("firstName");
         employee.setLastName("lastName");
+        employee.setFederalState(FederalState.BERLIN);
         employeeRepository.saveAndFlush(employee);
         credential.setEmployee(employee);
         String json = getCredentialJson(credential);
@@ -156,6 +158,7 @@ public class CredentialResourceTest extends MockMvcTest {
         Employee employee = new Employee();
         employee.setFirstName("firstName");
         employee.setLastName("lastName");
+        employee.setFederalState(FederalState.BERLIN);
         employeeRepository.saveAndFlush(employee);
         credential.setEmployee(employee);
         String json = getCredentialJson(credential);

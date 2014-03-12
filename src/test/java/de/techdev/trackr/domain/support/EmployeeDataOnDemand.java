@@ -3,6 +3,7 @@ package de.techdev.trackr.domain.support;
 import de.techdev.trackr.domain.Authority;
 import de.techdev.trackr.domain.Credential;
 import de.techdev.trackr.domain.Employee;
+import de.techdev.trackr.domain.FederalState;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -34,6 +35,7 @@ public class EmployeeDataOnDemand extends AbstractDataOnDemand<Employee> {
         employee.setPhoneNumber("phoneNumber_" + i);
         employee.setTitle("title_" + i);
         employee.setJoinDate(new Date());
+        employee.setFederalState(FederalState.BERLIN);
         Credential credential = new Credential();
         credential.setEmployee(employee);
         credential.setEmail("email_" + i + "@techdev.de");

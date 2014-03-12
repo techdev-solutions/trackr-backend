@@ -7,6 +7,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.rest.core.annotation.RestResource;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
@@ -48,6 +49,10 @@ public class Employee {
 
     @Temporal(TemporalType.DATE)
     private Date leaveDate;
+
+    @Enumerated(EnumType.STRING)
+    @NotNull
+    private FederalState federalState;
 
     @OneToOne(cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn

@@ -309,9 +309,9 @@ public class EmployeeResourceTest extends MockMvcTest {
         employeeRepository.saveAndFlush(employee);
         mockMvc.perform(
                 patch("/employees/" + employee.getId())
-                .session(adminSession())
-                .content("{\"leaveDate\": \"2014-01-01\"}"))
-                .andExpect(status().isOk());
+                        .session(adminSession())
+                        .content("{\"leaveDate\": \"2014-01-01\"}"))
+               .andExpect(status().isOk());
         SecurityContextHolder.getContext().setAuthentication(AuthorityMocks.adminAuthentication());
         Credential credential = employeeRepository.findOne(employee.getId()).getCredential();
         assertThat(credential.getEnabled(), is(false));
@@ -342,13 +342,14 @@ public class EmployeeResourceTest extends MockMvcTest {
           .write("lastName", employee.getLastName())
           .write("hourlyCostRate", employee.getHourlyCostRate())
           .write("salary", employee.getSalary())
-          .write("title", employee.getTitle());
+          .write("title", employee.getTitle())
+          .write("federalState", employee.getFederalState().getName());
 
-        if(employee.getJoinDate() != null) {
+        if (employee.getJoinDate() != null) {
             jg.write("joinDate", sdf.format(employee.getJoinDate()));
         }
 
-        if(employee.getLeaveDate() != null) {
+        if (employee.getLeaveDate() != null) {
             jg.write("leaveDate", sdf.format(employee.getLeaveDate()));
         }
 

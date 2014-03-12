@@ -149,6 +149,7 @@ public class EmployeeControllerTest extends MockMvcTest {
           .writeStartObject("employee")
           .write("firstName", employee.getEmployee().getFirstName())
           .write("lastName", employee.getEmployee().getLastName())
+          .write("federalState", employee.getEmployee().getFederalState().getName())
           .writeEnd()
           .writeStartObject("credential")
           .write("email", employee.getCredential().getEmail())

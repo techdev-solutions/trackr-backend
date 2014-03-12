@@ -1,10 +1,10 @@
-INSERT INTO employee (id, version, firstName, lastName, title, hourlyCostRate, salary) VALUES (0, 0, 'admin', 'admin', '', 0, 0);
-INSERT INTO employee (id, version, firstName, lastName, title, hourlyCostRate, salary, joinDate) VALUES (1, 0, 'Moritz', 'Schulze', 'Hausmeister', 0.25, 40, '2014-02-01');
-INSERT INTO employee (id, version, firstName, lastName, title, hourlyCostRate, salary) VALUES (2, 0, 'Viktor', 'Widiker', 'Software Consultant', 123, 456);
-INSERT INTO employee (id, version, firstName, lastName, title, hourlyCostRate, salary) VALUES (3, 0, 'Alexander', 'Hanschke', 'Praktikant', 321, 654.32);
-INSERT INTO employee (id, version, firstName, lastName, title, hourlyCostRate, salary) VALUES (4, 0, 'Adrian', 'Krion', 'Sekretär', 6854, 123455);
-INSERT INTO employee (id, version, firstName, lastName, title, hourlyCostRate, salary, joinDate) VALUES (5, 0, 'Angelika', 'Gutjahr', 'Entertainerin', 900.1, 500000, '1990-10-03');
-INSERT INTO employee (id, version, firstName, lastName, title, hourlyCostRate, salary) VALUES (6, 0, 'Nikolaj', 'Weise', 'Empfang', 100.5, 123.4);
+INSERT INTO employee (id, version, firstName, lastName, title, hourlyCostRate, salary, federalState) VALUES (0, 0, 'admin', 'admin', '', 0, 0, 'BERLIN');
+INSERT INTO employee (id, version, firstName, lastName, title, hourlyCostRate, salary, federalState, joinDate) VALUES (1, 0, 'Moritz', 'Schulze', 'Hausmeister', 0.25, 40, 'BERLIN', '2014-02-01');
+INSERT INTO employee (id, version, firstName, lastName, title, hourlyCostRate, salary, federalState) VALUES (2, 0, 'Viktor', 'Widiker', 'Software Consultant', 123, 456, 'BERLIN');
+INSERT INTO employee (id, version, firstName, lastName, title, hourlyCostRate, salary, federalState) VALUES (3, 0, 'Alexander', 'Hanschke', 'Praktikant', 321, 654.32, 'BADEN_WUERTTEMBERG');
+INSERT INTO employee (id, version, firstName, lastName, title, hourlyCostRate, salary, federalState) VALUES (4, 0, 'Adrian', 'Krion', 'Sekretär', 6854, 123455, 'HESSEN');
+INSERT INTO employee (id, version, firstName, lastName, title, hourlyCostRate, salary, federalState, joinDate) VALUES (5, 0, 'Angelika', 'Gutjahr', 'Entertainerin', 900.1, 500000, 'BADEN_WUERTTEMBERG', '1990-10-03');
+INSERT INTO employee (id, version, firstName, lastName, title, hourlyCostRate, salary, federalState) VALUES (6, 0, 'Nikolaj', 'Weise', 'Empfang', 100.5, 123.4, 'BERLIN');
 INSERT INTO credential (id, email, enabled) VALUES (0, 'admin@techdev.de', true);
 INSERT INTO credential (id, email, enabled) VALUES (1, 'moritz.schulze@techdev.de', true);
 INSERT INTO credential (id, email, enabled) VALUES (2, 'viktor.widiker@techdev.de', true);

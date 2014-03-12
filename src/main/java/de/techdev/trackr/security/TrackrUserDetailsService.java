@@ -2,6 +2,7 @@ package de.techdev.trackr.security;
 
 import de.techdev.trackr.domain.Credential;
 import de.techdev.trackr.domain.Employee;
+import de.techdev.trackr.domain.FederalState;
 import de.techdev.trackr.repository.CredentialRepository;
 import de.techdev.trackr.repository.EmployeeRepository;
 import lombok.Setter;
@@ -86,6 +87,7 @@ public class TrackrUserDetailsService implements AuthenticationUserDetailsServic
         Credential credential = new Credential();
         employee.setFirstName(first);
         employee.setLastName(last);
+        employee.setFederalState(FederalState.BERLIN);
         credential.setEmail(email);
         credential.setEnabled(false);
         credential.setEmployee(employee);
