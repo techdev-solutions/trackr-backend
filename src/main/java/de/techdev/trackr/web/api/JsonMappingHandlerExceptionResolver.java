@@ -45,6 +45,12 @@ public class JsonMappingHandlerExceptionResolver implements HandlerExceptionReso
                 response.setStatus(HttpStatus.BAD_REQUEST.value());
                 response.setHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE);
                 writeExceptionAsJsonToOutput((InvalidFormatException) ex.getCause(), outputWriter);
+                try {
+                    outputWriter.flush();
+                    outputWriter.close();
+                } catch (IOException e) {
+                    throw new IllegalStateException("Could not flush and close response writer");
+                }
                 return new ModelAndView();
             }
         }
