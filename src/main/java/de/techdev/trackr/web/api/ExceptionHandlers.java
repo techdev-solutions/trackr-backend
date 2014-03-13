@@ -1,6 +1,8 @@
 package de.techdev.trackr.web.api;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpRequest;
+import org.springframework.orm.jpa.JpaSystemException;
 import org.springframework.transaction.TransactionSystemException;
 import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
@@ -15,14 +17,33 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static org.springframework.http.HttpStatus.CONFLICT;
 
 /**
  * @author Moritz Schulze
  */
 @ControllerAdvice
 @Slf4j
-public class ConstraintViolationExceptionHandler {
+public class ExceptionHandlers {
 
+    /**
+     * This exception handler <i>should</i> handle violations of unique constraints.
+     * TODO: JpaSystemException is really broad, we need to check somehow that this only gets invoked for unique constraint violations
+     * @param e The exception to handle
+     * @return An error message
+     */
+    @ExceptionHandler(JpaSystemException.class)
+    @ResponseBody
+    @ResponseStatus(CONFLICT)
+    public String handleJpaSystemException(JpaSystemException e) {
+        return e.getMostSpecificCause().getMessage();
+    }
+
+    /**
+     * This is for custom controllers (i.e. not spring-data-rest) that do validation.
+     * @param ex The BindException thrown by the controller.
+     * @return A map of fieldnames to FieldErrors
+     */
     @ResponseBody
     @ResponseStatus(BAD_REQUEST)
     @ExceptionHandler(BindException.class)
