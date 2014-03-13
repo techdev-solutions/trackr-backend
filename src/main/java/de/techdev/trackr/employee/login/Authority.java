@@ -1,4 +1,4 @@
-package de.techdev.trackr.domain;
+package de.techdev.trackr.employee.login;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

@@ -1,5 +1,6 @@
 package de.techdev.trackr.security;
 
+import de.techdev.trackr.employee.login.TrackrUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchy;

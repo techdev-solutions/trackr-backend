@@ -1,7 +1,7 @@
 package de.techdev.trackr.repository;
 
-import de.techdev.trackr.domain.Employee;
 import de.techdev.trackr.domain.WorkTime;
+import de.techdev.trackr.employee.Employee;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.rest.core.annotation.*;
 import org.springframework.security.access.prepost.PreAuthorize;

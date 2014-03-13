@@ -1,8 +1,6 @@
-package de.techdev.trackr.repository;
+package de.techdev.trackr.employee.login;
 
 import de.techdev.trackr.TransactionalIntegrationTest;
-import de.techdev.trackr.domain.Authority;
-import de.techdev.trackr.domain.support.AuthorityDataOnDemand;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 

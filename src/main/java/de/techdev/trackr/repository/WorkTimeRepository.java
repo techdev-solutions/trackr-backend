@@ -1,8 +1,8 @@
 package de.techdev.trackr.repository;
 
-import de.techdev.trackr.domain.Employee;
 import de.techdev.trackr.domain.Project;
 import de.techdev.trackr.domain.WorkTime;
+import de.techdev.trackr.employee.Employee;
 import org.springframework.data.jpa.repository.Temporal;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;

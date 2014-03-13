@@ -1,6 +1,7 @@
 package de.techdev.trackr.domain.support;
 
 import de.techdev.trackr.domain.BillableTime;
+import de.techdev.trackr.employee.EmployeeDataOnDemand;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

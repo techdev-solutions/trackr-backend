@@ -1,10 +1,7 @@
-package de.techdev.trackr.web.api;
+package de.techdev.trackr.employee;
 
 import de.techdev.trackr.domain.Credential;
-import de.techdev.trackr.domain.Employee;
-import de.techdev.trackr.domain.support.CredentialDataOnDemand;
-import de.techdev.trackr.domain.support.EmployeeDataOnDemand;
-import de.techdev.trackr.repository.EmployeeRepository;
+import de.techdev.trackr.employee.login.CredentialDataOnDemand;
 import de.techdev.trackr.security.AuthorityMocks;
 import de.techdev.trackr.web.MockMvcTest;
 import org.junit.Before;

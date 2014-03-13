@@ -1,9 +1,9 @@
 package de.techdev.trackr.web.api;
 
 import de.techdev.trackr.domain.BillableTime;
-import de.techdev.trackr.domain.Employee;
 import de.techdev.trackr.domain.Project;
 import de.techdev.trackr.domain.WorkTime;
+import de.techdev.trackr.employee.Employee;
 import de.techdev.trackr.repository.BillableTimeRepository;
 import de.techdev.trackr.repository.WorkTimeRepository;
 import lombok.Data;

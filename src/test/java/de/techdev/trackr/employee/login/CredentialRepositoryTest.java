@@ -1,8 +1,7 @@
-package de.techdev.trackr.repository;
+package de.techdev.trackr.employee.login;
 
 import de.techdev.trackr.TransactionalIntegrationTest;
 import de.techdev.trackr.domain.Credential;
-import de.techdev.trackr.domain.support.CredentialDataOnDemand;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;

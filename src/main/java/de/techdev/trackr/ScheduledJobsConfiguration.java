@@ -1,6 +1,6 @@
 package de.techdev.trackr;
 
-import de.techdev.trackr.repository.EmployeeScheduledJob;
+import de.techdev.trackr.employee.EmployeeScheduledJob;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;

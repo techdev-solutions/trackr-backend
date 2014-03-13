@@ -1,11 +1,13 @@
-package de.techdev.trackr.security;
+package de.techdev.trackr.employee.login;
 
 import de.techdev.trackr.TransactionalIntegrationTest;
 import de.techdev.trackr.domain.Credential;
-import de.techdev.trackr.domain.Employee;
-import de.techdev.trackr.domain.support.CredentialDataOnDemand;
-import de.techdev.trackr.repository.CredentialRepository;
-import de.techdev.trackr.repository.EmployeeRepository;
+import de.techdev.trackr.employee.Employee;
+import de.techdev.trackr.employee.EmployeeRepository;
+import de.techdev.trackr.employee.login.CredentialDataOnDemand;
+import de.techdev.trackr.employee.login.CredentialRepository;
+import de.techdev.trackr.employee.login.TrackrUserDetailsService;
+import de.techdev.trackr.security.SecurityConfiguration;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,10 +45,6 @@ public class TrackrUserDetailsServiceIntegrationTest extends TransactionalIntegr
 
     private TrackrUserDetailsService trackrUserDetailsService;
 
-    /**
-     * Bullshitty bullshit
-     * @throws Exception
-     */
     @Before
     public void setUp() throws Exception {
         trackrUserDetailsService = new TrackrUserDetailsService();

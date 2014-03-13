@@ -1,7 +1,6 @@
 package de.techdev.trackr.web.api;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpRequest;
 import org.springframework.orm.jpa.JpaSystemException;
 import org.springframework.transaction.TransactionSystemException;
 import org.springframework.validation.BindException;

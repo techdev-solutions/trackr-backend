@@ -1,15 +1,13 @@
-package de.techdev.trackr.security;
+package de.techdev.trackr.employee.login;
 
 import de.techdev.trackr.domain.Credential;
-import de.techdev.trackr.domain.Employee;
 import de.techdev.trackr.domain.FederalState;
-import de.techdev.trackr.repository.CredentialRepository;
-import de.techdev.trackr.repository.EmployeeRepository;
+import de.techdev.trackr.employee.Employee;
+import de.techdev.trackr.employee.EmployeeRepository;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.AuthenticationUserDetailsService;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.openid.OpenIDAttribute;

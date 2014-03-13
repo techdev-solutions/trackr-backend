@@ -1,7 +1,6 @@
-package de.techdev.trackr.repository;
+package de.techdev.trackr.employee;
 
 import de.techdev.trackr.domain.Credential;
-import de.techdev.trackr.domain.Employee;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.rest.core.annotation.*;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -10,7 +9,6 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.Date;
 
 /**
  * @author Moritz Schulze

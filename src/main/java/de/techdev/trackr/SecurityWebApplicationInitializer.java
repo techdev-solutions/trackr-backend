@@ -1,6 +1,5 @@
 package de.techdev.trackr;
 
-import de.techdev.trackr.repository.JpaConfiguration;
 import de.techdev.trackr.security.MethodSecurityConfiguration;
 import de.techdev.trackr.security.SecurityConfiguration;
 import org.springframework.security.web.context.AbstractSecurityWebApplicationInitializer;
@@ -8,7 +7,7 @@ import org.springframework.security.web.context.AbstractSecurityWebApplicationIn
 /**
  * Register the Spring Security filter chain.
  * <p>
- * Loads the {@link de.techdev.trackr.repository.JpaConfiguration} as it is needed in {@link de.techdev.trackr.security.TrackrUserDetailsService}
+ * Loads the {@link JpaConfiguration} as it is needed in {@link de.techdev.trackr.employee.login.TrackrUserDetailsService}
  *
  * @author Moritz Schulze
  */

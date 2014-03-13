@@ -1,6 +1,5 @@
-package de.techdev.trackr.web.api;
+package de.techdev.trackr.employee;
 
-import de.techdev.trackr.domain.Employee;
 import lombok.Data;
 
 /**

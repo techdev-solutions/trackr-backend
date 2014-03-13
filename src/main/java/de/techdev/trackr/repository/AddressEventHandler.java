@@ -11,7 +11,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 /**
  * This class prevents other users than admins from creating, updating or deleting addresses.
  * <p>
- * As long as only {@link de.techdev.trackr.domain.Company} uses the Address class this is fine, if e.g. {@link de.techdev.trackr.domain.Employee}
+ * As long as only {@link de.techdev.trackr.domain.Company} uses the Address class this is fine, if e.g. {@link de.techdev.trackr.employee.Employee}
  * gets an address too this will have to be thought over.
  *
  * @author Moritz Schulze

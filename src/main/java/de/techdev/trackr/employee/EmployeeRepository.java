@@ -1,6 +1,5 @@
-package de.techdev.trackr.repository;
+package de.techdev.trackr.employee;
 
-import de.techdev.trackr.domain.Employee;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;

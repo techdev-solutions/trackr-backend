@@ -1,6 +1,5 @@
-package de.techdev.trackr.repository;
+package de.techdev.trackr.employee.login;
 
-import de.techdev.trackr.domain.Credential;
 import de.techdev.trackr.domain.Credential;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.query.Param;

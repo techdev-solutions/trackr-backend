@@ -1,8 +1,6 @@
-package de.techdev.trackr.web.api;
+package de.techdev.trackr.employee;
 
 import de.techdev.trackr.domain.Credential;
-import de.techdev.trackr.domain.Employee;
-import de.techdev.trackr.repository.EmployeeRepository;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

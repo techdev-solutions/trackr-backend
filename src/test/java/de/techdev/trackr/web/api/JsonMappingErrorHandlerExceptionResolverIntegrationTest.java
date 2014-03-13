@@ -1,7 +1,7 @@
 package de.techdev.trackr.web.api;
 
-import de.techdev.trackr.domain.Employee;
-import de.techdev.trackr.domain.support.EmployeeDataOnDemand;
+import de.techdev.trackr.employee.Employee;
+import de.techdev.trackr.employee.EmployeeDataOnDemand;
 import de.techdev.trackr.web.MockMvcTest;
 import org.junit.Before;
 import org.junit.Test;

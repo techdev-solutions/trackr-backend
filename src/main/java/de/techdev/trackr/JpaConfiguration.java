@@ -1,13 +1,12 @@
-package de.techdev.trackr.repository;
+package de.techdev.trackr;
 
 import org.apache.commons.dbcp.BasicDataSource;
 import org.hibernate.ejb.HibernatePersistence;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.*;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.data.repository.Repository;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -20,7 +19,10 @@ import java.util.Properties;
  */
 @Configuration
 @EnableTransactionManagement
-@EnableJpaRepositories(basePackages = "de.techdev.trackr.repository")
+@EnableJpaRepositories(basePackages = {"de.techdev.trackr"},
+        includeFilters = {
+                @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = {Repository.class})
+        })
 @PropertySource({"classpath:/META-INF/spring/database_${spring.profiles.active:dev}.properties"})
 public class JpaConfiguration {
 
@@ -59,7 +61,7 @@ public class JpaConfiguration {
         LocalContainerEntityManagerFactoryBean emfb = new LocalContainerEntityManagerFactoryBean();
         emfb.setDataSource(dataSource());
         emfb.setPersistenceProviderClass(HibernatePersistence.class);
-        emfb.setPackagesToScan("de.techdev.trackr.domain");
+        emfb.setPackagesToScan("de.techdev.trackr");
         emfb.setJpaProperties(hibernateProperties());
         return emfb;
     }

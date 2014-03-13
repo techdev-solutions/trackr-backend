@@ -1,6 +1,5 @@
-package de.techdev.trackr.repository;
+package de.techdev.trackr.employee.login;
 
-import de.techdev.trackr.domain.Authority;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.rest.core.annotation.RestResource;
 

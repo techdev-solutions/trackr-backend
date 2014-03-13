@@ -1,9 +1,10 @@
-package de.techdev.trackr.domain.support;
+package de.techdev.trackr.employee;
 
-import de.techdev.trackr.domain.Authority;
 import de.techdev.trackr.domain.Credential;
-import de.techdev.trackr.domain.Employee;
 import de.techdev.trackr.domain.FederalState;
+import de.techdev.trackr.domain.support.AbstractDataOnDemand;
+import de.techdev.trackr.employee.login.Authority;
+import de.techdev.trackr.employee.login.AuthorityDataOnDemand;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

@@ -1,5 +1,6 @@
 package de.techdev.trackr.domain;
 
+import de.techdev.trackr.employee.Employee;
 import lombok.Data;
 
 import javax.persistence.*;

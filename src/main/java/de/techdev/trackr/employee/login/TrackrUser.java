@@ -1,4 +1,4 @@
-package de.techdev.trackr.security;
+package de.techdev.trackr.employee.login;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;

@@ -1,7 +1,7 @@
 package de.techdev.trackr.web.api;
 
-import de.techdev.trackr.domain.Employee;
 import de.techdev.trackr.domain.WorkTime;
+import de.techdev.trackr.employee.Employee;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Matchers;

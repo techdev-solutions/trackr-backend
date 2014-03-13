@@ -1,5 +1,6 @@
 package de.techdev.trackr.web.app;
 
+import de.techdev.trackr.JpaConfiguration;
 import de.techdev.trackr.web.AppWebMvcConfiguration;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,7 +21,7 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
  * @author Moritz Schulze
  */
 @WebAppConfiguration
-@ContextConfiguration(classes = {AppWebMvcConfiguration.class})
+@ContextConfiguration(classes = {AppWebMvcConfiguration.class, JpaConfiguration.class})
 @RunWith(SpringJUnit4ClassRunner.class)
 public class LoginControllerTest {
     protected MockMvc mockMvc;

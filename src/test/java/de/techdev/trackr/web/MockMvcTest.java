@@ -12,6 +12,7 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.web.FilterChainProxy;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -25,7 +26,8 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
  *
  * @author Moritz Schulze
  */
-@ContextConfiguration(classes = {MethodSecurityConfiguration.class, SecurityConfiguration.class})
+@WebAppConfiguration
+@ContextConfiguration(classes = {ApiWebMvcConfiguration.class, MethodSecurityConfiguration.class, SecurityConfiguration.class})
 public abstract class MockMvcTest extends TransactionalIntegrationTest {
 
     protected final String standardContentType = "application/hal+json";

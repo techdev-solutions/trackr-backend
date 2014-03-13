@@ -1,5 +1,7 @@
 package de.techdev.trackr.domain;
 
+import de.techdev.trackr.employee.login.Authority;
+import de.techdev.trackr.employee.Employee;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;

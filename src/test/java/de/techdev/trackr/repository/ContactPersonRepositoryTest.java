@@ -6,8 +6,6 @@ import de.techdev.trackr.domain.support.ContactPersonDataOnDemand;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.List;
-
 import static org.echocat.jomon.testing.BaseMatchers.isNotEmpty;
 import static org.echocat.jomon.testing.BaseMatchers.isNotNull;
 import static org.hamcrest.MatcherAssert.assertThat;

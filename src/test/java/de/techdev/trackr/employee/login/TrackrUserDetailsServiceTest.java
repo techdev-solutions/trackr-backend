@@ -1,6 +1,7 @@
-package de.techdev.trackr.security;
+package de.techdev.trackr.employee.login;
 
-import de.techdev.trackr.domain.Employee;
+import de.techdev.trackr.employee.Employee;
+import de.techdev.trackr.employee.login.TrackrUserDetailsService;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.security.openid.OpenIDAttribute;

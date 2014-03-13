@@ -1,13 +1,16 @@
-package de.techdev.trackr.domain;
+package de.techdev.trackr.employee;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import de.techdev.trackr.domain.BillableTime;
+import de.techdev.trackr.domain.Credential;
+import de.techdev.trackr.domain.FederalState;
+import de.techdev.trackr.domain.WorkTime;
 import lombok.Data;
 import lombok.ToString;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.rest.core.annotation.RestResource;
 
 import javax.persistence.*;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.ArrayList;

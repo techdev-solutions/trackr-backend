@@ -1,14 +1,11 @@
-package de.techdev.trackr.domain.support;
+package de.techdev.trackr.employee.login;
 
 import de.techdev.trackr.domain.Credential;
-import de.techdev.trackr.repository.CredentialRepository;
-import de.techdev.trackr.security.AuthorityMocks;
+import de.techdev.trackr.employee.EmployeeDataOnDemand;
+import de.techdev.trackr.employee.login.CredentialRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.security.SecureRandom;
 import java.util.List;
 

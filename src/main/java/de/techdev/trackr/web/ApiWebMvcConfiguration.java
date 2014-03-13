@@ -1,16 +1,23 @@
 package de.techdev.trackr.web;
 
 import de.techdev.trackr.domain.*;
+import de.techdev.trackr.employee.login.Authority;
+import de.techdev.trackr.employee.login.CredentialEventHandler;
+import de.techdev.trackr.employee.Employee;
+import de.techdev.trackr.employee.EmployeeEventHandler;
 import de.techdev.trackr.repository.*;
 import de.techdev.trackr.web.api.JsonMappingHandlerExceptionResolver;
 import de.techdev.trackr.web.converters.DateConverter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.FilterType;
 import org.springframework.core.convert.support.ConfigurableConversionService;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 import org.springframework.data.rest.webmvc.config.RepositoryRestMvcConfiguration;
 import org.springframework.format.FormatterRegistry;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
@@ -21,12 +28,16 @@ import java.util.List;
  */
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = "de.techdev.trackr.web.api")
+@ComponentScan(basePackages = "de.techdev.trackr",
+        useDefaultFilters = false,
+        includeFilters = {
+                @ComponentScan.Filter(type = FilterType.ANNOTATION, value = {Controller.class, ControllerAdvice.class})
+        })
 public class ApiWebMvcConfiguration extends RepositoryRestMvcConfiguration {
 
     @Override
     protected void configureRepositoryRestConfiguration(RepositoryRestConfiguration config) {
-        config.exposeIdsFor(new Class[] {Employee.class, Credential.class, Authority.class, Company.class, ContactPerson.class, Address.class, Project.class, WorkTime.class, BillableTime.class});
+        config.exposeIdsFor(new Class[]{Employee.class, Credential.class, Authority.class, Company.class, ContactPerson.class, Address.class, Project.class, WorkTime.class, BillableTime.class});
         config.setReturnBodyOnUpdate(true);
         config.setReturnBodyOnCreate(true);
     }

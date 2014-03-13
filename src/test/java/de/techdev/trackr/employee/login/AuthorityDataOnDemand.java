@@ -1,6 +1,7 @@
-package de.techdev.trackr.domain.support;
+package de.techdev.trackr.employee.login;
 
-import de.techdev.trackr.domain.Authority;
+import de.techdev.trackr.domain.support.AbstractDataOnDemand;
+import de.techdev.trackr.employee.login.Authority;
 import org.springframework.stereotype.Component;
 
 /**
