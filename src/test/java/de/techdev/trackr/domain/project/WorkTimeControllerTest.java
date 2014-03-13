@@ -1,6 +1,7 @@
 package de.techdev.trackr.domain.project;
 
 import de.techdev.trackr.domain.employee.Employee;
+import de.techdev.trackr.domain.project.support.WorkTimeEmployee;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Matchers;
@@ -8,9 +9,7 @@ import org.springframework.hateoas.EntityLinks;
 import org.springframework.hateoas.Link;
 
 import java.sql.Time;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,7 +39,7 @@ public class WorkTimeControllerTest {
 
     @Test
     public void convertStreamOfWorkTimesToMap() throws Exception {
-        Map<Long,WorkTimeController.WorkTimeEmployee> map = workTimeController.convertStreamOfWorkTimesToMap(createTestWorktimes(), new HashMap<>());
+        Map<Long,WorkTimeEmployee> map = workTimeController.convertStreamOfWorkTimesToMap(createTestWorktimes(), new HashMap<>());
         assertThat("The map must contain two employee mappings", map.keySet().size(), is(2));
         assertThat("One mapping must be for id 1", map.get(1L), isNotNull());
         assertThat("One mapping must be for id 2", map.get(2L), isNotNull());
@@ -78,37 +77,5 @@ public class WorkTimeControllerTest {
         workTime21.setStartTime(Time.valueOf("09:00:00"));
         workTime21.setEndTime(Time.valueOf("17:00:00"));
         return asList(workTime11, workTime12, workTime21);
-    }
-
-    @Test
-    public void customWorkTimeHourCalculation() throws Exception {
-        WorkTime workTime21 = new WorkTime();
-        workTime21.setDate(new Date());
-        workTime21.setStartTime(Time.valueOf("09:00:00"));
-        workTime21.setEndTime(Time.valueOf("17:00:00"));
-        WorkTimeController.CustomWorkTime customWorkTime = WorkTimeController.CustomWorkTime.valueOf(workTime21);
-        assertThat(customWorkTime.getEnteredMinutes(), is(480L));
-    }
-
-    @Test
-    public void reduceWorkTimes() throws Exception {
-        List<WorkTimeController.CustomWorkTime> reduced = WorkTimeController.WorkTimeEmployee.reduceAndSortWorktimes(createCustomWorkTimes());
-        assertThat(reduced.size(), is(2));
-        assertThat(reduced.get(0).getEnteredMinutes(), is(300L));
-        assertThat(reduced.get(1).getEnteredMinutes(), is(480L));
-    }
-
-    private List<WorkTimeController.CustomWorkTime> createCustomWorkTimes() throws ParseException {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        WorkTimeController.CustomWorkTime ctw1 = new WorkTimeController.CustomWorkTime();
-        ctw1.setDate(sdf.parse("2014-01-01"));
-        ctw1.setEnteredMinutes(240L);
-        WorkTimeController.CustomWorkTime ctw2 = new WorkTimeController.CustomWorkTime();
-        ctw2.setDate(sdf.parse("2014-01-01"));
-        ctw2.setEnteredMinutes(60L);
-        WorkTimeController.CustomWorkTime ctw3 = new WorkTimeController.CustomWorkTime();
-        ctw3.setDate(sdf.parse("2014-01-02"));
-        ctw3.setEnteredMinutes(480L);
-        return asList(ctw1, ctw2, ctw3);
     }
 }
