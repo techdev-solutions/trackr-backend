@@ -2,6 +2,7 @@ package de.techdev.trackr.web;
 
 import de.techdev.trackr.domain.*;
 import de.techdev.trackr.repository.*;
+import de.techdev.trackr.web.api.JsonMappingHandlerExceptionResolver;
 import de.techdev.trackr.web.converters.DateConverter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -10,7 +11,10 @@ import org.springframework.core.convert.support.ConfigurableConversionService;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 import org.springframework.data.rest.webmvc.config.RepositoryRestMvcConfiguration;
 import org.springframework.format.FormatterRegistry;
+import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+
+import java.util.List;
 
 /**
  * @author Moritz Schulze
@@ -84,5 +88,16 @@ public class ApiWebMvcConfiguration extends RepositoryRestMvcConfiguration {
     @Override
     public void addFormatters(FormatterRegistry registry) {
         registry.addConverter(dateConverter());
+    }
+
+    @Bean
+    public JsonMappingHandlerExceptionResolver jsonMappingHandlerExceptionResolver() {
+        return new JsonMappingHandlerExceptionResolver();
+    }
+
+    @Override
+    public void configureHandlerExceptionResolvers(List<HandlerExceptionResolver> exceptionResolvers) {
+        exceptionResolvers.add(jsonMappingHandlerExceptionResolver());
+        super.configureHandlerExceptionResolvers(exceptionResolvers);
     }
 }
