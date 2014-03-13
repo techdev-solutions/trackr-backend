@@ -1,6 +1,7 @@
 package de.techdev.trackr.repository;
 
 import de.techdev.trackr.domain.Employee;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -16,6 +17,7 @@ import java.util.List;
  * @author Moritz Schulze
  */
 @Slf4j
+@Setter
 public class EmployeeScheduledJob {
 
     @Autowired
