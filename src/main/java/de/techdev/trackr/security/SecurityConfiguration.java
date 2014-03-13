@@ -38,11 +38,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        //TODO: this configuration is currently only being used in the API servlet but also secures the app.
         http.authorizeRequests()
-                .antMatchers("/login", "/admin", "/src/vendor/**").permitAll() //the login page should be able to access CSS and JS files
-                .antMatchers("/**").authenticated()
-                .antMatchers("/api/**").authenticated();
+                .antMatchers("/login/**", "/admin", "/src/vendor/**").permitAll() //the login page should be able to access CSS and JS files
+                .antMatchers("/**").hasAnyRole("ADMIN", "SUPERVISOR", "EMPLOYEE") //TODO: currently this method does not know about the roleHierarchy so we have to specify all roles. This should be changed.
+        ;
 
         http.logout().logoutUrl("/logout");
 
