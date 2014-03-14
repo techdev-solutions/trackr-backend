@@ -1,5 +1,6 @@
 apply plugin: 'java'
 apply plugin: 'war'
+apply plugin: 'sonar-runner'
 
 sourceCompatibility = 1.8
 version = '1.0'
@@ -30,6 +31,18 @@ war.doFirst {
 war {
     //to tell tomcat to use it as the root application we use ROOT.war as the name
     archiveName "ROOT.war"
+}
+
+sonarRunner {
+    sonarProperties {
+        property "sonar.host.url", "http://localhost:8112"
+        property "sonar.jdbc.url", "jdbc:postgresql://localhost:5432/sonar"
+        property "sonar.jdbc.driverClassName", "org.postgresql.Driver"
+        property "sonar.jdbc.username", "sonar"
+        property "sonar.language", "js"
+        properties["sonar.sources"] += "src/main/webapp/WEB-INF/app/src/modules"
+        properties["sonar.sources"] += "src/main/webapp/WEB-INF/app/test"
+    }
 }
 
 //TODO: this shouldn't be before compileJava..
