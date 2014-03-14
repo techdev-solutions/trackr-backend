@@ -3,6 +3,7 @@ package de.techdev.trackr.domain.employee;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import de.techdev.trackr.domain.common.FederalState;
 import de.techdev.trackr.domain.employee.login.Credential;
+import de.techdev.trackr.domain.employee.vacation.VacationRequest;
 import de.techdev.trackr.domain.project.BillableTime;
 import de.techdev.trackr.domain.project.WorkTime;
 import lombok.Data;
@@ -23,8 +24,8 @@ import java.util.List;
  */
 @Data
 @Entity
-@ToString(exclude = {"workTimes", "billableTimes"})
-@JsonIgnoreProperties({"credential", "workTimes", "billableTimes"})
+@ToString(exclude = {"workTimes", "billableTimes", "vacationRequests", "approvedRequests"})
+@JsonIgnoreProperties({"credential", "workTimes", "billableTimes", "vacationRequests", "approvedRequests"})
 public class Employee {
 
     @Id
@@ -71,6 +72,14 @@ public class Employee {
     @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "employee")
     @RestResource(exported = false)
     private List<BillableTime> billableTimes = new ArrayList<>();
+
+    @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "employee")
+    @RestResource(exported = false)
+    private List<VacationRequest> vacationRequests;
+
+    @OneToMany(mappedBy = "approver")
+    @RestResource(exported = false)
+    private List<VacationRequest> approvedRequests;
 
     public String fullName() {
         return getFirstName() + " " + getLastName();
