@@ -12,7 +12,7 @@ import java.util.Date;
 public class VacationRequestDataOnDemand extends AbstractDataOnDemand<VacationRequest> {
 
     @Autowired
-    EmployeeDataOnDemand employeeDataOnDemand;
+    private EmployeeDataOnDemand employeeDataOnDemand;
 
     @Override
     public VacationRequest getNewTransientObject(int i) {

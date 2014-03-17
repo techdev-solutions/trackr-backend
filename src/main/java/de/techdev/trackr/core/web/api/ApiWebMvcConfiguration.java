@@ -7,6 +7,9 @@ import de.techdev.trackr.domain.employee.EmployeeEventHandler;
 import de.techdev.trackr.domain.employee.login.Authority;
 import de.techdev.trackr.domain.employee.login.Credential;
 import de.techdev.trackr.domain.employee.login.CredentialEventHandler;
+import de.techdev.trackr.domain.employee.vacation.HolidayCalculator;
+import de.techdev.trackr.domain.employee.vacation.VacationRequest;
+import de.techdev.trackr.domain.employee.vacation.VacationRequestEventHandler;
 import de.techdev.trackr.domain.project.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -37,9 +40,20 @@ public class ApiWebMvcConfiguration extends RepositoryRestMvcConfiguration {
 
     @Override
     protected void configureRepositoryRestConfiguration(RepositoryRestConfiguration config) {
-        config.exposeIdsFor(new Class[]{Employee.class, Credential.class, Authority.class, Company.class, ContactPerson.class, Address.class, Project.class, WorkTime.class, BillableTime.class});
+        config.exposeIdsFor(new Class[]{Employee.class, Credential.class, Authority.class, Company.class, ContactPerson.class,
+                Address.class, Project.class, WorkTime.class, BillableTime.class, VacationRequest.class});
         config.setReturnBodyOnUpdate(true);
         config.setReturnBodyOnCreate(true);
+    }
+
+    @Bean
+    public HolidayCalculator holidayCalculator() {
+        return new HolidayCalculator();
+    }
+
+    @Bean
+    public VacationRequestEventHandler vacationRequestEventHandler() {
+        return new VacationRequestEventHandler();
     }
 
     @Bean
