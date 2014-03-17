@@ -46,3 +46,6 @@ INSERT INTO workTime (id, version, project, employee, date, startTime, endTime, 
 INSERT INTO workTime (id, version, project, employee, date, startTime, endTime, comment) VALUES (3, 0, 0, 1, '2014-03-05', '13:00:00', '17:00:00', 'Kommentar 4');
 INSERT INTO workTime (id, version, project, employee, date, startTime, endTime, comment) VALUES (4, 0, 0, 1, '2014-03-06', '09:00:00', '17:00:00', 'Kommentar 5');
 INSERT INTO workTime (id, version, project, employee, date, startTime, endTime, comment) VALUES (5, 0, 0, 1, '2014-03-07', '09:00:00', '17:00:00', 'Kommentar 6');
+
+INSERT INTO holiday (id, day, name, federalState) VALUES (0, '2014-12-25', '1. Weihnachtsfeiertag', 'BERLIN');
+INSERT INTO holiday (id, day, name, federalState) VALUES (1, '2014-12-26', '2. Weihnachtsfeiertag', 'BERLIN');
