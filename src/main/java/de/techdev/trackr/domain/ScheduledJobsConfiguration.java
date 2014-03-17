@@ -39,7 +39,7 @@ public class ScheduledJobsConfiguration implements SchedulingConfigurer {
     /**
      * @return An executor that has admin rights.
      */
-    @Bean
+    @Bean(destroyMethod = "shutdownNow")
     public Executor taskExecutor() {
         ScheduledExecutorService delegateExecutor = Executors.newSingleThreadScheduledExecutor();
         SecurityContext schedulerContext = createSchedulerSecurityContext();
