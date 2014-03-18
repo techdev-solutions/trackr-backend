@@ -5,6 +5,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RestResource;
 import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PostFilter;
 import org.springframework.security.access.prepost.PreAuthorize;
 
 import java.util.List;
@@ -24,4 +25,8 @@ public interface VacationRequestRepository extends CrudRepository<VacationReques
 
     @PreAuthorize("hasRole('ROLE_SUPERVISOR') or ( isAuthenticated() and principal.id == #employee.id )")
     List<VacationRequest> findByEmployeeOrderByStartDateAsc(@Param("employee") Employee employee);
+
+    @PreAuthorize("hasRole('ROLE_SUPERVISOR')")
+    @PostFilter("filterObject.employee.id != principal.id")
+    List<VacationRequest> findByApprovedOrderBySubmissionTimeAsc(@Param("approved") Boolean approved);
 }

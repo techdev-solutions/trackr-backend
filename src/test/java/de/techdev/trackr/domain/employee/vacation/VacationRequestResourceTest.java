@@ -11,8 +11,9 @@ import javax.json.stream.JsonGenerator;
 import java.io.StringWriter;
 import java.text.SimpleDateFormat;
 
-import static org.echocat.jomon.testing.BaseMatchers.isNotNull;
+import static org.echocat.jomon.testing.BaseMatchers.*;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -238,6 +239,38 @@ public class VacationRequestResourceTest extends MockMvcTest {
                .andExpect(status().isOk());
     }
 
+    @Test
+    public void findByApprovedOrderBySubmissionTimeAscForbiddenForEmployee() throws Exception {
+        mockMvc.perform(
+                get("/vacationRequests/search/findByApprovedOrderBySubmissionTimeAsc")
+                        .session(employeeSession())
+                        .param("approved", "true"))
+               .andExpect(status().isForbidden());
+    }
+
+    @Test
+    public void findByApprovedOrderBySubmissionTimeAscAllowedForSupervisor() throws Exception {
+        mockMvc.perform(
+                get("/vacationRequests/search/findByApprovedOrderBySubmissionTimeAsc")
+                        .session(supervisorSession())
+                        .param("approved", "true"))
+               .andExpect(status().isOk())
+               .andExpect(jsonPath("_embedded.vacationRequests[0]", isNotNull()));
+    }
+
+    @Test
+    public void findByApprovedOrderBySubmissionTimeAscWithSupervisorDoesNotContainOwnRequests() throws Exception {
+        vacationRequestRepository.deleteAll();
+        VacationRequest vacationRequest = vacationRequestDataOnDemand.getNewTransientObject(500);
+        vacationRequestRepository.save(vacationRequest);
+        mockMvc.perform(
+                get("/vacationRequests/search/findByApprovedOrderBySubmissionTimeAsc")
+                        .session(supervisorSession(vacationRequest.getEmployee().getId()))
+                        .param("approved", String.valueOf(vacationRequest.getApproved())))
+               .andExpect(status().isOk())
+               .andExpect(jsonPath("_embedded", isNull()));
+    }
+
     protected String getVacationRequestJson(VacationRequest vacationRequest) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         StringWriter writer = new StringWriter();
@@ -257,6 +290,9 @@ public class VacationRequestResourceTest extends MockMvcTest {
         }
         if (vacationRequest.getNumberOfDays() != null) {
             jg.write("numberOfDays", vacationRequest.getNumberOfDays());
+        }
+        if (vacationRequest.getSubmissionTime() != null) {
+            jg.write("submissionTime", sdf.format(vacationRequest.getSubmissionTime()));
         }
 
         jg.writeEnd().close();
