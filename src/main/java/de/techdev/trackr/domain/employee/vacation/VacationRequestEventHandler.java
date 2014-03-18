@@ -38,7 +38,6 @@ public class VacationRequestEventHandler {
         log.debug("Deleting vacation request {}", vacationRequest);
     }
 
-
     @HandleBeforeLinkSave
     @PreAuthorize("denyAll()")
     public void denyLinksSave(VacationRequest vacationRequest, Object links) {
