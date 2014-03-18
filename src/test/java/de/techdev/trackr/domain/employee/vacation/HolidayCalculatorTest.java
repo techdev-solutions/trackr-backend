@@ -29,7 +29,23 @@ public class HolidayCalculatorTest {
         LocalDate start = LocalDate.of(2014, Month.DECEMBER, 19);
         LocalDate end = LocalDate.of(2014, Month.DECEMBER, 31);
         Integer numberOfDays = holidayCalculator.calculateDifferenceBetweenExcludingHolidaysAndWeekends(start, end, getHolidaysAsDates());
-        assertThat(numberOfDays, is(6));
+        assertThat(numberOfDays, is(7));
+    }
+
+    @Test
+    public void calculateDifferenceBetweenExcludingHolidaysAndWeekendsAgain() throws Exception {
+        LocalDate start = LocalDate.of(2014, Month.MARCH, 4);
+        LocalDate end = LocalDate.of(2014, Month.MARCH, 10);
+        Integer numberOfDays = holidayCalculator.calculateDifferenceBetweenExcludingHolidaysAndWeekends(start, end, getHolidaysAsDates());
+        assertThat(numberOfDays, is(5));
+    }
+
+    @Test
+    public void calculateDifferenceBetweenExcludingHolidaysAndWeekendsLastDayWeekend() throws Exception {
+        LocalDate start = LocalDate.of(2014, Month.MARCH, 10);
+        LocalDate end = LocalDate.of(2014, Month.MARCH, 16);
+        Integer numberOfDays = holidayCalculator.calculateDifferenceBetweenExcludingHolidaysAndWeekends(start, end, getHolidaysAsDates());
+        assertThat(numberOfDays, is(5));
     }
 
     @Test

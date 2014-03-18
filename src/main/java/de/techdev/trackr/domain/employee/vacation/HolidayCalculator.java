@@ -27,7 +27,7 @@ public class HolidayCalculator {
     protected Integer calculateDifferenceBetweenExcludingHolidaysAndWeekends(LocalDate start, LocalDate end, List<LocalDate> holidays) {
         LocalDate step = start;
         Integer count = 0;
-        while(step.isBefore(end)) {
+        while(step.isBefore(end.plusDays(1))) {
             if(!isWeekendOrHoliday(step, holidays)) {
                 count++;
             }
