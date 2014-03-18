@@ -23,6 +23,8 @@ public class VacationRequestEventHandler {
                 vacationRequest.getEmployee().getFederalState());
         vacationRequest.setNumberOfDays(difference);
         vacationRequest.setApproved(false);
+        vacationRequest.setApprover(null);
+        vacationRequest.setApprovalDate(null);
         log.debug("Creating vacation request {}", vacationRequest);
     }
 
