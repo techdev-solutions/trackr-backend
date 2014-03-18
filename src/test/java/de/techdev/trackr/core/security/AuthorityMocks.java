@@ -112,6 +112,10 @@ public class AuthorityMocks {
     }
 
     public static Authentication supervisorAuthentication() {
+        return supervisorAuthentication(5000L);
+    }
+
+    public static Authentication supervisorAuthentication(Long id) {
         return new Authentication() {
             @Override
             public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -130,7 +134,7 @@ public class AuthorityMocks {
 
             @Override
             public Object getPrincipal() {
-                return new TrackrUser(getName(), true, getAuthorities(), 5000L);
+                return new TrackrUser(getName(), true, getAuthorities(), id);
             }
 
             @Override

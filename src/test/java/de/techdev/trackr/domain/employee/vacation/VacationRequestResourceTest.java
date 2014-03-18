@@ -132,6 +132,16 @@ public class VacationRequestResourceTest extends MockMvcTest {
                .andExpect(jsonPath("id", is(vacationRequest.getId().intValue())));
     }
 
+    @Test
+    public void updateSelfNotAllowedForSupervisor() throws Exception {
+        VacationRequest vacationRequest = vacationRequestDataOnDemand.getRandomObject();
+        mockMvc.perform(
+                put("/vacationRequests/" + vacationRequest.getId())
+                        .session(supervisorSession(vacationRequest.getEmployee().getId()))
+                        .content(getVacationRequestJson(vacationRequest)))
+               .andExpect(status().isForbidden());
+    }
+
     /**
      * Access is forbidden, but currently spring-data-rest will throw a 400 because the employee cannot be unmarshalled from the id.
      *

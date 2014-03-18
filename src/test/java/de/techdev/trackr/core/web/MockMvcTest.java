@@ -86,6 +86,10 @@ public abstract class MockMvcTest extends TransactionalIntegrationTest {
         return buildSession(AuthorityMocks.supervisorAuthentication());
     }
 
+    protected MockHttpSession supervisorSession(Long id) {
+        return buildSession(AuthorityMocks.supervisorAuthentication(id));
+    }
+
     /**
      * An http session for an admin.
      *

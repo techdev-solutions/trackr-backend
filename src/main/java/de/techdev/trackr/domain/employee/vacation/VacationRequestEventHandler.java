@@ -29,7 +29,7 @@ public class VacationRequestEventHandler {
     }
 
     @HandleBeforeSave
-    @PreAuthorize("hasRole('ROLE_SUPERVISOR')")
+    @PreAuthorize("hasRole('ROLE_SUPERVISOR') and principal.id != #vacationRequest.employee.id")
     public void authorizeUpdate(VacationRequest vacationRequest) {
         log.debug("Updating vacation request {}", vacationRequest);
     }
