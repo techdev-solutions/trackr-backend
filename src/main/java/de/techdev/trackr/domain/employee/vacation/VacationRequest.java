@@ -40,6 +40,9 @@ public class VacationRequest {
     @Temporal(TemporalType.DATE)
     private Date approvalDate;
 
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date submissionTime;
+
     @ManyToOne
     private Employee approver;
 }

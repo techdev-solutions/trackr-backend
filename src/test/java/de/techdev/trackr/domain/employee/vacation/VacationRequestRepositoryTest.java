@@ -12,7 +12,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 /**
  * @author Moritz Schulze
  */
-public class VacationRepositoryTest extends TransactionalIntegrationTest {
+public class VacationRequestRepositoryTest extends TransactionalIntegrationTest {
     
     @Autowired
     private VacationRequestDataOnDemand vacationRequestDataOnDemand;

@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.core.annotation.*;
 import org.springframework.security.access.prepost.PreAuthorize;
 
+import java.util.Date;
+
 /**
  * @author Moritz Schulze
  */
@@ -17,7 +19,7 @@ public class VacationRequestEventHandler {
 
     @HandleBeforeCreate
     @PreAuthorize("hasRole('ROLE_SUPERVISOR') or ( isAuthenticated() and principal.id == #vacationRequest.employee.id )")
-    public void calculateNumberOfDays(VacationRequest vacationRequest) {
+    public void prepareVacationRequest(VacationRequest vacationRequest) {
         Integer difference = holidayCalculator.calculateDifferenceBetweenExcludingHolidaysAndWeekends(vacationRequest.getStartDate(),
                 vacationRequest.getEndDate(),
                 vacationRequest.getEmployee().getFederalState());
@@ -25,6 +27,7 @@ public class VacationRequestEventHandler {
         vacationRequest.setApproved(false);
         vacationRequest.setApprover(null);
         vacationRequest.setApprovalDate(null);
+        vacationRequest.setSubmissionTime(new Date());
         log.debug("Creating vacation request {}", vacationRequest);
     }
 
