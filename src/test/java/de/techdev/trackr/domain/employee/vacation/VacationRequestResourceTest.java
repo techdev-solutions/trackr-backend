@@ -240,33 +240,34 @@ public class VacationRequestResourceTest extends MockMvcTest {
     }
 
     @Test
-    public void findByApprovedOrderBySubmissionTimeAscForbiddenForEmployee() throws Exception {
+    public void findByStatusOrderBySubmissionTimeAscForbiddenForEmployee() throws Exception {
         mockMvc.perform(
-                get("/vacationRequests/search/findByApprovedOrderBySubmissionTimeAsc")
+                get("/vacationRequests/search/findByStatusOrderBySubmissionTimeAsc")
                         .session(employeeSession())
-                        .param("approved", "true"))
+                        .param("approved", VacationRequestStatus.APPROVED.toString()))
                .andExpect(status().isForbidden());
     }
 
     @Test
-    public void findByApprovedOrderBySubmissionTimeAscAllowedForSupervisor() throws Exception {
+    public void findByStatusOrderBySubmissionTimeAscAllowedForSupervisor() throws Exception {
+        VacationRequest vacationRequest = vacationRequestDataOnDemand.getRandomObject();
         mockMvc.perform(
-                get("/vacationRequests/search/findByApprovedOrderBySubmissionTimeAsc")
+                get("/vacationRequests/search/findByStatusOrderBySubmissionTimeAsc")
                         .session(supervisorSession())
-                        .param("approved", "true"))
+                        .param("status", vacationRequest.getStatus().toString()))
                .andExpect(status().isOk())
                .andExpect(jsonPath("_embedded.vacationRequests[0]", isNotNull()));
     }
 
     @Test
-    public void findByApprovedOrderBySubmissionTimeAscWithSupervisorDoesNotContainOwnRequests() throws Exception {
+    public void findByStatusOrderBySubmissionTimeAscWithSupervisorDoesNotContainOwnRequests() throws Exception {
         vacationRequestRepository.deleteAll();
         VacationRequest vacationRequest = vacationRequestDataOnDemand.getNewTransientObject(500);
         vacationRequestRepository.save(vacationRequest);
         mockMvc.perform(
-                get("/vacationRequests/search/findByApprovedOrderBySubmissionTimeAsc")
+                get("/vacationRequests/search/findByStatusOrderBySubmissionTimeAsc")
                         .session(supervisorSession(vacationRequest.getEmployee().getId()))
-                        .param("approved", String.valueOf(vacationRequest.getApproved())))
+                        .param("approved", vacationRequest.getStatus().toString()))
                .andExpect(status().isOk())
                .andExpect(jsonPath("_embedded", isNull()));
     }
@@ -279,7 +280,7 @@ public class VacationRequestResourceTest extends MockMvcTest {
                 .writeStartObject()
                 .write("startDate", sdf.format(vacationRequest.getStartDate()))
                 .write("endDate", sdf.format(vacationRequest.getEndDate()))
-                .write("approved", vacationRequest.getApproved())
+                .write("status", vacationRequest.getStatus().toString())
                 .write("employee", "/api/employees/" + vacationRequest.getEmployee().getId());
 
         if (vacationRequest.getId() != null) {

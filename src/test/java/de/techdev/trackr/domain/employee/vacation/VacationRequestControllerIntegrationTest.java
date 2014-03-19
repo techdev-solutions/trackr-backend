@@ -30,7 +30,7 @@ public class VacationRequestControllerIntegrationTest extends MockMvcTest {
     @Test
     public void approveAllowedForSupervisor() throws Exception {
         VacationRequest vacationRequest = vacationRequestDataOnDemand.getRandomObject();
-        vacationRequest.setApproved(false);
+        vacationRequest.setStatus(VacationRequestStatus.PENDING);
         vacationRequestRepository.save(vacationRequest);
         mockMvc.perform(
                 put("/vacationRequests/" + vacationRequest.getId() + "/approve")
@@ -42,7 +42,7 @@ public class VacationRequestControllerIntegrationTest extends MockMvcTest {
     @Test
     public void selfApproveForbiddenForSupervisor() throws Exception {
         VacationRequest vacationRequest = vacationRequestDataOnDemand.getRandomObject();
-        vacationRequest.setApproved(false);
+        vacationRequest.setStatus(VacationRequestStatus.PENDING);
         vacationRequestRepository.save(vacationRequest);
         mockMvc.perform(
                 put("/vacationRequests/" + vacationRequest.getId() + "/approve")
@@ -53,7 +53,7 @@ public class VacationRequestControllerIntegrationTest extends MockMvcTest {
     @Test
     public void approveForbiddenForEmployee() throws Exception {
         VacationRequest vacationRequest = vacationRequestDataOnDemand.getRandomObject();
-        vacationRequest.setApproved(false);
+        vacationRequest.setStatus(VacationRequestStatus.PENDING);
         vacationRequestRepository.save(vacationRequest);
         mockMvc.perform(
                 put("/vacationRequests/" + vacationRequest.getId() + "/approve")

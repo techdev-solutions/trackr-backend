@@ -24,7 +24,7 @@ public class VacationRequestEventHandler {
                 vacationRequest.getEndDate(),
                 vacationRequest.getEmployee().getFederalState());
         vacationRequest.setNumberOfDays(difference);
-        vacationRequest.setApproved(false);
+        vacationRequest.setStatus(VacationRequestStatus.PENDING);
         vacationRequest.setApprover(null);
         vacationRequest.setApprovalDate(null);
         vacationRequest.setSubmissionTime(new Date());

@@ -17,14 +17,10 @@ public class VacationRequestDataOnDemand extends AbstractDataOnDemand<VacationRe
     @Override
     public VacationRequest getNewTransientObject(int i) {
         VacationRequest vacationRequest = new VacationRequest();
-        vacationRequest.setApproved(i % 2 != 0);
+        vacationRequest.setStatus(VacationRequestStatus.PENDING);
         vacationRequest.setEmployee(employeeDataOnDemand.getRandomObject());
         vacationRequest.setStartDate(new Date());
         vacationRequest.setEndDate(new Date());
-        if(vacationRequest.getApproved()) {
-            vacationRequest.setApprovalDate(new Date());
-            vacationRequest.setApprover(employeeDataOnDemand.getRandomObject());
-        }
         return vacationRequest;
     }
 

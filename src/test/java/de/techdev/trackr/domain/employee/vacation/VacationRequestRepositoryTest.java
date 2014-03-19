@@ -50,7 +50,7 @@ public class VacationRequestRepositoryTest extends TransactionalIntegrationTest 
     @Test
     public void findByApprovedOrderBySubmissionTimeAsc() throws Exception {
         VacationRequest vacationRequest = vacationRequestDataOnDemand.getRandomObject();
-        List<VacationRequest> all = vacationRequestRepository.findByApprovedOrderBySubmissionTimeAsc(vacationRequest.getApproved());
+        List<VacationRequest> all = vacationRequestRepository.findByStatusOrderBySubmissionTimeAsc(vacationRequest.getStatus());
         assertThat(all, isNotEmpty());
     }
 }

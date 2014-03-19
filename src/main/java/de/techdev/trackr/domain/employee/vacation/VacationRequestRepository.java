@@ -28,5 +28,5 @@ public interface VacationRequestRepository extends CrudRepository<VacationReques
 
     @PreAuthorize("hasRole('ROLE_SUPERVISOR')")
     @PostFilter("filterObject.employee.id != principal.id")
-    List<VacationRequest> findByApprovedOrderBySubmissionTimeAsc(@Param("approved") Boolean approved);
+    List<VacationRequest> findByStatusOrderBySubmissionTimeAsc(@Param("status") VacationRequestStatus status);
 }

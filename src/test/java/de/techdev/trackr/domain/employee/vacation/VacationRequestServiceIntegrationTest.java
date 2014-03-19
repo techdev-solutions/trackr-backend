@@ -11,6 +11,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.ContextConfiguration;
 
 import static org.echocat.jomon.testing.BaseMatchers.isFalse;
+import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.fail;
 
@@ -32,7 +33,7 @@ public class VacationRequestServiceIntegrationTest extends IntegrationTest {
     @Test
     public void approveNotAllowedForSelfDoesRollback() throws Exception {
         VacationRequest vacationRequest = vacationRequestDataOnDemand.getRandomObject();
-        vacationRequest.setApproved(false);
+        vacationRequest.setStatus(VacationRequestStatus.PENDING);
         vacationRequestRepository.save(vacationRequest);
         SecurityContextHolder.getContext().setAuthentication(AuthorityMocks.supervisorAuthentication(vacationRequest.getEmployee().getId()));
         try {
@@ -40,7 +41,7 @@ public class VacationRequestServiceIntegrationTest extends IntegrationTest {
             fail("An exception must be thrown.");
         } catch (Exception e) {
             VacationRequest one = vacationRequestRepository.findOne(vacationRequest.getId());
-            assertThat(one.getApproved(), isFalse());
+            assertThat(one.getStatus(), is(VacationRequestStatus.PENDING));
         }
     }
 }

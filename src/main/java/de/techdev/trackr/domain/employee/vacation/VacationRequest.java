@@ -1,5 +1,6 @@
 package de.techdev.trackr.domain.employee.vacation;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import de.techdev.trackr.domain.employee.Employee;
 import lombok.Data;
 
@@ -35,7 +36,8 @@ public class VacationRequest {
 
     private Integer numberOfDays;
 
-    private Boolean approved;
+    @Enumerated(EnumType.STRING)
+    private VacationRequestStatus status;
 
     @Temporal(TemporalType.DATE)
     private Date approvalDate;
@@ -45,4 +47,9 @@ public class VacationRequest {
 
     @ManyToOne
     private Employee approver;
+
+    @JsonIgnore
+    public boolean isApproved() {
+        return status == VacationRequestStatus.APPROVED;
+    }
 }
