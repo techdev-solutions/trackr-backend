@@ -22,7 +22,7 @@ public class VacationRequestController {
 
     /**
      * Approve a vacation request. Can only be done by supervisors, but they are not allowed to approve their own requests.
-     * If the request is already approved, nothing happens.
+     * Only works on pending requests.
      *
      * @param id        The id of the vacation request to approve.
      * @param principal The Spring Security principal to extract the user from.
@@ -34,5 +34,21 @@ public class VacationRequestController {
     @ResponseBody
     public VacationRequest approve(@PathVariable("id") Long id, Principal principal) {
         return vacationRequestService.approve(id, principal.getName());
+    }
+
+    /**
+     * Reject a vacation request. Can only be done by supervisors, but they are not allowed to reject their own requests.
+     * Only works on pending requests.
+     *
+     * @param id        The id of the vacation request to approve.
+     * @param principal The Spring Security principal to extract the user from.
+     * @return The vacation request object.
+     */
+    @PreAuthorize("hasRole('ROLE_SUPERVISOR')")
+    @RequestMapping(value = "/{id}/reject", method = RequestMethod.PUT)
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public VacationRequest reject(@PathVariable("id") Long id, Principal principal) {
+        return vacationRequestService.reject(id, principal.getName());
     }
 }

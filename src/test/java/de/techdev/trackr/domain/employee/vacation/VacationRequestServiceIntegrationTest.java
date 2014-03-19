@@ -44,4 +44,19 @@ public class VacationRequestServiceIntegrationTest extends IntegrationTest {
             assertThat(one.getStatus(), is(VacationRequestStatus.PENDING));
         }
     }
+
+    @Test
+    public void rejectNotAllowedForSelfDoesRollback() throws Exception {
+        VacationRequest vacationRequest = vacationRequestDataOnDemand.getRandomObject();
+        vacationRequest.setStatus(VacationRequestStatus.PENDING);
+        vacationRequestRepository.save(vacationRequest);
+        SecurityContextHolder.getContext().setAuthentication(AuthorityMocks.supervisorAuthentication(vacationRequest.getEmployee().getId()));
+        try {
+            vacationRequestService.reject(vacationRequest.getId(), "");
+            fail("An exception must be thrown.");
+        } catch (Exception e) {
+            VacationRequest one = vacationRequestRepository.findOne(vacationRequest.getId());
+            assertThat(one.getStatus(), is(VacationRequestStatus.PENDING));
+        }
+    }
 }

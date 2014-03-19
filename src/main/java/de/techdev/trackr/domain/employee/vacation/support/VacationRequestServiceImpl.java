@@ -24,14 +24,23 @@ public class VacationRequestServiceImpl implements VacationRequestService {
 
     @Override
     public VacationRequest approve(Long vacationRequestId, String supervisorEmail) {
+        return setStatusOnVacationRequest(vacationRequestId, supervisorEmail, VacationRequestStatus.APPROVED);
+    }
+
+    @Override
+    public VacationRequest reject(Long vacationRequestId, String supervisorEmail) {
+        return setStatusOnVacationRequest(vacationRequestId, supervisorEmail, VacationRequestStatus.REJECTED);
+    }
+
+    protected VacationRequest setStatusOnVacationRequest(Long vacationRequestId, String supervisorEmail, VacationRequestStatus status) {
         VacationRequest vacationRequest = vacationRequestRepository.findOne(vacationRequestId);
-        if (!vacationRequest.isApproved()) {
+        if (vacationRequest.getStatus() == VacationRequestStatus.PENDING) {
             Employee supervisor = null;
             Credential byEmail = credentialRepository.findByEmail(supervisorEmail);
             if (byEmail != null) {
                 supervisor = byEmail.getEmployee();
             }
-            vacationRequest.setStatus(VacationRequestStatus.APPROVED);
+            vacationRequest.setStatus(status);
             vacationRequest.setApprover(supervisor);
             vacationRequest.setApprovalDate(new Date());
             vacationRequest = vacationRequestRepository.save(vacationRequest);

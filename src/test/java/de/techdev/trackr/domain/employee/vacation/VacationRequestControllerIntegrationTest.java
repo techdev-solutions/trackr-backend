@@ -36,7 +36,7 @@ public class VacationRequestControllerIntegrationTest extends MockMvcTest {
                 put("/vacationRequests/" + vacationRequest.getId() + "/approve")
                         .session(supervisorSession()))
                .andExpect(status().isOk())
-               .andExpect(jsonPath("approved", is(true)));
+               .andExpect(jsonPath("status", is("APPROVED")));
     }
 
     @Test
@@ -58,6 +58,29 @@ public class VacationRequestControllerIntegrationTest extends MockMvcTest {
         mockMvc.perform(
                 put("/vacationRequests/" + vacationRequest.getId() + "/approve")
                         .session(employeeSession()))
+               .andExpect(status().isForbidden());
+    }
+
+    @Test
+    public void rejectAllowedForSupervisor() throws Exception {
+        VacationRequest vacationRequest = vacationRequestDataOnDemand.getRandomObject();
+        vacationRequest.setStatus(VacationRequestStatus.PENDING);
+        vacationRequestRepository.save(vacationRequest);
+        mockMvc.perform(
+                put("/vacationRequests/" + vacationRequest.getId() + "/reject")
+                        .session(supervisorSession()))
+               .andExpect(status().isOk())
+               .andExpect(jsonPath("status", is("REJECTED")));
+    }
+
+    @Test
+    public void selfRejectForbiddenForSupervisor() throws Exception {
+        VacationRequest vacationRequest = vacationRequestDataOnDemand.getRandomObject();
+        vacationRequest.setStatus(VacationRequestStatus.PENDING);
+        vacationRequestRepository.save(vacationRequest);
+        mockMvc.perform(
+                put("/vacationRequests/" + vacationRequest.getId() + "/reject")
+                        .session(supervisorSession(vacationRequest.getEmployee().getId())))
                .andExpect(status().isForbidden());
     }
 }
