@@ -49,3 +49,8 @@ INSERT INTO workTime (id, version, project, employee, date, startTime, endTime, 
 
 INSERT INTO holiday (id, day, name, federalState) VALUES (0, '2014-12-25', '1. Weihnachtsfeiertag', 'BERLIN');
 INSERT INTO holiday (id, day, name, federalState) VALUES (1, '2014-12-26', '2. Weihnachtsfeiertag', 'BERLIN');
+
+INSERT INTO vacationRequest (id, version, employee_id, startDate, endDate, numberOfDays, status, submissionTime) VALUES (0, 0, 2, '2014-03-01', '2014-03-08', 5, 'PENDING', '2014-01-01 11:00:00');
+INSERT INTO vacationRequest (id, version, employee_id, startDate, endDate, numberOfDays, status, submissionTime) VALUES (3, 0, 2, '2014-12-10', '2014-12-24', 5, 'PENDING', '2014-01-03 11:00:00');
+INSERT INTO vacationRequest (id, version, employee_id, startDate, endDate, numberOfDays, status, submissionTime, approver_id, approvalDate) VALUES (1, 0, 2, '2014-03-09', '2014-03-16', 5, 'APPROVED', '2014-01-01 10:00:00', 1, '2014-03-25');
+INSERT INTO vacationRequest (id, version, employee_id, startDate, endDate, numberOfDays, status, submissionTime, approver_id, approvalDate) VALUES (2, 0, 2, '2014-03-17', '2014-03-24', 5, 'REJECTED', '2014-01-01 16:00:00', 1, '2014-03-25');
