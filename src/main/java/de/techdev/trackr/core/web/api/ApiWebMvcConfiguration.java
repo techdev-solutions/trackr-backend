@@ -1,20 +1,17 @@
 package de.techdev.trackr.core.web.api;
 
 import de.techdev.trackr.core.web.converters.DateConverter;
+import de.techdev.trackr.domain.ApiBeansConfiguration;
 import de.techdev.trackr.domain.company.*;
 import de.techdev.trackr.domain.employee.Employee;
 import de.techdev.trackr.domain.employee.EmployeeEventHandler;
 import de.techdev.trackr.domain.employee.login.Authority;
 import de.techdev.trackr.domain.employee.login.Credential;
 import de.techdev.trackr.domain.employee.login.CredentialEventHandler;
-import de.techdev.trackr.domain.employee.vacation.HolidayCalculator;
 import de.techdev.trackr.domain.employee.vacation.VacationRequest;
 import de.techdev.trackr.domain.employee.vacation.VacationRequestEventHandler;
 import de.techdev.trackr.domain.project.*;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.FilterType;
+import org.springframework.context.annotation.*;
 import org.springframework.core.convert.support.ConfigurableConversionService;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 import org.springframework.data.rest.webmvc.config.RepositoryRestMvcConfiguration;
@@ -36,6 +33,7 @@ import java.util.List;
         includeFilters = {
                 @ComponentScan.Filter(type = FilterType.ANNOTATION, value = {Controller.class, ControllerAdvice.class})
         })
+@Import({ApiBeansConfiguration.class})
 public class ApiWebMvcConfiguration extends RepositoryRestMvcConfiguration {
 
     @Override
@@ -44,11 +42,6 @@ public class ApiWebMvcConfiguration extends RepositoryRestMvcConfiguration {
                 Address.class, Project.class, WorkTime.class, BillableTime.class, VacationRequest.class});
         config.setReturnBodyOnUpdate(true);
         config.setReturnBodyOnCreate(true);
-    }
-
-    @Bean
-    public HolidayCalculator holidayCalculator() {
-        return new HolidayCalculator();
     }
 
     @Bean
