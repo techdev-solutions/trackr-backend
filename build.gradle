@@ -70,6 +70,11 @@ dependencies {
     compile "org.projectlombok:lombok:1.12.4"
     compile "org.glassfish:javax.json:1.0"
 
+    //email
+    compile "javax.mail:mail:1.4"
+    compile "jaf:activation:1.0.2"
+    compile "org.springframework:spring-context-support:$project.springVersion"
+
     //security
     compile "org.springframework.security:spring-security-openid:$project.springSecurityVersion"
     compile "org.springframework.security:spring-security-web:$project.springSecurityVersion"
