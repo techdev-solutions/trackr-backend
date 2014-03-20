@@ -3,6 +3,7 @@ package de.techdev.trackr.core;
 import de.techdev.trackr.core.mail.MailConfiguration;
 import de.techdev.trackr.core.security.MethodSecurityConfiguration;
 import de.techdev.trackr.core.web.api.ApiWebMvcConfiguration;
+import de.techdev.trackr.domain.ScheduledJobsConfiguration;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 import javax.servlet.ServletRegistration;
@@ -22,7 +23,7 @@ public class ApiWebApplicationInitializer extends AbstractAnnotationConfigDispat
     protected Class<?>[] getServletConfigClasses() {
         //The global method security is only in the root context, to protect RequestMappings in custom controllers
         //we load the the MethodSecurityConfiguration here, too.
-        return new Class<?>[] {ApiWebMvcConfiguration.class, MethodSecurityConfiguration.class, MailConfiguration.class};
+        return new Class<?>[] {ApiWebMvcConfiguration.class, MethodSecurityConfiguration.class, MailConfiguration.class, ScheduledJobsConfiguration.class};
     }
 
     @Override
