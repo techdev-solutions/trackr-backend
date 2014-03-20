@@ -8,6 +8,7 @@ import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PostFilter;
 import org.springframework.security.access.prepost.PreAuthorize;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -29,4 +30,7 @@ public interface VacationRequestRepository extends CrudRepository<VacationReques
     @PreAuthorize("hasRole('ROLE_SUPERVISOR')")
     @PostFilter("filterObject.employee.id != principal.id")
     List<VacationRequest> findByStatusOrderBySubmissionTimeAsc(@Param("status") VacationRequestStatus status);
+
+    @RestResource(exported = false)
+    List<VacationRequest> findBySubmissionTimeBeforeAndStatus(Date date, VacationRequestStatus status);
 }

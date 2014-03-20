@@ -3,14 +3,22 @@ package de.techdev.trackr.domain.employee.vacation.support;
 import de.techdev.trackr.domain.employee.Employee;
 import de.techdev.trackr.domain.employee.login.Credential;
 import de.techdev.trackr.domain.employee.login.CredentialRepository;
-import de.techdev.trackr.domain.employee.vacation.*;
+import de.techdev.trackr.domain.employee.vacation.VacationRequest;
+import de.techdev.trackr.domain.employee.vacation.VacationRequestApproveService;
+import de.techdev.trackr.domain.employee.vacation.VacationRequestRepository;
+import de.techdev.trackr.domain.employee.vacation.VacationRequestStatus;
+import de.techdev.trackr.util.LocalDateUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.time.LocalDate;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author Moritz Schulze
  */
+@Slf4j
 public class VacationRequestApproveServiceImpl implements VacationRequestApproveService {
 
     @Autowired
@@ -30,6 +38,16 @@ public class VacationRequestApproveServiceImpl implements VacationRequestApprove
     @Override
     public VacationRequest reject(Long vacationRequestId, String supervisorEmail) {
         return setStatusOnVacationRequest(vacationRequestId, supervisorEmail, VacationRequestStatus.REJECTED);
+    }
+
+    @Override
+    public void approveSevenDayOldRequests() {
+        LocalDate oneWeekAgo = LocalDate.now().minusDays(7);
+        List<VacationRequest> vacationRequests = vacationRequestRepository.findBySubmissionTimeBeforeAndStatus(LocalDateUtil.fromLocalDate(oneWeekAgo), VacationRequestStatus.PENDING);
+        vacationRequests.forEach(vacationRequest -> {
+            log.info("Approving more then seven days old vacation request {}", vacationRequest);
+            approve(vacationRequest.getId(), null);
+        });
     }
 
     protected VacationRequest setStatusOnVacationRequest(Long vacationRequestId, String supervisorEmail, VacationRequestStatus status) {

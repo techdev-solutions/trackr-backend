@@ -1,6 +1,7 @@
 package de.techdev.trackr.domain.employee.vacation;
 
 import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -36,4 +37,10 @@ public interface VacationRequestApproveService {
     @PostAuthorize("hasRole('ROLE_SUPERVISOR') and principal.id != returnObject.employee.id")
     VacationRequest reject(Long vacationRequestId, String supervisorEmail);
 
+    /**
+     * Approves all requests that are more than seven days old.
+     */
+    @Transactional
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    void approveSevenDayOldRequests();
 }

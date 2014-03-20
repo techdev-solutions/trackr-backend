@@ -2,6 +2,7 @@ package de.techdev.trackr.domain;
 
 import de.techdev.trackr.domain.common.LastWorkdayDayOfMonthTrigger;
 import de.techdev.trackr.domain.employee.EmployeeScheduledJob;
+import de.techdev.trackr.domain.employee.vacation.VacationRequestScheduledJobs;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -26,6 +27,11 @@ import static java.util.Arrays.asList;
 @Configuration
 @EnableScheduling
 public class ScheduledJobsConfiguration implements SchedulingConfigurer {
+
+    @Bean
+    public VacationRequestScheduledJobs vacationScheduledJobs() {
+        return new VacationRequestScheduledJobs();
+    }
 
     @Bean
     public EmployeeScheduledJob employeeScheduledJob() {
