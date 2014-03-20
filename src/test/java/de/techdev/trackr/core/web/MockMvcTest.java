@@ -1,6 +1,7 @@
 package de.techdev.trackr.core.web;
 
 import de.techdev.trackr.TransactionalIntegrationTest;
+import de.techdev.trackr.core.mail.MailConfiguration;
 import de.techdev.trackr.core.security.AuthorityMocks;
 import de.techdev.trackr.core.security.MethodSecurityConfiguration;
 import de.techdev.trackr.core.security.SecurityConfiguration;
@@ -28,7 +29,7 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
  * @author Moritz Schulze
  */
 @WebAppConfiguration
-@ContextConfiguration(classes = {ApiWebMvcConfiguration.class, MethodSecurityConfiguration.class, SecurityConfiguration.class})
+@ContextConfiguration(classes = {ApiWebMvcConfiguration.class, MethodSecurityConfiguration.class, SecurityConfiguration.class, MailConfiguration.class})
 public abstract class MockMvcTest extends TransactionalIntegrationTest {
 
     protected final String standardContentType = "application/hal+json";

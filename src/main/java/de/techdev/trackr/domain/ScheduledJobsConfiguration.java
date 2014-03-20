@@ -1,5 +1,6 @@
 package de.techdev.trackr.domain;
 
+import de.techdev.trackr.domain.common.LastWorkdayDayOfMonthTrigger;
 import de.techdev.trackr.domain.employee.EmployeeScheduledJob;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -31,9 +32,15 @@ public class ScheduledJobsConfiguration implements SchedulingConfigurer {
         return new EmployeeScheduledJob();
     }
 
+    @Bean
+    public LastWorkdayDayOfMonthTrigger lastWorkdayDayOfMonthTrigger() {
+        return new LastWorkdayDayOfMonthTrigger();
+    }
+
     @Override
     public void configureTasks(ScheduledTaskRegistrar taskRegistrar) {
         taskRegistrar.setScheduler(taskExecutor());
+        taskRegistrar.addTriggerTask(employeeScheduledJob().sendWorkTimeReminderTask(), lastWorkdayDayOfMonthTrigger());
     }
 
     /**

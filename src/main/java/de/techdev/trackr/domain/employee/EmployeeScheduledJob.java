@@ -1,6 +1,7 @@
 package de.techdev.trackr.domain.employee;
 
 import de.techdev.trackr.domain.employee.login.DeactivateEmployeesService;
+import de.techdev.trackr.domain.employee.worktimeTracking.WorkTimeTrackingReminderService;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,9 @@ public class EmployeeScheduledJob {
     @Autowired
     private DeactivateEmployeesService deactivateEmployeesService;
 
+    @Autowired
+    private WorkTimeTrackingReminderService workTimeTrackingReminderService;
+
     /**
      * Every day at 4am check if employees must be deactivated and do so if necessary.
      */
@@ -25,4 +29,13 @@ public class EmployeeScheduledJob {
     public void deactivateEmployeesWithLeaveDateToday() {
         deactivateEmployeesService.deactivateEmployeesWithLeaveDateToday();
     }
+
+    /**
+     * Task that gets triggered in {@link de.techdev.trackr.domain.ScheduledJobsConfiguration} by a custom trigger.
+     * @return A task that remindes employees to track their working times.
+     */
+    public Runnable sendWorkTimeReminderTask() {
+        return workTimeTrackingReminderService::remindEmployeesToTrackWorkTimes;
+    }
+
 }

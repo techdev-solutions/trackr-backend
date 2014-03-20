@@ -3,6 +3,7 @@ package de.techdev.trackr;
 import de.techdev.trackr.domain.DataOnDemandConfiguration;
 import de.techdev.trackr.domain.JpaConfiguration;
 import org.junit.runner.RunWith;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -12,5 +13,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  */
 @ContextConfiguration(classes = {JpaConfiguration.class, DataOnDemandConfiguration.class})
 @RunWith(SpringJUnit4ClassRunner.class)
+@ActiveProfiles("dev")
 public abstract class IntegrationTest {
 }

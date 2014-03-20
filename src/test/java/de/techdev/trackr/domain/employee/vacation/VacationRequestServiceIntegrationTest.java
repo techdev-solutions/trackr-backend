@@ -1,6 +1,7 @@
 package de.techdev.trackr.domain.employee.vacation;
 
 import de.techdev.trackr.IntegrationTest;
+import de.techdev.trackr.core.mail.MailConfiguration;
 import de.techdev.trackr.core.security.AuthorityMocks;
 import de.techdev.trackr.core.security.MethodSecurityConfiguration;
 import de.techdev.trackr.core.security.SecurityConfiguration;
@@ -18,7 +19,7 @@ import static org.junit.Assert.fail;
 /**
  * @author Moritz Schulze
  */
-@ContextConfiguration(classes = {SecurityConfiguration.class, MethodSecurityConfiguration.class, ApiBeansConfiguration.class})
+@ContextConfiguration(classes = {SecurityConfiguration.class, MethodSecurityConfiguration.class, ApiBeansConfiguration.class, MailConfiguration.class})
 public class VacationRequestServiceIntegrationTest extends IntegrationTest {
 
     @Autowired
