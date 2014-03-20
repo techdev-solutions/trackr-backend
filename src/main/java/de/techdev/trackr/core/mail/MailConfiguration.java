@@ -1,9 +1,12 @@
 package de.techdev.trackr.core.mail;
 
+import de.techdev.trackr.core.mail.support.JavaMailService;
+import de.techdev.trackr.core.mail.support.NoOpMailService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.PropertiesFactoryBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.core.io.Resource;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
@@ -16,6 +19,18 @@ import java.util.Properties;
  */
 @Configuration
 public class MailConfiguration {
+
+    @Bean
+    @Profile("prod")
+    public MailService javaMailService() {
+        return new JavaMailService();
+    }
+
+    @Bean
+    @Profile({"dev", "qs"})
+    public MailService noOpMailService() {
+        return new NoOpMailService();
+    }
 
     @Value("classpath:/mail/gmail.properties")
     private Resource mailPropertiesResource;
@@ -33,6 +48,7 @@ public class MailConfiguration {
     }
 
     @Bean
+    @Profile("prod")
     public MailSender mailSender() {
         JavaMailSenderImpl javaMailSender = new JavaMailSenderImpl();
 
