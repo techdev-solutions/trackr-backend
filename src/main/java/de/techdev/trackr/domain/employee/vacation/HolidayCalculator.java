@@ -1,9 +1,11 @@
 package de.techdev.trackr.domain.employee.vacation;
 
 import de.techdev.trackr.domain.common.FederalState;
+import de.techdev.trackr.util.LocalDateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.time.*;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -19,8 +21,8 @@ public class HolidayCalculator {
 
     public Integer calculateDifferenceBetweenExcludingHolidaysAndWeekends(Date start, Date end, FederalState federalState) {
         List<Holiday> holidays = holidayRepository.findByFederalStateAndDayBetween(federalState, start, end);
-        return calculateDifferenceBetweenExcludingHolidaysAndWeekends(from(start), from(end), holidays.stream()
-                                                                                                      .map(holiday -> from(holiday.getDay()))
+        return calculateDifferenceBetweenExcludingHolidaysAndWeekends(LocalDateUtil.fromDate(start), LocalDateUtil.fromDate(end), holidays.stream()
+                                                                                                      .map(holiday -> LocalDateUtil.fromDate(holiday.getDay()))
                                                                                                       .collect(toList()));
     }
 
@@ -45,15 +47,5 @@ public class HolidayCalculator {
      */
     protected boolean isWeekendOrHoliday(LocalDate date, List<LocalDate> holidays) {
         return date.getDayOfWeek() == DayOfWeek.SATURDAY || date.getDayOfWeek() == DayOfWeek.SUNDAY || holidays.stream().anyMatch(date::equals);
-    }
-
-    /**
-     * Converts a {@link java.util.Date} to a {@link java.time.LocalDate} in the system default timezone.
-     * @param date The date to convert
-     * @return The converted date
-     */
-    private static LocalDate from(Date date) {
-        Instant instant = Instant.ofEpochMilli(date.getTime());
-        return LocalDateTime.ofInstant(instant, ZoneId.systemDefault()).toLocalDate();
     }
 }

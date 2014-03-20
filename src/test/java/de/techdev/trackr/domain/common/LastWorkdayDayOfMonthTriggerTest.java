@@ -1,5 +1,6 @@
 package de.techdev.trackr.domain.common;
 
+import de.techdev.trackr.util.LocalDateUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -7,9 +8,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.scheduling.TriggerContext;
 
 import java.time.DayOfWeek;
-import java.time.Instant;
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.Date;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -55,13 +54,8 @@ public class LastWorkdayDayOfMonthTriggerTest {
     @Test
     public void dontTriggerTwiceAMonth() throws Exception {
         LocalDate date = lastWorkdayDayOfMonthTrigger.nextExecutionTimeInternal(
-                getTriggerContextWithLastScheduledExecutionTime(toDate(LocalDate.now())));
+                getTriggerContextWithLastScheduledExecutionTime(LocalDateUtil.fromLocalDate(LocalDate.now())));
         assertThat(date.getMonth(), is(LocalDate.now().plusMonths(1).getMonth()));
-    }
-
-    private Date toDate(LocalDate date) {
-        Instant instant = date.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant();
-        return Date.from(instant);
     }
 
     protected TriggerContext getTriggerContextWithLastScheduledExecutionTime(final Date time) {

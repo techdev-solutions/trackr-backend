@@ -1,9 +1,11 @@
 package de.techdev.trackr.domain.common;
 
+import de.techdev.trackr.util.LocalDateUtil;
 import org.springframework.scheduling.Trigger;
 import org.springframework.scheduling.TriggerContext;
 
-import java.time.*;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.temporal.TemporalAdjusters;
 import java.util.Date;
 
@@ -33,25 +35,15 @@ public class LastWorkdayDayOfMonthTrigger implements Trigger {
 
     @Override
     public Date nextExecutionTime(TriggerContext triggerContext) {
-        return toDate(nextExecutionTimeInternal(triggerContext));
+        return LocalDateUtil.fromLocalDate(nextExecutionTimeInternal(triggerContext));
     }
 
     protected LocalDate nextExecutionTimeInternal(TriggerContext triggerContext) {
         LocalDate now = LocalDate.now();
         if (triggerContext.lastScheduledExecutionTime() != null &&
-                fromDate(triggerContext.lastScheduledExecutionTime()).getMonth() == now.getMonth()) {
+                LocalDateUtil.fromDate(triggerContext.lastScheduledExecutionTime()).getMonth() == now.getMonth()) {
             now = now.plusMonths(1);
         }
         return lastWeekdayInMonth(now);
-    }
-
-    private Date toDate(LocalDate date) {
-        Instant instant = date.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant();
-        return Date.from(instant);
-    }
-
-    private LocalDate fromDate(Date date) {
-        Instant instant = Instant.ofEpochMilli(date.getTime());
-        return LocalDateTime.ofInstant(instant, ZoneId.systemDefault()).toLocalDate();
     }
 }

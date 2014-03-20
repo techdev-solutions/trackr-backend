@@ -1,14 +1,12 @@
 package de.techdev.trackr.domain.employee;
 
 import de.techdev.trackr.domain.employee.login.Credential;
+import de.techdev.trackr.util.LocalDateUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.rest.core.annotation.*;
 import org.springframework.security.access.prepost.PreAuthorize;
 
-import java.time.Instant;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 
 /**
  * @author Moritz Schulze
@@ -33,8 +31,7 @@ public class EmployeeEventHandler {
     protected void deactivateEmployeeIfNecessary(Employee employee) {
         if(employee.getLeaveDate() != null && employee.getCredential().getEnabled()) {
             LocalDate today = LocalDate.now();
-            Instant instant = Instant.ofEpochMilli(employee.getLeaveDate().getTime());
-            LocalDate leaveDate = LocalDateTime.ofInstant(instant, ZoneId.systemDefault()).toLocalDate();
+            LocalDate leaveDate = LocalDateUtil.fromDate(employee.getLeaveDate());
             if(leaveDate.isBefore(today) || leaveDate.equals(today)) {
                 log.info("Deactivating employee {}", employee);
                 employee.getCredential().setEnabled(false);
