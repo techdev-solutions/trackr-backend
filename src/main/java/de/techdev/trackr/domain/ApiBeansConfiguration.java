@@ -1,5 +1,6 @@
 package de.techdev.trackr.domain;
 
+import de.techdev.trackr.domain.employee.login.DeactivateEmployeesService;
 import de.techdev.trackr.domain.employee.vacation.HolidayCalculator;
 import de.techdev.trackr.domain.employee.vacation.VacationRequestService;
 import de.techdev.trackr.domain.employee.vacation.support.VacationRequestServiceImpl;
@@ -13,6 +14,11 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 public class ApiBeansConfiguration {
+
+    @Bean
+    public DeactivateEmployeesService deactivateEmployeesService() {
+        return new DeactivateEmployeesService();
+    }
 
     @Bean
     public VacationRequestService vacationRequestService() {

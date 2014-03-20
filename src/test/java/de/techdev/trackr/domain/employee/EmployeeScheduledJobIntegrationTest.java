@@ -1,6 +1,7 @@
 package de.techdev.trackr.domain.employee;
 
 import de.techdev.trackr.TransactionalIntegrationTest;
+import de.techdev.trackr.domain.employee.login.DeactivateEmployeesService;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,9 @@ public class EmployeeScheduledJobIntegrationTest extends TransactionalIntegratio
     @Before
     public void setUp() throws Exception {
         employeeScheduledJob = new EmployeeScheduledJob();
-        employeeScheduledJob.setEmployeeRepository(employeeRepository);
+        DeactivateEmployeesService deactivateEmployeesService = new DeactivateEmployeesService();
+        deactivateEmployeesService.setEmployeeRepository(employeeRepository);
+        employeeScheduledJob.setDeactivateEmployeesService(deactivateEmployeesService);
     }
 
     @Test
