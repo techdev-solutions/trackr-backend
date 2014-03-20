@@ -6,6 +6,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Collection;
+import java.util.Locale;
 
 import static java.util.Arrays.asList;
 
@@ -46,7 +47,7 @@ public class AuthorityMocks {
 
             @Override
             public Object getPrincipal() {
-                return new TrackrUser("user@techdev.de", true, getAuthorities(), id);
+                return new TrackrUser("user@techdev.de", true, getAuthorities(), id, Locale.GERMAN);
             }
 
             @Override
@@ -91,7 +92,7 @@ public class AuthorityMocks {
 
             @Override
             public Object getPrincipal() {
-                return new TrackrUser(getName(), true, getAuthorities(), 0L);
+                return new TrackrUser(getName(), true, getAuthorities(), 0L, Locale.GERMAN);
             }
 
             @Override
@@ -134,7 +135,7 @@ public class AuthorityMocks {
 
             @Override
             public Object getPrincipal() {
-                return new TrackrUser(getName(), true, getAuthorities(), id);
+                return new TrackrUser(getName(), true, getAuthorities(), id, Locale.GERMAN);
             }
 
             @Override

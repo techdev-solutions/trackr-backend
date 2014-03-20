@@ -14,6 +14,7 @@ import org.springframework.security.openid.OpenIDAuthenticationToken;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -60,7 +61,7 @@ public class TrackrUserDetailsService implements AuthenticationUserDetailsServic
             log.debug("User {} is disabled, preventing log in.", email);
             throw new UsernameNotFoundException("User " + email + " is deactivated. Please wait for activation.");
         }
-        return new TrackrUser(credential.getEmail(), credential.getEnabled(), credential.getAuthorities(), credential.getId());
+        return new TrackrUser(credential.getEmail(), credential.getEnabled(), credential.getAuthorities(), credential.getId(), Locale.forLanguageTag(credential.getLocale()));
     }
 
     /**

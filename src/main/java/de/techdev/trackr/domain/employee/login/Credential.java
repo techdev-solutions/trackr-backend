@@ -36,6 +36,9 @@ public class Credential {
 
     private Boolean enabled;
 
+    @NotEmpty
+    private String locale;
+
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Authority> authorities;
 

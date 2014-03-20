@@ -2,6 +2,7 @@ package de.techdev.trackr.core.web.api;
 
 import de.techdev.trackr.core.web.converters.DateConverter;
 import de.techdev.trackr.domain.ApiBeansConfiguration;
+import de.techdev.trackr.domain.common.TrackrUserLocaleResolver;
 import de.techdev.trackr.domain.company.Address;
 import de.techdev.trackr.domain.company.Company;
 import de.techdev.trackr.domain.company.ContactPerson;
@@ -21,6 +22,7 @@ import org.springframework.format.FormatterRegistry;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.servlet.HandlerExceptionResolver;
+import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import java.util.List;
@@ -44,6 +46,11 @@ public class ApiWebMvcConfiguration extends RepositoryRestMvcConfiguration {
                 Address.class, Project.class, WorkTime.class, BillableTime.class, VacationRequest.class});
         config.setReturnBodyOnUpdate(true);
         config.setReturnBodyOnCreate(true);
+    }
+
+    @Bean
+    public LocaleResolver localeResolver() {
+        return new TrackrUserLocaleResolver();
     }
 
     @Bean
