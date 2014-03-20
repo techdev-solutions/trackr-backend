@@ -6,7 +6,6 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author Moritz Schulze
@@ -25,7 +24,6 @@ public class EmployeeScheduledJob {
      * Every day at 4am check if employees must be deactivated and do so if necessary.
      */
     @Scheduled(cron = "0 0 4 * * *")
-    @Transactional
     public void deactivateEmployeesWithLeaveDateToday() {
         deactivateEmployeesService.deactivateEmployeesWithLeaveDateToday();
     }

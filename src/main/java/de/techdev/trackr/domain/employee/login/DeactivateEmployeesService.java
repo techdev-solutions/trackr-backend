@@ -5,6 +5,7 @@ import de.techdev.trackr.domain.employee.EmployeeRepository;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.time.LocalDate;
@@ -27,6 +28,7 @@ public class DeactivateEmployeesService {
     /**
      * Deactivate employees whose leave date is today.
      */
+    @Transactional
     public void deactivateEmployeesWithLeaveDateToday() {
         LocalDate now = LocalDate.now();
         Instant instant = now.atStartOfDay(ZoneId.systemDefault()).toInstant();
