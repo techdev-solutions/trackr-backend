@@ -2,8 +2,10 @@ package de.techdev.trackr.domain;
 
 import de.techdev.trackr.domain.employee.login.DeactivateEmployeesService;
 import de.techdev.trackr.domain.employee.vacation.HolidayCalculator;
-import de.techdev.trackr.domain.employee.vacation.VacationRequestService;
-import de.techdev.trackr.domain.employee.vacation.support.VacationRequestServiceImpl;
+import de.techdev.trackr.domain.employee.vacation.VacationRequestApproveService;
+import de.techdev.trackr.domain.employee.vacation.VacationRequestNotifyService;
+import de.techdev.trackr.domain.employee.vacation.support.VacationRequestApproveServiceImpl;
+import de.techdev.trackr.domain.employee.vacation.support.VacationRequestNotifyServiceImpl;
 import de.techdev.trackr.domain.employee.worktimeTracking.WorkTimeTrackingReminderService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,8 +29,13 @@ public class ApiBeansConfiguration {
     }
 
     @Bean
-    public VacationRequestService vacationRequestService() {
-        return new VacationRequestServiceImpl();
+    public VacationRequestNotifyService vacationRequestNotifyService() {
+        return new VacationRequestNotifyServiceImpl();
+    }
+
+    @Bean
+    public VacationRequestApproveService vacationRequestService() {
+        return new VacationRequestApproveServiceImpl();
     }
 
     @Bean

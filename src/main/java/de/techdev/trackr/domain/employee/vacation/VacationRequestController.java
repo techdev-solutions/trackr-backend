@@ -18,7 +18,7 @@ import java.security.Principal;
 public class VacationRequestController {
 
     @Autowired
-    private VacationRequestService vacationRequestService;
+    private VacationRequestApproveService vacationRequestApproveService;
 
     /**
      * Approve a vacation request. Can only be done by supervisors, but they are not allowed to approve their own requests.
@@ -33,7 +33,7 @@ public class VacationRequestController {
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public VacationRequest approve(@PathVariable("id") Long id, Principal principal) {
-        return vacationRequestService.approve(id, principal.getName());
+        return vacationRequestApproveService.approve(id, principal.getName());
     }
 
     /**
@@ -49,6 +49,6 @@ public class VacationRequestController {
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public VacationRequest reject(@PathVariable("id") Long id, Principal principal) {
-        return vacationRequestService.reject(id, principal.getName());
+        return vacationRequestApproveService.reject(id, principal.getName());
     }
 }

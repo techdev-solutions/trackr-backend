@@ -3,10 +3,7 @@ package de.techdev.trackr.domain.employee.vacation.support;
 import de.techdev.trackr.domain.employee.Employee;
 import de.techdev.trackr.domain.employee.login.Credential;
 import de.techdev.trackr.domain.employee.login.CredentialRepository;
-import de.techdev.trackr.domain.employee.vacation.VacationRequest;
-import de.techdev.trackr.domain.employee.vacation.VacationRequestRepository;
-import de.techdev.trackr.domain.employee.vacation.VacationRequestService;
-import de.techdev.trackr.domain.employee.vacation.VacationRequestStatus;
+import de.techdev.trackr.domain.employee.vacation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Date;
@@ -14,13 +11,16 @@ import java.util.Date;
 /**
  * @author Moritz Schulze
  */
-public class VacationRequestServiceImpl implements VacationRequestService {
+public class VacationRequestApproveServiceImpl implements VacationRequestApproveService {
 
     @Autowired
     private VacationRequestRepository vacationRequestRepository;
 
     @Autowired
     private CredentialRepository credentialRepository;
+
+    @Autowired
+    private VacationRequestNotifyService vacationRequestNotifyService;
 
     @Override
     public VacationRequest approve(Long vacationRequestId, String supervisorEmail) {
@@ -44,6 +44,8 @@ public class VacationRequestServiceImpl implements VacationRequestService {
             vacationRequest.setApprover(supervisor);
             vacationRequest.setApprovalDate(new Date());
             vacationRequest = vacationRequestRepository.save(vacationRequest);
+
+            vacationRequestNotifyService.sendEmailNotification(vacationRequest);
         }
 
         return vacationRequest;

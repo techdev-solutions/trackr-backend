@@ -6,7 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 /**
  * @author Moritz Schulze
  */
-public interface VacationRequestService {
+public interface VacationRequestApproveService {
 
     /**
      * Approves a vacation request. The vacation request will be fetched from the repository, the approver by the name given in

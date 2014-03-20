@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.ContextConfiguration;
 
-import static org.echocat.jomon.testing.BaseMatchers.isFalse;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.fail;
@@ -20,13 +19,13 @@ import static org.junit.Assert.fail;
  * @author Moritz Schulze
  */
 @ContextConfiguration(classes = {SecurityConfiguration.class, MethodSecurityConfiguration.class, ApiBeansConfiguration.class, MailConfiguration.class})
-public class VacationRequestServiceIntegrationTest extends IntegrationTest {
+public class VacationRequestApproveServiceIntegrationTest extends IntegrationTest {
 
     @Autowired
     private VacationRequestDataOnDemand vacationRequestDataOnDemand;
 
     @Autowired
-    private VacationRequestService vacationRequestService;
+    private VacationRequestApproveService vacationRequestApproveService;
 
     @Autowired
     private VacationRequestRepository vacationRequestRepository;
@@ -38,7 +37,7 @@ public class VacationRequestServiceIntegrationTest extends IntegrationTest {
         vacationRequestRepository.save(vacationRequest);
         SecurityContextHolder.getContext().setAuthentication(AuthorityMocks.supervisorAuthentication(vacationRequest.getEmployee().getId()));
         try {
-            vacationRequestService.approve(vacationRequest.getId(), "");
+            vacationRequestApproveService.approve(vacationRequest.getId(), "");
             fail("An exception must be thrown.");
         } catch (Exception e) {
             VacationRequest one = vacationRequestRepository.findOne(vacationRequest.getId());
@@ -53,7 +52,7 @@ public class VacationRequestServiceIntegrationTest extends IntegrationTest {
         vacationRequestRepository.save(vacationRequest);
         SecurityContextHolder.getContext().setAuthentication(AuthorityMocks.supervisorAuthentication(vacationRequest.getEmployee().getId()));
         try {
-            vacationRequestService.reject(vacationRequest.getId(), "");
+            vacationRequestApproveService.reject(vacationRequest.getId(), "");
             fail("An exception must be thrown.");
         } catch (Exception e) {
             VacationRequest one = vacationRequestRepository.findOne(vacationRequest.getId());
