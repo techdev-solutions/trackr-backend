@@ -3,6 +3,7 @@ package de.techdev.trackr.domain.employee.vacation;
 import de.techdev.trackr.IntegrationTest;
 import de.techdev.trackr.core.mail.MailConfiguration;
 import de.techdev.trackr.domain.ApiBeansConfiguration;
+import de.techdev.trackr.domain.employee.vacation.support.VacationRequestNotifyService;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;

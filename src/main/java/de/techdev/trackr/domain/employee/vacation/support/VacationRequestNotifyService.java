@@ -2,7 +2,6 @@ package de.techdev.trackr.domain.employee.vacation.support;
 
 import de.techdev.trackr.core.mail.MailService;
 import de.techdev.trackr.domain.employee.vacation.VacationRequest;
-import de.techdev.trackr.domain.employee.vacation.VacationRequestNotifyService;
 import de.techdev.trackr.domain.employee.vacation.VacationRequestStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
@@ -10,12 +9,11 @@ import org.springframework.mail.SimpleMailMessage;
 /**
  * @author Moritz Schulze
  */
-public class VacationRequestNotifyServiceImpl implements VacationRequestNotifyService {
+public class VacationRequestNotifyService {
 
     @Autowired
     private MailService mailService;
 
-    @Override
     public void sendEmailNotification(VacationRequest request) {
         SimpleMailMessage mailMessage = new SimpleMailMessage();
         mailMessage.setFrom("no-reply@techdev.de");
