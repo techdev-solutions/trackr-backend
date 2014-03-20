@@ -1,12 +1,10 @@
 package de.techdev.trackr.domain.employee.login;
 
 import de.techdev.trackr.domain.AbstractDataOnDemand;
-import org.springframework.stereotype.Component;
 
 /**
  * @author Moritz Schulze
  */
-@Component
 public class AuthorityDataOnDemand extends AbstractDataOnDemand<Authority> {
 
     @Override

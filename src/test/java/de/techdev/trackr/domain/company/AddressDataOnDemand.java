@@ -1,12 +1,10 @@
 package de.techdev.trackr.domain.company;
 
 import de.techdev.trackr.domain.AbstractDataOnDemand;
-import org.springframework.stereotype.Component;
 
 /**
  * @author Moritz Schulze
  */
-@Component
 public class AddressDataOnDemand extends AbstractDataOnDemand<Address> {
 
     @Override

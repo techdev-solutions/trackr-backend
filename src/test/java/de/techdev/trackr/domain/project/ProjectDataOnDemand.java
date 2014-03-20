@@ -3,14 +3,12 @@ package de.techdev.trackr.domain.project;
 import de.techdev.trackr.domain.AbstractDataOnDemand;
 import de.techdev.trackr.domain.company.CompanyDataOnDemand;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 
 /**
  * @author Moritz Schulze
  */
-@Component
 public class ProjectDataOnDemand extends AbstractDataOnDemand<Project> {
 
     @Override

@@ -3,7 +3,6 @@ package de.techdev.trackr.domain.project;
 import de.techdev.trackr.domain.AbstractDataOnDemand;
 import de.techdev.trackr.domain.employee.EmployeeDataOnDemand;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.sql.Time;
 import java.util.Date;
@@ -11,7 +10,6 @@ import java.util.Date;
 /**
  * @author Moritz Schulze
  */
-@Component
 public class WorkTimeDataOnDemand extends AbstractDataOnDemand<WorkTime> {
 
     @Override

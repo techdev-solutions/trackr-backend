@@ -2,12 +2,10 @@ package de.techdev.trackr.domain.company;
 
 import de.techdev.trackr.domain.AbstractDataOnDemand;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 /**
  * @author Moritz Schulze
  */
-@Component
 public class CompanyDataOnDemand extends AbstractDataOnDemand<Company> {
 
     @Override

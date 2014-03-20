@@ -6,7 +6,6 @@ import de.techdev.trackr.domain.employee.login.Authority;
 import de.techdev.trackr.domain.employee.login.AuthorityDataOnDemand;
 import de.techdev.trackr.domain.employee.login.Credential;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -16,7 +15,6 @@ import java.util.List;
 /**
  * @author Moritz Schulze
  */
-@Component
 public class EmployeeDataOnDemand extends AbstractDataOnDemand<Employee> {
 
     @Override

@@ -2,7 +2,6 @@ package de.techdev.trackr.domain.employee.login;
 
 import de.techdev.trackr.domain.employee.EmployeeDataOnDemand;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.security.SecureRandom;
 import java.util.List;
@@ -10,7 +9,6 @@ import java.util.List;
 /**
  * @author Moritz Schulze
  */
-@Component
 public class CredentialDataOnDemand {
 
     @Autowired
