@@ -2,17 +2,19 @@ package de.techdev.trackr.core.web.api;
 
 import de.techdev.trackr.core.web.converters.DateConverter;
 import de.techdev.trackr.domain.ApiBeansConfiguration;
-import de.techdev.trackr.domain.company.*;
+import de.techdev.trackr.domain.company.Address;
+import de.techdev.trackr.domain.company.Company;
+import de.techdev.trackr.domain.company.ContactPerson;
 import de.techdev.trackr.domain.employee.Employee;
-import de.techdev.trackr.domain.employee.EmployeeEventHandler;
 import de.techdev.trackr.domain.employee.login.Authority;
 import de.techdev.trackr.domain.employee.login.Credential;
-import de.techdev.trackr.domain.employee.login.CredentialEventHandler;
 import de.techdev.trackr.domain.employee.vacation.VacationRequest;
-import de.techdev.trackr.domain.employee.vacation.VacationRequestEventHandler;
-import de.techdev.trackr.domain.project.*;
+import de.techdev.trackr.domain.project.BillableTime;
+import de.techdev.trackr.domain.project.Project;
+import de.techdev.trackr.domain.project.WorkTime;
 import org.springframework.context.annotation.*;
 import org.springframework.core.convert.support.ConfigurableConversionService;
+import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 import org.springframework.data.rest.webmvc.config.RepositoryRestMvcConfiguration;
 import org.springframework.format.FormatterRegistry;
@@ -28,10 +30,10 @@ import java.util.List;
  */
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = "de.techdev.trackr",
+@ComponentScan(basePackages = "de.techdev.trackr.domain",
         useDefaultFilters = false,
         includeFilters = {
-                @ComponentScan.Filter(type = FilterType.ANNOTATION, value = {Controller.class, ControllerAdvice.class})
+                @ComponentScan.Filter(type = FilterType.ANNOTATION, value = {Controller.class, ControllerAdvice.class, RepositoryEventHandler.class})
         })
 @Import({ApiBeansConfiguration.class})
 public class ApiWebMvcConfiguration extends RepositoryRestMvcConfiguration {
@@ -45,48 +47,8 @@ public class ApiWebMvcConfiguration extends RepositoryRestMvcConfiguration {
     }
 
     @Bean
-    public VacationRequestEventHandler vacationRequestEventHandler() {
-        return new VacationRequestEventHandler();
-    }
-
-    @Bean
-    public BillableTimeEventHandler billableTimeEventHandler() {
-        return new BillableTimeEventHandler();
-    }
-
-    @Bean
-    public WorkTimeEventHandler workTimeEventHandler() {
-        return new WorkTimeEventHandler();
-    }
-
-    @Bean
-    public ProjectEventHandler projectEventHandler() {
-        return new ProjectEventHandler();
-    }
-
-    @Bean
-    public EmployeeEventHandler employeeEventHandler() {
-        return new EmployeeEventHandler();
-    }
-
-    @Bean
-    public AddressEventHandler addressEventHandler() {
-        return new AddressEventHandler();
-    }
-
-    @Bean
-    public ContactPersonEventHandler contactPersonEventHandler() {
-        return new ContactPersonEventHandler();
-    }
-
-    @Bean
-    public CompanyEventHandler companyEventHandler() {
-        return new CompanyEventHandler();
-    }
-
-    @Bean
-    public CredentialEventHandler credentialEventHandler() {
-        return new CredentialEventHandler();
+    public ExceptionHandlers exceptionHandlers() {
+        return new ExceptionHandlers();
     }
 
     @Bean
