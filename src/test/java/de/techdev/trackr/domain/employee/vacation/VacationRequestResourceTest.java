@@ -118,7 +118,8 @@ public class VacationRequestResourceTest extends MockMvcTest {
         mockMvc.perform(
                 put("/vacationRequests/" + vacationRequest.getId())
                         .session(employeeSession(vacationRequest.getEmployee().getId()))
-                        .content(getVacationRequestJson(vacationRequest)))
+                        .content(getVacationRequestJson(vacationRequest))
+        )
                .andExpect(status().isForbidden());
     }
 
@@ -155,13 +156,16 @@ public class VacationRequestResourceTest extends MockMvcTest {
         mockMvc.perform(
                 put("/vacationRequests/" + vacationRequest.getId())
                         .session(employeeSession(vacationRequest.getEmployee().getId() + 1))
-                        .content(getVacationRequestJson(vacationRequest)))
+                        .content(getVacationRequestJson(vacationRequest))
+        )
                .andExpect(status().isForbidden());
     }
 
     @Test
     public void deleteAllowedForEmployee() throws Exception {
         VacationRequest vacationRequest = vacationRequestDataOnDemand.getRandomObject();
+        vacationRequest.setStatus(VacationRequestStatus.PENDING);
+        vacationRequestRepository.save(vacationRequest);
         mockMvc.perform(
                 delete("/vacationRequests/" + vacationRequest.getId())
                         .session(employeeSession(vacationRequest.getEmployee().getId())))
@@ -169,11 +173,34 @@ public class VacationRequestResourceTest extends MockMvcTest {
     }
 
     @Test
+    public void deleteApprovedNotAllowedForEmployee() throws Exception {
+        VacationRequest vacationRequest = vacationRequestDataOnDemand.getRandomObject();
+        vacationRequest.setStatus(VacationRequestStatus.APPROVED);
+        vacationRequestRepository.save(vacationRequest);
+        mockMvc.perform(
+                delete("/vacationRequests/" + vacationRequest.getId())
+                        .session(employeeSession(vacationRequest.getEmployee().getId())))
+               .andExpect(status().isForbidden());
+    }
+
+    @Test
+    public void deleteRejectedNotAllowedForEmployee() throws Exception {
+        VacationRequest vacationRequest = vacationRequestDataOnDemand.getRandomObject();
+        vacationRequest.setStatus(VacationRequestStatus.REJECTED);
+        vacationRequestRepository.save(vacationRequest);
+        mockMvc.perform(
+                delete("/vacationRequests/" + vacationRequest.getId())
+                        .session(employeeSession(vacationRequest.getEmployee().getId())))
+               .andExpect(status().isForbidden());
+    }
+
+    @Test
     public void deleteAllowedForSupervisor() throws Exception {
         VacationRequest vacationRequest = vacationRequestDataOnDemand.getRandomObject();
         mockMvc.perform(
                 delete("/vacationRequests/" + vacationRequest.getId())
-                        .session(supervisorSession()))
+                        .session(supervisorSession())
+        )
                .andExpect(status().isNoContent());
     }
 

@@ -38,7 +38,7 @@ public class VacationRequestEventHandler {
     }
 
     @HandleBeforeDelete
-    @PreAuthorize("hasRole('ROLE_SUPERVISOR') or ( isAuthenticated() and principal.id == #vacationRequest.employee.id )")
+    @PreAuthorize("hasRole('ROLE_SUPERVISOR') or ( isAuthenticated() and @vacationRequestEventHandler.employeeCanDeleteRequest(principal.id, #vacationRequest) )")
     public void authorizeDelete(VacationRequest vacationRequest) {
         log.debug("Deleting vacation request {}", vacationRequest);
     }
@@ -53,5 +53,15 @@ public class VacationRequestEventHandler {
     @PreAuthorize("denyAll()")
     public void denyLinks(VacationRequest vacationRequest) {
 
+    }
+
+    /**
+     * Test if an employee may delete a vacation request. This means it is his own request and it is pending.
+     * @param principalId The id of the logged in user.
+     * @param request The vacation request
+     * @return true if the user may delete, false otherwise.
+     */
+    public boolean employeeCanDeleteRequest(Long principalId, VacationRequest request) {
+        return principalId.equals(request.getEmployee().getId()) && request.getStatus() == VacationRequestStatus.PENDING;
     }
 }
