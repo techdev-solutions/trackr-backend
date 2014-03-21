@@ -109,6 +109,7 @@ public class CredentialResourceTest extends MockMvcTest {
         credential.setEmail("email_500@techdev.de");
         credential.setEnabled(false);
         credential.setAuthorities(asList(new Authority("ROLE_TEST")));
+        credential.setLocale("en");
         Employee employee = new Employee();
         employee.setFirstName("firstName");
         employee.setLastName("lastName");
@@ -150,6 +151,7 @@ public class CredentialResourceTest extends MockMvcTest {
         Credential credential = new Credential();
         credential.setEmail("email_500@techdev.de");
         credential.setEnabled(false);
+        credential.setLocale("en");
         credential.setAuthorities(asList(new Authority("ROLE_TEST")));
         Employee employee = new Employee();
         employee.setFirstName("firstName");
@@ -181,7 +183,8 @@ public class CredentialResourceTest extends MockMvcTest {
                 .writeStartObject()
                 .write("email", credential.getEmail())
                 .write("enabled", credential.getEnabled())
-                .write("employee", "/api/employees/" + credential.getEmployee().getId());
+                .write("employee", "/api/employees/" + credential.getEmployee().getId())
+                .write("locale", credential.getLocale());
         if(credential.getId() != null) {
             jg.write("id", credential.getId());
         }

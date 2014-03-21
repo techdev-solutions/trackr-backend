@@ -29,7 +29,8 @@ public class EmployeeControllerTest extends MockMvcTest {
                 patch("/employees/" + employee.getId() + "/self")
                         .session(employeeSession(employee.getId()))
                         .header("Content-Type", MediaType.APPLICATION_JSON_VALUE) //TODO: why do we have to do this ourself?
-                        .content("{\"phoneNumber\": \"12345\"}"))
+                        .content("{\"phoneNumber\": \"12345\"}")
+        )
                .andExpect(status().isOk())
                .andExpect(jsonPath("phoneNumber", is("12345")))
                .andExpect(jsonPath("firstName", is(employee.getFirstName())))
@@ -43,7 +44,8 @@ public class EmployeeControllerTest extends MockMvcTest {
                 patch("/employees/" + employee.getId() + "/self")
                         .session(employeeSession(employee.getId() + 1))
                         .header("Content-Type", MediaType.APPLICATION_JSON_VALUE)
-                        .content("{\"phoneNumber\": \"12345\"}"))
+                        .content("{\"phoneNumber\": \"12345\"}")
+        )
                .andExpect(status().isForbidden());
     }
 
@@ -54,7 +56,8 @@ public class EmployeeControllerTest extends MockMvcTest {
                 put("/employees/" + employee.getId() + "/self")
                         .session(employeeSession(employee.getId()))
                         .header("Content-Type", MediaType.APPLICATION_JSON_VALUE)
-                        .content(generateEmployeeJson(SelfEmployee.valueOf(employee))))
+                        .content(generateEmployeeJson(SelfEmployee.valueOf(employee)))
+        )
                .andExpect(status().isOk())
                .andExpect(jsonPath("firstName", is(employee.getFirstName())));
     }
@@ -66,7 +69,8 @@ public class EmployeeControllerTest extends MockMvcTest {
                 put("/employees/" + employee.getId() + "/self")
                         .session(employeeSession(employee.getId() + 1))
                         .header("Content-Type", MediaType.APPLICATION_JSON_VALUE)
-                        .content(generateEmployeeJson(SelfEmployee.valueOf(employee))))
+                        .content(generateEmployeeJson(SelfEmployee.valueOf(employee)))
+        )
                .andExpect(status().isForbidden());
     }
 
@@ -75,7 +79,8 @@ public class EmployeeControllerTest extends MockMvcTest {
         Employee employee = employeeDataOnDemand.getRandomObject();
         mockMvc.perform(
                 get("/employees/" + employee.getId() + "/self")
-                        .session(employeeSession(employee.getId())))
+                        .session(employeeSession(employee.getId()))
+        )
                .andExpect(status().isOk())
                .andExpect(jsonPath("firstName", is(employee.getFirstName())));
     }
@@ -91,7 +96,8 @@ public class EmployeeControllerTest extends MockMvcTest {
                 post("/employees/createWithCredential")
                         .session(adminSession())
                         .header("Content-Type", "application/json")
-                        .content(generateCreateEmployeeJson(createEmployee)))
+                        .content(generateCreateEmployeeJson(createEmployee))
+        )
                .andExpect(status().isCreated())
                .andExpect(jsonPath("id", isNotNull()));
     }
@@ -107,7 +113,8 @@ public class EmployeeControllerTest extends MockMvcTest {
                 post("/employees/createWithCredential")
                         .session(supervisorSession())
                         .header("Content-Type", "application/json")
-                        .content(generateCreateEmployeeJson(createEmployee)))
+                        .content(generateCreateEmployeeJson(createEmployee))
+        )
                .andExpect(status().isForbidden());
     }
 
@@ -123,7 +130,8 @@ public class EmployeeControllerTest extends MockMvcTest {
                 post("/employees/createWithCredential")
                         .session(adminSession())
                         .header("Content-Type", "application/json")
-                        .content(generateCreateEmployeeJson(createEmployee)))
+                        .content(generateCreateEmployeeJson(createEmployee))
+        )
                .andExpect(status().isBadRequest());
     }
 
@@ -151,6 +159,7 @@ public class EmployeeControllerTest extends MockMvcTest {
           .writeEnd()
           .writeStartObject("credential")
           .write("email", employee.getCredential().getEmail())
+          .write("locale", employee.getCredential().getLocale())
           .writeEnd()
           .writeEnd().close();
         return writer.toString();

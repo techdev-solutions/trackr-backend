@@ -40,6 +40,7 @@ public class EmployeeDataOnDemand extends AbstractDataOnDemand<Employee> {
         credential.setEmployee(employee);
         credential.setEmail("email_" + i + "@techdev.de");
         credential.setEnabled(false);
+        credential.setLocale("en");
         List<Authority> authorities = new ArrayList<>();
         authorities.add(authorityDataOnDemand.getRandomObject());
         credential.setAuthorities(authorities);

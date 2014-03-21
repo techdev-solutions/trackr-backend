@@ -18,8 +18,9 @@ public class PrincipalController {
     private CredentialRepository credentialRepository;
 
     @RequestMapping(value = "/principal", produces = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody Credential principal(Principal principal) {
-        if(principal != null) {
+    @ResponseBody
+    public Credential principal(Principal principal) {
+        if (principal != null) {
             return credentialRepository.findByEmail(principal.getName());
         } else {
             return null;

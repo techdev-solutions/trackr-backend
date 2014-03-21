@@ -89,6 +89,7 @@ public class TrackrUserDetailsService implements AuthenticationUserDetailsServic
         credential.setEmail(email);
         credential.setEnabled(false);
         credential.setEmployee(employee);
+        credential.setLocale("en");
         employee.setCredential(credential);
         return employee;
     }

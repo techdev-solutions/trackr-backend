@@ -87,4 +87,6 @@ public class ApiWebMvcConfiguration extends RepositoryRestMvcConfiguration {
         exceptionResolvers.add(jsonMappingHandlerExceptionResolver());
         super.configureHandlerExceptionResolvers(exceptionResolvers);
     }
+
+
 }

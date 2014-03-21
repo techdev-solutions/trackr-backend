@@ -2,7 +2,7 @@ INSERT INTO employee (id, version, firstName, lastName, title, hourlyCostRate, s
 INSERT INTO employee (id, version, firstName, lastName, title, hourlyCostRate, salary, federalState, joinDate, vacationEntitlement) VALUES (1, 0, 'Moritz', 'Schulze', 'Hausmeister', 0.25, 40, 'BERLIN', '2014-02-01', 30.5);
 INSERT INTO employee (id, version, firstName, lastName, title, hourlyCostRate, salary, federalState) VALUES (2, 0, 'Viktor', 'Widiker', 'Software Consultant', 123, 456, 'BERLIN');
 INSERT INTO employee (id, version, firstName, lastName, title, hourlyCostRate, salary, federalState) VALUES (3, 0, 'Alexander', 'Hanschke', 'Praktikant', 321, 654.32, 'BADEN_WUERTTEMBERG');
-INSERT INTO employee (id, version, firstName, lastName, title, hourlyCostRate, salary, federalState) VALUES (4, 0, 'Adrian', 'Krion', 'Sekretär', 6854, 123455, 'HESSEN');
+INSERT INTO employee (id, version, firstName, lastName, title, hourlyCostRate, salary, federalState) VALUES (4, 0, 'Adrian', 'Krion', 'Sekretaer', 6854, 123455, 'HESSEN');
 INSERT INTO employee (id, version, firstName, lastName, title, hourlyCostRate, salary, federalState, joinDate) VALUES (5, 0, 'Angelika', 'Gutjahr', 'Entertainerin', 900.1, 500000, 'BADEN_WUERTTEMBERG', '1990-10-03');
 INSERT INTO employee (id, version, firstName, lastName, title, hourlyCostRate, salary, federalState) VALUES (6, 0, 'Nikolaj', 'Weise', 'Empfang', 100.5, 123.4, 'BERLIN');
 INSERT INTO credential (id, email, enabled, locale) VALUES (0, 'admin@techdev.de', true, 'en');
@@ -23,9 +23,9 @@ INSERT INTO credential_authority (credential_id, authorities_id) VALUES (4, 1);
 INSERT INTO credential_authority (credential_id, authorities_id) VALUES (5, 1);
 INSERT INTO credential_authority (credential_id, authorities_id) VALUES (6, 1);
 
-INSERT INTO address (id, version, street, houseNumber, zipCode, city, country) VALUES (0, 0, 'Bismarckstraße', '47', '76133', 'Karlsruhe', 'Deutschland');
-INSERT INTO address (id, version, street, houseNumber, zipCode, city, country) VALUES (1, 0, 'Zur Gießerei', '19a', '76123', 'Karlsruhe', 'Deutschland');
-INSERT INTO address (id, version, street, houseNumber, zipCode, city, country) VALUES (2, 0, 'Friedrichstraße', '123', '10521', 'Berlin', 'Deutschland');
+INSERT INTO address (id, version, street, houseNumber, zipCode, city, country) VALUES (0, 0, 'Bismarckstrasse', '47', '76133', 'Karlsruhe', 'Deutschland');
+INSERT INTO address (id, version, street, houseNumber, zipCode, city, country) VALUES (1, 0, 'Zur Giesserei', '19a', '76123', 'Karlsruhe', 'Deutschland');
+INSERT INTO address (id, version, street, houseNumber, zipCode, city, country) VALUES (2, 0, 'Friedrichstrasse', '123', '10521', 'Berlin', 'Deutschland');
 
 INSERT INTO company (id, version, companyId, name, address_id) VALUES (0, 0, 1000, 'techdev Solutions UG', 0);
 INSERT INTO company (id, version, companyId, name, address_id) VALUES (1, 0, 1001, 'cofinpro AG', 1);

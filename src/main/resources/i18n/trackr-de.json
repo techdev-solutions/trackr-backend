@@ -1,0 +1,138 @@
+{"COMPANY": {
+    "CREATE_NEW": "Neue Firma anlegen",
+    "COMPANIES": "Firmen",
+    "COMPANY_ID": "Eindeutiger Bezeichner",
+    "NAME": "Name",
+    "COMPANY_ID_CONFLICT": "Bezeichner bereits vergeben."
+},
+    "ADDRESS": {
+        "ADDRESS": "Adresse",
+        "STREET": "Straße",
+        "HOUSE_NUMBER": "Hausnummer",
+        "CITY": "Stadt",
+        "ZIPCODE": "PLZ",
+        "COUNTRY": " Land"
+    },
+    "CONTACTPERSON": {
+        "CONTACTPERSON": "Kontaktperson",
+        "CONTACTPERSONS": "Kontaktpersonen",
+        "SALUTATION": " Anrede",
+        "FIRST_NAME": "Vorname",
+        "LAST_NAME": "Nachname",
+        "EMAIL": "Email",
+        "PHONE": "Telefon"
+    },
+    "EMPLOYEE": {
+        "CREATE_NEW": "Neuen Angestellten anlegen",
+        "EMPLOYEES": "Angestellte",
+        "EMPLOYEE": "Angestellte/r",
+        "FIRST_NAME": "Vorname",
+        "LAST_NAME": "Nachname",
+        "TITLE": "Titel",
+        "SALARY": "Gehalt",
+        "PHONE_NUMBER": "Telefon",
+        "HOURLY_COST_RATE": "Stundensatz",
+        "ADMINISTRATE_ROLES": "Alle Rollen",
+        "JOIN_DATE": "Eintrittsdatum",
+        "LEAVE_DATE": "Austrittsdatum",
+        "FEDERAL_STATE": "Bundesland",
+        "VACATION_ENTITLEMENT": "Urlaubsanspruch"
+    },
+    "CREDENTIAL": {
+        "EMAIL": "E-Mail",
+        "ENABLED": "Aktiv",
+        "EMAIL_CONFLICT": "Email bereits in Benutzung."
+    },
+    "PROJECT": {
+        "PROJECTS": "Projekte",
+        "PROJECT": "Projekt",
+        "IDENTIFIER": "Eindeutiger Bezeichner",
+        "NAME": "Name",
+        "VOLUME": "Volumen",
+        "HOURLY_RATE": "Stundensatz",
+        "DAILY_RATE": "Tagessatz",
+        "FIXED_PRICE": "Festpreis",
+        "COMPANY": "Firma",
+        "DEBITOR": "Debitor"
+    },
+    "WORKTIME": {
+        "DATE": "Datum",
+        "PROJECT": "Projekt",
+        "START": "Startzeit",
+        "END": "Endzeit",
+        "COMMENT": "Kommentar"
+    },
+    "BILLABLE_TIME": {
+        "DATE": "Datum",
+        "BILLABLE_HOURS": "Rechnungsstunden"
+    },
+    "VACATION_REQUEST": {
+        "START_DATE": "Start",
+        "END_DATE": "Ende",
+        "NUMBER_OF_DAYS": "Tage",
+        "STATUS": "Status",
+        "APPROVER": "Genehmigt von",
+        "APPROVAL_DATE": "Genehmigt am",
+        "PENDING": "Wartet",
+        "APPROVED": "Genehmigt",
+        "REJECTED": "Abgelehnt",
+        "INTERVAL": "Zeitraum",
+        "EMPLOYEE": "Angestellter",
+        "SUBMITTED": "Eingereicht am"
+    },
+    "PAGES": {
+        "HOME": {
+            "WELCOME_TEXT": "Willkommen bei trackr"
+        },
+        "ADMINISTRATION": {
+            "TITLE": "Verwaltung",
+            "TEXT_COMPANIES": "Legen Sie neue Firmen an und editieren Sie bestehende.",
+            "TEXT_EMPLOYEES": "Verwalten Sie Angestellte in trackr.",
+            "TEXT_PROJECTS": "Verwalten Sie Projekte"
+        },
+        "EMPLOYEE": {
+            "TITLE": "Self Services",
+            "TEXT_EDIT_PROFILE": "Editieren Sie ihr Profil",
+            "TEXT_EDIT_TIMESHEET": "Erfassen Sie Arbeitszeiten",
+            "TEXT_VACATION": "Urlaubsanträge"
+        },
+        "SUPERVISOR": {
+            "TITLE": "Supervisor",
+            "TEXT_BILL": "Rechnungszeiten erfassen",
+            "TEXT_BILL_CREATE": "Rechnung erstellen",
+            "BILL": {
+                "TITLE": "Rechnungszeiten erfassen",
+                "HOURS": "Stunden",
+                "SET_ALL": "Alle setzen",
+                "SUM": "Summe"
+            },
+            "VACATION": {
+                "TITLE": "Urlaubsanträge"
+            },
+            "BILL_CREATE": {
+                "TITLE": "Rechnung erstellen",
+                "HOURS": "Stunden",
+                "MAN_DAYS": "Manntage",
+                "NET_PRICE": "Netto",
+                "GROSS_PRICE": "Brutto"
+            }
+        }
+    },
+    "ACTIONS": {
+        "ACTIONS": "Aktionen",
+        "SAVE": "Speichern",
+        "NEW": "Neu",
+        "CANCEL": "Abbrechen",
+        "EDIT": "Editieren",
+        "CLOSE": "Schließen",
+        "CLEAR": "Löschen",
+        "RESET": "Zurücksetzen",
+        "APPROVE": "Genehmigen",
+        "REJECT": "Ablehnen"
+    },
+    "DATE": {
+        "TODAY": "Heute",
+        "WEEKS": "Wochen"
+    },
+    "LANGUAGE": "Sprache"
+}
