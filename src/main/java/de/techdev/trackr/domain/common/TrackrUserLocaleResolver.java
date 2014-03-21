@@ -2,6 +2,7 @@ package de.techdev.trackr.domain.common;
 
 import de.techdev.trackr.domain.employee.login.TrackrUser;
 import org.springframework.context.i18n.LocaleContext;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.servlet.LocaleContextResolver;
@@ -32,7 +33,9 @@ public class TrackrUserLocaleResolver implements LocaleContextResolver {
     @Override
     public LocaleContext resolveLocaleContext(HttpServletRequest request) {
         final Locale locale = getLocaleFromSessionOrAuthentication(request);
-        return () -> locale;
+        LocaleContext localeContext = () -> locale;
+        LocaleContextHolder.setLocaleContext(localeContext);
+        return localeContext;
     }
 
     @Override
@@ -64,6 +67,7 @@ public class TrackrUserLocaleResolver implements LocaleContextResolver {
             }
             WebUtils.setSessionAttribute(request, SessionLocaleResolver.LOCALE_SESSION_ATTRIBUTE_NAME, locale);
         }
+        LocaleContextHolder.setLocale(locale);
         return locale;
     }
 }

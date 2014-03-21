@@ -13,9 +13,7 @@ import de.techdev.trackr.domain.employee.vacation.VacationRequest;
 import de.techdev.trackr.domain.project.BillableTime;
 import de.techdev.trackr.domain.project.Project;
 import de.techdev.trackr.domain.project.WorkTime;
-import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.*;
-import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.core.convert.support.ConfigurableConversionService;
 import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
@@ -23,16 +21,13 @@ import org.springframework.data.rest.core.event.ValidatingRepositoryEventListene
 import org.springframework.data.rest.webmvc.config.RepositoryRestMvcConfiguration;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.Validator;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
-import javax.validation.MessageInterpolator;
 import java.util.List;
-import java.util.Locale;
 
 /**
  * @author Moritz Schulze
@@ -95,23 +90,6 @@ public class ApiWebMvcConfiguration extends RepositoryRestMvcConfiguration {
         super.configureHandlerExceptionResolvers(exceptionResolvers);
     }
 
-    /**
-     * I don't know if this is needed, but to be sure: expose our validator.
-     */
-    @Override
-    public Validator getValidator() {
-        return validator();
-    }
-
-    /**
-     * Load all messages, reload when locale changes.
-     */
-    @Bean
-    public MessageSource messageSource() {
-        ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
-        messageSource.setBasenames("classpath:org/hibernate/validator/ValidationMessages");
-        return messageSource;
-    }
 
     /**
      * Add the validator to spring data rest.
@@ -127,20 +105,7 @@ public class ApiWebMvcConfiguration extends RepositoryRestMvcConfiguration {
      */
     @Bean
     public LocalValidatorFactoryBean validator() {
-        LocalValidatorFactoryBean localValidatorFactoryBean = new LocalValidatorFactoryBean();
-        localValidatorFactoryBean.setValidationMessageSource(messageSource());
-        localValidatorFactoryBean.setMessageInterpolator(new MessageInterpolator() {
-            @Override
-            public String interpolate(String messageTemplate, Context context) {
-                return null;
-            }
-
-            @Override
-            public String interpolate(String messageTemplate, Context context, Locale locale) {
-                return messageSource().getMessage(messageTemplate.substring(1, messageTemplate.length() - 1), null, locale);
-            }
-        });
-        return localValidatorFactoryBean;
+        return new LocalValidatorFactoryBean();
     }
 
 }
