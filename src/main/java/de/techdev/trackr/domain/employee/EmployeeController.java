@@ -3,6 +3,7 @@ package de.techdev.trackr.domain.employee;
 import de.techdev.trackr.domain.employee.login.Credential;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.rest.core.RepositoryConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -70,9 +71,9 @@ public class EmployeeController {
     @RequestMapping(value = "/createWithCredential", method = {RequestMethod.POST}, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     @ResponseStatus(HttpStatus.CREATED)
-    public Employee createWithCredential(@RequestBody @Valid CreateEmployee createEmployee, BindingResult bindingResult) throws BindException {
+    public Employee createWithCredential(@RequestBody @Valid CreateEmployee createEmployee, BindingResult bindingResult) {
         if(bindingResult.hasErrors()) {
-            throw new BindException(bindingResult);
+            throw new RepositoryConstraintViolationException(bindingResult);
         }
         createEmployee.getEmployee().setCredential(createEmployee.getCredential());
         createEmployee.getCredential().setEmployee(createEmployee.getEmployee());
