@@ -33,7 +33,7 @@ public class JsonMappingErrorHandlerExceptionResolverIntegrationTest extends Moc
                         .session(adminSession())
                         .content("{\"hourlyCostRate\": \"5a\"}"))
                .andExpect(status().isBadRequest())
-               .andExpect(jsonPath("hourlyCostRate.defaultMessage", isNotEmpty())
+               .andExpect(jsonPath("errors[0].message", isNotEmpty())
                );
     }
 

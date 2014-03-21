@@ -67,10 +67,13 @@ public class JsonMappingHandlerExceptionResolver implements HandlerExceptionReso
     protected void writeExceptionAsJsonToOutput(InvalidFormatException ex, Writer writer) {
         JsonGenerator jsonGenerator = jsonGeneratorFactory.createGenerator(writer);
         jsonGenerator.writeStartObject()
-                     .writeStartObject(getFieldPath(ex))
-                     .write("defaultMessage", ex.getOriginalMessage())
-                     .writeEnd()
-                     .writeEnd().close();
+                .writeStartArray("errors")
+                .writeStartObject()
+                .write("property", getFieldPath(ex))
+                .write("message", ex.getOriginalMessage())
+                .writeEnd() //object in array
+                .writeEnd() //array
+                .writeEnd().close();
     }
 
     /**
