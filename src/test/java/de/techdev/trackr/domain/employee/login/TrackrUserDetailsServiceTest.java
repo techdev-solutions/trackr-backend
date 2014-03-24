@@ -1,8 +1,10 @@
 package de.techdev.trackr.domain.employee.login;
 
 import de.techdev.trackr.domain.employee.Employee;
-import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.security.openid.OpenIDAttribute;
 import org.springframework.security.openid.OpenIDAuthenticationToken;
 
@@ -19,14 +21,11 @@ import static org.mockito.Mockito.when;
 /**
  * @author Moritz Schulze
  */
+@RunWith(MockitoJUnitRunner.class)
 public class TrackrUserDetailsServiceTest {
 
+    @InjectMocks
     private TrackrUserDetailsService trackrUserDetailsService;
-
-    @Before
-    public void setUp() throws Exception {
-        trackrUserDetailsService = new TrackrUserDetailsService();
-    }
 
     @Test
     public void createDeactivatedEmployee() throws Exception {

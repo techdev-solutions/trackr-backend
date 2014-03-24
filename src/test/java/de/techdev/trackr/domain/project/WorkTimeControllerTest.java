@@ -2,9 +2,12 @@ package de.techdev.trackr.domain.project;
 
 import de.techdev.trackr.domain.employee.Employee;
 import de.techdev.trackr.domain.project.support.WorkTimeEmployee;
-import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.mockito.Matchers;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.hateoas.EntityLinks;
 import org.springframework.hateoas.Link;
 
@@ -24,22 +27,21 @@ import static org.mockito.Mockito.when;
 /**
  * @author Moritz Schulze
  */
+@RunWith(MockitoJUnitRunner.class)
 public class WorkTimeControllerTest {
 
+    @InjectMocks
     private WorkTimeController workTimeController;
 
-    @Before
-    public void setUp() throws Exception {
-        workTimeController = new WorkTimeController();
-        workTimeController.repositoryEntityLinks = mock(EntityLinks.class);
-        Link link = mock(Link.class);
-        when(link.withSelfRel()).thenReturn(link);
-        when(workTimeController.repositoryEntityLinks.linkToSingleResource(Matchers.any(), Matchers.any())).thenReturn(link);
-    }
+    @Mock
+    private EntityLinks entityLinks;
 
     @Test
     public void convertStreamOfWorkTimesToMap() throws Exception {
-        Map<Long,WorkTimeEmployee> map = workTimeController.convertStreamOfWorkTimesToMap(createTestWorktimes(), new HashMap<>());
+        Link link = mock(Link.class);
+        when(link.withSelfRel()).thenReturn(link);
+        when(entityLinks.linkToSingleResource(Matchers.any(), Matchers.any())).thenReturn(link);
+        Map<Long, WorkTimeEmployee> map = workTimeController.convertStreamOfWorkTimesToMap(createTestWorktimes(), new HashMap<>());
         assertThat("The map must contain two employee mappings", map.keySet().size(), is(2));
         assertThat("One mapping must be for id 1", map.get(1L), isNotNull());
         assertThat("One mapping must be for id 2", map.get(2L), isNotNull());
