@@ -28,9 +28,6 @@ public class Authority implements GrantedAuthority {
     @Column(unique = true)
     private String authority;
 
-    @NotEmpty
-    private String screenName;
-
     @DecimalMin(value = "0")
     @Column(name = "authorityOrder")
     private Integer order;

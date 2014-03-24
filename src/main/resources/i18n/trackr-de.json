@@ -1,10 +1,16 @@
-{"COMPANY": {
-    "CREATE_NEW": "Neue Firma anlegen",
-    "COMPANIES": "Firmen",
-    "COMPANY_ID": "Eindeutiger Bezeichner",
-    "NAME": "Name",
-    "COMPANY_ID_CONFLICT": "Bezeichner bereits vergeben."
-},
+{
+    "AUTHORITY": {
+        "ROLE_ADMIN": "Administrator",
+        "ROLE_SUPERVISOR": "Supervisor",
+        "ROLE_EMPLOYEE": "Angestellter"
+    },
+    "COMPANY": {
+        "CREATE_NEW": "Neue Firma anlegen",
+        "COMPANIES": "Firmen",
+        "COMPANY_ID": "Eindeutiger Bezeichner",
+        "NAME": "Name",
+        "COMPANY_ID_CONFLICT": "Bezeichner bereits vergeben."
+    },
     "ADDRESS": {
         "ADDRESS": "Adresse",
         "STREET": "Straße",

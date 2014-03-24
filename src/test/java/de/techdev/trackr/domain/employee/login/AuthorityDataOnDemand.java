@@ -16,7 +16,6 @@ public class AuthorityDataOnDemand extends AbstractDataOnDemand<Authority> {
     public Authority getNewTransientObject(int i) {
         Authority authority = new Authority();
         authority.setAuthority("authority_" + i);
-        authority.setScreenName("screenName_" + i);
         authority.setOrder(i);
         return authority;
     }

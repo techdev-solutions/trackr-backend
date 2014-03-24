@@ -1,10 +1,16 @@
-{"COMPANY": {
-    "CREATE_NEW": "Create new company",
-    "COMPANIES": "Companies",
-    "COMPANY_ID": "Unique identifier",
-    "NAME": "Name",
-    "COMPANY_ID_CONFLICT": "Identifier already in use."
-},
+{
+    "AUTHORITY": {
+        "ROLE_ADMIN": "Administrator",
+        "ROLE_SUPERVISOR": "Supervisor",
+        "ROLE_EMPLOYEE": "Employee"
+    },
+    "COMPANY": {
+        "CREATE_NEW": "Create new company",
+        "COMPANIES": "Companies",
+        "COMPANY_ID": "Unique identifier",
+        "NAME": "Name",
+        "COMPANY_ID_CONFLICT": "Identifier already in use."
+    },
     "ADDRESS": {
         "ADDRESS": "Address",
         "STREET": "Street",
