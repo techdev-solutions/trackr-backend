@@ -11,9 +11,9 @@ import javax.json.stream.JsonGenerator;
 import java.io.StringWriter;
 import java.text.SimpleDateFormat;
 
-import static org.echocat.jomon.testing.BaseMatchers.*;
+import static org.echocat.jomon.testing.BaseMatchers.isNotNull;
+import static org.echocat.jomon.testing.BaseMatchers.isNull;
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;

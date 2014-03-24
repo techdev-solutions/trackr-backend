@@ -1,6 +1,7 @@
 package de.techdev.trackr.domain.project;
 
 import de.techdev.trackr.domain.employee.Employee;
+import de.techdev.trackr.domain.validation.constraints.EndAfterBegin;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -13,6 +14,7 @@ import java.util.Date;
  */
 @Entity
 @Data
+@EndAfterBegin(begin = "startTime", end = "endTime")
 public class WorkTime {
 
     @Id
