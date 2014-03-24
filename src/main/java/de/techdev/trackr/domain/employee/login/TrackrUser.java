@@ -16,7 +16,11 @@ public class TrackrUser extends User {
     private Locale locale;
 
     public TrackrUser(String username, boolean enabled, Collection<? extends GrantedAuthority> authorities, Long id, Locale locale) {
-        super(username, "", enabled, true, true, true, authorities);
+        this(username, "", enabled, authorities, id, locale);
+    }
+
+    public TrackrUser(String username, String password, boolean enabled, Collection<? extends GrantedAuthority> authorities, Long id, Locale locale) {
+        super(username, password, enabled, true, true, true, authorities);
         this.id = id;
         this.locale = locale;
     }

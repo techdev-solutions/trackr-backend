@@ -1,5 +1,7 @@
 package de.techdev.trackr.core.security;
 
+import de.techdev.trackr.domain.employee.login.Authority;
+import de.techdev.trackr.domain.employee.login.TrackrUser;
 import de.techdev.trackr.domain.employee.login.TrackrUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,6 +17,10 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.AuthenticationUserDetailsService;
 import org.springframework.security.openid.OpenIDAuthenticationToken;
 
+import java.util.Locale;
+
+import static java.util.Arrays.asList;
+
 /**
  * @author Moritz Schulze
  */
@@ -24,12 +30,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication()
-                .withUser("admin@techdev.de").password("techdev").roles("ADMIN");
+        auth.userDetailsService(username -> new TrackrUser("admin@techdev.de", "techdev", true, asList(new Authority("ROLE_ADMIN")), 0L, Locale.ENGLISH));
     }
 
     /**
      * INFO: for some reason this has to be the interface or the proxy cannot be cast.
+     *
      * @return The custom user detail service
      */
     @Bean
