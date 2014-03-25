@@ -1,5 +1,6 @@
 package de.techdev.trackr.domain.employee.vacation;
 
+import de.techdev.trackr.domain.employee.vacation.support.VacationRequestNotifyService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.core.annotation.*;
@@ -17,6 +18,9 @@ public class VacationRequestEventHandler {
     @Autowired
     private HolidayCalculator holidayCalculator;
 
+    @Autowired
+    private VacationRequestNotifyService vacationRequestNotifyService;
+
     @HandleBeforeCreate
     @PreAuthorize("hasRole('ROLE_SUPERVISOR') or ( isAuthenticated() and principal.id == #vacationRequest.employee.id )")
     public void prepareVacationRequest(VacationRequest vacationRequest) {
@@ -28,6 +32,7 @@ public class VacationRequestEventHandler {
         vacationRequest.setApprover(null);
         vacationRequest.setApprovalDate(null);
         vacationRequest.setSubmissionTime(new Date());
+        vacationRequestNotifyService.notifySupervisors(vacationRequest);
         log.debug("Creating vacation request {}", vacationRequest);
     }
 
