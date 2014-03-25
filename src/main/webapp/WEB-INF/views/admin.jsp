@@ -4,7 +4,7 @@
     <title>trackr admin login</title>
 </head>
 <body>
-<form class="form" action="/login/admin" method="post">
+<form class="form" action="login/admin" method="post">
     <p>
         <label for="username">Username</label>
         <input type="text" id="username" name="username"/>

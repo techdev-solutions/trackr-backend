@@ -9,7 +9,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>trackr login</title>
-    <link rel="stylesheet" href="/src/vendor/bootstrap/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="src/vendor/bootstrap/dist/css/bootstrap.min.css"/>
 </head>
 <body>
 <div class="container">
@@ -27,7 +27,7 @@
                         <div class="alert alert-success">Erfolgreich ausgeloggt!</div>
                     </c:if>
                     <p>Um sich bei Trackr mit Google einzuloggen bitte auf den Knopf drücken.</p>
-                    <form class="form" action="/login/openid" method="post">
+                    <form class="form" action="login/openid" method="post">
                         <input name="openid_identifier" type="hidden" value="https://www.google.com/accounts/o8/id"/>
                         <button type="submit" class="btn btn-primary">Login mit Google</button>
                     </form>

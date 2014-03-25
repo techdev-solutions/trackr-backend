@@ -5,6 +5,8 @@ import de.techdev.trackr.domain.employee.login.TrackrUser;
 import de.techdev.trackr.domain.employee.login.TrackrUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl;
 import org.springframework.security.access.vote.RoleHierarchyVoter;
@@ -15,8 +17,10 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.AuthenticationUserDetailsService;
+import org.springframework.security.openid.OpenIDAuthenticationFilter;
 import org.springframework.security.openid.OpenIDAuthenticationToken;
 
+import javax.servlet.Filter;
 import java.util.Locale;
 
 import static java.util.Arrays.asList;
@@ -26,7 +30,13 @@ import static java.util.Arrays.asList;
  */
 @Configuration
 @EnableWebSecurity
+@PropertySource({"classpath:application_${spring.profiles.active:dev}.properties"})
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+
+    @Bean
+    public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
+        return new PropertySourcesPlaceholderConfigurer();
+    }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -45,6 +55,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        http.addFilterBefore(openIdReturnToFilter(), OpenIDAuthenticationFilter.class);
+
         http.authorizeRequests()
                 .antMatchers("/login/**", "/admin", "/src/vendor/**").permitAll() //the login page should be able to access CSS and JS files
                 .antMatchers("/**").hasAnyRole("ADMIN", "SUPERVISOR", "EMPLOYEE") //TODO: currently this method does not know about the roleHierarchy so we have to specify all roles. This should be changed.
@@ -71,6 +83,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                     .attribute("last").required(true).type("http://schema.openid.net/namePerson/last");
         //TODO: enable this
         http.csrf().disable();
+    }
+
+    @Bean
+    public Filter openIdReturnToFilter() {
+        return new OpenIDReturnToReplacementFilter();
     }
 
     @Bean
