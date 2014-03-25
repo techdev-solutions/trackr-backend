@@ -35,7 +35,7 @@ public class AppWebMvcConfiguration extends WebMvcConfigurerAdapter {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         //this is only needed for the login page, the view Resolver seems to want to load "WEB-INF/app/index.html" instead of "/WEB-INF/...".
-        registry.addResourceHandler("WEB-INF/app/*.html").addResourceLocations(angularPath);
+        registry.addResourceHandler("WEB-INF/*.html").addResourceLocations(angularPath);
         registry.addResourceHandler("/**").addResourceLocations(angularPath);
     }
 

@@ -11,7 +11,7 @@ public class LoginPageController {
 
     @RequestMapping("/")
     public String root() {
-        return "app/index.html";
+        return "index.html";
     }
 
     @RequestMapping("/login")
