@@ -15,4 +15,7 @@ public interface AuthorityRepository extends CrudRepository<Authority, Long> {
     @Override
     @RestResource(exported = false)
     <S extends Authority> S save(S entity);
+
+    @RestResource(exported = false)
+    Authority findByAuthority(String authority);
 }

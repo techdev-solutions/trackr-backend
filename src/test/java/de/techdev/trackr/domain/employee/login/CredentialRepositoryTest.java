@@ -5,6 +5,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
+
 import static org.echocat.jomon.testing.BaseMatchers.isNotEmpty;
 import static org.echocat.jomon.testing.BaseMatchers.isNotNull;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -19,6 +21,9 @@ public class CredentialRepositoryTest extends TransactionalIntegrationTest {
 
     @Autowired
     private CredentialRepository credentialRepository;
+
+    @Autowired
+    private AuthorityDataOnDemand authorityDataOnDemand;
 
     @Before
     public void setUp() throws Exception {
@@ -41,5 +46,15 @@ public class CredentialRepositoryTest extends TransactionalIntegrationTest {
     @Test
     public void findAll() throws Exception {
         assertThat(credentialRepository.findAll(), isNotEmpty());
+    }
+
+    @Test
+    public void findByAuthoritiesContaining() throws Exception {
+        Authority authority = authorityDataOnDemand.getRandomObject();
+        Credential credential = credentialDataOnDemand.getRandomObject();
+        credential.getAuthorities().add(authority);
+        credentialRepository.save(credential);
+        List<Credential> all = credentialRepository.findByAuthorities(authority);
+        assertThat(all, isNotEmpty());
     }
 }

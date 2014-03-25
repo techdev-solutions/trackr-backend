@@ -176,6 +176,16 @@ public class CredentialResourceTest extends MockMvcTest {
                .andExpect(status().isForbidden());
     }
 
+    @Test
+    public void findByAuthoritiesDisabled() throws Exception {
+        mockMvc.perform(
+                get("/credentials/search/findByAuthorities")
+                        .session(adminSession())
+                        .param("authority", "/authorities/1"))
+               .andExpect(status().isNotFound());
+
+    }
+
     protected String getCredentialJson(Credential credential) {
         StringWriter writer = new StringWriter();
         JsonGenerator jsonGenerator = jsonGeneratorFactory.createGenerator(writer);

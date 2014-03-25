@@ -31,4 +31,11 @@ public class AuthorityRepositoryTest extends TransactionalIntegrationTest {
         authorityDataOnDemand.init();
         assertThat(authorityRepository.findAll(), isNotEmpty());
     }
+
+    @Test
+    public void findByAuthority() throws Exception {
+        Authority authority = authorityDataOnDemand.getRandomObject();
+        Authority one = authorityRepository.findByAuthority(authority.getAuthority());
+        assertThat(one, isNotNull());
+    }
 }

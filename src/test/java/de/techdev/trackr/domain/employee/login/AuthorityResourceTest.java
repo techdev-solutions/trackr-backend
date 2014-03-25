@@ -73,4 +73,14 @@ public class AuthorityResourceTest extends MockMvcTest {
                         .session(employeeSession()))
                .andExpect(status().isMethodNotAllowed());
     }
+
+    @Test
+    public void findByAuthorityDisabled() throws Exception {
+        Authority authority = authorityDataOnDemand.getRandomObject();
+        mockMvc.perform(
+                delete("/authorities/search/findByAuthority")
+                        .session(employeeSession())
+                        .param("authority", authority.getAuthority()))
+               .andExpect(status().isMethodNotAllowed());
+    }
 }
