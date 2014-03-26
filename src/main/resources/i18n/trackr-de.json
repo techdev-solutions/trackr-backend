@@ -2,7 +2,8 @@
     "AUTHORITY": {
         "ROLE_ADMIN": "Administrator",
         "ROLE_SUPERVISOR": "Supervisor",
-        "ROLE_EMPLOYEE": "Angestellter"
+        "ROLE_EMPLOYEE": "Angestellter",
+        "ROLES": "Rollen"
     },
     "COMPANY": {
         "CREATE_NEW": "Neue Firma anlegen",

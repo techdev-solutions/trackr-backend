@@ -2,7 +2,8 @@
     "AUTHORITY": {
         "ROLE_ADMIN": "Administrator",
         "ROLE_SUPERVISOR": "Supervisor",
-        "ROLE_EMPLOYEE": "Employee"
+        "ROLE_EMPLOYEE": "Employee",
+        "ROLES": "Roles"
     },
     "COMPANY": {
         "CREATE_NEW": "Create new company",
