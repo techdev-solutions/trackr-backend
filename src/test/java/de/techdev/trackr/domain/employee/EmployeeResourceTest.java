@@ -300,9 +300,11 @@ public class EmployeeResourceTest extends MockMvcTest {
 
     @Test
     public void setLeaveDateDeactivatesEmployeeIfIsInPast() throws Exception {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Employee employee = employeeDataOnDemand.getRandomObject();
         SecurityContextHolder.getContext().setAuthentication(AuthorityMocks.adminAuthentication());
         employee.getCredential().setEnabled(true);
+        employee.setJoinDate(sdf.parse("2013-12-01"));
         employeeRepository.saveAndFlush(employee);
         mockMvc.perform(
                 patch("/employees/" + employee.getId())
@@ -315,7 +317,7 @@ public class EmployeeResourceTest extends MockMvcTest {
     }
 
     @Test
-    public void setLeaveDateDoesNotDeactivatesEmployeeIfIsInFuture() throws Exception {
+    public void setLeaveDateDoesNotDeactivateEmployeeIfIsInFuture() throws Exception {
         Employee employee = employeeDataOnDemand.getRandomObject();
         SecurityContextHolder.getContext().setAuthentication(AuthorityMocks.adminAuthentication());
         employee.getCredential().setEnabled(true);
