@@ -2,17 +2,22 @@ package de.techdev.trackr.domain;
 
 import org.apache.commons.dbcp.BasicDataSource;
 import org.hibernate.ejb.HibernatePersistence;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.*;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
+import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.data.repository.Repository;
+import org.springframework.jdbc.datasource.lookup.JndiDataSourceLookup;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
 import java.util.Properties;
+
+import static java.util.Arrays.asList;
 
 /**
  * @author Moritz Schulze
@@ -46,14 +51,28 @@ public class JpaConfiguration {
     @Value("${database.hibernateDialect}")
     private String hibernateDialect;
 
+    @Value("${database.hbm2ddlAuto}")
+    private String hbm2ddlAuto;
+
+    @Value("${database.jndiName}")
+    private String jndiName;
+
+    @Autowired
+    private Environment env;
+
     @Bean
     public DataSource dataSource() {
-        BasicDataSource dataSource = new BasicDataSource();
-        dataSource.setDriverClassName(dbDriver);
-        dataSource.setUrl(dbUrl);
-        dataSource.setUsername(username);
-        dataSource.setPassword(password);
-        return dataSource;
+        if (asList(env.getActiveProfiles()).contains("prod")) {
+            JndiDataSourceLookup lookup = new JndiDataSourceLookup();
+            return lookup.getDataSource(jndiName);
+        } else {
+            BasicDataSource dataSource = new BasicDataSource();
+            dataSource.setDriverClassName(dbDriver);
+            dataSource.setUrl(dbUrl);
+            dataSource.setUsername(username);
+            dataSource.setPassword(password);
+            return dataSource;
+        }
     }
 
     @Bean
@@ -69,7 +88,7 @@ public class JpaConfiguration {
     private Properties hibernateProperties() {
         Properties properties = new Properties();
         properties.put("hibernate.dialect", hibernateDialect);
-        properties.put("hibernate.hbm2ddl.auto", "create");
+        properties.put("hibernate.hbm2ddl.auto", hbm2ddlAuto);
         return properties;
     }
 
