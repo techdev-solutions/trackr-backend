@@ -40,7 +40,7 @@ sonarRunner {
         property "sonar.jdbc.url", "jdbc:postgresql://localhost:5432/sonar"
         property "sonar.jdbc.driverClassName", "org.postgresql.Driver"
         property "sonar.jdbc.username", "sonar"
-        property "sonar.language", "js"
+        property "sonar.language", "java,js"
         property "sonar.sourceEncoding", "UTF-8"
         properties["sonar.sources"] += "src/main/webapp/WEB-INF/app/src/modules"
         properties["sonar.sources"] += "src/main/webapp/WEB-INF/app/test"
