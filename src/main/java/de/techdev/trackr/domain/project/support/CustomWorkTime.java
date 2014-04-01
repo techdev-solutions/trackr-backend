@@ -58,14 +58,17 @@ public class CustomWorkTime implements Comparable<CustomWorkTime> {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
         CustomWorkTime that = (CustomWorkTime) o;
 
-        if (date != null ? !date.equals(that.date) : that.date != null) return false;
+        return !(date != null ? !date.equals(that.date) : that.date != null);
 
-        return true;
     }
 
     @Override
