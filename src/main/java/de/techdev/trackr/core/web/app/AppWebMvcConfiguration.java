@@ -19,6 +19,9 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 @PropertySource({"classpath:application_${spring.profiles.active:dev}.properties"})
 public class AppWebMvcConfiguration extends WebMvcConfigurerAdapter {
 
+    @Value("${angular.path}")
+    private String angularPath;
+
     @Bean
     public LoginPageController loginPageController() {
         return new LoginPageController();
@@ -28,9 +31,6 @@ public class AppWebMvcConfiguration extends WebMvcConfigurerAdapter {
     public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
         return new PropertySourcesPlaceholderConfigurer();
     }
-
-    @Value("${angular.path}")
-    private String angularPath;
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {

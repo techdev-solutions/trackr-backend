@@ -23,6 +23,9 @@ import static org.springframework.http.HttpStatus.CONFLICT;
 @Slf4j
 public class ExceptionHandlers {
 
+    @Autowired
+    private MessageSource messageSource;
+
     /**
      * This exception handler <i>should</i> handle violations of unique constraints.
      * TODO: JpaSystemException is really broad, we need to check somehow that this only gets invoked for unique constraint violations
@@ -35,9 +38,6 @@ public class ExceptionHandlers {
     public String handleJpaSystemException(JpaSystemException e) {
         return e.getMostSpecificCause().getMessage();
     }
-
-    @Autowired
-    private MessageSource messageSource;
 
     /**
      * This is for custom controllers (i.e. not spring-data-rest) that do validation.

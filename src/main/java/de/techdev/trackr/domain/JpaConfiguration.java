@@ -31,11 +31,6 @@ import static java.util.Arrays.asList;
 @PropertySource({"classpath:/META-INF/spring/database_${spring.profiles.active:dev}.properties"})
 public class JpaConfiguration {
 
-    @Bean
-    public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
-        return new PropertySourcesPlaceholderConfigurer();
-    }
-
     @Value("${database.driverClassName}")
     private String dbDriver;
 
@@ -59,6 +54,11 @@ public class JpaConfiguration {
 
     @Autowired
     private Environment env;
+
+    @Bean
+    public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
+        return new PropertySourcesPlaceholderConfigurer();
+    }
 
     @Bean
     public DataSource dataSource() {

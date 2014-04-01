@@ -28,6 +28,12 @@ public class MethodSecurityConfiguration extends GlobalMethodSecurityConfigurati
     @Autowired
     private ApplicationContext applicationContext;
 
+    @Autowired
+    private RoleHierarchy roleHierarchy;
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
     /**
      * This is needed so {@link org.springframework.security.access.prepost.PreAuthorize} and so on know the role hierarchy.
      */
@@ -40,12 +46,6 @@ public class MethodSecurityConfiguration extends GlobalMethodSecurityConfigurati
         methodSecurityExpressionHandler.setApplicationContext(applicationContext);
         return methodSecurityExpressionHandler;
     }
-
-    @Autowired
-    private RoleHierarchy roleHierarchy;
-
-    @Autowired
-    private AuthenticationManager authenticationManager;
 
     @Override
     protected AuthenticationManager authenticationManager() throws Exception {

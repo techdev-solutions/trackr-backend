@@ -20,6 +20,9 @@ import java.util.Properties;
 @Configuration
 public class MailConfiguration {
 
+    @Value("classpath:/mail/gmail.properties")
+    private Resource mailPropertiesResource;
+
     @Bean
     @Profile("prod")
     public MailService javaMailService() {
@@ -31,9 +34,6 @@ public class MailConfiguration {
     public MailService noOpMailService() {
         return new NoOpMailService();
     }
-
-    @Value("classpath:/mail/gmail.properties")
-    private Resource mailPropertiesResource;
 
     @Bean
     public Properties mailProperties() {
