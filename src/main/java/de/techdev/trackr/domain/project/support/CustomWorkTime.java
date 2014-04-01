@@ -1,8 +1,8 @@
 package de.techdev.trackr.domain.project.support;
 
 import de.techdev.trackr.domain.project.WorkTime;
-import de.techdev.trackr.domain.project.WorkTimeController;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.Duration;
 import java.util.Date;
@@ -16,7 +16,8 @@ import static java.util.stream.Collectors.reducing;
 /**
  * DTO that contains only the needed information for the method findEmployeeMappingByProjectAndDateBetween.
  */
-@Data
+@Getter
+@Setter
 public class CustomWorkTime implements Comparable<CustomWorkTime> {
     private Date date;
     private Long enteredMinutes;
@@ -53,5 +54,22 @@ public class CustomWorkTime implements Comparable<CustomWorkTime> {
     @Override
     public int compareTo(CustomWorkTime o) {
         return this.getDate().compareTo(o.getDate());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        CustomWorkTime that = (CustomWorkTime) o;
+
+        if (date != null ? !date.equals(that.date) : that.date != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return date != null ? date.hashCode() : 0;
     }
 }
