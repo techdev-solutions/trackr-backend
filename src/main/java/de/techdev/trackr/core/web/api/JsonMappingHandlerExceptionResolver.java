@@ -34,25 +34,24 @@ public class JsonMappingHandlerExceptionResolver implements HandlerExceptionReso
 
     @Override
     public ModelAndView resolveException(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
-        if (HttpMessageNotReadableException.class.isAssignableFrom(ex.getClass())) {
-            if (ex.getCause() != null && InvalidFormatException.class.isAssignableFrom(ex.getCause().getClass())) {
-                Writer outputWriter;
-                try {
-                    outputWriter = response.getWriter();
-                } catch (IOException e) {
-                    throw new IllegalStateException("Could not open response writer", e);
-                }
-                response.setStatus(HttpStatus.BAD_REQUEST.value());
-                response.setHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE);
-                writeExceptionAsJsonToOutput((InvalidFormatException) ex.getCause(), outputWriter);
-                try {
-                    outputWriter.flush();
-                    outputWriter.close();
-                } catch (IOException e) {
-                    throw new IllegalStateException("Could not flush and close response writer", e);
-                }
-                return new ModelAndView();
+        if (HttpMessageNotReadableException.class.isAssignableFrom(ex.getClass()) &&
+                ex.getCause() != null && InvalidFormatException.class.isAssignableFrom(ex.getCause().getClass())) {
+            Writer outputWriter;
+            try {
+                outputWriter = response.getWriter();
+            } catch (IOException e) {
+                throw new IllegalStateException("Could not open response writer", e);
             }
+            response.setStatus(HttpStatus.BAD_REQUEST.value());
+            response.setHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE);
+            writeExceptionAsJsonToOutput((InvalidFormatException) ex.getCause(), outputWriter);
+            try {
+                outputWriter.flush();
+                outputWriter.close();
+            } catch (IOException e) {
+                throw new IllegalStateException("Could not flush and close response writer", e);
+            }
+            return new ModelAndView();
         }
         return null;
     }
@@ -61,16 +60,16 @@ public class JsonMappingHandlerExceptionResolver implements HandlerExceptionReso
      * Writes the information in the exception as a JSON object like this: { "employee.salary": { "defaultMessage": "Cannot construct float from this value"}}
      * to a writer.
      *
-     * @param ex           The exception thrown by Jackson
+     * @param ex     The exception thrown by Jackson
      * @param writer The output writer to write to.
      */
     protected void writeExceptionAsJsonToOutput(InvalidFormatException ex, Writer writer) {
         JsonGenerator jsonGenerator = jsonGeneratorFactory.createGenerator(writer);
         jsonGenerator.writeStartObject()
-                .writeStartArray("errors")
-                .writeStartObject()
-                .write("property", getFieldPath(ex))
-                .write("message", ex.getOriginalMessage())
+                     .writeStartArray("errors")
+                     .writeStartObject()
+                     .write("property", getFieldPath(ex))
+                     .write("message", ex.getOriginalMessage())
                 .writeEnd() //object in array
                 .writeEnd() //array
                 .writeEnd().close();

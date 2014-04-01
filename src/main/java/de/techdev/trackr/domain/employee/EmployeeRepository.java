@@ -38,5 +38,5 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 
     @RestResource(exported = false)
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    List<Employee> findByLeaveDateAndCredential_Enabled(Date leaveDate, Boolean credential_Enabled);
+    List<Employee> findByLeaveDateAndCredential_Enabled(Date leaveDate, Boolean credentialEnabled);
 }
