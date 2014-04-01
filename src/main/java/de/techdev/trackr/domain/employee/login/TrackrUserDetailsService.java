@@ -46,7 +46,7 @@ public class TrackrUserDetailsService implements AuthenticationUserDetailsServic
      */
     @Override
     @Transactional(noRollbackFor = UsernameNotFoundException.class)
-    public UserDetails loadUserDetails(OpenIDAuthenticationToken token) throws UsernameNotFoundException {
+    public UserDetails loadUserDetails(OpenIDAuthenticationToken token) {
         Map<String, String> attributes = convertOpenIdAttributesToMap(token);
         String email = attributes.get("email");
         log.debug("Loading user {} from the database.", email);

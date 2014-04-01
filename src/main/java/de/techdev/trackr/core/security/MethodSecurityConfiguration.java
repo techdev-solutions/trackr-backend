@@ -10,8 +10,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.method.configuration.GlobalMethodSecurityConfiguration;
 
-import java.applet.AppletContext;
-
 /**
  * This class enables global method security via {@link org.springframework.security.access.prepost.PreAuthorize} in JPA Repositories
  * and other controllers. It also enables the role hierarchy in them.

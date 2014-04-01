@@ -3,7 +3,6 @@ package de.techdev.trackr.core;
 import de.techdev.trackr.core.security.MethodSecurityConfiguration;
 import de.techdev.trackr.core.security.SecurityConfiguration;
 import de.techdev.trackr.domain.JpaConfiguration;
-import de.techdev.trackr.domain.ScheduledJobsConfiguration;
 import org.springframework.security.web.context.AbstractSecurityWebApplicationInitializer;
 
 /**
