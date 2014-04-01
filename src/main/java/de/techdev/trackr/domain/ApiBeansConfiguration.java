@@ -5,7 +5,7 @@ import de.techdev.trackr.domain.employee.vacation.HolidayCalculator;
 import de.techdev.trackr.domain.employee.vacation.VacationRequestApproveService;
 import de.techdev.trackr.domain.employee.vacation.support.VacationRequestApproveServiceImpl;
 import de.techdev.trackr.domain.employee.vacation.support.VacationRequestNotifyService;
-import de.techdev.trackr.domain.employee.worktimeTracking.WorkTimeTrackingReminderService;
+import de.techdev.trackr.domain.employee.worktimetracking.WorkTimeTrackingReminderService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

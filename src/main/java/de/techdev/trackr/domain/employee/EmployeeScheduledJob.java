@@ -1,7 +1,7 @@
 package de.techdev.trackr.domain.employee;
 
 import de.techdev.trackr.domain.employee.login.DeactivateEmployeesService;
-import de.techdev.trackr.domain.employee.worktimeTracking.WorkTimeTrackingReminderService;
+import de.techdev.trackr.domain.employee.worktimetracking.WorkTimeTrackingReminderService;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

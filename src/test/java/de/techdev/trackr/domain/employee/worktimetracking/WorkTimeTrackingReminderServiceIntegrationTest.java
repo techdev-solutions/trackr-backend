@@ -1,4 +1,4 @@
-package de.techdev.trackr.domain.employee.worktimeTracking;
+package de.techdev.trackr.domain.employee.worktimetracking;
 
 import de.techdev.trackr.IntegrationTest;
 import de.techdev.trackr.core.mail.MailConfiguration;
