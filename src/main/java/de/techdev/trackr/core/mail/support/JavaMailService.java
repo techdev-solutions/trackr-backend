@@ -15,6 +15,6 @@ public class JavaMailService implements MailService {
 
     @Override
     public void sendMail(SimpleMailMessage mailMessage) {
-
+        mailSender.send(mailMessage);
     }
 }
