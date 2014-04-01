@@ -12,6 +12,9 @@ import java.util.Date;
  */
 public class LocalDateUtil {
 
+    private LocalDateUtil() {
+    }
+
     public static Date fromLocalDate(LocalDate date) {
         Instant instant = date.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant();
         return Date.from(instant);
