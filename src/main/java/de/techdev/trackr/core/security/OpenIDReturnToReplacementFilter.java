@@ -49,7 +49,7 @@ public class OpenIDReturnToReplacementFilter implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-
+        //not needed
     }
 
     @Override
@@ -59,6 +59,6 @@ public class OpenIDReturnToReplacementFilter implements Filter {
 
     @Override
     public void destroy() {
-
+        //not needed
     }
 }

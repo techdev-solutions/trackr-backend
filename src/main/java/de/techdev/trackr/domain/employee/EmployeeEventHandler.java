@@ -48,12 +48,12 @@ public class EmployeeEventHandler {
     @HandleBeforeLinkSave
     @PreAuthorize("denyAll()")
     public void changeCredentialForbidden(Employee employee, Credential credential) {
-
+        //deny all, cannot be called
     }
 
     @HandleBeforeLinkDelete
     @PreAuthorize("denyAll()")
     public void deleteCredentialForbidden(Employee employee) {
-
+        //deny all, cannot be called
     }
 }
