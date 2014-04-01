@@ -43,7 +43,7 @@ public class MailConfiguration {
             propertiesFactoryBean.afterPropertiesSet();
             return propertiesFactoryBean.getObject();
         } catch (IOException e) {
-            throw new IllegalStateException("Could not open mail properties file");
+            throw new IllegalStateException("Could not open mail properties file", e);
         }
     }
 

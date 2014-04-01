@@ -40,7 +40,7 @@ public class JsonMappingHandlerExceptionResolver implements HandlerExceptionReso
                 try {
                     outputWriter = response.getWriter();
                 } catch (IOException e) {
-                    throw new IllegalStateException("Could not open response writer");
+                    throw new IllegalStateException("Could not open response writer", e);
                 }
                 response.setStatus(HttpStatus.BAD_REQUEST.value());
                 response.setHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE);
@@ -49,7 +49,7 @@ public class JsonMappingHandlerExceptionResolver implements HandlerExceptionReso
                     outputWriter.flush();
                     outputWriter.close();
                 } catch (IOException e) {
-                    throw new IllegalStateException("Could not flush and close response writer");
+                    throw new IllegalStateException("Could not flush and close response writer", e);
                 }
                 return new ModelAndView();
             }

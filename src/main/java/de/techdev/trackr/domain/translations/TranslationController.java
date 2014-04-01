@@ -40,7 +40,7 @@ public class TranslationController {
             response.setStatus(200);
             response.getWriter().close();
         } catch (IOException e) {
-            throw new IllegalStateException("Could not open translation file");
+            throw new IllegalStateException("Could not open translation file", e);
         }
     }
 
