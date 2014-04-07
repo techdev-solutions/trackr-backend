@@ -54,3 +54,6 @@ INSERT INTO vacationRequest (id, version, employee_id, startDate, endDate, numbe
 INSERT INTO vacationRequest (id, version, employee_id, startDate, endDate, numberOfDays, status, submissionTime) VALUES (3, 0, 2, '2014-12-10', '2014-12-24', 5, 'PENDING', '2014-01-03 11:00:00');
 INSERT INTO vacationRequest (id, version, employee_id, startDate, endDate, numberOfDays, status, submissionTime, approver_id, approvalDate) VALUES (1, 0, 2, '2014-03-09', '2014-03-16', 5, 'APPROVED', '2014-01-01 10:00:00', 1, '2014-03-25');
 INSERT INTO vacationRequest (id, version, employee_id, startDate, endDate, numberOfDays, status, submissionTime, approver_id, approvalDate) VALUES (2, 0, 2, '2014-03-17', '2014-03-24', 5, 'REJECTED', '2014-01-01 16:00:00', 1, '2014-03-25');
+
+INSERT INTO travelExpenseReport (id, version, employee_id, status) VALUES (0, 0, 1, 'PENDING');
+INSERT INTO travelExpense (id, version, report_id, fromDate, toDate, cost, vat, submissionDate) VALUES (0, 0, 0, '2014-04-01', '2014-04-10', 130.49, 19, '2014-04-12 10:00:30');

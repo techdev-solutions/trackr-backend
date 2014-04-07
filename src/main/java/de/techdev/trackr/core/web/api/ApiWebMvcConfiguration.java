@@ -7,8 +7,10 @@ import de.techdev.trackr.domain.company.Address;
 import de.techdev.trackr.domain.company.Company;
 import de.techdev.trackr.domain.company.ContactPerson;
 import de.techdev.trackr.domain.employee.Employee;
+import de.techdev.trackr.domain.employee.expenses.TravelExpenseReport;
 import de.techdev.trackr.domain.employee.login.Authority;
 import de.techdev.trackr.domain.employee.login.Credential;
+import de.techdev.trackr.domain.employee.expenses.TravelExpense;
 import de.techdev.trackr.domain.employee.vacation.VacationRequest;
 import de.techdev.trackr.domain.project.BillableTime;
 import de.techdev.trackr.domain.project.Project;
@@ -47,7 +49,7 @@ public class ApiWebMvcConfiguration extends RepositoryRestMvcConfiguration {
     @Override
     protected void configureRepositoryRestConfiguration(RepositoryRestConfiguration config) {
         config.exposeIdsFor(new Class[]{Employee.class, Credential.class, Authority.class, Company.class, ContactPerson.class,
-                Address.class, Project.class, WorkTime.class, BillableTime.class, VacationRequest.class});
+                Address.class, Project.class, WorkTime.class, BillableTime.class, VacationRequest.class, TravelExpense.class, TravelExpenseReport.class});
         config.setReturnBodyOnUpdate(true);
         config.setReturnBodyOnCreate(true);
     }
