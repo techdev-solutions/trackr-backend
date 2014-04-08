@@ -2,6 +2,7 @@ package de.techdev.trackr.domain.employee;
 
 import de.techdev.trackr.core.security.AuthorityMocks;
 import de.techdev.trackr.core.web.MockMvcTest;
+import de.techdev.trackr.domain.AbstractDomainResourceTest;
 import de.techdev.trackr.domain.employee.login.Credential;
 import de.techdev.trackr.domain.employee.login.CredentialDataOnDemand;
 import org.junit.Before;
@@ -14,6 +15,7 @@ import javax.json.stream.JsonGenerator;
 import java.io.StringWriter;
 import java.text.SimpleDateFormat;
 
+import static de.techdev.trackr.domain.DomainResourceTestMatchers.*;
 import static org.echocat.jomon.testing.BaseMatchers.isNotNull;
 import static org.echocat.jomon.testing.BaseMatchers.isTrue;
 import static org.hamcrest.CoreMatchers.is;
@@ -24,21 +26,19 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 /**
  * @author Moritz Schulze
  */
-public class EmployeeResourceTest extends MockMvcTest {
-
-    @Autowired
-    private EmployeeDataOnDemand employeeDataOnDemand;
+public class EmployeeResourceTest extends AbstractDomainResourceTest<Employee> {
 
     @Autowired
     private CredentialDataOnDemand credentialDataOnDemand;
 
-    @Autowired
-    private EmployeeRepository employeeRepository;
-
     @Before
     public void setUp() throws Exception {
-        employeeDataOnDemand.init();
         credentialDataOnDemand.init();
+    }
+
+    @Override
+    protected String getResourceName() {
+        return "employees";
     }
 
     /**
@@ -48,10 +48,7 @@ public class EmployeeResourceTest extends MockMvcTest {
      */
     @Test
     public void rootNotAllowedForEmployees() throws Exception {
-        mockMvc.perform(
-                get("/employees")
-                        .session(employeeSession()))
-               .andExpect(status().isForbidden());
+        assertThat(root(employeeSession()), isForbidden());
     }
 
     /**
@@ -61,12 +58,7 @@ public class EmployeeResourceTest extends MockMvcTest {
      */
     @Test
     public void rootAllowedForSupervisors() throws Exception {
-        mockMvc.perform(
-                get("/employees")
-                        .session(supervisorSession()))
-               .andExpect(status().isOk())
-               .andExpect(content().contentType(STANDARD_CONTENT_TYPE))
-               .andExpect(jsonPath("_embedded.employees[0].id", isNotNull()));
+        assertThat(root(supervisorSession()), isAccessible());
     }
 
     /**
@@ -76,13 +68,7 @@ public class EmployeeResourceTest extends MockMvcTest {
      */
     @Test
     public void oneIsAllowedForSupervisor() throws Exception {
-        Employee employee = employeeDataOnDemand.getRandomObject();
-        mockMvc.perform(
-                get("/employees/" + employee.getId())
-                        .session(supervisorSession()))
-               .andExpect(status().isOk())
-               .andExpect(content().contentType(STANDARD_CONTENT_TYPE))
-               .andExpect(jsonPath("id", is(employee.getId().intValue())));
+        assertThat(one(supervisorSession()), isAccessible());
     }
 
     /**
@@ -92,13 +78,7 @@ public class EmployeeResourceTest extends MockMvcTest {
      */
     @Test
     public void oneIsAllowedForSelf() throws Exception {
-        Employee employee = employeeDataOnDemand.getRandomObject();
-        mockMvc.perform(
-                get("/employees/" + employee.getId())
-                        .session(employeeSession(employee.getId())))
-               .andExpect(status().isOk())
-               .andExpect(content().contentType(STANDARD_CONTENT_TYPE))
-               .andExpect(jsonPath("id", is(employee.getId().intValue())));
+        assertThat(one(employee -> employeeSession(employee.getId())), isAccessible());
     }
 
     /**
@@ -108,11 +88,7 @@ public class EmployeeResourceTest extends MockMvcTest {
      */
     @Test
     public void oneIsForbiddenForOtherEmployee() throws Exception {
-        Employee employee = employeeDataOnDemand.getRandomObject();
-        mockMvc.perform(
-                get("/employees/" + employee.getId())
-                        .session(employeeSession(employee.getId() + 1)))
-               .andExpect(status().isForbidden());
+        assertThat(one(employee -> employeeSession(employee.getId() + 1)), isForbidden());
     }
 
     /**
@@ -123,12 +99,7 @@ public class EmployeeResourceTest extends MockMvcTest {
     @Test
     public void getCredentialAllowedForSupervisor() throws Exception {
         Employee employee = credentialDataOnDemand.getRandomObject().getEmployee();
-        mockMvc.perform(
-                get("/employees/" + employee.getId() + "/credential")
-                        .session(supervisorSession()))
-               .andExpect(status().isOk())
-               .andExpect(content().contentType(STANDARD_CONTENT_TYPE))
-               .andExpect(jsonPath("email", is(employee.getCredential().getEmail())));
+        assertThat(oneUrl(supervisorSession(), "/employees/" + employee.getId() + "/credential"), isAccessible());
     }
 
     /**
@@ -139,12 +110,7 @@ public class EmployeeResourceTest extends MockMvcTest {
     @Test
     public void getCredentialAllowedForSelf() throws Exception {
         Employee employee = credentialDataOnDemand.getRandomObject().getEmployee();
-        mockMvc.perform(
-                get("/employees/" + employee.getId() + "/credential")
-                        .session(employeeSession(employee.getId())))
-               .andExpect(status().isOk())
-               .andExpect(content().contentType(STANDARD_CONTENT_TYPE))
-               .andExpect(jsonPath("email", is(employee.getCredential().getEmail())));
+        assertThat(oneUrl(() -> employeeSession(employee.getId()), "/employees/" + employee.getId() + "/credential"), isAccessible());
     }
 
     /**
@@ -155,10 +121,7 @@ public class EmployeeResourceTest extends MockMvcTest {
     @Test
     public void getCredentialForbiddenForOther() throws Exception {
         Employee employee = credentialDataOnDemand.getRandomObject().getEmployee();
-        mockMvc.perform(
-                get("/employees/" + employee.getId() + "/credential")
-                        .session(employeeSession(employee.getId() + 1)))
-               .andExpect(status().isForbidden());
+        assertThat(oneUrl(() -> employeeSession(employee.getId() + 1), "/employees/" + employee.getId() + "/credential"), isForbidden());
     }
 
     /**
@@ -168,13 +131,7 @@ public class EmployeeResourceTest extends MockMvcTest {
      */
     @Test
     public void postAllowedForAdmins() throws Exception {
-        Employee employee = employeeDataOnDemand.getNewTransientObject(500);
-        mockMvc.perform(
-                post("/employees")
-                        .session(adminSession())
-                        .content(generateEmployeeJson(employee)))
-               .andExpect(status().isCreated())
-               .andExpect(jsonPath("id", isNotNull()));
+        assertThat(create(adminSession()), isCreated());
     }
 
     /**
@@ -184,13 +141,7 @@ public class EmployeeResourceTest extends MockMvcTest {
      */
     @Test
     public void putAllowedForSupervisors() throws Exception {
-        Employee employee = employeeDataOnDemand.getRandomObject();
-        mockMvc.perform(
-                put("/employees/" + employee.getId())
-                        .session(supervisorSession())
-                        .content(generateEmployeeJson(employee)))
-               .andExpect(status().isOk())
-               .andExpect(jsonPath("id", is(employee.getId().intValue())));
+        assertThat(update(supervisorSession()), isUpdated());
     }
 
     /**
@@ -200,13 +151,7 @@ public class EmployeeResourceTest extends MockMvcTest {
      */
     @Test
     public void patchAllowedForSupervisors() throws Exception {
-        Employee employee = employeeDataOnDemand.getRandomObject();
-        mockMvc.perform(
-                patch("/employees/" + employee.getId())
-                        .session(supervisorSession())
-                        .content("{\"firstName\": \"Test\"}"))
-               .andExpect(status().isOk())
-               .andExpect(jsonPath("firstName", is("Test")));
+        assertThat(updateViaPatch(supervisorSession(), "{\"firstName\": \"Test\"}"), isUpdated());
     }
 
     /**
@@ -216,11 +161,7 @@ public class EmployeeResourceTest extends MockMvcTest {
      */
     @Test
     public void deleteAllowedForAdmins() throws Exception {
-        Employee employee = employeeDataOnDemand.getRandomObject();
-        mockMvc.perform(
-                delete("/employees/" + employee.getId())
-                        .session(adminSession()))
-               .andExpect(status().isNoContent());
+        assertThat(remove(adminSession()), isNoContent());
     }
 
     /**
@@ -230,12 +171,7 @@ public class EmployeeResourceTest extends MockMvcTest {
      */
     @Test
     public void postForbiddenForSupervisor() throws Exception {
-        Employee employee = employeeDataOnDemand.getNewTransientObject(500);
-        mockMvc.perform(
-                post("/employees")
-                        .session(supervisorSession())
-                        .content(generateEmployeeJson(employee)))
-               .andExpect(status().isForbidden());
+        assertThat(create(supervisorSession()), isForbidden());
     }
 
     /**
@@ -245,12 +181,7 @@ public class EmployeeResourceTest extends MockMvcTest {
      */
     @Test
     public void putForbiddenForEmployee() throws Exception {
-        Employee employee = employeeDataOnDemand.getRandomObject();
-        mockMvc.perform(
-                put("/employees/" + employee.getId())
-                        .session(employeeSession(employee.getId()))
-                        .content(generateEmployeeJson(employee)))
-               .andExpect(status().isForbidden());
+        assertThat(update(employee -> employeeSession(employee.getId())), isForbidden());
     }
 
     /**
@@ -260,11 +191,7 @@ public class EmployeeResourceTest extends MockMvcTest {
      */
     @Test
     public void deleteForbiddenForSupervisor() throws Exception {
-        Employee employee = employeeDataOnDemand.getRandomObject();
-        mockMvc.perform(
-                delete("/employees/" + employee.getId())
-                        .session(supervisorSession()))
-               .andExpect(status().isForbidden());
+        assertThat(remove(supervisorSession()), isForbidden());
     }
 
     /**
@@ -274,13 +201,7 @@ public class EmployeeResourceTest extends MockMvcTest {
      */
     @Test
     public void changeCredentialForbidden() throws Exception {
-        Employee employee = employeeDataOnDemand.getRandomObject();
-        mockMvc.perform(
-                put("/employees/" + employee.getId() + "/credential")
-                        .session(adminSession())
-                        .header("Content-Type", "text/uri-list")
-                        .content("/credentials/0"))
-               .andExpect(status().isForbidden());
+        assertThat(updateLink(adminSession(), "credential", "/credentials/0"), isForbidden());
     }
 
     /**
@@ -291,48 +212,46 @@ public class EmployeeResourceTest extends MockMvcTest {
     @Test
     @Ignore //for some bloody reason this test fails on the build server, no idea why
     public void deleteCredentialForbidden() throws Exception {
-        Employee employee = employeeDataOnDemand.getRandomObject();
-        mockMvc.perform(
-                delete("/employees/" + employee.getId() + "/credential")
-                        .session(adminSession()))
-               .andExpect(status().isForbidden());
+        Employee employee = dataOnDemand.getRandomObject();
+        assertThat(removeUrl(adminSession(), "/employees/" + employee.getId() + "/credential"), isForbidden());
     }
 
     @Test
     public void setLeaveDateDeactivatesEmployeeIfIsInPast() throws Exception {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        Employee employee = employeeDataOnDemand.getRandomObject();
+        Employee employee = dataOnDemand.getRandomObject();
         SecurityContextHolder.getContext().setAuthentication(AuthorityMocks.adminAuthentication());
         employee.getCredential().setEnabled(true);
         employee.setJoinDate(sdf.parse("2013-12-01"));
-        employeeRepository.saveAndFlush(employee);
+        repository.save(employee);
         mockMvc.perform(
                 patch("/employees/" + employee.getId())
                         .session(adminSession())
                         .content("{\"leaveDate\": \"2014-01-01\"}"))
                .andExpect(status().isOk());
         SecurityContextHolder.getContext().setAuthentication(AuthorityMocks.adminAuthentication());
-        Credential credential = employeeRepository.findOne(employee.getId()).getCredential();
+        Credential credential = repository.findOne(employee.getId()).getCredential();
         assertThat(credential.getEnabled(), is(false));
     }
 
     @Test
     public void setLeaveDateDoesNotDeactivateEmployeeIfIsInFuture() throws Exception {
-        Employee employee = employeeDataOnDemand.getRandomObject();
+        Employee employee = dataOnDemand.getRandomObject();
         SecurityContextHolder.getContext().setAuthentication(AuthorityMocks.adminAuthentication());
         employee.getCredential().setEnabled(true);
-        employeeRepository.saveAndFlush(employee);
+        repository.save(employee);
         mockMvc.perform(
                 patch("/employees/" + employee.getId())
                         .session(adminSession())
                         .content("{\"leaveDate\": \"3014-01-01\"}"))
                .andExpect(status().isOk());
         SecurityContextHolder.getContext().setAuthentication(AuthorityMocks.adminAuthentication());
-        Credential credential = employeeRepository.findOne(employee.getId()).getCredential();
+        Credential credential = repository.findOne(employee.getId()).getCredential();
         assertThat(credential.getEnabled(), isTrue());
     }
 
-    protected String generateEmployeeJson(Employee employee) {
+    @Override
+    protected String getJsonRepresentation(Employee employee) {
         StringWriter writer = new StringWriter();
         JsonGenerator jg = jsonGeneratorFactory.createGenerator(writer);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");

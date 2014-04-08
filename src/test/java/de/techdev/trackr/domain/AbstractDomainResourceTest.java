@@ -1,13 +1,11 @@
 package de.techdev.trackr.domain;
 
 import de.techdev.trackr.core.web.MockMvcTest;
-import de.techdev.trackr.domain.employee.vacation.VacationRequest;
 import org.junit.Before;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -85,6 +83,10 @@ public abstract class AbstractDomainResourceTest<T> extends MockMvcTest {
                 get(url)
                         .session(session)
         );
+    }
+
+    protected ResultActions oneUrl(Supplier<MockHttpSession> sessionProvider, String url) throws Exception {
+        return oneUrl(sessionProvider.get(), url);
     }
 
     /**
