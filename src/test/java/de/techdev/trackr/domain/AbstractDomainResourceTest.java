@@ -1,20 +1,19 @@
 package de.techdev.trackr.domain;
 
 import de.techdev.trackr.core.web.MockMvcTest;
+import de.techdev.trackr.domain.employee.vacation.VacationRequest;
 import org.junit.Before;
-import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 
-import java.lang.reflect.Method;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
-import static org.echocat.jomon.testing.BaseMatchers.isNotNull;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
  * @author Moritz Schulze
@@ -58,8 +57,19 @@ public abstract class AbstractDomainResourceTest<T> extends MockMvcTest {
      * @throws Exception
      */
     protected ResultActions one(MockHttpSession session) throws Exception {
+        return one((object) -> session);
+    }
+
+    /**
+     * Access a single random object via GET.
+     *
+     * @param sessionProvider Converts the random object to a {@link org.springframework.mock.web.MockHttpSession}. This can be used to set the session to a specific employee.
+     * @return The result actions to perform further tests on.
+     * @throws Exception
+     */
+    protected ResultActions one(Function<T, MockHttpSession> sessionProvider) throws Exception {
         T randomObject = dataOnDemand.getRandomObject();
-        return oneUrl(session, "/" + getResourceName() + "/" + dataOnDemand.getId(randomObject));
+        return oneUrl(sessionProvider.apply(randomObject), "/" + getResourceName() + "/" + dataOnDemand.getId(randomObject));
     }
 
     /**
@@ -77,7 +87,6 @@ public abstract class AbstractDomainResourceTest<T> extends MockMvcTest {
         );
     }
 
-
     /**
      * Get a new transient object and try to POST it to the resource path.
      *
@@ -86,10 +95,21 @@ public abstract class AbstractDomainResourceTest<T> extends MockMvcTest {
      * @throws Exception
      */
     protected ResultActions create(MockHttpSession session) throws Exception {
+        return create((object) -> session);
+    }
+
+    /**
+     * Get a new transient object and try to POST it to the resource path.
+     *
+     * @param sessionProvider Converts the random object to a {@link org.springframework.mock.web.MockHttpSession}. This can be used to set the session to a specific employee.
+     * @return The result actions to perform further tests on.
+     * @throws Exception
+     */
+    protected ResultActions create(Function<T, MockHttpSession> sessionProvider) throws Exception {
         T newObject = dataOnDemand.getNewTransientObject(500);
         return mockMvc.perform(
                 post("/" + getResourceName() + "/")
-                        .session(session)
+                        .session(sessionProvider.apply(newObject))
                         .content(getJsonRepresentation(newObject))
         );
     }
@@ -102,27 +122,52 @@ public abstract class AbstractDomainResourceTest<T> extends MockMvcTest {
      * @throws Exception
      */
     protected ResultActions update(MockHttpSession session) throws Exception {
+        return update((object) -> session);
+    }
+
+    /**
+     * Get a random object and try to PUT it to the resource path
+     *
+     * @param sessionProvider Converts the random object to a {@link org.springframework.mock.web.MockHttpSession}. This can be used to set the session to a specific employee.
+     * @return The result actions to perform further tests on.
+     * @throws Exception
+     */
+    protected ResultActions update(Function<T, MockHttpSession> sessionProvider) throws Exception {
         T randomObject = dataOnDemand.getRandomObject();
         return mockMvc.perform(
                 put("/" + getResourceName() + "/" + dataOnDemand.getId(randomObject))
-                        .session(session)
+                        .session(sessionProvider.apply(randomObject))
                         .content(getJsonRepresentation(randomObject))
         );
     }
 
     /**
      * Perform a PUT on a link of a random resource (with header Content-Type: text/uri-list)
-     * @param session The mock session to use, e.g. admin or employee
-     * @param linkName The name of the link, will be appended to the URI of the resource (e.g. /company/0/contactPersons -> linkName = contactPersons).
+     *
+     * @param session     The mock session to use, e.g. admin or employee
+     * @param linkName    The name of the link, will be appended to the URI of the resource (e.g. /company/0/contactPersons -> linkName = contactPersons).
      * @param linkContent The content to PUT, e.g. /contactersons/0
      * @return The result actions to perform further tests on.
      * @throws Exception
      */
     protected ResultActions updateLink(MockHttpSession session, String linkName, String linkContent) throws Exception {
+        return updateLink((object) -> session, linkName, linkContent);
+    }
+
+    /**
+     * Perform a PUT on a link of a random resource (with header Content-Type: text/uri-list)
+     *
+     * @param sessionProvider Converts the random object to a {@link org.springframework.mock.web.MockHttpSession}. This can be used to set the session to a specific employee.
+     * @param linkName    The name of the link, will be appended to the URI of the resource (e.g. /company/0/contactPersons -> linkName = contactPersons).
+     * @param linkContent The content to PUT, e.g. /contactersons/0
+     * @return The result actions to perform further tests on.
+     * @throws Exception
+     */
+    protected ResultActions updateLink(Function<T, MockHttpSession> sessionProvider, String linkName, String linkContent) throws Exception {
         T randomObject = dataOnDemand.getRandomObject();
         return mockMvc.perform(
                 put("/" + getResourceName() + "/" + dataOnDemand.getId(randomObject) + "/" + linkName)
-                        .session(session)
+                        .session(sessionProvider.apply(randomObject))
                         .header("Content-Type", "text/uri-list")
                         .content(linkContent)
         );
@@ -152,14 +197,26 @@ public abstract class AbstractDomainResourceTest<T> extends MockMvcTest {
      * @throws Exception
      */
     protected ResultActions remove(MockHttpSession session) throws Exception {
+        return remove((object) -> session);
+    }
+
+    /**
+     * Get a random object and try to DELETE it.
+     *
+     * @param sessionProvider Converts the random object to a {@link org.springframework.mock.web.MockHttpSession}. This can be used to set the session to a specific employee.
+     * @return The result actions to perform further tests on.
+     * @throws Exception
+     */
+    protected ResultActions remove(Function<T, MockHttpSession> sessionProvider) throws Exception {
         T randomObject = dataOnDemand.getRandomObject();
-        return removeUrl(session, "/" + getResourceName() + "/" + dataOnDemand.getId(randomObject));
+        return removeUrl(sessionProvider.apply(randomObject), "/" + getResourceName() + "/" + dataOnDemand.getId(randomObject));
     }
 
     /**
      * Perform a DELETE on a URL.
+     *
      * @param session The mock session to use, e.g. admin or employee
-     * @param url The URL to access.
+     * @param url     The URL to access.
      * @return The result actions to perform further tests on.
      * @throws Exception
      */
@@ -168,5 +225,17 @@ public abstract class AbstractDomainResourceTest<T> extends MockMvcTest {
                 delete(url)
                         .session(session)
         );
+    }
+
+    /**
+     * Perform a DELETE on a URL.
+     *
+     * @param sessionProvider Converts the random object to a {@link org.springframework.mock.web.MockHttpSession}. This can be used to set the session to a specific employee.
+     * @param url     The URL to access.
+     * @return The result actions to perform further tests on.
+     * @throws Exception
+     */
+    protected ResultActions removeUrl(Supplier<MockHttpSession> sessionProvider, String url) throws Exception {
+        return removeUrl(sessionProvider.get(), url);
     }
 }
