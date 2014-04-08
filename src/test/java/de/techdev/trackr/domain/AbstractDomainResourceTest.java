@@ -153,10 +153,20 @@ public abstract class AbstractDomainResourceTest<T> extends MockMvcTest {
      */
     protected ResultActions remove(MockHttpSession session) throws Exception {
         T randomObject = dataOnDemand.getRandomObject();
+        return removeUrl(session, "/" + getResourceName() + "/" + dataOnDemand.getId(randomObject));
+    }
+
+    /**
+     * Perform a DELETE on a URL.
+     * @param session The mock session to use, e.g. admin or employee
+     * @param url The URL to access.
+     * @return The result actions to perform further tests on.
+     * @throws Exception
+     */
+    protected ResultActions removeUrl(MockHttpSession session, String url) throws Exception {
         return mockMvc.perform(
-                delete("/" + getResourceName() + "/" + dataOnDemand.getId(randomObject))
+                delete(url)
                         .session(session)
         );
     }
-
 }

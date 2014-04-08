@@ -1,86 +1,63 @@
 package de.techdev.trackr.domain.employee.login;
 
-import de.techdev.trackr.core.web.MockMvcTest;
-import org.junit.Before;
+import de.techdev.trackr.domain.AbstractDomainResourceTest;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 
-import static org.echocat.jomon.testing.BaseMatchers.isNotNull;
+import static de.techdev.trackr.domain.DomainResourceTestMatchers.isAccessible;
+import static de.techdev.trackr.domain.DomainResourceTestMatchers.isMethodNotAllowed;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
  * @author Moritz Schulze
  */
-public class AuthorityResourceTest extends MockMvcTest {
+public class AuthorityResourceTest extends AbstractDomainResourceTest<Authority> {
 
-    @Autowired
-    private AuthorityDataOnDemand authorityDataOnDemand;
-
-    @Before
-    public void setUp() throws Exception {
-        authorityDataOnDemand.init();
+    @Override
+    protected String getResourceName() {
+        return "authorities";
     }
 
     @Test
     public void findAll() throws Exception {
-        mockMvc.perform(
-                get("/authorities")
-                        .session(employeeSession()))
-               .andExpect(status().isOk())
-               .andExpect(content().contentType(STANDARD_CONTENT_TYPE))
-               .andExpect(jsonPath("_embedded.authorities[0].id", isNotNull()));
+        assertThat(root(employeeSession()), isAccessible());
     }
 
     @Test
     public void findOne() throws Exception {
-        Authority authority = authorityDataOnDemand.getRandomObject();
-        mockMvc.perform(
-                get("/authorities/" + authority.getId())
-                        .session(employeeSession()))
-               .andExpect(status().isOk())
-               .andExpect(content().contentType(STANDARD_CONTENT_TYPE))
-               .andExpect(jsonPath("authority", is(authority.getAuthority())));
+        assertThat(one(employeeSession()), isAccessible());
     }
 
     @Test
     public void postDisabled() throws Exception {
-        mockMvc.perform(
-                post("/authorities")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .session(employeeSession()).content("{}"))
-               .andExpect(status().isMethodNotAllowed());
+        assertThat(create(employeeSession()), isMethodNotAllowed());
     }
 
     @Test
     public void putDisabled() throws Exception {
-        Authority authority = authorityDataOnDemand.getRandomObject();
-        mockMvc.perform(
-                put("/authorities/" + authority.getId())
-                        .session(employeeSession())
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("{}"))
-               .andExpect(status().isMethodNotAllowed());
+        assertThat(update(employeeSession()), isMethodNotAllowed());
     }
 
     @Test
     public void deleteDisabled() throws Exception {
-        Authority authority = authorityDataOnDemand.getRandomObject();
-        mockMvc.perform(
-                delete("/authorities/" + authority.getId())
-                        .session(employeeSession()))
-               .andExpect(status().isMethodNotAllowed());
+        assertThat(remove(employeeSession()), isMethodNotAllowed());
     }
 
     @Test
     public void findByAuthorityDisabled() throws Exception {
-        Authority authority = authorityDataOnDemand.getRandomObject();
+        Authority authority = dataOnDemand.getRandomObject();
         mockMvc.perform(
                 delete("/authorities/search/findByAuthority")
                         .session(employeeSession())
                         .param("authority", authority.getAuthority()))
                .andExpect(status().isMethodNotAllowed());
+    }
+
+    @Override
+    protected String getJsonRepresentation(Authority item) {
+        return "{}";
     }
 }

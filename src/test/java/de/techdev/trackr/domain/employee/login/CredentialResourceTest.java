@@ -1,41 +1,44 @@
 package de.techdev.trackr.domain.employee.login;
 
-import de.techdev.trackr.core.web.MockMvcTest;
+import de.techdev.trackr.domain.AbstractDomainResourceTest;
 import de.techdev.trackr.domain.common.FederalState;
 import de.techdev.trackr.domain.employee.Employee;
 import de.techdev.trackr.domain.employee.EmployeeRepository;
-import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.json.stream.JsonGenerator;
 import java.io.StringWriter;
 
+import static de.techdev.trackr.domain.DomainResourceTestMatchers.isForbidden;
+import static de.techdev.trackr.domain.DomainResourceTestMatchers.isNoContent;
+import static de.techdev.trackr.domain.DomainResourceTestMatchers.isUpdated;
 import static java.util.Arrays.asList;
 import static org.echocat.jomon.testing.BaseMatchers.isNotNull;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
  * @author Moritz Schulze
  */
-public class CredentialResourceTest extends MockMvcTest {
-
-    @Autowired
-    private CredentialDataOnDemand credentialDataOnDemand;
+public class CredentialResourceTest extends AbstractDomainResourceTest<Credential> {
 
     @Autowired
     private AuthorityDataOnDemand authorityDataOnDemand;
 
-    @Before
-    public void setUp() throws Exception {
-        credentialDataOnDemand.init();
+    @Autowired
+    private EmployeeRepository employeeRepository;
+
+    @Override
+    protected String getResourceName() {
+        return "credentials";
     }
 
     @Test
     public void findByEmail() throws Exception {
-        Credential credentials = credentialDataOnDemand.getRandomObject();
+        Credential credentials = dataOnDemand.getRandomObject();
         mockMvc.perform(
                 get("/credentials/search/findByEmail")
                         .param("email", credentials.getEmail())
@@ -48,63 +51,38 @@ public class CredentialResourceTest extends MockMvcTest {
 
     @Test
     public void addAuthorityToCredentials() throws Exception {
-        Credential credentials = credentialDataOnDemand.getRandomObject();
         Authority authority = authorityDataOnDemand.getRandomObject();
-        mockMvc.perform(
-                patch("/credentials/" + credentials.getId() + "/authorities")
-                        .session(adminSession())
-                        .header("Content-Type", "text/uri-list")
-                        .content("/authorities/" + authority.getId()))
-               .andExpect(status().isNoContent());
+        assertThat(updateLink(adminSession(), "authorities", "/authorities/" + authority.getId()), isNoContent());
     }
 
     @Test
     public void deleteAuthority() throws Exception {
-        Credential credentials = credentialDataOnDemand.getRandomObject();
-        mockMvc.perform(
-                delete("/credentials/" + credentials.getId() + "/authorities/0")
-                        .session(adminSession()))
-               .andExpect(status().isNoContent());
+        Credential credentials = dataOnDemand.getRandomObject();
+        assertThat(removeUrl(adminSession(), "/credentials/" + credentials.getId() + "/authorities/0"), isNoContent());
     }
 
     @Test
     public void addAuthorityNotAllowedForSupervisor() throws Exception {
-        Credential credentials = credentialDataOnDemand.getRandomObject();
         Authority authority = authorityDataOnDemand.getRandomObject();
-        mockMvc.perform(
-                patch("/credentials/" + credentials.getId() + "/authorities")
-                        .session(supervisorSession())
-                        .header("Content-Type", "text/uri-list")
-                        .content("/authorities/" + authority.getId()))
-               .andExpect(status().isForbidden());
+        assertThat(updateLink(supervisorSession(), "authorities", "/authorities/" + authority.getId()), isForbidden());
     }
 
     @Test
     public void deleteAuthorityNotAllowedForSupervisor() throws Exception {
-        Credential credentials = credentialDataOnDemand.getRandomObject();
-        mockMvc.perform(
-                delete("/credentials/" + credentials.getId() + "/authorities/0")
-                        .session(supervisorSession()))
-               .andExpect(status().isForbidden());
+        Credential credentials = dataOnDemand.getRandomObject();
+        assertThat(removeUrl(supervisorSession(), "/credentials/" + credentials.getId() + "/authorities/0"), isForbidden());
     }
 
     @Test
     public void putAllowedForAdmins() throws Exception {
-        Credential credential = credentialDataOnDemand.getRandomObject();
-        String json = getCredentialJson(credential);
-        mockMvc.perform(
-                put("/credentials/" + credential.getId())
-                        .session(adminSession())
-                        .content(json))
-               .andExpect(status().isOk());
+        assertThat(update(adminSession()), isUpdated());
     }
 
-    @Autowired
-    private EmployeeRepository employeeRepository;
-
-    @Test
-    public void postAllowedForAdmins() throws Exception {
-        //Because of the 1:1 id mapping for credential and employees we have to create everything ourselves and cannot use the data on demand objects.
+    /**
+     * Because of the 1:1 id mapping for credential and employees we have to create everything ourselves and cannot use the data on demand objects.
+     * @return JSON representation of a new Credential object.
+     */
+    private String getNewCredentialJson() {
         Credential credential = new Credential();
         credential.setEmail("email_500@techdev.de");
         credential.setEnabled(false);
@@ -116,7 +94,12 @@ public class CredentialResourceTest extends MockMvcTest {
         employee.setFederalState(FederalState.BERLIN);
         employeeRepository.saveAndFlush(employee);
         credential.setEmployee(employee);
-        String json = getCredentialJson(credential);
+        return getJsonRepresentation(credential);
+    }
+
+    @Test
+    public void postAllowedForAdmins() throws Exception {
+        String json = getNewCredentialJson();
         mockMvc.perform(
                 post("/credentials")
                         .session(adminSession())
@@ -127,39 +110,17 @@ public class CredentialResourceTest extends MockMvcTest {
 
     @Test
     public void deleteAllowedForAdmins() throws Exception {
-        Credential credential = credentialDataOnDemand.getRandomObject();
-        mockMvc.perform(
-                delete("/credentials/" + credential.getId())
-                        .session(adminSession()))
-               .andExpect(status().isNoContent());
+        assertThat(remove(adminSession()), isNoContent());
     }
 
     @Test
     public void putForbiddenForSupervisors() throws Exception {
-        Credential credential = credentialDataOnDemand.getRandomObject();
-        String json = getCredentialJson(credential);
-        mockMvc.perform(
-                put("/credentials/" + credential.getId())
-                        .session(supervisorSession())
-                        .content(json))
-               .andExpect(status().isForbidden());
+        assertThat(update(supervisorSession()), isForbidden());
     }
 
     @Test
     public void postForbiddenForSupervisors() throws Exception {
-        //Because of the 1:1 id mapping for credential and employees we have to create everything ourselves and cannot use the data on demand objects.
-        Credential credential = new Credential();
-        credential.setEmail("email_500@techdev.de");
-        credential.setEnabled(false);
-        credential.setLocale("en");
-        credential.setAuthorities(asList(new Authority("ROLE_TEST")));
-        Employee employee = new Employee();
-        employee.setFirstName("firstName");
-        employee.setLastName("lastName");
-        employee.setFederalState(FederalState.BERLIN);
-        employeeRepository.saveAndFlush(employee);
-        credential.setEmployee(employee);
-        String json = getCredentialJson(credential);
+        String json = getNewCredentialJson();
         mockMvc.perform(
                 post("/credentials")
                         .session(supervisorSession())
@@ -169,11 +130,7 @@ public class CredentialResourceTest extends MockMvcTest {
 
     @Test
     public void deleteForbiddenForSupervisors() throws Exception {
-        Credential credential = credentialDataOnDemand.getRandomObject();
-        mockMvc.perform(
-                delete("/credentials/" + credential.getId())
-                        .session(supervisorSession()))
-               .andExpect(status().isForbidden());
+        assertThat(remove(supervisorSession()), isForbidden());
     }
 
     @Test
@@ -183,10 +140,10 @@ public class CredentialResourceTest extends MockMvcTest {
                         .session(adminSession())
                         .param("authority", "/authorities/1"))
                .andExpect(status().isNotFound());
-
     }
 
-    protected String getCredentialJson(Credential credential) {
+    @Override
+    protected String getJsonRepresentation(Credential credential) {
         StringWriter writer = new StringWriter();
         JsonGenerator jsonGenerator = jsonGeneratorFactory.createGenerator(writer);
         JsonGenerator jg = jsonGenerator
