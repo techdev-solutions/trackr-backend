@@ -37,7 +37,7 @@ public class ProjectResourceTest extends MockMvcTest {
                 get("/projects")
                         .session(employeeSession()))
                .andExpect(status().isOk())
-               .andExpect(content().contentType(standardContentType))
+               .andExpect(content().contentType(STANDARD_CONTENT_TYPE))
                .andExpect(jsonPath("_embedded.projects[0].id", isNotNull()));
     }
 
@@ -48,7 +48,7 @@ public class ProjectResourceTest extends MockMvcTest {
                 get("/projects/" + project.getId())
                         .session(employeeSession()))
                .andExpect(status().isOk())
-               .andExpect(content().contentType(standardContentType))
+               .andExpect(content().contentType(STANDARD_CONTENT_TYPE))
                .andExpect(jsonPath("id", is(project.getId().intValue())));
     }
 

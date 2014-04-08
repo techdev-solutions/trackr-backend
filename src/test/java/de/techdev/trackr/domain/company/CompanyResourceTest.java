@@ -1,6 +1,6 @@
 package de.techdev.trackr.domain.company;
 
-import de.techdev.trackr.core.web.MockMvcTest;
+import de.techdev.trackr.domain.AbstractDomainResourceTest;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,25 +8,28 @@ import org.springframework.beans.factory.annotation.Autowired;
 import javax.json.stream.JsonGenerator;
 import java.io.StringWriter;
 
+import static de.techdev.trackr.domain.DomainResourceTestMatchers.*;
 import static org.echocat.jomon.testing.BaseMatchers.isNotNull;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
  * @author Moritz Schulze
  */
-public class CompanyResourceTest extends MockMvcTest {
-
-    @Autowired
-    private CompanyDataOnDemand companyDataOnDemand;
+public class CompanyResourceTest extends AbstractDomainResourceTest<Company> {
 
     @Autowired
     private ContactPersonDataOnDemand contactPersonDataOnDemand;
 
+    @Override
+    protected String getResourceName() {
+        return "companies";
+    }
+
     @Before
     public void setUp() throws Exception {
-        companyDataOnDemand.init();
         contactPersonDataOnDemand.init();
     }
 
@@ -37,12 +40,7 @@ public class CompanyResourceTest extends MockMvcTest {
      */
     @Test
     public void root() throws Exception {
-        mockMvc.perform(
-                get("/companies")
-                        .session(employeeSession()))
-               .andExpect(status().isOk())
-               .andExpect(content().contentType(standardContentType))
-               .andExpect(jsonPath("_embedded.companies[0].id", isNotNull()));
+        assertThat(root(employeeSession()), isAccessible());
     }
 
     /**
@@ -52,24 +50,19 @@ public class CompanyResourceTest extends MockMvcTest {
      */
     @Test
     public void one() throws Exception {
-        Company company = companyDataOnDemand.getRandomObject();
-        mockMvc.perform(
-                get("/companies/" + company.getId())
-                        .session(employeeSession()))
-               .andExpect(status().isOk())
-               .andExpect(content().contentType(standardContentType))
-               .andExpect(jsonPath("id", is(company.getId().intValue())));
+        assertThat(one(employeeSession()), isAccessible());
     }
 
     @Test
     public void findByNameLikeOrderByNameAsc() throws Exception {
-        Company company = companyDataOnDemand.getRandomObject();
+        Company company = dataOnDemand.getRandomObject();
         mockMvc.perform(
                 get("/companies/search/findByNameLikeOrderByNameAsc")
                         .session(employeeSession())
-                        .param("name", company.getName()))
+                        .param("name", company.getName())
+        )
                .andExpect(status().isOk())
-               .andExpect(content().contentType(standardContentType))
+               .andExpect(content().contentType(STANDARD_CONTENT_TYPE))
                .andExpect(jsonPath("_embedded.companies[0].id", isNotNull()));
     }
 
@@ -80,13 +73,14 @@ public class CompanyResourceTest extends MockMvcTest {
      */
     @Test
     public void findByCompanyId() throws Exception {
-        Company company = companyDataOnDemand.getRandomObject();
+        Company company = dataOnDemand.getRandomObject();
         mockMvc.perform(
                 get("/companies/search/findByCompanyId")
                         .param("companyId", company.getCompanyId().toString())
-                        .session(employeeSession()))
+                        .session(employeeSession())
+        )
                .andExpect(status().isOk())
-               .andExpect(content().contentType(standardContentType))
+               .andExpect(content().contentType(STANDARD_CONTENT_TYPE))
                .andExpect(jsonPath("_embedded.companies[0].companyId", is(company.getCompanyId().intValue())));
     }
 
@@ -97,13 +91,7 @@ public class CompanyResourceTest extends MockMvcTest {
      */
     @Test
     public void postAllowedForAdmin() throws Exception {
-        Company company = companyDataOnDemand.getNewTransientObject(500);
-        mockMvc.perform(
-                post("/companies")
-                        .session(adminSession())
-                        .content(generateCompanyJson(company)))
-               .andExpect(status().isCreated())
-               .andExpect(jsonPath("id", isNotNull()));
+        assertThat(create(adminSession()), returnsCreated());
     }
 
     /**
@@ -113,13 +101,7 @@ public class CompanyResourceTest extends MockMvcTest {
      */
     @Test
     public void putAllowedForAdmin() throws Exception {
-        Company company = companyDataOnDemand.getRandomObject();
-        mockMvc.perform(
-                put("/companies/" + company.getId())
-                        .session(adminSession())
-                        .content(generateCompanyJson(company)))
-               .andExpect(status().isOk())
-               .andExpect(jsonPath("id", is(company.getId().intValue())));
+        assertThat(update(adminSession()), isUpdated());
     }
 
     /**
@@ -129,13 +111,7 @@ public class CompanyResourceTest extends MockMvcTest {
      */
     @Test
     public void patchAllowedForAdmin() throws Exception {
-        Company company = companyDataOnDemand.getRandomObject();
-        mockMvc.perform(
-                patch("/companies/" + company.getId())
-                        .session(adminSession())
-                        .content("{\"name\": \"test\"}"))
-               .andExpect(status().isOk())
-               .andExpect(jsonPath("name", is("test")));
+        assertThat(updateViaPatch(adminSession(), "{\"name\": \"test\"}"), isUpdated());
     }
 
     /**
@@ -145,12 +121,7 @@ public class CompanyResourceTest extends MockMvcTest {
      */
     @Test
     public void postForbiddenForSupervisor() throws Exception {
-        Company company = companyDataOnDemand.getNewTransientObject(500);
-        mockMvc.perform(
-                post("/companies")
-                        .session(supervisorSession())
-                        .content(generateCompanyJson(company)))
-               .andExpect(status().isForbidden());
+        assertThat(create(supervisorSession()), isForbidden());
     }
 
     /**
@@ -160,12 +131,7 @@ public class CompanyResourceTest extends MockMvcTest {
      */
     @Test
     public void putForbiddenForSupervisor() throws Exception {
-        Company company = companyDataOnDemand.getRandomObject();
-        mockMvc.perform(
-                put("/companies/" + company.getId())
-                        .session(supervisorSession())
-                        .content(generateCompanyJson(company)))
-               .andExpect(status().isForbidden());
+        assertThat(update(supervisorSession()), isForbidden());
     }
 
     /**
@@ -175,12 +141,7 @@ public class CompanyResourceTest extends MockMvcTest {
      */
     @Test
     public void patchForbiddenForSupervisor() throws Exception {
-        Company company = companyDataOnDemand.getRandomObject();
-        mockMvc.perform(
-                patch("/companies/" + company.getId())
-                        .session(supervisorSession())
-                        .content("{\"name\": \"test\"}"))
-               .andExpect(status().isForbidden());
+        assertThat(updateViaPatch(supervisorSession(), "{\"name\": \"test\"}"), isForbidden());
     }
 
     /**
@@ -193,7 +154,8 @@ public class CompanyResourceTest extends MockMvcTest {
         mockMvc.perform(
                 post("/companies")
                         .session(adminSession())
-                        .content("{ \"companyId\": \"1234\" }"))
+                        .content("{ \"companyId\": \"1234\" }")
+        )
                .andExpect(status().isBadRequest());
     }
 
@@ -204,14 +166,8 @@ public class CompanyResourceTest extends MockMvcTest {
      */
     @Test
     public void addContactPersonSupervisor() throws Exception {
-        Company company = companyDataOnDemand.getRandomObject();
         ContactPerson contactPerson = contactPersonDataOnDemand.getRandomObject();
-        mockMvc.perform(
-                patch("/companies/" + company.getId() + "/contactPersons")
-                        .session(supervisorSession())
-                        .header("Content-Type", "text/uri-list")
-                        .content("/contactPersons/" + contactPerson.getId()))
-               .andExpect(status().isNoContent());
+        assertThat(updateLink(supervisorSession(), "contactPersons", "/contactPersons/" + contactPerson.getId()), isNoContent());
     }
 
     /**
@@ -221,14 +177,8 @@ public class CompanyResourceTest extends MockMvcTest {
      */
     @Test
     public void addContactForbiddenForEmployee() throws Exception {
-        Company company = companyDataOnDemand.getRandomObject();
         ContactPerson contactPerson = contactPersonDataOnDemand.getRandomObject();
-        mockMvc.perform(
-                patch("/companies/" + company.getId() + "/contactPersons")
-                        .session(employeeSession())
-                        .header("Content-Type", "text/uri-list")
-                        .content("/contactPersons/" + contactPerson.getId()))
-               .andExpect(status().isForbidden());
+        assertThat(updateLink(employeeSession(), "contactPersons", "/contactPersons/" + contactPerson.getId()), isForbidden());
     }
 
     /**
@@ -241,7 +191,8 @@ public class CompanyResourceTest extends MockMvcTest {
         ContactPerson contactPerson = contactPersonDataOnDemand.getRandomObject();
         mockMvc.perform(
                 delete("/companies/" + contactPerson.getCompany().getId() + "/contactPersons/" + contactPerson.getId())
-                        .session(supervisorSession()))
+                        .session(supervisorSession())
+        )
                .andExpect(status().isNoContent());
     }
 
@@ -255,7 +206,8 @@ public class CompanyResourceTest extends MockMvcTest {
         ContactPerson contactPerson = contactPersonDataOnDemand.getRandomObject();
         mockMvc.perform(
                 delete("/companies/" + contactPerson.getCompany().getId() + "/contactPersons/" + contactPerson.getId())
-                        .session(employeeSession()))
+                        .session(employeeSession())
+        )
                .andExpect(status().isForbidden());
     }
 
@@ -266,11 +218,7 @@ public class CompanyResourceTest extends MockMvcTest {
      */
     @Test
     public void deleteAllowedForAdmin() throws Exception {
-        Company company = companyDataOnDemand.getRandomObject();
-        mockMvc.perform(
-                delete("/companies/" + company.getId())
-                        .session(adminSession()))
-               .andExpect(status().isNoContent());
+        assertThat(remove(adminSession()), isNoContent());
     }
 
     /**
@@ -280,11 +228,7 @@ public class CompanyResourceTest extends MockMvcTest {
      */
     @Test
     public void deleteForbiddenForSupervisor() throws Exception {
-        Company company = companyDataOnDemand.getRandomObject();
-        mockMvc.perform(
-                delete("/companies/" + company.getId())
-                        .session(supervisorSession()))
-               .andExpect(status().isForbidden());
+        assertThat(remove(supervisorSession()), isForbidden());
     }
 
     /**
@@ -294,23 +238,20 @@ public class CompanyResourceTest extends MockMvcTest {
      */
     @Test
     public void getAddress() throws Exception {
-        Company company = companyDataOnDemand.getRandomObject();
-        mockMvc.perform(
-                get("/companies/" + company.getId() + "/address")
-                        .session(employeeSession()))
-               .andExpect(status().isOk())
-               .andExpect(content().contentType(standardContentType));
+        Company company = dataOnDemand.getRandomObject();
+        assertThat(oneUrl(employeeSession(), "/companies/" + company.getId() + "/address"), isAccessible());
     }
 
-    protected String generateCompanyJson(Company company) {
+    @Override
+    protected String getJsonRepresentation(Company item) {
         StringWriter writer = new StringWriter();
         JsonGenerator jg = jsonGeneratorFactory.createGenerator(writer);
         jg.writeStartObject()
-          .write("name", company.getName())
-          .write("companyId", company.getCompanyId())
-          .write("address", "/api/addresses/" + company.getAddress().getId());
-        if (company.getId() != null) {
-            jg.write("id", company.getId());
+          .write("name", item.getName())
+          .write("companyId", item.getCompanyId())
+          .write("address", "/api/addresses/" + item.getAddress().getId());
+        if (item.getId() != null) {
+            jg.write("id", item.getId());
         }
         jg.writeEnd().close();
         return writer.toString();

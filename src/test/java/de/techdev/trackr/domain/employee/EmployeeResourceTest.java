@@ -65,7 +65,7 @@ public class EmployeeResourceTest extends MockMvcTest {
                 get("/employees")
                         .session(supervisorSession()))
                .andExpect(status().isOk())
-               .andExpect(content().contentType(standardContentType))
+               .andExpect(content().contentType(STANDARD_CONTENT_TYPE))
                .andExpect(jsonPath("_embedded.employees[0].id", isNotNull()));
     }
 
@@ -81,7 +81,7 @@ public class EmployeeResourceTest extends MockMvcTest {
                 get("/employees/" + employee.getId())
                         .session(supervisorSession()))
                .andExpect(status().isOk())
-               .andExpect(content().contentType(standardContentType))
+               .andExpect(content().contentType(STANDARD_CONTENT_TYPE))
                .andExpect(jsonPath("id", is(employee.getId().intValue())));
     }
 
@@ -97,7 +97,7 @@ public class EmployeeResourceTest extends MockMvcTest {
                 get("/employees/" + employee.getId())
                         .session(employeeSession(employee.getId())))
                .andExpect(status().isOk())
-               .andExpect(content().contentType(standardContentType))
+               .andExpect(content().contentType(STANDARD_CONTENT_TYPE))
                .andExpect(jsonPath("id", is(employee.getId().intValue())));
     }
 
@@ -127,7 +127,7 @@ public class EmployeeResourceTest extends MockMvcTest {
                 get("/employees/" + employee.getId() + "/credential")
                         .session(supervisorSession()))
                .andExpect(status().isOk())
-               .andExpect(content().contentType(standardContentType))
+               .andExpect(content().contentType(STANDARD_CONTENT_TYPE))
                .andExpect(jsonPath("email", is(employee.getCredential().getEmail())));
     }
 
@@ -143,7 +143,7 @@ public class EmployeeResourceTest extends MockMvcTest {
                 get("/employees/" + employee.getId() + "/credential")
                         .session(employeeSession(employee.getId())))
                .andExpect(status().isOk())
-               .andExpect(content().contentType(standardContentType))
+               .andExpect(content().contentType(STANDARD_CONTENT_TYPE))
                .andExpect(jsonPath("email", is(employee.getCredential().getEmail())));
     }
 

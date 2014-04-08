@@ -37,7 +37,7 @@ public class ContactPersonResourceTest extends MockMvcTest {
                 get("/contactPersons")
                         .session(employeeSession()))
                .andExpect(status().isOk())
-               .andExpect(content().contentType(standardContentType));
+               .andExpect(content().contentType(STANDARD_CONTENT_TYPE));
     }
 
     /**
@@ -52,7 +52,7 @@ public class ContactPersonResourceTest extends MockMvcTest {
                 get("/contactPersons/" + contactPerson.getId())
                         .session(employeeSession()))
                .andExpect(status().isOk())
-               .andExpect(content().contentType(standardContentType))
+               .andExpect(content().contentType(STANDARD_CONTENT_TYPE))
                .andExpect(jsonPath("id", is(contactPerson.getId().intValue())));
     }
 

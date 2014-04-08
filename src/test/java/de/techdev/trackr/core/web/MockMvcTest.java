@@ -32,7 +32,7 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 @ContextConfiguration(classes = {ApiWebMvcConfiguration.class, MethodSecurityConfiguration.class, SecurityConfiguration.class, MailConfiguration.class})
 public abstract class MockMvcTest extends TransactionalIntegrationTest {
 
-    protected final String standardContentType = "application/hal+json";
+    public static final String STANDARD_CONTENT_TYPE = "application/hal+json";
 
     protected MockMvc mockMvc;
     protected JsonGeneratorFactory jsonGeneratorFactory;

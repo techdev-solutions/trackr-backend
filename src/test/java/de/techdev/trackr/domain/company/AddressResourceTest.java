@@ -51,7 +51,7 @@ public class AddressResourceTest extends MockMvcTest {
                 get("/addresses/" + address.getId())
                         .session(employeeSession()))
                .andExpect(status().isOk())
-               .andExpect(content().contentType(standardContentType))
+               .andExpect(content().contentType(STANDARD_CONTENT_TYPE))
                .andExpect(jsonPath("id", isNotNull()));
     }
 

@@ -30,7 +30,7 @@ public class AuthorityResourceTest extends MockMvcTest {
                 get("/authorities")
                         .session(employeeSession()))
                .andExpect(status().isOk())
-               .andExpect(content().contentType(standardContentType))
+               .andExpect(content().contentType(STANDARD_CONTENT_TYPE))
                .andExpect(jsonPath("_embedded.authorities[0].id", isNotNull()));
     }
 
@@ -41,7 +41,7 @@ public class AuthorityResourceTest extends MockMvcTest {
                 get("/authorities/" + authority.getId())
                         .session(employeeSession()))
                .andExpect(status().isOk())
-               .andExpect(content().contentType(standardContentType))
+               .andExpect(content().contentType(STANDARD_CONTENT_TYPE))
                .andExpect(jsonPath("authority", is(authority.getAuthority())));
     }
 

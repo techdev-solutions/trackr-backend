@@ -41,7 +41,7 @@ public class CredentialResourceTest extends MockMvcTest {
                         .param("email", credentials.getEmail())
                         .session(employeeSession()))
                .andExpect(status().isOk())
-               .andExpect(content().contentType(standardContentType))
+               .andExpect(content().contentType(STANDARD_CONTENT_TYPE))
                .andExpect(jsonPath("_embedded.credentials[0].email", is(credentials.getEmail())))
                .andExpect(jsonPath("_embedded.credentials[0].enabled", is(credentials.getEnabled())));
     }

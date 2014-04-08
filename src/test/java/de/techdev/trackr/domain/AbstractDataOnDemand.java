@@ -45,20 +45,25 @@ public abstract class AbstractDataOnDemand<S> {
     public S getRandomObject() {
         init();
         S obj = data.get(rnd.nextInt(data.size()));
-        Long id;
-        try {
-            Method getIdMethod = obj.getClass().getMethod("getId");
-            id = (Long) getIdMethod.invoke(obj);
-        } catch (NoSuchMethodException e) {
-            throw new IllegalStateException("Entity has no getId method");
-        } catch (InvocationTargetException | IllegalAccessException e) {
-            throw new IllegalStateException("Could not execute getId method");
-        }
+        Long id = getId(obj);
         //This might need admin rights
         SecurityContextHolder.getContext().setAuthentication(AuthorityMocks.adminAuthentication());
         S one = repository.findOne(id);
         SecurityContextHolder.getContext().setAuthentication(null);
         return one;
+        }
+
+    public Long getId(S obj) {
+        try {
+            Long id;
+            Method getIdMethod = obj.getClass().getMethod("getId");
+            id = (Long) getIdMethod.invoke(obj);
+            return id;
+        } catch (NoSuchMethodException e) {
+            throw new IllegalStateException("Entity has no getId method");
+        } catch (InvocationTargetException | IllegalAccessException e) {
+            throw new IllegalStateException("Could not execute getId method");
+        }
     }
 
     public AbstractDataOnDemand() {
