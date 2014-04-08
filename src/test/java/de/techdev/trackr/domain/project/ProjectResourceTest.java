@@ -1,6 +1,6 @@
 package de.techdev.trackr.domain.project;
 
-import de.techdev.trackr.core.web.MockMvcTest;
+import de.techdev.trackr.domain.AbstractDomainResourceTest;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -9,231 +9,136 @@ import org.springframework.beans.factory.annotation.Autowired;
 import javax.json.stream.JsonGenerator;
 import java.io.StringWriter;
 
-import static org.echocat.jomon.testing.BaseMatchers.isNotNull;
-import static org.hamcrest.CoreMatchers.is;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static de.techdev.trackr.domain.DomainResourceTestMatchers.*;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
  * @author Moritz Schulze
  */
-public class ProjectResourceTest extends MockMvcTest {
-
-    @Autowired
-    private ProjectDataOnDemand projectDataOnDemand;
+public class ProjectResourceTest extends AbstractDomainResourceTest<Project> {
 
     @Autowired
     private WorkTimeDataOnDemand workTimeDataOnDemand;
 
     @Before
     public void setUp() throws Exception {
-        projectDataOnDemand.init();
         workTimeDataOnDemand.init();
+    }
+
+    @Override
+    protected String getResourceName() {
+        return "projects";
     }
 
     @Test
     public void root() throws Exception {
-        mockMvc.perform(
-                get("/projects")
-                        .session(employeeSession()))
-               .andExpect(status().isOk())
-               .andExpect(content().contentType(STANDARD_CONTENT_TYPE))
-               .andExpect(jsonPath("_embedded.projects[0].id", isNotNull()));
+        assertThat(root(employeeSession()), isAccessible());
     }
 
     @Test
     public void one() throws Exception {
-        Project project = projectDataOnDemand.getRandomObject();
-        mockMvc.perform(
-                get("/projects/" + project.getId())
-                        .session(employeeSession()))
-               .andExpect(status().isOk())
-               .andExpect(content().contentType(STANDARD_CONTENT_TYPE))
-               .andExpect(jsonPath("id", is(project.getId().intValue())));
+        assertThat(one(employeeSession()), isAccessible());
     }
 
     @Test
     public void createAllowedForAdmin() throws Exception {
-        Project project = projectDataOnDemand.getNewTransientObject(500);
-        mockMvc.perform(
-                post("/projects")
-                        .session(adminSession())
-                        .content(generateProjectJson(project)))
-               .andExpect(status().isCreated())
-               .andExpect(jsonPath("id", isNotNull()));
+        assertThat(create(adminSession()), isCreated());
     }
 
     @Test
     public void updateAllowedForAdmin() throws Exception {
-        Project project = projectDataOnDemand.getRandomObject();
-        mockMvc.perform(
-                put("/projects/" + project.getId())
-                        .session(adminSession())
-                        .content(generateProjectJson(project)))
-               .andExpect(status().isOk())
-               .andExpect(jsonPath("id", isNotNull()));
+        assertThat(update(adminSession()), isUpdated());
     }
 
     @Test
     public void deleteAllowedForAdmin() throws Exception {
-        Project project = projectDataOnDemand.getRandomObject();
-        mockMvc.perform(
-                delete("/projects/" + project.getId())
-                        .session(adminSession()))
-               .andExpect(status().isNoContent());
+        assertThat(remove(adminSession()), isNoContent());
     }
 
     @Test
     public void createForbiddenForSupervisor() throws Exception {
-        Project project = projectDataOnDemand.getNewTransientObject(500);
-        mockMvc.perform(
-                post("/projects")
-                        .session(supervisorSession())
-                        .content(generateProjectJson(project)))
-               .andExpect(status().isForbidden());
+        assertThat(create(supervisorSession()), isForbidden());
     }
 
     @Test
     public void updateForbiddenForSupervisor() throws Exception {
-        Project project = projectDataOnDemand.getRandomObject();
-        mockMvc.perform(
-                put("/projects/" + project.getId())
-                        .session(supervisorSession())
-                        .content(generateProjectJson(project)))
-               .andExpect(status().isForbidden());
+        assertThat(update(supervisorSession()), isForbidden());
     }
 
     @Test
     public void deleteForbiddenForSupervisor() throws Exception {
-        Project project = projectDataOnDemand.getRandomObject();
-        mockMvc.perform(
-                delete("/projects/" + project.getId())
-                        .session(supervisorSession()))
-               .andExpect(status().isForbidden());
+        assertThat(remove(supervisorSession()), isForbidden());
     }
 
     @Test
     public void setCompanyAllowedForAdmin() throws Exception {
-        Project project = projectDataOnDemand.getRandomObject();
-        mockMvc.perform(
-                put("/projects/" + project.getId() + "/company")
-                        .session(adminSession())
-                        .header("Content-Type", "text/uri-list")
-                        .content("/companies/" + 0))
-                .andExpect(status().isNoContent());
+        assertThat(updateLink(adminSession(), "company", "/companies/0"), isNoContent());
     }
 
     @Test
     public void setCompanyForbiddenForSupervisor() throws Exception {
-        Project project = projectDataOnDemand.getRandomObject();
-        mockMvc.perform(
-                put("/projects/" + project.getId() + "/company")
-                        .session(supervisorSession())
-                        .header("Content-Type", "text/uri-list")
-                        .content("/companies/" + 0))
-               .andExpect(status().isForbidden());
+        assertThat(updateLink(supervisorSession(), "company", "/companies/0"), isForbidden());
     }
 
     @Test
     public void setDebitorAllowedForAdmin() throws Exception {
-        Project project = projectDataOnDemand.getRandomObject();
-        mockMvc.perform(
-                put("/projects/" + project.getId() + "/debitor")
-                        .session(adminSession())
-                        .header("Content-Type", "text/uri-list")
-                        .content("/companies/" + 0))
-               .andExpect(status().isNoContent());
+        assertThat(updateLink(adminSession(), "debitor", "/companies/0"), isNoContent());
     }
 
     @Test
     public void setDebitorForbiddenForSupervisor() throws Exception {
-        Project project = projectDataOnDemand.getRandomObject();
-        mockMvc.perform(
-                put("/projects/" + project.getId() + "/debitor")
-                        .session(supervisorSession())
-                        .header("Content-Type", "text/uri-list")
-                        .content("/companies/" + 0))
-               .andExpect(status().isForbidden());
+        assertThat(updateLink(supervisorSession(), "debitor", "/companies/0"), isForbidden());
     }
 
     @Test
     public void setWorktimesAllowedForAdmin() throws Exception {
-        Project project = projectDataOnDemand.getRandomObject();
-        mockMvc.perform(
-                put("/projects/" + project.getId() + "/workTimes")
-                        .session(adminSession())
-                        .header("Content-Type", "text/uri-list")
-                        .content("/workTimes/" + 0))
-               .andExpect(status().isNoContent());
+        assertThat(updateLink(adminSession(), "workTimes", "/workTimes/0"), isNoContent());
     }
 
     @Test
     public void setWorktimesForbiddenForSupervisor() throws Exception {
-        Project project = projectDataOnDemand.getRandomObject();
-        mockMvc.perform(
-                put("/projects/" + project.getId() + "/workTimes")
-                        .session(supervisorSession())
-                        .header("Content-Type", "text/uri-list")
-                        .content("/workTimes/" + 0))
-               .andExpect(status().isForbidden());
+        assertThat(updateLink(supervisorSession(), "workTimes", "/workTimes/0"), isForbidden());
     }
 
     @Test
     public void deleteCompanyAllowedForAdmin() throws Exception {
-        Project project = projectDataOnDemand.getRandomObject();
-        mockMvc.perform(
-                delete("/projects/" + project.getId() + "/company")
-                        .session(adminSession()))
-               .andExpect(status().isNoContent());
+        Project project = dataOnDemand.getRandomObject();
+        assertThat(removeUrl(adminSession(), "/projects/" + project.getId() + "/company"), isNoContent());
     }
 
     @Test
     public void deleteCompanyForbiddenForSupervisor() throws Exception {
-        Project project = projectDataOnDemand.getRandomObject();
-        mockMvc.perform(
-                delete("/projects/" + project.getId() + "/company")
-                        .session(supervisorSession()))
-               .andExpect(status().isForbidden());
+        Project project = dataOnDemand.getRandomObject();
+        assertThat(removeUrl(supervisorSession(), "/projects/" + project.getId() + "/company"), isForbidden());
     }
 
     @Test
     public void deleteDebitorAllowedForAdmin() throws Exception {
-        Project project = projectDataOnDemand.getRandomObject();
-        mockMvc.perform(
-                delete("/projects/" + project.getId() + "/debitor")
-                        .session(adminSession()))
-               .andExpect(status().isNoContent());
+        Project project = dataOnDemand.getRandomObject();
+        assertThat(removeUrl(adminSession(), "/projects/" + project.getId() + "/debitor"), isNoContent());
     }
 
     @Test
     @Ignore
     public void deleteDebitorForbiddenForSupervisor() throws Exception {
-        Project project = projectDataOnDemand.getRandomObject();
-        mockMvc.perform(
-                delete("/projects/" + project.getId() + "/debitor")
-                        .session(supervisorSession()))
-               .andExpect(status().isForbidden());
+        Project project = dataOnDemand.getRandomObject();
+        assertThat(removeUrl(supervisorSession(), "/projects/" + project.getId() + "/debitor"), isForbidden());
     }
 
     @Test
     public void deleteWorktimesAllowedForAdmin() throws Exception {
         WorkTime workTime = workTimeDataOnDemand.getRandomObject();
-        mockMvc.perform(
-                delete("/projects/" + workTime.getProject().getId() + "/workTimes/" + workTime.getId())
-                        .session(adminSession()))
-               .andExpect(status().isNoContent());
+        assertThat(removeUrl(adminSession(), "/projects/" + workTime.getProject().getId() + "/workTimes/" + workTime.getId()), isNoContent());
     }
 
     @Test
     public void deleteWorktimesForbiddenForSupervisor() throws Exception {
         WorkTime workTime = workTimeDataOnDemand.getRandomObject();
-        mockMvc.perform(
-                delete("/projects/" + workTime.getProject().getId() + "/workTimes/" + workTime.getId())
-                        .session(supervisorSession()))
-               .andExpect(status().isForbidden());
+        assertThat(removeUrl(supervisorSession(), "/projects/" + workTime.getProject().getId() + "/workTimes/" + workTime.getId()), isForbidden());
     }
 
-    protected String generateProjectJson(Project project) {
+    @Override
+    protected String getJsonRepresentation(Project project) {
         StringWriter writer = new StringWriter();
         JsonGenerator jg = jsonGeneratorFactory.createGenerator(writer);
         jg.writeStartObject()

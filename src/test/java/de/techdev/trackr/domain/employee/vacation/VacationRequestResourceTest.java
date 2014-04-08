@@ -201,6 +201,8 @@ public class VacationRequestResourceTest extends AbstractDomainResourceTest<Vaca
     @Test
     public void deleteApproverIsForbbiden() throws Exception {
         VacationRequest vacationRequest = dataOnDemand.getRandomObject();
+        vacationRequest.setApprover(vacationRequest.getEmployee());
+        repository.save(vacationRequest);
         assertThat(removeUrl(() -> employeeSession(vacationRequest.getEmployee().getId()), "/vacationRequests/" + vacationRequest.getId() + "/approver"), isForbidden());
     }
 

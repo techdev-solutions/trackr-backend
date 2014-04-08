@@ -1,7 +1,6 @@
 package de.techdev.trackr.domain.employee;
 
 import de.techdev.trackr.core.security.AuthorityMocks;
-import de.techdev.trackr.core.web.MockMvcTest;
 import de.techdev.trackr.domain.AbstractDomainResourceTest;
 import de.techdev.trackr.domain.employee.login.Credential;
 import de.techdev.trackr.domain.employee.login.CredentialDataOnDemand;
@@ -16,12 +15,11 @@ import java.io.StringWriter;
 import java.text.SimpleDateFormat;
 
 import static de.techdev.trackr.domain.DomainResourceTestMatchers.*;
-import static org.echocat.jomon.testing.BaseMatchers.isNotNull;
 import static org.echocat.jomon.testing.BaseMatchers.isTrue;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
  * @author Moritz Schulze

@@ -1,147 +1,94 @@
 package de.techdev.trackr.domain.project;
 
-import de.techdev.trackr.core.web.MockMvcTest;
-import org.junit.Before;
+import de.techdev.trackr.domain.AbstractDomainResourceTest;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mock.web.MockHttpSession;
 
 import javax.json.stream.JsonGenerator;
 import java.io.StringWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.function.Function;
 
+import static de.techdev.trackr.domain.DomainResourceTestMatchers.*;
 import static org.echocat.jomon.testing.BaseMatchers.isNotNull;
-import static org.hamcrest.CoreMatchers.is;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
  * @author Moritz Schulze
  */
-public class WorkTimeResourceTest extends MockMvcTest {
+public class WorkTimeResourceTest extends AbstractDomainResourceTest<WorkTime> {
 
-    @Autowired
-    private WorkTimeDataOnDemand workTimeDataOnDemand;
+    private final Function<WorkTime, MockHttpSession> sameEmployeeSessionProvider;
+    private final Function<WorkTime, MockHttpSession> otherEmployeeSessionProvider;
 
-    @Autowired
-    private ProjectDataOnDemand projectDataOnDemand;
+    public WorkTimeResourceTest() {
+        sameEmployeeSessionProvider = workTime -> employeeSession(workTime.getEmployee().getId());
+        otherEmployeeSessionProvider = workTime -> employeeSession(workTime.getEmployee().getId() + 1);
+    }
 
-    @Autowired
-    private WorkTimeRepository workTimeRepository;
-
-    @Before
-    public void setUp() throws Exception {
-        workTimeDataOnDemand.init();
-        projectDataOnDemand.init();
+    @Override
+    protected String getResourceName() {
+        return "workTimes";
     }
 
     @Test
     public void rootNotExported() throws Exception {
-        mockMvc.perform(
-                get("/workTimes")
-                        .session(employeeSession()))
-               .andExpect(status().isMethodNotAllowed());
+        assertThat(root(employeeSession()), isMethodNotAllowed());
     }
 
     @Test
     public void oneAllowedForOwner() throws Exception {
-        WorkTime workTime = workTimeDataOnDemand.getRandomObject();
-        mockMvc.perform(
-                get("/workTimes/" + workTime.getId())
-                        .session(employeeSession(workTime.getEmployee().getId())))
-               .andExpect(status().isOk());
+        assertThat(one(sameEmployeeSessionProvider), isAccessible());
     }
 
     @Test
     public void oneForbiddenForOther() throws Exception {
-        WorkTime workTime = workTimeDataOnDemand.getRandomObject();
-        mockMvc.perform(
-                get("/workTimes/" + workTime.getId())
-                        .session(employeeSession(workTime.getEmployee().getId() + 1)))
-               .andExpect(status().isForbidden());
+        assertThat(one(otherEmployeeSessionProvider), isForbidden());
     }
 
     @Test
     public void createAllowedForEveryoneIfIsEmployee() throws Exception {
-        WorkTime workTime = workTimeDataOnDemand.getNewTransientObject(500);
-        mockMvc.perform(
-                post("/workTimes")
-                        .session(employeeSession(workTime.getEmployee().getId()))
-                        .content(createWorkTimeJson(workTime)))
-               .andExpect(status().isCreated())
-               .andExpect(jsonPath("id", isNotNull()));
+        assertThat(create(sameEmployeeSessionProvider), isCreated());
     }
 
     @Test
     public void createAllowedForAdmin() throws Exception {
-        WorkTime workTime = workTimeDataOnDemand.getNewTransientObject(500);
-        mockMvc.perform(
-                post("/workTimes")
-                        .session(adminSession())
-                        .content(createWorkTimeJson(workTime)))
-               .andExpect(status().isCreated())
-               .andExpect(jsonPath("id", isNotNull()));
+        assertThat(create(adminSession()), isCreated());
     }
 
     @Test
     public void updateAllowedForOwner() throws Exception {
-        WorkTime workTime = workTimeDataOnDemand.getRandomObject();
-        mockMvc.perform(
-                put("/workTimes/" + workTime.getId())
-                        .session(employeeSession(workTime.getEmployee().getId()))
-                        .content(createWorkTimeJson(workTime)))
-               .andExpect(status().isOk())
-               .andExpect(jsonPath("id", is(workTime.getId().intValue())));
+        assertThat(update(sameEmployeeSessionProvider), isUpdated());
     }
 
     @Test
     public void updateAllowedForAdmin() throws Exception {
-        WorkTime workTime = workTimeDataOnDemand.getRandomObject();
-        mockMvc.perform(
-                put("/workTimes/" + workTime.getId())
-                        .session(adminSession())
-                        .content(createWorkTimeJson(workTime)))
-               .andExpect(status().isOk())
-               .andExpect(jsonPath("id", is(workTime.getId().intValue())));
+        assertThat(update(adminSession()), isUpdated());
     }
 
     @Test
     public void updateNotAllowedForSupervisor() throws Exception {
-        WorkTime workTime = workTimeDataOnDemand.getRandomObject();
-        mockMvc.perform(
-                put("/workTimes/" + workTime.getId())
-                        .session(supervisorSession())
-                        .content(createWorkTimeJson(workTime)))
-               .andExpect(status().isForbidden());
+        assertThat(update(supervisorSession()), isForbidden());
     }
 
     @Test
     public void deleteAllowedForOwner() throws Exception {
-        WorkTime workTime = workTimeDataOnDemand.getRandomObject();
-        mockMvc.perform(
-                delete("/workTimes/" + workTime.getId())
-                        .session(employeeSession(workTime.getEmployee().getId())))
-               .andExpect(status().isNoContent());
+        assertThat(remove(sameEmployeeSessionProvider), isNoContent());
     }
 
     @Test
     public void deleteAllowedForAdmin() throws Exception {
-        WorkTime workTime = workTimeDataOnDemand.getRandomObject();
-        mockMvc.perform(
-                delete("/workTimes/" + workTime.getId())
-                        .session(adminSession()))
-               .andExpect(status().isNoContent());
+        assertThat(remove(adminSession()), isNoContent());
     }
 
     @Test
     public void deleteNotAllowedForSupervisor() throws Exception {
-        WorkTime workTime = workTimeDataOnDemand.getRandomObject();
-        mockMvc.perform(
-                delete("/workTimes/" + workTime.getId())
-                        .session(supervisorSession()))
-               .andExpect(status().isForbidden());
+        assertThat(remove(supervisorSession()), isForbidden());
     }
 
     /**
@@ -154,72 +101,39 @@ public class WorkTimeResourceTest extends MockMvcTest {
     @Test
     @Ignore
     public void updateEmployeeNotAllowed() throws Exception {
-        WorkTime workTime = workTimeDataOnDemand.getRandomObject();
-        mockMvc.perform(
-                put("/workTimes/" + workTime.getId() + "/employee")
-                        .session(employeeSession(workTime.getEmployee().getId()))
-                        .header("Content-Type", "text/uri-list")
-                        .content("/employees/" + workTime.getEmployee().getId()))
-               .andExpect(status().isMethodNotAllowed());
+        assertThat(updateLink(sameEmployeeSessionProvider, "employee", "/employees/0"), isMethodNotAllowed());
     }
 
     @Test
     public void deleteEmployeeNotAllowed() throws Exception {
-        WorkTime workTime = workTimeDataOnDemand.getRandomObject();
-        mockMvc.perform(
-                delete("/workTimes/" + workTime.getId() + "/employee")
-                        .session(adminSession()))
-               .andExpect(status().isForbidden());
+        WorkTime workTime = dataOnDemand.getRandomObject();
+        assertThat(removeUrl(adminSession(), "/workTimes/" + workTime.getId() + "/employee"), isForbidden());
     }
 
     @Test
     public void deleteProjectNotAllowed() throws Exception {
-        WorkTime workTime = workTimeDataOnDemand.getRandomObject();
-        mockMvc.perform(
-                delete("/workTimes/" + workTime.getId() + "/project")
-                        .session(adminSession()))
-               .andExpect(status().isForbidden());
+        WorkTime workTime = dataOnDemand.getRandomObject();
+        assertThat(removeUrl(adminSession(), "/workTimes/" + workTime.getId() + "/project"), isForbidden());
     }
 
     @Test
     public void updateProjectAllowedForOwner() throws Exception {
-        WorkTime workTime = workTimeDataOnDemand.getRandomObject();
-        Project project = projectDataOnDemand.getRandomObject();
-        mockMvc.perform(
-                put("/workTimes/" + workTime.getId() + "/project")
-                        .session(employeeSession(workTime.getEmployee().getId()))
-                        .header("Content-Type", "text/uri-list")
-                        .content("/projects/" + project.getId()))
-               .andExpect(status().isNoContent());
+        assertThat(updateLink(sameEmployeeSessionProvider, "project", "/projects/0"), isNoContent());
     }
 
     @Test
     public void updateProjectAllowedForAdmin() throws Exception {
-        WorkTime workTime = workTimeDataOnDemand.getRandomObject();
-        Project project = projectDataOnDemand.getRandomObject();
-        mockMvc.perform(
-                put("/workTimes/" + workTime.getId() + "/project")
-                        .session(adminSession())
-                        .header("Content-Type", "text/uri-list")
-                        .content("/projects/" + project.getId()))
-               .andExpect(status().isNoContent());
+        assertThat(updateLink(adminSession(), "project", "/projects/0"), isNoContent());
     }
 
     @Test
     public void updateProjectForbiddenForSupervisor() throws Exception {
-        WorkTime workTime = workTimeDataOnDemand.getRandomObject();
-        Project project = projectDataOnDemand.getRandomObject();
-        mockMvc.perform(
-                put("/workTimes/" + workTime.getId() + "/project")
-                        .session(supervisorSession())
-                        .header("Content-Type", "text/uri-list")
-                        .content("/projects/" + project.getId()))
-               .andExpect(status().isForbidden());
+        assertThat(updateLink(supervisorSession(), "project", "/projects/0"), isForbidden());
     }
 
     @Test
     public void findByEmployeeAndDateOrderByStartTimeAscAllowedForOwner() throws Exception {
-        WorkTime workTime = workTimeDataOnDemand.getRandomObject();
+        WorkTime workTime = dataOnDemand.getRandomObject();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         mockMvc.perform(
                 get("/workTimes/search/findByEmployeeAndDateOrderByStartTimeAsc")
@@ -232,7 +146,7 @@ public class WorkTimeResourceTest extends MockMvcTest {
 
     @Test
     public void findByEmployeeAndDateOrderByStartTimeAscAllowedForSupervisor() throws Exception {
-        WorkTime workTime = workTimeDataOnDemand.getRandomObject();
+        WorkTime workTime = dataOnDemand.getRandomObject();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         mockMvc.perform(
                 get("/workTimes/search/findByEmployeeAndDateOrderByStartTimeAsc")
@@ -245,10 +159,10 @@ public class WorkTimeResourceTest extends MockMvcTest {
 
     @Test
     public void findByEmployeeAndDateBetweenOrderByDateAscStartTimeAscAllowedForOwner() throws Exception {
-        WorkTime workTime1 = workTimeDataOnDemand.getRandomObject();
-        WorkTime workTime2 = workTimeDataOnDemand.getRandomObject();
+        WorkTime workTime1 = dataOnDemand.getRandomObject();
+        WorkTime workTime2 = dataOnDemand.getRandomObject();
         workTime2.setEmployee(workTime1.getEmployee());
-        workTimeRepository.save(workTime2);
+        repository.save(workTime2);
         Date low, high;
         if(workTime1.getDate().compareTo(workTime2.getDate()) <= 0) {
             low = workTime1.getDate();
@@ -270,10 +184,10 @@ public class WorkTimeResourceTest extends MockMvcTest {
 
     @Test
     public void findByEmployeeAndDateBetweenOrderByDateAscStartTimeAscAllowedForSupervisor() throws Exception {
-        WorkTime workTime1 = workTimeDataOnDemand.getRandomObject();
-        WorkTime workTime2 = workTimeDataOnDemand.getRandomObject();
+        WorkTime workTime1 = dataOnDemand.getRandomObject();
+        WorkTime workTime2 = dataOnDemand.getRandomObject();
         workTime2.setEmployee(workTime1.getEmployee());
-        workTimeRepository.save(workTime2);
+        repository.save(workTime2);
         Date low, high;
         if(workTime1.getDate().compareTo(workTime2.getDate()) <= 0) {
             low = workTime1.getDate();
@@ -302,7 +216,7 @@ public class WorkTimeResourceTest extends MockMvcTest {
     @Test
     @Ignore
     public void findByEmployeeAndDateBetweenOrderByDateAscStartTimeAscForbiddenForOther() throws Exception {
-        WorkTime workTime = workTimeDataOnDemand.getRandomObject();
+        WorkTime workTime = dataOnDemand.getRandomObject();
         mockMvc.perform(
                 get("/workTimes/search/findByEmployeeAndDateBetweenOrderByDateAscStartTimeAsc")
                         .session(employeeSession(workTime.getEmployee().getId() + 1))
@@ -321,7 +235,7 @@ public class WorkTimeResourceTest extends MockMvcTest {
     @Test
     @Ignore
     public void findByEmployeeAndDateOrderByStartTimeAscForbiddenForOther() throws Exception {
-        WorkTime workTime = workTimeDataOnDemand.getRandomObject();
+        WorkTime workTime = dataOnDemand.getRandomObject();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         mockMvc.perform(
                 get("/workTimes/search/findByEmployeeAndDateOrderByStartTimeAsc")
@@ -333,10 +247,10 @@ public class WorkTimeResourceTest extends MockMvcTest {
 
     @Test
     public void findByProjectAndDateBetweenOrderByDateAscStartTimeAscAllowedForSupervisor() throws Exception {
-        WorkTime workTime1 = workTimeDataOnDemand.getRandomObject();
-        WorkTime workTime2 = workTimeDataOnDemand.getRandomObject();
+        WorkTime workTime1 = dataOnDemand.getRandomObject();
+        WorkTime workTime2 = dataOnDemand.getRandomObject();
         workTime2.setProject(workTime1.getProject());
-        workTimeRepository.save(workTime2);
+        repository.save(workTime2);
         Date low, high;
         if(workTime1.getDate().compareTo(workTime2.getDate()) <= 0) {
             low = workTime1.getDate();
@@ -358,7 +272,7 @@ public class WorkTimeResourceTest extends MockMvcTest {
 
     @Test
     public void findByProjectAndDateBetweenOrderByDateAscStartTimeAscForbiddenForEmployee() throws Exception {
-        WorkTime workTime = workTimeDataOnDemand.getRandomObject();
+        WorkTime workTime = dataOnDemand.getRandomObject();
         mockMvc.perform(
                 get("/workTimes/search/findByProjectAndDateBetweenOrderByDateAscStartTimeAsc")
                         .session(employeeSession())
@@ -369,7 +283,8 @@ public class WorkTimeResourceTest extends MockMvcTest {
     }
 
 
-    private String createWorkTimeJson(WorkTime workTime) throws Exception {
+    @Override
+    protected String getJsonRepresentation(WorkTime workTime) {
         StringWriter writer = new StringWriter();
         JsonGenerator jg = jsonGeneratorFactory.createGenerator(writer);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
