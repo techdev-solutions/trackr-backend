@@ -9,6 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 public class TravelExpenseReportDataOnDemand extends AbstractDataOnDemand<TravelExpenseReport> {
 
+    @Override
+    protected int getExpectedElements() {
+        return 1;
+    }
+
     @Autowired
     private EmployeeDataOnDemand employeeDataOnDemand;
 

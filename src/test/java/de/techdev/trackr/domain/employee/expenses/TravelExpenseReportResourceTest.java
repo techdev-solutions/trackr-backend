@@ -1,159 +1,100 @@
 package de.techdev.trackr.domain.employee.expenses;
 
-import de.techdev.trackr.core.web.MockMvcTest;
-import org.junit.Before;
+import de.techdev.trackr.domain.AbstractDomainResourceTest;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mock.web.MockHttpSession;
 
 import javax.json.stream.JsonGenerator;
 import java.io.StringWriter;
+import java.util.function.Function;
 
-import static org.echocat.jomon.testing.BaseMatchers.isNotNull;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static de.techdev.trackr.domain.DomainResourceTestMatchers.*;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
  * @author Moritz Schulze
  */
-public class TravelExpenseReportResourceTest extends MockMvcTest {
+public class TravelExpenseReportResourceTest extends AbstractDomainResourceTest<TravelExpenseReport> {
 
-    @Autowired
-    private TravelExpenseReportDataOnDemand travelExpenseReportDataOnDemand;
+    private final Function<TravelExpenseReport, MockHttpSession> sameEmployeeSessionProvider;
+    private final Function<TravelExpenseReport, MockHttpSession> otherEmployeeSessionProvider;
 
-    @Autowired
-    private TravelExpenseReportRepository travelExpenseReportRepository;
+    public TravelExpenseReportResourceTest() {
+        this.sameEmployeeSessionProvider = travelExpenseReport -> employeeSession(travelExpenseReport.getEmployee().getId());
+        this.otherEmployeeSessionProvider = travelExpenseReport -> employeeSession(travelExpenseReport.getEmployee().getId() + 1);
+    }
 
-    @Autowired
-    private TravelExpenseDataOnDemand travelExpenseDataOnDemand;
-
-    @Before
-    public void setUp() throws Exception {
-        travelExpenseReportDataOnDemand.init();
+    @Override
+    protected String getResourceName() {
+        return "travelExpenseReports";
     }
 
     @Test
     public void rootNotExported() throws Exception {
-        mockMvc.perform(
-                get("/travelExpenseReports")
-                        .session(adminSession())
-        ).andExpect(status().isMethodNotAllowed());
+        assertThat(root(adminSession()), isMethodNotAllowed());
     }
 
     @Test
     public void oneNotAllowedForOther() throws Exception {
-        TravelExpenseReport travelExpenseReport = travelExpenseReportDataOnDemand.getRandomObject();
-        mockMvc.perform(
-                get("/travelExpenseReports/" + travelExpenseReport.getId())
-                        .session(employeeSession(travelExpenseReport.getEmployee().getId() + 1))
-        )
-               .andExpect(status().isForbidden());
+        assertThat(one(otherEmployeeSessionProvider), isForbidden());
     }
 
     @Test
     public void oneAllowedForSelf() throws Exception {
-        TravelExpenseReport travelExpenseReport = travelExpenseReportDataOnDemand.getRandomObject();
-        mockMvc.perform(
-                get("/travelExpenseReports/" + travelExpenseReport.getId())
-                        .session(employeeSession(travelExpenseReport.getEmployee().getId()))
-        )
-               .andExpect(status().isOk())
-               .andExpect(jsonPath("id", isNotNull()));
+        assertThat(one(sameEmployeeSessionProvider), isAccessible());
     }
 
     @Test
     public void createAllowed() throws Exception {
-        TravelExpenseReport travelExpenseReport = travelExpenseReportDataOnDemand.getNewTransientObject(500);
-        mockMvc.perform(
-                post("/travelExpenseReports/")
-                        .session(employeeSession(travelExpenseReport.getEmployee().getId()))
-                        .content(createTravelExpneseReportJson(travelExpenseReport))
-        )
-               .andExpect(status().isCreated())
-               .andExpect(jsonPath("id", isNotNull()));
+        assertThat(create(sameEmployeeSessionProvider), isCreated());
     }
 
     @Test
     public void updateAllowedForSelf() throws Exception {
-        TravelExpenseReport travelExpenseReport = travelExpenseReportDataOnDemand.getRandomObject();
-        mockMvc.perform(
-                put("/travelExpenseReports/" + travelExpenseReport.getId())
-                        .session(employeeSession(travelExpenseReport.getEmployee().getId()))
-                        .content(createTravelExpneseReportJson(travelExpenseReport))
-        )
-               .andExpect(status().isOk())
-               .andExpect(jsonPath("id", isNotNull()));
+        assertThat(update(sameEmployeeSessionProvider), isUpdated());
     }
 
     @Test
     @Ignore
     public void updateForbiddenForOther() throws Exception {
-        TravelExpenseReport travelExpenseReport = travelExpenseReportDataOnDemand.getRandomObject();
-        mockMvc.perform(
-                put("/travelExpenseReports/" + travelExpenseReport.getId())
-                        .session(employeeSession(travelExpenseReport.getEmployee().getId() + 1))
-                        .content(createTravelExpneseReportJson(travelExpenseReport))
-        )
-               .andExpect(status().isForbidden());
+        assertThat(update(otherEmployeeSessionProvider), isForbidden());
     }
 
     @Test
     public void oneAllowedForSupervisor() throws Exception {
-        TravelExpenseReport travelExpenseReport = travelExpenseReportDataOnDemand.getRandomObject();
-        mockMvc.perform(
-                get("/travelExpenseReports/" + travelExpenseReport.getId())
-                        .session(supervisorSession())
-        )
-               .andExpect(status().isOk())
-               .andExpect(jsonPath("id", isNotNull()));
+        assertThat(one(supervisorSession()), isAccessible());
+    }
+
+    @Test
+    public void travelExpensesAllowedForSelf() throws Exception {
+        TravelExpenseReport travelExpenseReport = dataOnDemand.getRandomObject();
+        assertThat(oneUrl(employeeSession(travelExpenseReport.getEmployee().getId()), "/travelExpenseReports/" + travelExpenseReport.getId() + "/expenses"), isAccessible());
     }
 
     @Test
     public void updateEmployeeNotAllowedForSupervisor() throws Exception {
-        TravelExpenseReport travelExpenseReport = travelExpenseReportDataOnDemand.getRandomObject();
-        mockMvc.perform(
-                put("/travelExpenseReports/" + travelExpenseReport.getId() + "/employee")
-                        .session(supervisorSession())
-                        .header("Content-Type", "text/uri-list")
-                        .content("/employees/" + travelExpenseReport.getEmployee().getId()))
-               .andExpect(status().isForbidden());
+        assertThat(updateLink(supervisorSession(), "employee", "/employees/0"), isForbidden());
     }
 
     @Test
     public void deleteEmployeeNotAllowed() throws Exception {
-        TravelExpenseReport travelExpenseReport = travelExpenseReportDataOnDemand.getRandomObject();
-        mockMvc.perform(
-                delete("/travelExpenseReports/" + travelExpenseReport.getId() + "/employee")
-                        .session(supervisorSession()))
-               .andExpect(status().isForbidden());
+        TravelExpenseReport travelExpenseReport = dataOnDemand.getRandomObject();
+        assertThat(removeUrl(supervisorSession(), "/travelExpenseReports/" + travelExpenseReport.getId() + "/employee"), isForbidden());
     }
 
     @Test
     public void addTravelExpenseAllowedForSelf() throws Exception {
-        TravelExpenseReport travelExpenseReport = travelExpenseReportDataOnDemand.getRandomObject();
-        TravelExpense travelExpense = travelExpenseDataOnDemand.getRandomObject();
-        mockMvc.perform(
-                put("/travelExpenseReports/" + travelExpenseReport.getId() + "/expenses")
-                        .session(employeeSession(travelExpenseReport.getEmployee().getId()))
-                        .header("Content-Type", "text/uri-list")
-                        .content("/travelExpenses/" + travelExpense.getId()))
-               .andExpect(status().isNoContent());
+        assertThat(updateLink(sameEmployeeSessionProvider, "expenses", "/travelExpenses/0"), isNoContent());
     }
 
     @Test
     public void addTravelExpenseNotAllowedForOther() throws Exception {
-        TravelExpenseReport travelExpenseReport = travelExpenseReportDataOnDemand.getRandomObject();
-        TravelExpense travelExpense = travelExpenseDataOnDemand.getRandomObject();
-        mockMvc.perform(
-                put("/travelExpenseReports/" + travelExpenseReport.getId() + "/expenses")
-                        .session(employeeSession(travelExpenseReport.getEmployee().getId() + 1))
-                        .header("Content-Type", "text/uri-list")
-                        .content("/travelExpenses/" + travelExpense.getId()))
-               .andExpect(status().isForbidden());
+        assertThat(updateLink(otherEmployeeSessionProvider, "expenses", "/travelExpenses/0"), isForbidden());
     }
 
-    private String createTravelExpneseReportJson(TravelExpenseReport travelExpenseReport) throws Exception {
+    @Override
+    protected String getJsonRepresentation(TravelExpenseReport travelExpenseReport) {
         StringWriter writer = new StringWriter();
         JsonGenerator jg = jsonGeneratorFactory.createGenerator(writer);
         jg.writeStartObject()

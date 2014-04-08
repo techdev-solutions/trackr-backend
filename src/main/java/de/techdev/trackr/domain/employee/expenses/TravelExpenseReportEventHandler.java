@@ -13,6 +13,12 @@ import org.springframework.security.access.prepost.PreAuthorize;
 @Slf4j
 public class TravelExpenseReportEventHandler {
 
+    @HandleBeforeCreate
+    @PreAuthorize("#travelExpenseReport.employee.id == principal.id")
+    public void checkCreateAuthority(TravelExpenseReport travelExpenseReport) {
+        log.debug("Creating travel expense report {}", travelExpenseReport);
+    }
+
     @HandleBeforeSave
     @PreAuthorize("hasRole('ROLE_SUPERVISOR') or ( isAuthenticated() and #travelExpenseReport.employee.id == principal.id )")
     public void checkUpdateAuthority(TravelExpenseReport travelExpenseReport) {

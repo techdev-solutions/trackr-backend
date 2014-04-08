@@ -25,6 +25,7 @@ public class TravelExpense {
     @Version
     private Integer version;
 
+    @NotNull
     @ManyToOne
     private TravelExpenseReport report;
 
