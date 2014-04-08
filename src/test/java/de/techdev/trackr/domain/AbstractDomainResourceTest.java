@@ -8,10 +8,8 @@ import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.web.servlet.ResultActions;
 
 import java.util.function.Function;
-import java.util.function.Supplier;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 /**
  * @author Moritz Schulze
@@ -83,10 +81,6 @@ public abstract class AbstractDomainResourceTest<T> extends MockMvcTest {
                 get(url)
                         .session(session)
         );
-    }
-
-    protected ResultActions oneUrl(Supplier<MockHttpSession> sessionProvider, String url) throws Exception {
-        return oneUrl(sessionProvider.get(), url);
     }
 
     /**
@@ -227,17 +221,5 @@ public abstract class AbstractDomainResourceTest<T> extends MockMvcTest {
                 delete(url)
                         .session(session)
         );
-    }
-
-    /**
-     * Perform a DELETE on a URL.
-     *
-     * @param sessionProvider Converts the random object to a {@link org.springframework.mock.web.MockHttpSession}. This can be used to set the session to a specific employee.
-     * @param url     The URL to access.
-     * @return The result actions to perform further tests on.
-     * @throws Exception
-     */
-    protected ResultActions removeUrl(Supplier<MockHttpSession> sessionProvider, String url) throws Exception {
-        return removeUrl(sessionProvider.get(), url);
     }
 }

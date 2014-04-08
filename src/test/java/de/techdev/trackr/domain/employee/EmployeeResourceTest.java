@@ -108,7 +108,7 @@ public class EmployeeResourceTest extends AbstractDomainResourceTest<Employee> {
     @Test
     public void getCredentialAllowedForSelf() throws Exception {
         Employee employee = credentialDataOnDemand.getRandomObject().getEmployee();
-        assertThat(oneUrl(() -> employeeSession(employee.getId()), "/employees/" + employee.getId() + "/credential"), isAccessible());
+        assertThat(oneUrl(employeeSession(employee.getId()), "/employees/" + employee.getId() + "/credential"), isAccessible());
     }
 
     /**
@@ -119,7 +119,7 @@ public class EmployeeResourceTest extends AbstractDomainResourceTest<Employee> {
     @Test
     public void getCredentialForbiddenForOther() throws Exception {
         Employee employee = credentialDataOnDemand.getRandomObject().getEmployee();
-        assertThat(oneUrl(() -> employeeSession(employee.getId() + 1), "/employees/" + employee.getId() + "/credential"), isForbidden());
+        assertThat(oneUrl(employeeSession(employee.getId() + 1), "/employees/" + employee.getId() + "/credential"), isForbidden());
     }
 
     /**

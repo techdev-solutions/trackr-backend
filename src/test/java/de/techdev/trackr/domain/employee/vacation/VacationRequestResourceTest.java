@@ -195,7 +195,7 @@ public class VacationRequestResourceTest extends AbstractDomainResourceTest<Vaca
     @Test
     public void deleteEmployeeIsForbidden() throws Exception {
         VacationRequest vacationRequest = dataOnDemand.getRandomObject();
-        assertThat(removeUrl(() -> employeeSession(vacationRequest.getEmployee().getId()), "/vacationRequests/" + vacationRequest.getId() + "/employee"), isForbidden());
+        assertThat(removeUrl(employeeSession(vacationRequest.getEmployee().getId()), "/vacationRequests/" + vacationRequest.getId() + "/employee"), isForbidden());
     }
 
     @Test
@@ -203,7 +203,7 @@ public class VacationRequestResourceTest extends AbstractDomainResourceTest<Vaca
         VacationRequest vacationRequest = dataOnDemand.getRandomObject();
         vacationRequest.setApprover(vacationRequest.getEmployee());
         repository.save(vacationRequest);
-        assertThat(removeUrl(() -> employeeSession(vacationRequest.getEmployee().getId()), "/vacationRequests/" + vacationRequest.getId() + "/approver"), isForbidden());
+        assertThat(removeUrl(employeeSession(vacationRequest.getEmployee().getId()), "/vacationRequests/" + vacationRequest.getId() + "/approver"), isForbidden());
     }
 
     @Test
