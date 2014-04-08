@@ -1,29 +1,22 @@
 package de.techdev.trackr.domain.company;
 
-import de.techdev.trackr.core.web.MockMvcTest;
-import org.junit.Before;
+import de.techdev.trackr.domain.AbstractDomainResourceTest;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.json.stream.JsonGenerator;
 import java.io.StringWriter;
 
-import static org.echocat.jomon.testing.BaseMatchers.isNotNull;
-import static org.hamcrest.CoreMatchers.is;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static de.techdev.trackr.domain.DomainResourceTestMatchers.*;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
  * @author Moritz Schulze
  */
-public class AddressResourceTest extends MockMvcTest {
+public class AddressResourceTest extends AbstractDomainResourceTest<Address> {
 
-    @Autowired
-    private AddressDataOnDemand addressDataOnDemand;
-
-    @Before
-    public void setUp() throws Exception {
-        addressDataOnDemand.init();
+    @Override
+    protected String getResourceName() {
+        return "addresses";
     }
 
     /**
@@ -33,10 +26,7 @@ public class AddressResourceTest extends MockMvcTest {
      */
     @Test
     public void findAllNotExported() throws Exception {
-        mockMvc.perform(
-                get("/addresses")
-                        .session(employeeSession()))
-               .andExpect(status().isMethodNotAllowed());
+        assertThat(root(employeeSession()), isMethodNotAllowed());
     }
 
     /**
@@ -46,13 +36,7 @@ public class AddressResourceTest extends MockMvcTest {
      */
     @Test
     public void one() throws Exception {
-        Address address = addressDataOnDemand.getRandomObject();
-        mockMvc.perform(
-                get("/addresses/" + address.getId())
-                        .session(employeeSession()))
-               .andExpect(status().isOk())
-               .andExpect(content().contentType(STANDARD_CONTENT_TYPE))
-               .andExpect(jsonPath("id", isNotNull()));
+        assertThat(one(employeeSession()), isAccessible());
     }
 
     /**
@@ -62,13 +46,7 @@ public class AddressResourceTest extends MockMvcTest {
      */
     @Test
     public void createAllowedForAdmin() throws Exception {
-        Address address = addressDataOnDemand.getNewTransientObject(500);
-        mockMvc.perform(
-                post("/addresses")
-                        .session(adminSession())
-                        .content(generateAddressJson(address)))
-               .andExpect(status().isCreated())
-               .andExpect(jsonPath("id", isNotNull()));
+        assertThat(create(adminSession()), isCreated());
     }
 
     /**
@@ -78,13 +56,7 @@ public class AddressResourceTest extends MockMvcTest {
      */
     @Test
     public void putAllowedForAdmin() throws Exception {
-        Address address = addressDataOnDemand.getRandomObject();
-        mockMvc.perform(
-                put("/addresses/" + address.getId())
-                        .session(adminSession())
-                        .content(generateAddressJson(address)))
-               .andExpect(status().isOk())
-               .andExpect(jsonPath("id", is(address.getId().intValue())));
+        assertThat(update(adminSession()), isUpdated());
     }
 
     /**
@@ -94,14 +66,7 @@ public class AddressResourceTest extends MockMvcTest {
      */
     @Test
     public void patchAllowedForAdmin() throws Exception {
-        Address address = addressDataOnDemand.getRandomObject();
-        mockMvc.perform(
-                patch("/addresses/" + address.getId())
-                        .session(adminSession())
-                        .content("{\"street\": \"test\"}"))
-               .andExpect(status().isOk())
-               .andExpect(jsonPath("id", isNotNull()))
-               .andExpect(jsonPath("street", is("test")));
+        assertThat(updateViaPatch(adminSession(), "{\"street\": \"test\"}"), isUpdated());
     }
 
     /**
@@ -111,12 +76,7 @@ public class AddressResourceTest extends MockMvcTest {
      */
     @Test
     public void createNotAllowedForSupervisor() throws Exception {
-        Address address = addressDataOnDemand.getNewTransientObject(500);
-        mockMvc.perform(
-                post("/addresses")
-                        .session(supervisorSession())
-                        .content(generateAddressJson(address)))
-               .andExpect(status().isForbidden());
+        assertThat(create(supervisorSession()), isForbidden());
     }
 
     /**
@@ -126,12 +86,7 @@ public class AddressResourceTest extends MockMvcTest {
      */
     @Test
     public void putForbiddenForSupervisor() throws Exception {
-        Address address = addressDataOnDemand.getRandomObject();
-        mockMvc.perform(
-                put("/addresses/" + address.getId())
-                        .session(supervisorSession())
-                        .content(generateAddressJson(address)))
-               .andExpect(status().isForbidden());
+        assertThat(update(supervisorSession()), isForbidden());
     }
 
     /**
@@ -141,12 +96,7 @@ public class AddressResourceTest extends MockMvcTest {
      */
     @Test
     public void patchForbiddenForSupervisor() throws Exception {
-        Address address = addressDataOnDemand.getRandomObject();
-        mockMvc.perform(
-                patch("/addresses/" + address.getId())
-                        .session(supervisorSession())
-                        .content("{\"street\": \"test\"}"))
-               .andExpect(status().isForbidden());
+        assertThat(updateViaPatch(supervisorSession(), "{\"street\": \"test\"}"), isForbidden());
     }
 
     /**
@@ -156,14 +106,11 @@ public class AddressResourceTest extends MockMvcTest {
      */
     @Test
     public void deleteNotExported() throws Exception {
-        Address address = addressDataOnDemand.getRandomObject();
-        mockMvc.perform(
-                delete("/addresses/" + address.getId())
-                        .session(adminSession()))
-               .andExpect(status().isMethodNotAllowed());
+        assertThat(remove(adminSession()), isMethodNotAllowed());
     }
 
-    protected String generateAddressJson(Address address) {
+    @Override
+    protected String getJsonRepresentation(Address address) {
         StringWriter writer = new StringWriter();
         JsonGenerator jg = jsonGeneratorFactory.createGenerator(writer);
         jg.writeStartObject()

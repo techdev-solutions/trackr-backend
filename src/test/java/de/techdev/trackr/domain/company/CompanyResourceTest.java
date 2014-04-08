@@ -91,7 +91,7 @@ public class CompanyResourceTest extends AbstractDomainResourceTest<Company> {
      */
     @Test
     public void postAllowedForAdmin() throws Exception {
-        assertThat(create(adminSession()), returnsCreated());
+        assertThat(create(adminSession()), isCreated());
     }
 
     /**

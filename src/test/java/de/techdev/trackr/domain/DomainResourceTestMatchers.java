@@ -65,7 +65,7 @@ public class DomainResourceTestMatchers {
     /**
      * @return Matcher that checks if the HTTP status is 201 and the "id" field in the returned JSON is not null.
      */
-    public static Matcher<? super ResultActions> returnsCreated() {
+    public static Matcher<? super ResultActions> isCreated() {
         return new ResultActionsMatcher("created", resultActions -> {
             resultActions
                     .andExpect(status().isCreated())
@@ -100,6 +100,16 @@ public class DomainResourceTestMatchers {
         return new ResultActionsMatcher("no content", resultActions -> {
             resultActions
                     .andExpect(status().isNoContent());
+        });
+    }
+
+    /**
+     * @return Matcher that checks if the HTTP status is 405.
+     */
+    public static Matcher<? super ResultActions> isMethodNotAllowed() {
+        return new ResultActionsMatcher("method not allowed", resultActions -> {
+            resultActions
+                    .andExpect(status().isMethodNotAllowed());
         });
     }
 }
