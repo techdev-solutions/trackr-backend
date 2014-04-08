@@ -101,7 +101,8 @@
             "TITLE": "Self Services",
             "TEXT_EDIT_PROFILE": "Edit your profile",
             "TEXT_EDIT_TIMESHEET": "Track times",
-            "TEXT_VACATION": "Vacation request"
+            "TEXT_VACATION": "Vacation request",
+            "TEXT_EXPENSES": "Travel expenses"
         },
         "SUPERVISOR": {
             "TITLE": "Supervisor",
