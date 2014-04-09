@@ -14,11 +14,13 @@ public class EndAfterBeginValidator implements ConstraintValidator<EndAfterBegin
 
     private String beginFieldName;
     private String endFieldName;
+    private String messageTemplate;
 
     @Override
     public void initialize(EndAfterBegin constraintAnnotation) {
         beginFieldName = constraintAnnotation.begin();
         endFieldName = constraintAnnotation.end();
+        messageTemplate = constraintAnnotation.message();
     }
 
     @Override
@@ -33,6 +35,13 @@ public class EndAfterBeginValidator implements ConstraintValidator<EndAfterBegin
         Date beginField = (Date) dfa.getPropertyValue(beginFieldName);
         Date endField = (Date) dfa.getPropertyValue(endFieldName);
 
-        return beginField == null || endField == null || !beginField.after(endField);
+        boolean isValid = beginField == null || endField == null || !beginField.after(endField);
+        if (!isValid) {
+            context.disableDefaultConstraintViolation();
+            context.
+                    buildConstraintViolationWithTemplate(messageTemplate)
+                    .addNode(endFieldName).addConstraintViolation();
+        }
+        return isValid;
     }
 }
