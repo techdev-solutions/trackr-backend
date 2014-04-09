@@ -80,6 +80,14 @@
         "EMPLOYEE": "Employee",
         "SUBMITTED": "Submitted"
     },
+    "TRAVEL_EXPENSE": {
+        "TYPE": "Type",
+        "FROM_DATE": "From",
+        "TO_DATE": "To",
+        "VAT": "VAT",
+        "COST": "Total",
+        "SUBMITTED": "Submitted"
+    },
     "WORKTIME": {
         "DATE": "Date",
         "PROJECT": "Project",

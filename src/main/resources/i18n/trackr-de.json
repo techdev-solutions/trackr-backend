@@ -87,6 +87,14 @@
         "EMPLOYEE": "Angestellter",
         "SUBMITTED": "Eingereicht am"
     },
+    "TRAVEL_EXPENSE": {
+        "TYPE": "Typ",
+        "FROM_DATE": "Von",
+        "TO_DATE": "Bis",
+        "VAT": "Mehrwertsteuer",
+        "COST": "Gesamt",
+        "SUBMITTED": "Eingereicht am"
+    },
     "PAGES": {
         "HOME": {
             "WELCOME_TEXT": "Willkommen bei trackr"
