@@ -15,7 +15,7 @@ import static java.util.Arrays.asList;
  * @author Moritz Schulze
  */
 @Controller
-@RequestMapping("/travelExpenses/")
+@RequestMapping("/travelExpenses")
 public class TravelExpenseTypeController {
 
     @ResponseBody

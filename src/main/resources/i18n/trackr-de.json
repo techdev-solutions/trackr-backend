@@ -95,6 +95,11 @@
         "COST": "Gesamt",
         "SUBMITTED": "Eingereicht am"
     },
+    "TRAVEL_EXPENSE_REPORT": {
+        "TRAVEL_EXPENSE_REPORT": "Reisekostenbericht",
+        "TOTAL": "Summe"
+
+    },
     "PAGES": {
         "HOME": {
             "WELCOME_TEXT": "Willkommen bei trackr"

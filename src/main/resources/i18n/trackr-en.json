@@ -88,6 +88,10 @@
         "COST": "Total",
         "SUBMITTED": "Submitted"
     },
+    "TRAVEL_EXPENSE_REPORT": {
+        "TRAVEL_EXPENSE_REPORT": "Travel expense report",
+        "TOTAL": "Total"
+    },
     "WORKTIME": {
         "DATE": "Date",
         "PROJECT": "Project",
