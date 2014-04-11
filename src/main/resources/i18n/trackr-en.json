@@ -90,7 +90,10 @@
     },
     "TRAVEL_EXPENSE_REPORT": {
         "TRAVEL_EXPENSE_REPORT": "Travel expense report",
-        "TOTAL": "Total"
+        "TOTAL": "Total",
+        "PENDING": "Pending",
+        "ACCEPTED": "Accepted",
+        "REJECTED": "Rejected"
     },
     "WORKTIME": {
         "DATE": "Date",

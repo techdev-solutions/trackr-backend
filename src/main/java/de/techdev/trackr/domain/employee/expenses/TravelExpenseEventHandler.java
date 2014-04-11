@@ -12,19 +12,19 @@ import org.springframework.security.access.prepost.PreAuthorize;
 public class TravelExpenseEventHandler {
 
     @HandleBeforeCreate
-    @PreAuthorize("#travelExpense.report.employee.id == principal.id")
+    @PreAuthorize("isAuthenticated() and @travelExpenseEventHandler.canCreate(principal.id, #travelExpense)")
     public void checkCreateAuthority(TravelExpense travelExpense) {
         log.debug("Creating travel expense {}", travelExpense);
     }
 
     @HandleBeforeSave
-    @PreAuthorize("hasRole('ROLE_SUPERVISOR') or ( isAuthenticated() && @travelExpenseEventHandler.canEdit(principal.id, #travelExpense) )")
+    @PreAuthorize("hasRole('ROLE_SUPERVISOR') or ( isAuthenticated() and @travelExpenseEventHandler.canEdit(principal.id, #travelExpense) )")
     public void checkUpdateAuthority(TravelExpense travelExpense) {
         log.debug("Updating travel expense {}", travelExpense);
     }
 
     @HandleBeforeDelete
-    @PreAuthorize("hasRole('ROLE_SUPERVISOR') or ( isAuthenticated() && @travelExpenseEventHandler.canDelete(principal.id, #travelExpense) )")
+    @PreAuthorize("hasRole('ROLE_SUPERVISOR') or ( isAuthenticated() and @travelExpenseEventHandler.canDelete(principal.id, #travelExpense) )")
     public void checkDeleteAuthority(TravelExpense travelExpense) {
         log.debug("Deleting travel expense {}", travelExpense);
     }
@@ -39,6 +39,11 @@ public class TravelExpenseEventHandler {
     @PreAuthorize("denyAll()")
     public void denyLinkDelete(TravelExpense travelExpense) {
         //links are not deletable.
+    }
+
+    public boolean canCreate(Long id, TravelExpense travelExpense) {
+        return travelExpense.getReport().getEmployee().getId().equals(id) &&
+                travelExpense.getReport().getStatus() != TravelExpenseReportStatus.ACCEPTED;
     }
 
     public boolean canEdit(Long id, TravelExpense travelExpense) {

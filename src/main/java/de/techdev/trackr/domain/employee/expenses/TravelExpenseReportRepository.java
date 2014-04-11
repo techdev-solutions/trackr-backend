@@ -23,5 +23,5 @@ public interface TravelExpenseReportRepository extends CrudRepository<TravelExpe
     TravelExpenseReport findOne(Long aLong);
 
     @PreAuthorize("isAuthenticated() and #employee.id == principal.id")
-    List<TravelExpenseReport> findByEmployee(@Param("employee") Employee employee);
+    List<TravelExpenseReport> findByEmployeeOrderByStatusAsc(@Param("employee") Employee employee);
 }
