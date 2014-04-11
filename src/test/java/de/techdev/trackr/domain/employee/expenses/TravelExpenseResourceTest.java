@@ -11,7 +11,11 @@ import java.text.SimpleDateFormat;
 import java.util.function.Function;
 
 import static de.techdev.trackr.domain.DomainResourceTestMatchers.*;
+import static org.echocat.jomon.testing.BaseMatchers.isNotNull;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
  * @author Moritz Schulze
@@ -43,7 +47,16 @@ public class TravelExpenseResourceTest extends AbstractDomainResourceTest<Travel
 
     @Test
     public void createAllowedForSelf() throws Exception {
-        assertThat(create(sameEmployeeSessionProvider), isCreated());
+        TravelExpense travelExpense = dataOnDemand.getNewTransientObject(500);
+        travelExpense.getReport().setStatus(TravelExpenseReportStatus.PENDING);
+        repository.save(travelExpense);
+        mockMvc.perform(
+                post("/travelExpenses/")
+                        .session(sameEmployeeSessionProvider.apply(travelExpense))
+                        .content(getJsonRepresentation(travelExpense))
+        )
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("id", isNotNull()));
     }
 
     @Test
