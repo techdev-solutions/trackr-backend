@@ -29,6 +29,7 @@ public class TravelExpense {
     @ManyToOne
     private TravelExpenseReport report;
 
+    @NotNull
     @Enumerated(EnumType.STRING)
     private TravelExpenseType type;
 

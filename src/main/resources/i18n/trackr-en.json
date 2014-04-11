@@ -80,6 +80,21 @@
         "EMPLOYEE": "Employee",
         "SUBMITTED": "Submitted"
     },
+    "TRAVEL_EXPENSE": {
+        "TYPE": "Type",
+        "FROM_DATE": "From",
+        "TO_DATE": "To",
+        "VAT": "VAT",
+        "COST": "Total",
+        "SUBMITTED": "Submitted"
+    },
+    "TRAVEL_EXPENSE_REPORT": {
+        "TRAVEL_EXPENSE_REPORT": "Travel expense report",
+        "TOTAL": "Total",
+        "PENDING": "Pending",
+        "ACCEPTED": "Accepted",
+        "REJECTED": "Rejected"
+    },
     "WORKTIME": {
         "DATE": "Date",
         "PROJECT": "Project",
@@ -101,7 +116,8 @@
             "TITLE": "Self Services",
             "TEXT_EDIT_PROFILE": "Edit your profile",
             "TEXT_EDIT_TIMESHEET": "Track times",
-            "TEXT_VACATION": "Vacation request"
+            "TEXT_VACATION": "Vacation request",
+            "TEXT_EXPENSES": "Travel expenses"
         },
         "SUPERVISOR": {
             "TITLE": "Supervisor",

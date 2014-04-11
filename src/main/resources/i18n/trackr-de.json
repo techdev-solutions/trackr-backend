@@ -87,6 +87,21 @@
         "EMPLOYEE": "Angestellter",
         "SUBMITTED": "Eingereicht am"
     },
+    "TRAVEL_EXPENSE": {
+        "TYPE": "Typ",
+        "FROM_DATE": "Von",
+        "TO_DATE": "Bis",
+        "VAT": "Mehrwertsteuer",
+        "COST": "Gesamt",
+        "SUBMITTED": "Eingereicht am"
+    },
+    "TRAVEL_EXPENSE_REPORT": {
+        "TRAVEL_EXPENSE_REPORT": "Reisekostenbericht",
+        "TOTAL": "Summe,",
+        "PENDING": "Wartend",
+        "ACCEPTED": "Akzeptiert",
+        "REJECTED": "Abgelehnt"
+    },
     "PAGES": {
         "HOME": {
             "WELCOME_TEXT": "Willkommen bei trackr"
@@ -101,7 +116,8 @@
             "TITLE": "Self Services",
             "TEXT_EDIT_PROFILE": "Editieren Sie ihr Profil",
             "TEXT_EDIT_TIMESHEET": "Erfassen Sie Arbeitszeiten",
-            "TEXT_VACATION": "Urlaubsanträge"
+            "TEXT_VACATION": "Urlaubsanträge",
+            "TEXT_EXPENSES": "Reisekosten"
         },
         "SUPERVISOR": {
             "TITLE": "Supervisor",

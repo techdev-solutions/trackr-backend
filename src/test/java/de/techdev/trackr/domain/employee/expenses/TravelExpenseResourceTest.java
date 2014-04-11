@@ -58,6 +58,19 @@ public class TravelExpenseResourceTest extends AbstractDomainResourceTest<Travel
     }
 
     @Test
+    public void deletePendingAllowed() throws Exception {
+        assertThat(remove(sameEmployeeSessionProvider), isNoContent());
+    }
+
+    @Test
+    public void deleteAcceptedNotAllowed() throws Exception {
+        TravelExpense travelExpense = dataOnDemand.getRandomObject();
+        travelExpense.getReport().setStatus(TravelExpenseReportStatus.ACCEPTED);
+        repository.save(travelExpense);
+        assertThat(removeUrl(employeeSession(travelExpense.getReport().getId()), "/travelExpenses/" + travelExpense.getId()), isForbidden());
+    }
+
+    @Test
     @Ignore
     public void changeReportNotAllowed() throws Exception {
         assertThat(updateLink(supervisorSession(), "report", "/travelExpenseReports/0"), isForbidden());
