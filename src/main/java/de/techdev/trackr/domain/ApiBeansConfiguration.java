@@ -1,5 +1,7 @@
 package de.techdev.trackr.domain;
 
+import de.techdev.trackr.domain.employee.expenses.TravelExpenseReportService;
+import de.techdev.trackr.domain.employee.expenses.support.TravelExpenseReportServiceImpl;
 import de.techdev.trackr.domain.employee.login.DeactivateEmployeesService;
 import de.techdev.trackr.domain.employee.vacation.HolidayCalculator;
 import de.techdev.trackr.domain.employee.vacation.VacationRequestApproveService;
@@ -16,6 +18,11 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 public class ApiBeansConfiguration {
+
+    @Bean
+    public TravelExpenseReportService travelExpenseReportService() {
+        return new TravelExpenseReportServiceImpl();
+    }
 
     @Bean
     public WorkTimeTrackingReminderService workTimeTrackingReminderService() {
