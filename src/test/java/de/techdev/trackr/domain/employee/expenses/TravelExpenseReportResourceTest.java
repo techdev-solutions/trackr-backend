@@ -52,7 +52,7 @@ public class TravelExpenseReportResourceTest extends AbstractDomainResourceTest<
 
     @Test
     public void updateAllowedForSelf() throws Exception {
-        assertThat(update(sameEmployeeSessionProvider), isUpdated());
+        assertThat(update(sameEmployeeSessionProvider), isForbidden());
     }
 
     @Test

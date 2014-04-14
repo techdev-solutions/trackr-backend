@@ -20,7 +20,7 @@ public class TravelExpenseReportEventHandler {
     }
 
     @HandleBeforeSave
-    @PreAuthorize("hasRole('ROLE_SUPERVISOR') or ( isAuthenticated() and #travelExpenseReport.employee.id == principal.id )")
+    @PreAuthorize("hasRole('ROLE_SUPERVISOR')")
     public void checkUpdateAuthority(TravelExpenseReport travelExpenseReport) {
         log.debug("Updating travel expense report {}", travelExpenseReport);
     }
