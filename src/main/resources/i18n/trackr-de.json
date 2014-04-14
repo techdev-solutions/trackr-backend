@@ -97,7 +97,7 @@
     },
     "TRAVEL_EXPENSE_REPORT": {
         "TRAVEL_EXPENSE_REPORT": "Reisekostenbericht",
-        "TOTAL": "Summe,",
+        "TOTAL": "Summe",
         "PENDING": "Wartend",
         "ACCEPTED": "Akzeptiert",
         "REJECTED": "Abgelehnt"
