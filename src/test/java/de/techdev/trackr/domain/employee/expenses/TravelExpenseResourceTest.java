@@ -86,7 +86,7 @@ public class TravelExpenseResourceTest extends AbstractDomainResourceTest<Travel
         TravelExpense travelExpense = dataOnDemand.getRandomObject();
         travelExpense.getReport().setStatus(TravelExpenseReportStatus.PENDING);
         repository.save(travelExpense);
-        assertThat(removeUrl(employeeSession(travelExpense.getReport().getId()), "/travelExpenses/" + travelExpense.getId()), isForbidden());
+        assertThat(removeUrl(employeeSession(travelExpense.getReport().getId()), "/travelExpenses/" + travelExpense.getId()), isNoContent());
     }
 
     @Test
