@@ -86,7 +86,7 @@ public class TravelExpenseResourceTest extends AbstractDomainResourceTest<Travel
         TravelExpense travelExpense = dataOnDemand.getRandomObject();
         travelExpense.getReport().setStatus(TravelExpenseReportStatus.PENDING);
         repository.save(travelExpense);
-        assertThat(removeUrl(employeeSession(travelExpense.getReport().getId()), "/travelExpenses/" + travelExpense.getId()), isNoContent());
+        assertThat(removeUrl(employeeSession(travelExpense.getReport().getEmployee().getId()), "/travelExpenses/" + travelExpense.getId()), isNoContent());
     }
 
     @Test
@@ -94,7 +94,7 @@ public class TravelExpenseResourceTest extends AbstractDomainResourceTest<Travel
         TravelExpense travelExpense = dataOnDemand.getRandomObject();
         travelExpense.getReport().setStatus(TravelExpenseReportStatus.ACCEPTED);
         repository.save(travelExpense);
-        assertThat(removeUrl(employeeSession(travelExpense.getReport().getId()), "/travelExpenses/" + travelExpense.getId()), isForbidden());
+        assertThat(removeUrl(employeeSession(travelExpense.getReport().getEmployee().getId()), "/travelExpenses/" + travelExpense.getId()), isForbidden());
     }
 
     @Test
@@ -102,7 +102,7 @@ public class TravelExpenseResourceTest extends AbstractDomainResourceTest<Travel
         TravelExpense travelExpense = dataOnDemand.getRandomObject();
         travelExpense.getReport().setStatus(TravelExpenseReportStatus.SUBMITTED);
         repository.save(travelExpense);
-        assertThat(removeUrl(employeeSession(travelExpense.getReport().getId()), "/travelExpenses/" + travelExpense.getId()), isForbidden());
+        assertThat(removeUrl(employeeSession(travelExpense.getReport().getEmployee().getId()), "/travelExpenses/" + travelExpense.getId()), isForbidden());
     }
 
     @Test
