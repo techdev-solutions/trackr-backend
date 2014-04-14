@@ -153,7 +153,9 @@
         "RESET": "Zurücksetzen",
         "APPROVE": "Genehmigen",
         "REJECT": "Ablehnen",
-        "SUBMIT": "Abschicken"
+        "SUBMIT": "Abschicken",
+        "REMOVE": "Löschen",
+        "ADD": "Hinzufügen"
     },
     "DATE": {
         "TODAY": "Heute",

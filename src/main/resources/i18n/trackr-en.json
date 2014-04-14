@@ -153,7 +153,9 @@
         "RESET": "Reset",
         "APPROVE": "Approve",
         "REJECT": "Reject",
-        "SUBMIT": "Submit"
+        "SUBMIT": "Submit",
+        "REMOVE": "Remove",
+        "ADD": "Add"
     },
     "DATE": {
         "TODAY": "Today",
