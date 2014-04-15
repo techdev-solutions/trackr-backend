@@ -97,10 +97,11 @@
     },
     "TRAVEL_EXPENSE_REPORT": {
         "TRAVEL_EXPENSE_REPORT": "Reisekostenbericht",
-        "TOTAL": "Summe,",
+        "TOTAL": "Summe",
         "PENDING": "Wartend",
         "ACCEPTED": "Akzeptiert",
-        "REJECTED": "Abgelehnt"
+        "REJECTED": "Abgelehnt",
+        "SUBMITTED": "Abgeschickt"
     },
     "PAGES": {
         "HOME": {
@@ -151,7 +152,10 @@
         "CLEAR": "Löschen",
         "RESET": "Zurücksetzen",
         "APPROVE": "Genehmigen",
-        "REJECT": "Ablehnen"
+        "REJECT": "Ablehnen",
+        "SUBMIT": "Abschicken",
+        "REMOVE": "Löschen",
+        "ADD": "Hinzufügen"
     },
     "DATE": {
         "TODAY": "Heute",

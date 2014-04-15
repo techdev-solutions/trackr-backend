@@ -11,9 +11,11 @@ import java.text.SimpleDateFormat;
 import java.util.function.Function;
 
 import static de.techdev.trackr.domain.DomainResourceTestMatchers.*;
+import static org.echocat.jomon.testing.BaseMatchers.isNot;
 import static org.echocat.jomon.testing.BaseMatchers.isNotNull;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -67,12 +69,24 @@ public class TravelExpenseResourceTest extends AbstractDomainResourceTest<Travel
 
     @Test
     public void updateAllowedForSelf() throws Exception {
-        assertThat(update(sameEmployeeSessionProvider), isUpdated());
+        TravelExpense travelExpense = dataOnDemand.getRandomObject();
+        travelExpense.getReport().setStatus(TravelExpenseReportStatus.PENDING);
+        repository.save(travelExpense);
+        mockMvc.perform(
+                put("/travelExpenses/" + travelExpense.getId())
+                        .session(sameEmployeeSessionProvider.apply(travelExpense))
+                        .content(getJsonRepresentation(travelExpense))
+        )
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("id", isNotNull()));
     }
 
     @Test
     public void deletePendingAllowed() throws Exception {
-        assertThat(remove(sameEmployeeSessionProvider), isNoContent());
+        TravelExpense travelExpense = dataOnDemand.getRandomObject();
+        travelExpense.getReport().setStatus(TravelExpenseReportStatus.PENDING);
+        repository.save(travelExpense);
+        assertThat(removeUrl(employeeSession(travelExpense.getReport().getEmployee().getId()), "/travelExpenses/" + travelExpense.getId()), isNoContent());
     }
 
     @Test
@@ -80,7 +94,15 @@ public class TravelExpenseResourceTest extends AbstractDomainResourceTest<Travel
         TravelExpense travelExpense = dataOnDemand.getRandomObject();
         travelExpense.getReport().setStatus(TravelExpenseReportStatus.ACCEPTED);
         repository.save(travelExpense);
-        assertThat(removeUrl(employeeSession(travelExpense.getReport().getId()), "/travelExpenses/" + travelExpense.getId()), isForbidden());
+        assertThat(removeUrl(employeeSession(travelExpense.getReport().getEmployee().getId()), "/travelExpenses/" + travelExpense.getId()), isForbidden());
+    }
+
+    @Test
+    public void deleteSubmittedNotAllowed() throws Exception {
+        TravelExpense travelExpense = dataOnDemand.getRandomObject();
+        travelExpense.getReport().setStatus(TravelExpenseReportStatus.SUBMITTED);
+        repository.save(travelExpense);
+        assertThat(removeUrl(employeeSession(travelExpense.getReport().getEmployee().getId()), "/travelExpenses/" + travelExpense.getId()), isForbidden());
     }
 
     @Test

@@ -93,7 +93,8 @@
         "TOTAL": "Total",
         "PENDING": "Pending",
         "ACCEPTED": "Accepted",
-        "REJECTED": "Rejected"
+        "REJECTED": "Rejected",
+        "SUBMITTED": "Submitted"
     },
     "WORKTIME": {
         "DATE": "Date",
@@ -151,7 +152,10 @@
         "CLEAR": "Clear",
         "RESET": "Reset",
         "APPROVE": "Approve",
-        "REJECT": "Reject"
+        "REJECT": "Reject",
+        "SUBMIT": "Submit",
+        "REMOVE": "Remove",
+        "ADD": "Add"
     },
     "DATE": {
         "TODAY": "Today",
