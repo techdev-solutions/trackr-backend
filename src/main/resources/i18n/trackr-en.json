@@ -90,6 +90,7 @@
     },
     "TRAVEL_EXPENSE_REPORT": {
         "TRAVEL_EXPENSE_REPORT": "Travel expense report",
+        "TRAVEL_EXPENSE_REPORTS": "Travel expense reports",
         "TOTAL": "Total",
         "PENDING": "Pending",
         "APPROVED": "Approved",
