@@ -92,7 +92,7 @@
         "TRAVEL_EXPENSE_REPORT": "Travel expense report",
         "TOTAL": "Total",
         "PENDING": "Pending",
-        "ACCEPTED": "Accepted",
+        "APPROVED": "Approved",
         "REJECTED": "Rejected",
         "SUBMITTED": "Submitted"
     },
@@ -140,7 +140,10 @@
             "VACATION": {
                 "TITLE": "Vacation requests"
             },
-            "TEXT_EXPENSES": "Travel expenses"
+            "TRAVEL_EXPENSE_REPORTS": {
+                "TITLE": "Travel expenses",
+                "EMPTY_TEXT": "No submitted travel expense reports."
+            }
         }
     },
     "ACTIONS": {

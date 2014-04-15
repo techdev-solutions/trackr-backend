@@ -99,7 +99,7 @@
         "TRAVEL_EXPENSE_REPORT": "Reisekostenbericht",
         "TOTAL": "Summe",
         "PENDING": "Wartend",
-        "ACCEPTED": "Akzeptiert",
+        "APPROVED": "Akzeptiert",
         "REJECTED": "Abgelehnt",
         "SUBMITTED": "Abgeschickt"
     },
@@ -140,7 +140,10 @@
                 "NET_PRICE": "Netto",
                 "GROSS_PRICE": "Brutto"
             },
-            "TEXT_EXPENSES": "Reisekosten"
+            "TRAVEL_EXPENSE_REPORTS": {
+                "TITLE": "Travel expenses",
+                "EMPTY_TEXT": "Keine Reisekostenberichte"
+            }
         }
     },
     "ACTIONS": {

@@ -43,19 +43,19 @@ public class TravelExpenseEventHandler {
 
     public boolean canCreate(Long id, TravelExpense travelExpense) {
         return travelExpense.getReport().getEmployee().getId().equals(id) &&
-                travelExpense.getReport().getStatus() != TravelExpenseReportStatus.ACCEPTED &&
+                travelExpense.getReport().getStatus() != TravelExpenseReportStatus.APPROVED &&
                 travelExpense.getReport().getStatus() != TravelExpenseReportStatus.SUBMITTED;
     }
 
     public boolean canEdit(Long id, TravelExpense travelExpense) {
         return travelExpense.getReport().getEmployee().getId().equals(id) &&
-                travelExpense.getReport().getStatus() != TravelExpenseReportStatus.ACCEPTED &&
+                travelExpense.getReport().getStatus() != TravelExpenseReportStatus.APPROVED &&
                 travelExpense.getReport().getStatus() != TravelExpenseReportStatus.SUBMITTED;
     }
 
     public boolean canDelete(Long id, TravelExpense travelExpense) {
         return travelExpense.getReport().getEmployee().getId().equals(id) &&
-                travelExpense.getReport().getStatus() != TravelExpenseReportStatus.ACCEPTED &&
+                travelExpense.getReport().getStatus() != TravelExpenseReportStatus.APPROVED &&
                 travelExpense.getReport().getStatus() != TravelExpenseReportStatus.SUBMITTED;
     }
 }

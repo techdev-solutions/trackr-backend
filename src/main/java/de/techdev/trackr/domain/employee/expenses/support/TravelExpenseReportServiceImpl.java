@@ -21,7 +21,7 @@ public class TravelExpenseReportServiceImpl implements TravelExpenseReportServic
 
     @Override
     public TravelExpenseReport accept(Long id) {
-        return setStatusOnTravelExpenseReport(id, TravelExpenseReportStatus.ACCEPTED);
+        return setStatusOnTravelExpenseReport(id, TravelExpenseReportStatus.APPROVED);
     }
 
     @Override
