@@ -139,7 +139,8 @@
                 "MAN_DAYS": "Manntage",
                 "NET_PRICE": "Netto",
                 "GROSS_PRICE": "Brutto"
-            }
+            },
+            "TEXT_EXPENSES": "Reisekosten"
         }
     },
     "ACTIONS": {
@@ -155,7 +156,8 @@
         "REJECT": "Ablehnen",
         "SUBMIT": "Abschicken",
         "REMOVE": "Löschen",
-        "ADD": "Hinzufügen"
+        "ADD": "Hinzufügen",
+        "BACK": "Zurück"
     },
     "DATE": {
         "TODAY": "Heute",

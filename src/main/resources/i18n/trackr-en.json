@@ -139,7 +139,8 @@
             },
             "VACATION": {
                 "TITLE": "Vacation requests"
-            }
+            },
+            "TEXT_EXPENSES": "Travel expenses"
         }
     },
     "ACTIONS": {
@@ -155,7 +156,8 @@
         "REJECT": "Reject",
         "SUBMIT": "Submit",
         "REMOVE": "Remove",
-        "ADD": "Add"
+        "ADD": "Add",
+        "BACK": "Back"
     },
     "DATE": {
         "TODAY": "Today",
