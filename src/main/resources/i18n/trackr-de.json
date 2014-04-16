@@ -51,6 +51,7 @@
         "EMAIL_CONFLICT": "Email bereits in Benutzung."
     },
     "PROJECT": {
+        "CREATE_NEW": "Neues Projekt anlegen",
         "PROJECTS": "Projekte",
         "PROJECT": "Projekt",
         "IDENTIFIER": "Eindeutiger Bezeichner",

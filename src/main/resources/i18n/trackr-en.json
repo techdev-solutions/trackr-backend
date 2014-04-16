@@ -51,6 +51,7 @@
         "EMAIL_CONFLICT": "Email already in use."
     },
     "PROJECT": {
+        "CREATE_NEW": "Create new project",
         "PROJECTS": "Projects",
         "PROJECT": "Project",
         "IDENTIFIER": "Identifier",
