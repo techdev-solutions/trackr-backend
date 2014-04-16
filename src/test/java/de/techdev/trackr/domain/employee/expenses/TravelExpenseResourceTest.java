@@ -11,7 +11,6 @@ import java.text.SimpleDateFormat;
 import java.util.function.Function;
 
 import static de.techdev.trackr.domain.DomainResourceTestMatchers.*;
-import static org.echocat.jomon.testing.BaseMatchers.isNot;
 import static org.echocat.jomon.testing.BaseMatchers.isNotNull;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -92,7 +91,7 @@ public class TravelExpenseResourceTest extends AbstractDomainResourceTest<Travel
     @Test
     public void deleteAcceptedNotAllowed() throws Exception {
         TravelExpense travelExpense = dataOnDemand.getRandomObject();
-        travelExpense.getReport().setStatus(TravelExpenseReportStatus.ACCEPTED);
+        travelExpense.getReport().setStatus(TravelExpenseReportStatus.APPROVED);
         repository.save(travelExpense);
         assertThat(removeUrl(employeeSession(travelExpense.getReport().getEmployee().getId()), "/travelExpenses/" + travelExpense.getId()), isForbidden());
     }

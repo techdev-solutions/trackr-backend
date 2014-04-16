@@ -56,7 +56,7 @@ INSERT INTO vacationRequest (id, version, employee_id, startDate, endDate, numbe
 INSERT INTO vacationRequest (id, version, employee_id, startDate, endDate, numberOfDays, status, submissionTime, approver_id, approvalDate) VALUES (2, 0, 2, '2014-03-17', '2014-03-24', 5, 'REJECTED', '2014-01-01 16:00:00', 1, '2014-03-25');
 
 INSERT INTO travelExpenseReport (id, version, employee_id, status) VALUES (0, 0, 0, 'PENDING');
-INSERT INTO travelExpenseReport (id, version, employee_id, status) VALUES (1, 0, 0, 'ACCEPTED');
+INSERT INTO travelExpenseReport (id, version, employee_id, status) VALUES (1, 0, 0, 'APPROVED');
 INSERT INTO travelExpenseReport (id, version, employee_id, status) VALUES (2, 0, 0, 'REJECTED');
 INSERT INTO travelExpense (id, version, report_id, fromDate, toDate, cost, vat, submissionDate, type) VALUES (0, 0, 0, '2014-04-01', '2014-04-10', 130.49, 19, '2014-04-12 10:00:30', 'TAXI');
 INSERT INTO travelExpense (id, version, report_id, fromDate, toDate, cost, vat, submissionDate, type) VALUES (1, 0, 1, '2014-04-01', '2014-04-10', 100000, 19, '2014-04-12 10:00:30', 'HOTEL');
@@ -65,3 +65,7 @@ INSERT INTO travelExpense (id, version, report_id, fromDate, toDate, cost, vat, 
 INSERT INTO travelExpenseReport (id, version, employee_id, status) VALUES (3, 0, 1, 'PENDING');
 INSERT INTO travelExpense (id, version, report_id, fromDate, toDate, cost, vat, submissionDate, type) VALUES (3, 0, 3, '2014-04-01', '2014-04-10', 130.49, 19, '2014-04-12 10:00:30', 'TAXI');
 INSERT INTO travelExpense (id, version, report_id, fromDate, toDate, cost, vat, submissionDate, type) VALUES (4, 0, 3, '2014-04-05', '2014-04-07', 200.13, 18, '2014-04-12 10:00:30', 'HOTEL');
+
+INSERT INTO travelExpenseReport (id, version, employee_id, status) VALUES (4, 0, 1, 'SUBMITTED');
+INSERT INTO travelExpense (id, version, report_id, fromDate, toDate, cost, vat, submissionDate, type) VALUES (5, 0, 4, '2014-04-01', '2014-04-10', 130.49, 19, '2014-04-12 10:00:30', 'TAXI');
+INSERT INTO travelExpense (id, version, report_id, fromDate, toDate, cost, vat, submissionDate, type) VALUES (6, 0, 4, '2014-04-05', '2014-04-07', 200.13, 18, '2014-04-12 10:00:30', 'HOTEL');

@@ -90,9 +90,10 @@
     },
     "TRAVEL_EXPENSE_REPORT": {
         "TRAVEL_EXPENSE_REPORT": "Travel expense report",
+        "TRAVEL_EXPENSE_REPORTS": "Travel expense reports",
         "TOTAL": "Total",
         "PENDING": "Pending",
-        "ACCEPTED": "Accepted",
+        "APPROVED": "Approved",
         "REJECTED": "Rejected",
         "SUBMITTED": "Submitted"
     },
@@ -139,6 +140,10 @@
             },
             "VACATION": {
                 "TITLE": "Vacation requests"
+            },
+            "TRAVEL_EXPENSE_REPORTS": {
+                "TITLE": "Travel expenses",
+                "EMPTY_TEXT": "No submitted travel expense reports."
             }
         }
     },
@@ -155,7 +160,8 @@
         "REJECT": "Reject",
         "SUBMIT": "Submit",
         "REMOVE": "Remove",
-        "ADD": "Add"
+        "ADD": "Add",
+        "BACK": "Back"
     },
     "DATE": {
         "TODAY": "Today",

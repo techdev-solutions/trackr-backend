@@ -97,9 +97,10 @@
     },
     "TRAVEL_EXPENSE_REPORT": {
         "TRAVEL_EXPENSE_REPORT": "Reisekostenbericht",
+        "TRAVEL_EXPENSE_REPORTS": "Reisekostenberichte",
         "TOTAL": "Summe",
         "PENDING": "Wartend",
-        "ACCEPTED": "Akzeptiert",
+        "APPROVED": "Akzeptiert",
         "REJECTED": "Abgelehnt",
         "SUBMITTED": "Abgeschickt"
     },
@@ -139,6 +140,10 @@
                 "MAN_DAYS": "Manntage",
                 "NET_PRICE": "Netto",
                 "GROSS_PRICE": "Brutto"
+            },
+            "TRAVEL_EXPENSE_REPORTS": {
+                "TITLE": "Travel expenses",
+                "EMPTY_TEXT": "Keine Reisekostenberichte"
             }
         }
     },
@@ -155,7 +160,8 @@
         "REJECT": "Ablehnen",
         "SUBMIT": "Abschicken",
         "REMOVE": "Löschen",
-        "ADD": "Hinzufügen"
+        "ADD": "Hinzufügen",
+        "BACK": "Zurück"
     },
     "DATE": {
         "TODAY": "Heute",
