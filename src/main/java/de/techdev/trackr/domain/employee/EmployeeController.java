@@ -65,7 +65,6 @@ public class EmployeeController {
      * @param createEmployee Wrapper for an employee and a credential entity.
      * @param bindingResult Spring binding result.
      * @return The newly created employee
-     * @throws BindException If the bindingResult had errors.
      */
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value = "/createWithCredential", method = {RequestMethod.POST}, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
