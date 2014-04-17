@@ -70,5 +70,5 @@ INSERT INTO travelExpenseReport (id, version, employee_id, status) VALUES (44, 0
 INSERT INTO travelExpense (id, version, report_id, fromDate, toDate, cost, vat, submissionDate, type) VALUES (45, 0, 44, '2014-04-01', '2014-04-10', 130.49, 19, '2014-04-12 10:00:30', 'TAXI');
 INSERT INTO travelExpense (id, version, report_id, fromDate, toDate, cost, vat, submissionDate, type) VALUES (46, 0, 44, '2014-04-05', '2014-04-07', 200.13, 18, '2014-04-12 10:00:30', 'HOTEL');
 
-CREATE SEQUENCE IF NOT EXISTS hibernate_sequence START WITH 0;
-ALTER SEQUENCE hibernate_sequence INCREMENT BY 50;
+CREATE SEQUENCE IF NOT EXISTS hibernate_sequence START WITH 100;
+ALTER SEQUENCE hibernate_sequence RESTART WITH 100;
