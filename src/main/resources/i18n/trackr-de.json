@@ -120,7 +120,8 @@
             "TEXT_EDIT_PROFILE": "Editieren Sie ihr Profil",
             "TEXT_EDIT_TIMESHEET": "Erfassen Sie Arbeitszeiten",
             "TEXT_VACATION": "Urlaubsanträge",
-            "TEXT_EXPENSES": "Reisekosten"
+            "TEXT_EXPENSES": "Reisekosten",
+            "TEXT_TIMESHEET_OVERVIEW": "Arbeitszeiten Übersicht"
         },
         "SUPERVISOR": {
             "TITLE": "Supervisor",

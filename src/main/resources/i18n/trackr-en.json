@@ -120,7 +120,8 @@
             "TEXT_EDIT_PROFILE": "Edit your profile",
             "TEXT_EDIT_TIMESHEET": "Track times",
             "TEXT_VACATION": "Vacation request",
-            "TEXT_EXPENSES": "Travel expenses"
+            "TEXT_EXPENSES": "Travel expenses",
+            "TEXT_TIMESHEET_OVERVIEW": "Working times overview"
         },
         "SUPERVISOR": {
             "TITLE": "Supervisor",

@@ -56,10 +56,10 @@ public class WorkTimeRepositoryTest extends TransactionalIntegrationTest {
     @Test
     public void findByEmployeeAndDateOnlyRespectsDatePart() throws Exception {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-        WorkTime workTime1 = workTimeRepository.findOne(0L);
+        WorkTime workTime1 = workTimeRepository.findOne(20L);
         workTime1.setDate(sdf.parse("2014-03-04 10:00"));
         workTimeRepository.save(workTime1);
-        WorkTime workTime2 = workTimeRepository.findOne(1L);
+        WorkTime workTime2 = workTimeRepository.findOne(21L);
         workTime2.setEmployee(workTime1.getEmployee());
         workTime2.setDate(sdf.parse("2014-03-04 11:00"));
         workTimeRepository.save(workTime2);
@@ -70,8 +70,8 @@ public class WorkTimeRepositoryTest extends TransactionalIntegrationTest {
 
     @Test
     public void findByEmployeeAndDateBetweenOrderByDateAscStartTimeAsc() throws Exception {
-        WorkTime workTime1 = workTimeRepository.findOne(0L);
-        WorkTime workTime2 = workTimeRepository.findOne(1L);
+        WorkTime workTime1 = workTimeRepository.findOne(20L);
+        WorkTime workTime2 = workTimeRepository.findOne(21L);
         workTime2.setEmployee(workTime1.getEmployee());
         workTimeRepository.save(workTime2);
         Date low, high;
@@ -88,8 +88,8 @@ public class WorkTimeRepositoryTest extends TransactionalIntegrationTest {
 
     @Test
     public void findByProjectAndDateBetweenOrderByDateAscStartTimeAsc() throws Exception {
-        WorkTime workTime1 = workTimeRepository.findOne(0L);
-        WorkTime workTime2 = workTimeRepository.findOne(1L);
+        WorkTime workTime1 = workTimeRepository.findOne(20L);
+        WorkTime workTime2 = workTimeRepository.findOne(21L);
         workTime2.setProject(workTime1.getProject());
         workTimeRepository.save(workTime2);
         Date low, high;
