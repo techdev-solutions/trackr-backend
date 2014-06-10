@@ -6,6 +6,10 @@ import org.springframework.data.rest.core.annotation.HandleBeforeSave;
 import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
 import org.springframework.security.access.prepost.PreAuthorize;
 
+import java.time.LocalDate;
+
+import static de.techdev.trackr.util.LocalDateUtil.fromLocalDate;
+
 /**
  * @author Moritz Schulze
  */
@@ -16,12 +20,27 @@ public class InvoiceEventHandler {
     @HandleBeforeCreate
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void authorizeCreate(Invoice invoice) {
+        setOverdueIfNecessary(invoice);
         log.debug("Creating invoice {}", invoice);
     }
 
     @HandleBeforeSave
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void authorizeUpdate(Invoice invoice) {
+        setOverdueIfNecessary(invoice);
         log.debug("Updating invoice {}", invoice);
+    }
+
+    /**
+     * Sets the invoice state to OVERDUE if the due date is before today.
+     * @param invoice
+     */
+    private void setOverdueIfNecessary(Invoice invoice) {
+        if (invoice.getDueDate() != null) {
+            LocalDate today = LocalDate.now();
+            if (invoice.getDueDate().before(fromLocalDate(today))) {
+                invoice.setInvoiceState(InvoiceState.OVERDUE);
+            }
+        }
     }
 }
