@@ -9,6 +9,8 @@ import java.text.SimpleDateFormat;
 
 import static de.techdev.trackr.domain.DomainResourceTestMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
  * @author Moritz Schulze
@@ -35,7 +37,7 @@ public class InvoiceResourceTest extends AbstractDomainResourceTest<Invoice> {
         if (invoice.getDueDate() != null) {
             jg.write("dueDate", sdf.format(invoice.getDueDate()));
         }
-        if(invoice.getId() != null) {
+        if (invoice.getId() != null) {
             jg.write("id", invoice.getId());
         }
         jg.writeEnd().close();
@@ -43,13 +45,43 @@ public class InvoiceResourceTest extends AbstractDomainResourceTest<Invoice> {
     }
 
     @Test
-    public void rootIsAccessible() throws Exception {
-        assertThat(root(employeeSession()), isAccessible());
+    public void rootIsAccessibleForAdmin() throws Exception {
+        assertThat(root(adminSession()), isAccessible());
     }
 
     @Test
-    public void oneIsAccessible() throws Exception {
-        assertThat(one(employeeSession()), isAccessible());
+    public void rootIsForbiddenForSupervisor() throws Exception {
+        assertThat(root(supervisorSession()), isForbidden());
+    }
+
+    @Test
+    public void oneIsAccessibleForAdmin() throws Exception {
+        assertThat(one(adminSession()), isAccessible());
+    }
+
+    @Test
+    public void oneIsForbiddenForSupervisor() throws Exception {
+        assertThat(one(employeeSession()), isForbidden());
+    }
+
+    @Test
+    public void findByInvoiceStateIsAccessibleForAdmin() throws Exception {
+        mockMvc.perform(
+                get("/invoices/search/findByInvoiceState")
+                        .param("state", "OUTSTANDING")
+                        .session(adminSession())
+        )
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void findByInvoiceStateIsForbiddenForSupervisor() throws Exception {
+        mockMvc.perform(
+                get("/invoices/search/findByInvoiceState")
+                        .param("state", "OUTSTANDING")
+                        .session(supervisorSession())
+        )
+                .andExpect(status().isForbidden());
     }
 
     @Test

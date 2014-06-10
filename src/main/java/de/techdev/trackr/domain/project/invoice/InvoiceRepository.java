@@ -5,6 +5,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RestResource;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 import java.util.Date;
 import java.util.List;
@@ -14,6 +15,15 @@ import java.util.List;
  */
 public interface InvoiceRepository extends JpaRepository<Invoice, Long> {
 
+    @Override
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    Invoice findOne(Long aLong);
+
+    @Override
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    Page<Invoice> findAll(Pageable pageable);
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public Page<Invoice> findByInvoiceState(@Param("state") InvoiceState state, Pageable pageable);
 
     @RestResource(exported = false)
