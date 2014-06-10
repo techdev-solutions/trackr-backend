@@ -116,7 +116,8 @@
         "OUTSTANDING": "Ausstehend",
         "PAID": "Bezahlt",
         "OVERDUE": "Überfällig",
-        "IDENTIFIER_CONFLICT": "Bezeichner schon in Nutzung."
+        "IDENTIFIER_CONFLICT": "Bezeichner schon in Nutzung.",
+        "INVOICE_CREATED": "Rechnung angelegt."
     },
     "PAGES": {
         "HOME": {
