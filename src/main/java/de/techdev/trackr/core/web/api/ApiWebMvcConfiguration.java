@@ -15,6 +15,7 @@ import de.techdev.trackr.domain.employee.vacation.VacationRequest;
 import de.techdev.trackr.domain.project.BillableTime;
 import de.techdev.trackr.domain.project.Project;
 import de.techdev.trackr.domain.project.WorkTime;
+import de.techdev.trackr.domain.project.invoice.Invoice;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.*;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
@@ -49,7 +50,8 @@ public class ApiWebMvcConfiguration extends RepositoryRestMvcConfiguration {
     @Override
     protected void configureRepositoryRestConfiguration(RepositoryRestConfiguration config) {
         config.exposeIdsFor(new Class[]{Employee.class, Credential.class, Authority.class, Company.class, ContactPerson.class,
-                Address.class, Project.class, WorkTime.class, BillableTime.class, VacationRequest.class, TravelExpense.class, TravelExpenseReport.class});
+                Address.class, Project.class, WorkTime.class, BillableTime.class, VacationRequest.class, TravelExpense.class,
+                TravelExpenseReport.class, Invoice.class});
         config.setReturnBodyOnUpdate(true);
         config.setReturnBodyOnCreate(true);
     }
