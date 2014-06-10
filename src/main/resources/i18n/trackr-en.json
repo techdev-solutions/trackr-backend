@@ -98,6 +98,19 @@
         "REJECTED": "Rejected",
         "SUBMITTED": "Submitted"
     },
+    "INVOICE": {
+        "CREATE_NEW": "New invoice",
+        "IDENTIFIER": "Identifier",
+        "INVOICE_TOTAL": "Total",
+        "DUE_DATE": "Due date",
+        "STATE": "State",
+        "DEBITOR": "Debitor",
+        "CREATION_DATE": "Creation date",
+        "OUTSTANDING": "Outstanding",
+        "PAID": "Paid",
+        "OVERDUE": "Overdue",
+        "IDENTIFIER_CONFLICT": "Identifier already in use."
+    },
     "WORKTIME": {
         "DATE": "Date",
         "PROJECT": "Project",
