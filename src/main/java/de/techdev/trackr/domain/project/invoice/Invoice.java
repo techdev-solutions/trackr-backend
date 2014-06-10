@@ -2,6 +2,7 @@ package de.techdev.trackr.domain.project.invoice;
 
 import de.techdev.trackr.domain.company.Company;
 import lombok.Data;
+import lombok.ToString;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
@@ -16,6 +17,7 @@ import java.util.Date;
 @Entity
 @Data
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = "identifier"))
+@ToString(exclude = "debitor")
 public class Invoice {
 
     @Id

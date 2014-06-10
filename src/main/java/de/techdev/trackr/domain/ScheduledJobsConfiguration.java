@@ -3,6 +3,7 @@ package de.techdev.trackr.domain;
 import de.techdev.trackr.domain.common.LastWorkdayDayOfMonthTrigger;
 import de.techdev.trackr.domain.employee.EmployeeScheduledJob;
 import de.techdev.trackr.domain.employee.vacation.VacationRequestScheduledJobs;
+import de.techdev.trackr.domain.project.invoice.InvoiceScheduledJob;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -41,6 +42,11 @@ public class ScheduledJobsConfiguration implements SchedulingConfigurer {
     @Bean
     public LastWorkdayDayOfMonthTrigger lastWorkdayDayOfMonthTrigger() {
         return new LastWorkdayDayOfMonthTrigger();
+    }
+
+    @Bean
+    public InvoiceScheduledJob invoiceScheduledJob() {
+        return new InvoiceScheduledJob();
     }
 
     @Override
