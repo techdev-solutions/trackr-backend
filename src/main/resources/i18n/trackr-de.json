@@ -105,6 +105,19 @@
         "REJECTED": "Abgelehnt",
         "SUBMITTED": "Abgeschickt"
     },
+    "INVOICE": {
+        "CREATE_NEW": "Neue Rechnung",
+        "IDENTIFIER": "Eindeutiger Bezeichner",
+        "INVOICE_TOTAL": "Gesamtbetrag",
+        "DUE_DATE": "Fälligkeitsdatum",
+        "STATE": "Status",
+        "DEBITOR": "Debitor",
+        "CREATION_DATE": "Ausstellungsdatum",
+        "OUTSTANDING": "Ausstehend",
+        "PAID": "Bezahlt",
+        "OVERDUE": "Überfällig",
+        "IDENTIFIER_CONFLICT": "Bezeichner schon in Nutzung."
+    },
     "PAGES": {
         "HOME": {
             "WELCOME_TEXT": "Willkommen bei trackr"
