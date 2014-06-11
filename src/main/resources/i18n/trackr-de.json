@@ -106,6 +106,8 @@
         "SUBMITTED": "Abgeschickt"
     },
     "INVOICE": {
+        "INVOICE": "Rechnung",
+        "INVOICES": "Rechnungen",
         "CREATE_NEW": "Neue Rechnung",
         "IDENTIFIER": "Eindeutiger Bezeichner",
         "INVOICE_TOTAL": "Gesamtbetrag",
@@ -177,7 +179,8 @@
         "SUBMIT": "Abschicken",
         "REMOVE": "Löschen",
         "ADD": "Hinzufügen",
-        "BACK": "Zurück"
+        "BACK": "Zurück",
+        "SEARCH": "Suchen"
     },
     "DATE": {
         "TODAY": "Heute",

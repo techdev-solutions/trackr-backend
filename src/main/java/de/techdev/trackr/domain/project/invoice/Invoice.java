@@ -38,6 +38,7 @@ public class Invoice {
     private BigDecimal invoiceTotal;
 
     @ManyToOne
+    @JoinColumn(name = "debitor")
     private Company debitor;
 
     @Temporal(TemporalType.DATE)

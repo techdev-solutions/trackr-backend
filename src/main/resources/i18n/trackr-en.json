@@ -99,6 +99,8 @@
         "SUBMITTED": "Submitted"
     },
     "INVOICE": {
+        "INVOICE": "Invoice",
+        "INVOICES": "Invoices",
         "CREATE_NEW": "New invoice",
         "IDENTIFIER": "Identifier",
         "INVOICE_TOTAL": "Total",
@@ -177,7 +179,8 @@
         "SUBMIT": "Submit",
         "REMOVE": "Remove",
         "ADD": "Add",
-        "BACK": "Back"
+        "BACK": "Back",
+        "SEARCH": "Search"
     },
     "DATE": {
         "TODAY": "Today",
