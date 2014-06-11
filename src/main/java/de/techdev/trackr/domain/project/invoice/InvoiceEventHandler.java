@@ -2,6 +2,7 @@ package de.techdev.trackr.domain.project.invoice;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.rest.core.annotation.HandleBeforeCreate;
+import org.springframework.data.rest.core.annotation.HandleBeforeDelete;
 import org.springframework.data.rest.core.annotation.HandleBeforeSave;
 import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -29,6 +30,12 @@ public class InvoiceEventHandler {
     public void authorizeUpdate(Invoice invoice) {
         setOverdueIfNecessary(invoice);
         log.debug("Updating invoice {}", invoice);
+    }
+
+    @HandleBeforeDelete
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public void authorizeDelete(Invoice invoice) {
+        log.debug("Deleting invoice {}", invoice);
     }
 
     /**

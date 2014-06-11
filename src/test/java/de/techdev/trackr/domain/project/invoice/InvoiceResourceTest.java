@@ -99,6 +99,16 @@ public class InvoiceResourceTest extends AbstractDomainResourceTest<Invoice> {
     }
 
     @Test
+    public void adminCanDelete() throws Exception {
+        assertThat(remove(adminSession()), isNoContent());
+    }
+
+    @Test
+    public void supervisorCannotDelete() throws Exception {
+        assertThat(remove(supervisorSession()), isForbidden());
+    }
+
+    @Test
     public void adminCanSetPaid() throws Exception {
         Invoice invoice = dataOnDemand.getRandomObject();
         invoice.setInvoiceState(InvoiceState.OUTSTANDING);
