@@ -61,7 +61,8 @@
         "DAILY_RATE": "Daily rate",
         "FIXED_PRICE": "Fixed price",
         "COMPANY": "Company",
-        "DEBITOR": "Debitor"
+        "DEBITOR": "Debitor",
+        "IDENTIFIER_CONFLICT": "Identifier in use."
     },
     "BILLABLE_TIME": {
         "DATE": "Date",

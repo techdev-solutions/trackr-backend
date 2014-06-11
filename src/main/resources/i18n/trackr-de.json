@@ -61,7 +61,8 @@
         "DAILY_RATE": "Tagessatz",
         "FIXED_PRICE": "Festpreis",
         "COMPANY": "Firma",
-        "DEBITOR": "Debitor"
+        "DEBITOR": "Debitor",
+        "IDENTIFIER_CONFLICT": "Bezeichner bereits in Verwendung"
     },
     "WORKTIME": {
         "DATE": "Datum",
