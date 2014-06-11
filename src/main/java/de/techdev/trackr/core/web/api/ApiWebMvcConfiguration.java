@@ -16,9 +16,11 @@ import de.techdev.trackr.domain.project.BillableTime;
 import de.techdev.trackr.domain.project.Project;
 import de.techdev.trackr.domain.project.WorkTime;
 import de.techdev.trackr.domain.project.invoice.Invoice;
+import de.techdev.trackr.domain.project.invoice.StringInvoiceConverter;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.*;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.core.convert.converter.Converter;
 import org.springframework.core.convert.support.ConfigurableConversionService;
 import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
@@ -71,6 +73,11 @@ public class ApiWebMvcConfiguration extends RepositoryRestMvcConfiguration {
         return new DateConverter();
     }
 
+    @Bean
+    public Converter<String, Invoice> stringInvoiceConverter() {
+        return new StringInvoiceConverter();
+    }
+
     @Override
     protected void configureConversionService(ConfigurableConversionService conversionService) {
         super.configureConversionService(conversionService);
@@ -83,6 +90,7 @@ public class ApiWebMvcConfiguration extends RepositoryRestMvcConfiguration {
     @Override
     public void addFormatters(FormatterRegistry registry) {
         registry.addConverter(dateConverter());
+        registry.addConverter(stringInvoiceConverter());
     }
 
     @Bean

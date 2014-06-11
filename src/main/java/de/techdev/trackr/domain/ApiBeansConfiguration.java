@@ -8,6 +8,7 @@ import de.techdev.trackr.domain.employee.vacation.VacationRequestApproveService;
 import de.techdev.trackr.domain.employee.vacation.support.VacationRequestApproveServiceImpl;
 import de.techdev.trackr.domain.employee.vacation.support.VacationRequestNotifyService;
 import de.techdev.trackr.domain.employee.worktimetracking.WorkTimeTrackingReminderService;
+import de.techdev.trackr.domain.project.invoice.ChangeStateService;
 import de.techdev.trackr.domain.project.invoice.InvoiceOverdueService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -53,5 +54,10 @@ public class ApiBeansConfiguration {
     @Bean
     public InvoiceOverdueService invoiceOverduer() {
         return new InvoiceOverdueService();
+    }
+
+    @Bean
+    public ChangeStateService changeStateService() {
+        return new ChangeStateService();
     }
 }

@@ -1,15 +1,19 @@
 package de.techdev.trackr.domain.project.invoice;
 
+import de.techdev.trackr.core.security.AuthorityMocks;
 import de.techdev.trackr.domain.AbstractDomainResourceTest;
 import org.junit.Test;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import javax.json.stream.JsonGenerator;
 import java.io.StringWriter;
 import java.text.SimpleDateFormat;
 
 import static de.techdev.trackr.domain.DomainResourceTestMatchers.*;
+import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
@@ -92,5 +96,31 @@ public class InvoiceResourceTest extends AbstractDomainResourceTest<Invoice> {
     @Test
     public void supervisorCannotCreate() throws Exception {
         assertThat(create(supervisorSession()), isForbidden());
+    }
+
+    @Test
+    public void adminCanSetPaid() throws Exception {
+        Invoice invoice = dataOnDemand.getRandomObject();
+        invoice.setInvoiceState(InvoiceState.OUTSTANDING);
+        SecurityContextHolder.getContext().setAuthentication(AuthorityMocks.adminAuthentication());
+        repository.save(invoice);
+        SecurityContextHolder.getContext().setAuthentication(null);
+        mockMvc.perform(
+                post("/invoices/" + invoice.getId() + "/markPaid")
+                        .session(adminSession())
+        );
+        SecurityContextHolder.getContext().setAuthentication(AuthorityMocks.adminAuthentication());
+        Invoice one = repository.findOne(invoice.getId());
+        SecurityContextHolder.getContext().setAuthentication(null);
+        assertThat(one.getInvoiceState(), is(InvoiceState.PAID));
+    }
+
+    @Test
+    public void supervisorCannotSetPaid() throws Exception {
+        Invoice invoice = dataOnDemand.getRandomObject();
+        mockMvc.perform(
+                post("/invoices/" + invoice.getId() + "/markPaid")
+                        .session(supervisorSession())
+        ).andExpect(status().isForbidden());
     }
 }
