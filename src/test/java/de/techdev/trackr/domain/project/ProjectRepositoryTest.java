@@ -50,14 +50,14 @@ public class ProjectRepositoryTest extends TransactionalIntegrationTest {
     @Test
     public void findByNameLikeOrIdentifierLikeOrderByNameAscOnlyIdentifier() throws Exception {
         Project project = projectDataOnDemand.getRandomObject();
-        List<Project> all = projectRepository.findByNameLikeOrIdentifierLikeOrderByNameAsc(project.getIdentifier(), project.getIdentifier());
+        List<Project> all = projectRepository.findByNameLikeIgnoreCaseOrIdentifierLikeIgnoreCaseOrderByNameAsc(project.getIdentifier(), project.getIdentifier());
         assertThat(all, isNotEmpty());
     }
 
     @Test
     public void findByNameLikeOrIdentifierLikeOrderByNameAscOnlyName() throws Exception {
         Project project = projectDataOnDemand.getRandomObject();
-        List<Project> all = projectRepository.findByNameLikeOrIdentifierLikeOrderByNameAsc(project.getName(), project.getName());
+        List<Project> all = projectRepository.findByNameLikeIgnoreCaseOrIdentifierLikeIgnoreCaseOrderByNameAsc(project.getName(), project.getName());
         assertThat(all, isNotEmpty());
     }
 }

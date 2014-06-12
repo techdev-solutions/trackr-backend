@@ -12,5 +12,5 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
 
     Project findByIdentifier(@Param("identifier") String identifier);
 
-    List<Project> findByNameLikeOrIdentifierLikeOrderByNameAsc(@Param("name") String name, @Param("identifier") String identifier);
+    List<Project> findByNameLikeIgnoreCaseOrIdentifierLikeIgnoreCaseOrderByNameAsc(@Param("name") String name, @Param("identifier") String identifier);
 }
