@@ -14,6 +14,6 @@ public interface CompanyRepository extends JpaRepository<Company, Long> {
 
     public Company findByCompanyId(@Param("companyId") Long companyId);
 
-    public List<Company> findByNameLikeOrderByNameAsc(@Param("name") String name);
+    public List<Company> findByNameLikeIgnoreCaseOrderByNameAsc(@Param("name") String name);
 
 }

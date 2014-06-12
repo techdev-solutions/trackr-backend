@@ -52,7 +52,7 @@ public class CompanyRepositoryTest extends TransactionalIntegrationTest {
     @Test
     public void findByNameLikeOrderByNameAsc() throws Exception {
         Company company = companyDataOnDemand.getRandomObject();
-        List<Company> byNameLikeOrderByNameAsc = companyRepository.findByNameLikeOrderByNameAsc(company.getName());
+        List<Company> byNameLikeOrderByNameAsc = companyRepository.findByNameLikeIgnoreCaseOrderByNameAsc(company.getName());
         assertThat(byNameLikeOrderByNameAsc, isNotEmpty());
     }
 

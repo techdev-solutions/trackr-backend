@@ -57,7 +57,7 @@ public class CompanyResourceTest extends AbstractDomainResourceTest<Company> {
     public void findByNameLikeOrderByNameAsc() throws Exception {
         Company company = dataOnDemand.getRandomObject();
         mockMvc.perform(
-                get("/companies/search/findByNameLikeOrderByNameAsc")
+                get("/companies/search/findByNameLikeIgnoreCaseOrderByNameAsc")
                         .session(employeeSession())
                         .param("name", company.getName())
         )
