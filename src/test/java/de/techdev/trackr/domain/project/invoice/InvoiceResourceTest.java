@@ -91,7 +91,7 @@ public class InvoiceResourceTest extends AbstractDomainResourceTest<Invoice> {
     @Test
     public void findByIdentifierLikeAndInvoiceStateIsAccessibleForAdmin() throws Exception {
         mockMvc.perform(
-                get("/invoices/search/findByIdentifierLikeAndInvoiceState")
+                get("/invoices/search/findByIdentifierLikeIgnoreCaseAndInvoiceState")
                         .param("identifier", "TEST")
                         .param("state", "OUTSTANDING")
                         .session(adminSession())
@@ -102,7 +102,7 @@ public class InvoiceResourceTest extends AbstractDomainResourceTest<Invoice> {
     @Test
     public void findByIdentifierLikeAndInvoiceStateIsForbiddenForSupervisor() throws Exception {
         mockMvc.perform(
-                get("/invoices/search/findByIdentifierLikeAndInvoiceState")
+                get("/invoices/search/findByIdentifierLikeIgnoreCaseAndInvoiceState")
                         .param("identifier", "TEST")
                         .param("state", "OUTSTANDING")
                         .session(supervisorSession())
