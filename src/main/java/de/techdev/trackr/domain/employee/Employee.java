@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import de.techdev.trackr.domain.common.FederalState;
 import de.techdev.trackr.domain.employee.expenses.TravelExpenseReport;
 import de.techdev.trackr.domain.employee.login.Credential;
-import de.techdev.trackr.domain.employee.expenses.TravelExpense;
 import de.techdev.trackr.domain.employee.vacation.VacationRequest;
 import de.techdev.trackr.domain.project.BillableTime;
 import de.techdev.trackr.domain.project.WorkTime;
@@ -12,7 +11,6 @@ import de.techdev.trackr.domain.validation.constraints.EndAfterBegin;
 import lombok.Data;
 import lombok.ToString;
 import org.hibernate.validator.constraints.NotEmpty;
-import org.springframework.data.rest.core.annotation.RestResource;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -70,23 +68,18 @@ public class Employee {
     private Credential credential;
 
     @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "employee")
-    @RestResource(exported = false)
     private List<WorkTime> workTimes = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "employee")
-    @RestResource(exported = false)
     private List<BillableTime> billableTimes = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "employee")
-    @RestResource(exported = false)
     private List<VacationRequest> vacationRequests;
 
     @OneToMany(mappedBy = "approver")
-    @RestResource(exported = false)
     private List<VacationRequest> approvedRequests;
 
     @OneToMany(mappedBy = "employee")
-    @RestResource(exported = false)
     private List<TravelExpenseReport> travelExpenseReports;
 
     public String fullName() {

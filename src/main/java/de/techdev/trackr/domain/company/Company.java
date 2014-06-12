@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.hibernate.validator.constraints.NotEmpty;
-import org.springframework.data.rest.core.annotation.RestResource;
 
 import javax.persistence.*;
 import javax.validation.constraints.DecimalMin;
@@ -51,6 +50,5 @@ public class Company {
     private List<Project> projects = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "debitor")
-    @RestResource(exported = false)
     private List<Project> debitorProjects = new ArrayList<>();
 }

@@ -5,7 +5,6 @@ import de.techdev.trackr.domain.company.Company;
 import lombok.Data;
 import lombok.ToString;
 import org.hibernate.validator.constraints.NotEmpty;
-import org.springframework.data.rest.core.annotation.RestResource;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
@@ -57,10 +56,8 @@ public class Project {
     private Company debitor;
 
     @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "project")
-    @RestResource(exported = false)
     private List<WorkTime> workTimes = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "project")
-    @RestResource(exported = false)
     private List<BillableTime> billableTimes = new ArrayList<>();
 }
