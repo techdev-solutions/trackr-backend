@@ -84,6 +84,15 @@
     },
     "TRAVEL_EXPENSE": {
         "TYPE": "Type",
+        "TYPE_VALUES": {
+            "HOTEL": "Hotel",
+            "TAXI": "Taxi",
+            "FLIGHT": "Flight",
+            "TRAIN": "Train",
+            "PARKING": "Parking",
+            "OEPNV": "ÖPNV",
+            "OTHER": "Other"
+        },
         "FROM_DATE": "From",
         "TO_DATE": "To",
         "VAT": "VAT",
