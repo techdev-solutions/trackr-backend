@@ -2,7 +2,7 @@ package de.techdev.trackr.core.web.api;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
+import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.data.rest.core.RepositoryConstraintViolationException;
 import org.springframework.data.rest.webmvc.support.RepositoryConstraintViolationExceptionMessage;
 import org.springframework.orm.jpa.JpaSystemException;
@@ -10,8 +10,6 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
-
-import java.util.Locale;
 
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.CONFLICT;
@@ -24,7 +22,7 @@ import static org.springframework.http.HttpStatus.CONFLICT;
 public class ExceptionHandlers {
 
     @Autowired
-    private MessageSource messageSource;
+    private MessageSourceAccessor messageSourceAccessor;
 
     /**
      * This exception handler <i>should</i> handle violations of unique constraints.
@@ -47,7 +45,7 @@ public class ExceptionHandlers {
     @ResponseBody
     @ResponseStatus(BAD_REQUEST)
     @ExceptionHandler(RepositoryConstraintViolationException.class)
-    public RepositoryConstraintViolationExceptionMessage handleRepositoryConstraintViolationException(RepositoryConstraintViolationException ex, Locale locale) {
-        return new RepositoryConstraintViolationExceptionMessage(ex, messageSource, locale);
+    public RepositoryConstraintViolationExceptionMessage handleRepositoryConstraintViolationException(RepositoryConstraintViolationException ex) {
+        return new RepositoryConstraintViolationExceptionMessage(ex, messageSourceAccessor);
     }
 }
