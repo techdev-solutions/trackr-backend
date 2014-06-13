@@ -61,7 +61,7 @@ public class VacationRequestNotifyService {
      */
     public void notifySupervisors(VacationRequest vacationRequest) {
         SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
-        String receiver = getSupervisorEmailsConcatenated();
+        String[] receiver = getSupervisorEmailsConcatenated();
         SimpleMailMessage mailMessage = new SimpleMailMessage();
         String subject = "New vacation request from " + vacationRequest.getEmployee().fullName();
         String text = "New vacation request from " + vacationRequest.getEmployee().fullName() + " for " + sdf.format(vacationRequest.getStartDate()) + " - " + sdf
@@ -76,9 +76,9 @@ public class VacationRequestNotifyService {
     /**
      * @return Email addresses of all supervisors concatenated and separated by strings
      */
-    protected String getSupervisorEmailsConcatenated() {
+    protected String[] getSupervisorEmailsConcatenated() {
         Authority supervisorRole = authorityRepository.findByAuthority("ROLE_SUPERVISOR");
         List<Credential> supervisors = credentialRepository.findByAuthorities(supervisorRole);
-        return supervisors.stream().reduce("", (email, credential) -> email + "," + credential.getEmail(), (s, s2) -> s + "," + s2).substring(1);
+        return supervisors.stream().map( Credential::getEmail ).toArray(String[]::new);
     }
 }
