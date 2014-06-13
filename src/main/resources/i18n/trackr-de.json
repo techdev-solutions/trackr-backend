@@ -133,7 +133,8 @@
     },
     "PAGES": {
         "HOME": {
-            "WELCOME_TEXT": "Willkommen bei trackr"
+            "WELCOME_TEXT": "Willkommen bei trackr",
+            "BREADCRUMB": "Home"
         },
         "ADMINISTRATION": {
             "TITLE": "Verwaltung",

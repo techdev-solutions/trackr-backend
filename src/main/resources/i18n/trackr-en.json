@@ -133,7 +133,8 @@
     },
     "PAGES": {
         "HOME": {
-            "WELCOME_TEXT": "Welcome to trackr"
+            "WELCOME_TEXT": "Welcome to trackr",
+            "BREADCRUMB": "Home"
         },
         "ADMINISTRATION": {
             "TITLE": "Administration",
@@ -173,7 +174,8 @@
                 "TITLE": "Travel expenses",
                 "EMPTY_TEXT": "No submitted travel expense reports."
             }
-        }
+        },
+        "BREADCRUMB_UNKNOWN": "unknown"
     },
     "ACTIONS": {
         "ACTIONS": "Actions",
