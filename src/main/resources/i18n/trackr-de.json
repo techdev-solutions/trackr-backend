@@ -177,6 +177,8 @@
         }
     },
     "ACTIONS": {
+        "OK": "Ok",
+        "CONFIRM": "Bestätigen",
         "ACTIONS": "Aktionen",
         "SAVE": "Speichern",
         "NEW": "Neu",
@@ -191,7 +193,8 @@
         "REMOVE": "Löschen",
         "ADD": "Hinzufügen",
         "BACK": "Zurück",
-        "SEARCH": "Suchen"
+        "SEARCH": "Suchen",
+        "REALLY_DELETE": "Wirklich löschen?"
     },
     "DATE": {
         "TODAY": "Heute",

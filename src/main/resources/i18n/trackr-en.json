@@ -178,6 +178,8 @@
         "BREADCRUMB_UNKNOWN": "unknown"
     },
     "ACTIONS": {
+        "OK": "Ok",
+        "CONFIRM": "Confirm",
         "ACTIONS": "Actions",
         "SAVE": "Save",
         "NEW": "New",
@@ -192,7 +194,8 @@
         "REMOVE": "Remove",
         "ADD": "Add",
         "BACK": "Back",
-        "SEARCH": "Search"
+        "SEARCH": "Search",
+        "REALLY_DELETE": "Really delete?"
     },
     "DATE": {
         "TODAY": "Today",
