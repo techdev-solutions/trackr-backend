@@ -3,6 +3,7 @@ package de.techdev.trackr.domain.employee.worktimetracking;
 import de.techdev.trackr.IntegrationTest;
 import de.techdev.trackr.core.mail.MailConfiguration;
 import de.techdev.trackr.domain.ApiBeansConfiguration;
+import de.techdev.trackr.domain.common.FederalState;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -18,6 +19,6 @@ public class WorkTimeTrackingReminderServiceIntegrationTest extends IntegrationT
 
     @Test
     public void remindEmployeesToTrackWorkTimes() throws Exception {
-        workTimeTrackingReminderService.remindEmployeesToTrackWorkTimes();
+        workTimeTrackingReminderService.remindEmployeesToTrackWorkTimes(FederalState.BERLIN);
     }
 }

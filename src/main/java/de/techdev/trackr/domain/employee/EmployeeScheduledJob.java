@@ -1,5 +1,6 @@
 package de.techdev.trackr.domain.employee;
 
+import de.techdev.trackr.domain.common.FederalState;
 import de.techdev.trackr.domain.employee.login.DeactivateEmployeesService;
 import de.techdev.trackr.domain.employee.worktimetracking.WorkTimeTrackingReminderService;
 import lombok.Setter;
@@ -30,10 +31,12 @@ public class EmployeeScheduledJob {
 
     /**
      * Task that gets triggered in {@link de.techdev.trackr.domain.ScheduledJobsConfiguration} by a custom trigger.
-     * @return A task that remindes employees to track their working times.
+     *
+     * @param state The federal state to send out reminders for.
+     * @return A task that reminds employees in the federal state to track their working times.
      */
-    public Runnable sendWorkTimeReminderTask() {
-        return workTimeTrackingReminderService::remindEmployeesToTrackWorkTimes;
+    public Runnable sendWorkTimeReminderTask(FederalState state) {
+        return () -> workTimeTrackingReminderService.remindEmployeesToTrackWorkTimes(state);
     }
 
 }

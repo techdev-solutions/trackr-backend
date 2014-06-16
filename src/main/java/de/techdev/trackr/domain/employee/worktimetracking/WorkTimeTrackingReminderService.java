@@ -1,6 +1,7 @@
 package de.techdev.trackr.domain.employee.worktimetracking;
 
 import de.techdev.trackr.core.mail.MailService;
+import de.techdev.trackr.domain.common.FederalState;
 import de.techdev.trackr.domain.employee.Employee;
 import de.techdev.trackr.domain.employee.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +22,12 @@ public class WorkTimeTrackingReminderService {
     @Autowired
     private MailService mailService;
 
-    public void remindEmployeesToTrackWorkTimes() {
-        List<Employee> allEmployees = employeeRepository.findAll();
+    /**
+     * Remind all employees of a federal state to track their working times via mail. Since holidays differ in different states this needs the state.
+     * @param state The federal state to select employees from.
+     */
+    public void remindEmployeesToTrackWorkTimes(FederalState state) {
+        List<Employee> allEmployees = employeeRepository.findByFederalState(state);
         allEmployees.forEach(employee -> {
             SimpleMailMessage mailMessage = getReminderMailMessage(employee);
             mailService.sendMail(mailMessage);

@@ -1,5 +1,6 @@
 package de.techdev.trackr.domain.employee;
 
+import de.techdev.trackr.domain.common.FederalState;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -39,4 +40,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
     @RestResource(exported = false)
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     List<Employee> findByLeaveDateAndCredential_Enabled(Date leaveDate, Boolean credentialEnabled);
+
+    @RestResource(exported = false)
+    List<Employee> findByFederalState(FederalState berlin);
 }

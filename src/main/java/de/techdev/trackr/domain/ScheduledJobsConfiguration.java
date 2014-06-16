@@ -1,11 +1,14 @@
 package de.techdev.trackr.domain;
 
+import de.techdev.trackr.domain.common.FederalState;
 import de.techdev.trackr.domain.common.LastWorkdayDayOfMonthTrigger;
 import de.techdev.trackr.domain.employee.EmployeeScheduledJob;
 import de.techdev.trackr.domain.employee.vacation.VacationRequestScheduledJobs;
 import de.techdev.trackr.domain.project.invoice.InvoiceScheduledJob;
+import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.SchedulingConfigurer;
 import org.springframework.scheduling.config.ScheduledTaskRegistrar;
@@ -40,6 +43,7 @@ public class ScheduledJobsConfiguration implements SchedulingConfigurer {
     }
 
     @Bean
+    @Scope(BeanDefinition.SCOPE_PROTOTYPE)
     public LastWorkdayDayOfMonthTrigger lastWorkdayDayOfMonthTrigger() {
         return new LastWorkdayDayOfMonthTrigger();
     }
@@ -52,7 +56,11 @@ public class ScheduledJobsConfiguration implements SchedulingConfigurer {
     @Override
     public void configureTasks(ScheduledTaskRegistrar taskRegistrar) {
         taskRegistrar.setScheduler(taskExecutor());
-        taskRegistrar.addTriggerTask(employeeScheduledJob().sendWorkTimeReminderTask(), lastWorkdayDayOfMonthTrigger());
+        for (FederalState federalState : FederalState.values()) {
+            LastWorkdayDayOfMonthTrigger trigger = lastWorkdayDayOfMonthTrigger();
+            trigger.setFederalState(federalState);
+            taskRegistrar.addTriggerTask(employeeScheduledJob().sendWorkTimeReminderTask(federalState), trigger);
+        }
     }
 
     /**
