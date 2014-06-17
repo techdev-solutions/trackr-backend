@@ -129,7 +129,8 @@
         "PROJECT": "Project",
         "START": "Start time",
         "END": "End time",
-        "COMMENT": "Comment"
+        "COMMENT": "Comment",
+        "TOTAL_HOURS": "Total hours"
     },
     "PAGES": {
         "HOME": {

@@ -69,7 +69,8 @@
         "PROJECT": "Projekt",
         "START": "Startzeit",
         "END": "Endzeit",
-        "COMMENT": "Kommentar"
+        "COMMENT": "Kommentar",
+        "TOTAL_HOURS": "Stunden gesamt"
     },
     "BILLABLE_TIME": {
         "DATE": "Datum",
