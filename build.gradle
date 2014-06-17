@@ -5,7 +5,7 @@ apply plugin: 'sonar-runner'
 sourceCompatibility = 1.8
 version = '1.0'
 project.ext {
-    springVersion = '4.0.1.RELEASE'
+    springVersion = '4.0.5.RELEASE'
     springSecurityVersion = '3.2.0.RELEASE'
     tomcatHome = "$System.env.TOMCAT_HOME"
 }
@@ -56,6 +56,8 @@ test.doLast {
 
 dependencies {
     compile "org.springframework:spring-context:$project.springVersion"
+    compile "org.springframework.integration:spring-integration-core:4.0.2.RELEASE"
+    compile "org.springframework.integration:spring-integration-mail:4.0.2.RELEASE"
 
     //web
     compile "org.springframework:spring-webmvc:$project.springVersion"
