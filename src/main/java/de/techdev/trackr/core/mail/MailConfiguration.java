@@ -1,17 +1,16 @@
 package de.techdev.trackr.core.mail;
 
-import de.techdev.trackr.core.mail.support.JavaMailService;
-import de.techdev.trackr.core.mail.support.NoOpMailService;
+import de.techdev.trackr.core.mail.support.AsyncMailService;
+import de.techdev.trackr.core.mail.support.NoOpJavaMailSender;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.ImportResource;
 import org.springframework.context.annotation.Profile;
 import org.springframework.jndi.JndiAccessor;
 import org.springframework.jndi.JndiTemplate;
-import org.springframework.mail.MailSender;
-import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 
-import javax.annotation.PostConstruct;
 import javax.naming.NamingException;
 import java.util.Properties;
 
@@ -19,18 +18,12 @@ import java.util.Properties;
  * @author Moritz Schulze
  */
 @Configuration
+@ImportResource(value = "classpath:META-INF/mail-integration.xml")
 public class MailConfiguration {
 
     @Bean
-    @Profile("prod")
-    public MailService javaMailService() {
-        return new JavaMailService();
-    }
-
-    @Bean
-    @Profile({"dev", "qs"})
-    public MailService noOpMailService() {
-        return new NoOpMailService();
+    public MailService mailService() {
+        return new AsyncMailService();
     }
 
     @Bean
@@ -54,7 +47,7 @@ public class MailConfiguration {
 
     @Bean
     @Profile("prod")
-    public MailSender mailSender() {
+    public JavaMailSender mailSender() {
         JavaMailSenderImpl javaMailSender = new JavaMailSenderImpl();
 
         /* Yes, thank you spring for this */
@@ -65,5 +58,11 @@ public class MailConfiguration {
 
         javaMailSender.setJavaMailProperties(mailProperties());
         return javaMailSender;
+    }
+
+    @Bean(name = "mailSender")
+    @Profile({"dev", "qs"})
+    public JavaMailSender noOpMailSender() {
+        return new NoOpJavaMailSender();
     }
 }

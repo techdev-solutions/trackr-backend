@@ -13,8 +13,6 @@ import org.springframework.mail.SimpleMailMessage;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
-import static java.util.stream.Collectors.mapping;
-
 /**
  * @author Moritz Schulze
  */
