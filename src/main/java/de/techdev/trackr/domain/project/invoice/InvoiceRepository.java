@@ -24,11 +24,11 @@ public interface InvoiceRepository extends JpaRepository<Invoice, Long> {
     Page<Invoice> findAll(Pageable pageable);
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public Page<Invoice> findByInvoiceState(@Param("state") InvoiceState state, Pageable pageable);
+    Page<Invoice> findByInvoiceState(@Param("state") InvoiceState state, Pageable pageable);
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public Page<Invoice> findByIdentifierLikeIgnoreCaseAndInvoiceState(@Param("identifier") String identifier, @Param("state") InvoiceState state, Pageable pageable);
+    Page<Invoice> findByIdentifierLikeIgnoreCaseAndInvoiceState(@Param("identifier") String identifier, @Param("state") InvoiceState state, Pageable pageable);
 
     @RestResource(exported = false)
-    public List<Invoice> findByDueDateBeforeAndInvoiceState(Date date, InvoiceState invoiceState);
+    List<Invoice> findByDueDateBeforeAndInvoiceState(Date date, InvoiceState invoiceState);
 }

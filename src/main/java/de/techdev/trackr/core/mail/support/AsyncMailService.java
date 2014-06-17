@@ -4,7 +4,6 @@ import de.techdev.trackr.core.mail.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.mail.MailMessage;
-import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
