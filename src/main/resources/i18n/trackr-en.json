@@ -149,7 +149,10 @@
             "TEXT_EDIT_TIMESHEET": "Track times",
             "TEXT_VACATION": "Vacation request",
             "TEXT_EXPENSES": "Travel expenses",
-            "TEXT_TIMESHEET_OVERVIEW": "Working times overview"
+            "TEXT_TIMESHEET_OVERVIEW": "Working times overview",
+            "TIMESHEET_OVERVIEW": {
+                "GROUPED_BY_PROJECT": "Grouped by project"
+            }
         },
         "SUPERVISOR": {
             "TITLE": "Supervisor",

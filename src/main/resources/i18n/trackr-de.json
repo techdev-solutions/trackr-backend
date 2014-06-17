@@ -149,7 +149,11 @@
             "TEXT_EDIT_TIMESHEET": "Erfassen Sie Arbeitszeiten",
             "TEXT_VACATION": "Urlaubsanträge",
             "TEXT_EXPENSES": "Reisekosten",
-            "TEXT_TIMESHEET_OVERVIEW": "Arbeitszeiten Übersicht"
+            "TEXT_TIMESHEET_OVERVIEW": "Arbeitszeiten Übersicht",
+            "TIMESHEET_OVERVIEW": {
+                "GROUPED_BY_PROJECT": "Nach Projekt gruppiert"
+            }
+
         },
         "SUPERVISOR": {
             "TITLE": "Supervisor",
