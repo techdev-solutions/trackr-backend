@@ -257,6 +257,7 @@ public class VacationRequestResourceTest extends AbstractDomainResourceTest<Vaca
     @Override
     protected String getJsonRepresentation(VacationRequest vacationRequest) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
         StringWriter writer = new StringWriter();
         JsonGenerator jsonGenerator = jsonGeneratorFactory.createGenerator(writer);
         JsonGenerator jg = jsonGenerator
@@ -270,13 +271,13 @@ public class VacationRequestResourceTest extends AbstractDomainResourceTest<Vaca
             jg.write("id", vacationRequest.getId());
         }
         if (vacationRequest.getApprovalDate() != null) {
-            jg.write("approvalDate", sdf.format(vacationRequest.getApprovalDate()));
+            jg.write("approvalDate", sdf2.format(vacationRequest.getApprovalDate()));
         }
         if (vacationRequest.getNumberOfDays() != null) {
             jg.write("numberOfDays", vacationRequest.getNumberOfDays());
         }
         if (vacationRequest.getSubmissionTime() != null) {
-            jg.write("submissionTime", sdf.format(vacationRequest.getSubmissionTime()));
+            jg.write("submissionTime", sdf2.format(vacationRequest.getSubmissionTime()));
         }
 
         jg.writeEnd().close();

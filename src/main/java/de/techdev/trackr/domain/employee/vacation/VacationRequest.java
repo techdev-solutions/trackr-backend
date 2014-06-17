@@ -41,7 +41,7 @@ public class VacationRequest {
     @Enumerated(EnumType.STRING)
     private VacationRequestStatus status;
 
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date approvalDate;
 
     @Temporal(TemporalType.TIMESTAMP)
