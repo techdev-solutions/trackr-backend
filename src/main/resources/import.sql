@@ -35,7 +35,7 @@ INSERT INTO contactPerson (id, version, firstName, lastName, email, salutation, 
 INSERT INTO contactPerson (id, version, firstName, lastName, email, salutation, phone, company) VALUES (17, 0, 'Adrian', 'Krion', 'adrian.krion@techdev.de', 'Herr', '0178/234586923', 13);
 
 INSERT INTO project (id, version, identifier, name, company_id, volume, fixedPrice, debitor_id) VALUES (18, 0, '1001.1', 'Freiberuflerverwaltung', 13, 142, 500000.01, 14);
-INSERT INTO project (id, version, identifier, name, company_id, volume, fixedPrice) VALUES (19, 0, '5000.1', 'Zaun streichen', 14, 1, 3.14);
+INSERT INTO project (id, version, identifier, name, company_id, volume, hourlyRate) VALUES (19, 0, '5000.1', 'Zaun streichen', 14, 1, 62.12);
 
 INSERT INTO workTime (id, version, project, employee, date, startTime, endTime, comment) VALUES (20, 0, 18, 1, '2014-03-03', '09:00:00', '17:15:00', 'Kommentar 1');
 INSERT INTO workTime (id, version, project, employee, date, startTime, endTime, comment) VALUES (21, 0, 18, 2, '2014-03-03', '09:00:00', '17:00:00', 'Kommentar 123');
