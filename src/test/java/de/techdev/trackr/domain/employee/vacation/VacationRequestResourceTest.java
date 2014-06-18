@@ -183,13 +183,13 @@ public class VacationRequestResourceTest extends AbstractDomainResourceTest<Vaca
     @Test
     public void updateEmployeeIsForbidden() throws Exception {
         VacationRequest vacationRequest = dataOnDemand.getRandomObject();
-        assertThat(updateLink(sameEmployeeSessionProvider, "employee", "/employees/" + vacationRequest.getEmployee().getId()), isForbidden());
+        assertThat(updateLink(adminSession(), "employee", "/employees/" + vacationRequest.getEmployee().getId()), isForbidden());
     }
 
     @Test
     public void updateApproverIsForbidden() throws Exception {
         VacationRequest vacationRequest = dataOnDemand.getRandomObject();
-        assertThat(updateLink(sameEmployeeSessionProvider, "approver", "/employees/" + vacationRequest.getEmployee().getId()), isForbidden());
+        assertThat(updateLink(adminSession(), "approver", "/employees/" + vacationRequest.getEmployee().getId()), isForbidden());
     }
 
     @Test
