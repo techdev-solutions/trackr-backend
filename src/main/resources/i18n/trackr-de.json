@@ -23,6 +23,7 @@
     "CONTACTPERSON": {
         "CONTACTPERSON": "Kontaktperson",
         "CONTACTPERSONS": "Kontaktpersonen",
+        "CREATE_NEW": "Neue Kontaktperson",
         "SALUTATION": " Anrede",
         "FIRST_NAME": "Vorname",
         "LAST_NAME": "Nachname",
