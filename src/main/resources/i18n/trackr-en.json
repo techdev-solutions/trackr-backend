@@ -23,6 +23,7 @@
     "CONTACTPERSON": {
         "CONTACTPERSON": "Contact person",
         "CONTACTPERSONS": "Contact persons",
+        "CREATE_NEW": "New contact person",
         "SALUTATION": " Salutation",
         "FIRST_NAME": "First name",
         "LAST_NAME": "Last name",
@@ -80,7 +81,8 @@
         "REJECTED": "Rejected",
         "INTERVAL": "Interval",
         "EMPLOYEE": "Employee",
-        "SUBMITTED": "Submitted"
+        "SUBMITTED": "Submitted",
+        "APPROVER_SYSTEM": "system"
     },
     "TRAVEL_EXPENSE": {
         "TYPE": "Type",

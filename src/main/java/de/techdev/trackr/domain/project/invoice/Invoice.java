@@ -44,6 +44,7 @@ public class Invoice {
     @Temporal(TemporalType.DATE)
     private Date dueDate;
 
+    @NotNull
     @Enumerated(EnumType.STRING)
     private InvoiceState invoiceState;
 
