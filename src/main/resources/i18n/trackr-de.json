@@ -89,7 +89,8 @@
         "REJECTED": "Abgelehnt",
         "INTERVAL": "Zeitraum",
         "EMPLOYEE": "Angestellter",
-        "SUBMITTED": "Eingereicht am"
+        "SUBMITTED": "Eingereicht am",
+        "APPROVER_SYSTEM": "automatisch"
     },
     "TRAVEL_EXPENSE": {
         "TYPE": "Typ",

@@ -81,7 +81,8 @@
         "REJECTED": "Rejected",
         "INTERVAL": "Interval",
         "EMPLOYEE": "Employee",
-        "SUBMITTED": "Submitted"
+        "SUBMITTED": "Submitted",
+        "APPROVER_SYSTEM": "system"
     },
     "TRAVEL_EXPENSE": {
         "TYPE": "Type",
