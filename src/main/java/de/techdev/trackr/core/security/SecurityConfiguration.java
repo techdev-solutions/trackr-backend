@@ -16,11 +16,18 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.AuthenticationUserDetailsService;
 import org.springframework.security.openid.OpenIDAuthenticationFilter;
 import org.springframework.security.openid.OpenIDAuthenticationToken;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.header.HeaderWriter;
 
 import javax.servlet.Filter;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.Locale;
 
 import static java.util.Arrays.asList;
@@ -64,11 +71,25 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
         http.logout().logoutUrl("/logout");
 
+        /*If the session times out any request in the frontend will be redirected to /login. There's no way
+        to tell that in the frontend because 302s are handled by the browser so we add a special header
+        to requests for the login page.
+        This header can be processed in the frontend to redirect the whole angular app to the login page.*/
+        http.headers().addHeaderWriter((request, response) -> {
+            if(request.getRequestURI().endsWith("/login")) {
+                response.addHeader("trackr-login-page", "true");
+            }
+        });
+
         http.
             formLogin() //this is only for the admin account
                 .loginPage("/login") //redirect to /login if no authenticated session is active
                 .loginProcessingUrl("/login/admin") //form has to post to /login/admin
                 .defaultSuccessUrl("/#/", true)
+                .successHandler((request, response, authentication) -> {
+                    request.getSession().setMaxInactiveInterval(10);
+                    response.sendRedirect("/#/");
+                })
             .and()
             .openidLogin()
                 .loginPage("/login") //see above
