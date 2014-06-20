@@ -86,10 +86,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .loginPage("/login") //redirect to /login if no authenticated session is active
                 .loginProcessingUrl("/login/admin") //form has to post to /login/admin
                 .defaultSuccessUrl("/#/", true)
-                .successHandler((request, response, authentication) -> {
-                    request.getSession().setMaxInactiveInterval(10);
-                    response.sendRedirect("/#/");
-                })
             .and()
             .openidLogin()
                 .loginPage("/login") //see above
