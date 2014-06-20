@@ -21,14 +21,14 @@ public class InvoiceEventHandler {
     @HandleBeforeCreate
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void authorizeCreate(Invoice invoice) {
-        setOverdueIfNecessary(invoice);
+        setInvocieStateIfNecessary(invoice);
         log.debug("Creating invoice {}", invoice);
     }
 
     @HandleBeforeSave
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void authorizeUpdate(Invoice invoice) {
-        setOverdueIfNecessary(invoice);
+        setInvocieStateIfNecessary(invoice);
         log.debug("Updating invoice {}", invoice);
     }
 
@@ -42,11 +42,13 @@ public class InvoiceEventHandler {
      * Sets the invoice state to OVERDUE if the due date is before today.
      * @param invoice
      */
-    private void setOverdueIfNecessary(Invoice invoice) {
+    private void setInvocieStateIfNecessary(Invoice invoice) {
         if (invoice.getDueDate() != null) {
             LocalDate today = LocalDate.now();
             if (invoice.getDueDate().before(fromLocalDate(today))) {
                 invoice.setInvoiceState(InvoiceState.OVERDUE);
+            } else {
+                invoice.setInvoiceState(InvoiceState.OUTSTANDING);
             }
         }
     }
