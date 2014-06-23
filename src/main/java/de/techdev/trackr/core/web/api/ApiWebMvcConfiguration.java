@@ -7,10 +7,10 @@ import de.techdev.trackr.domain.company.Address;
 import de.techdev.trackr.domain.company.Company;
 import de.techdev.trackr.domain.company.ContactPerson;
 import de.techdev.trackr.domain.employee.Employee;
+import de.techdev.trackr.domain.employee.expenses.TravelExpense;
 import de.techdev.trackr.domain.employee.expenses.TravelExpenseReport;
 import de.techdev.trackr.domain.employee.login.Authority;
 import de.techdev.trackr.domain.employee.login.Credential;
-import de.techdev.trackr.domain.employee.expenses.TravelExpense;
 import de.techdev.trackr.domain.employee.vacation.VacationRequest;
 import de.techdev.trackr.domain.project.BillableTime;
 import de.techdev.trackr.domain.project.Project;
@@ -27,6 +27,7 @@ import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 import org.springframework.data.rest.core.event.ValidatingRepositoryEventListener;
 import org.springframework.data.rest.webmvc.config.RepositoryRestMvcConfiguration;
 import org.springframework.format.FormatterRegistry;
+import org.springframework.hateoas.EntityLinks;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -56,6 +57,15 @@ public class ApiWebMvcConfiguration extends RepositoryRestMvcConfiguration {
                 TravelExpenseReport.class, Invoice.class});
         config.setReturnBodyOnUpdate(true);
         config.setReturnBodyOnCreate(true);
+    }
+
+    /**
+     * Needed temporary because Spring-Data-Rest 2.1 destroys the self href for entities with a projection.
+     */
+    @Override
+    @Bean
+    public EntityLinks entityLinks() {
+        return new RepositoryEntityLinksWithoutProjection(repositories(), resourceMappings(), config(), pageableResolver(), backendIdConverterRegistry());
     }
 
     @Bean
@@ -124,7 +134,7 @@ public class ApiWebMvcConfiguration extends RepositoryRestMvcConfiguration {
     }
 
     /**
-     * Custum validator that extracts messages with locale. Used by spring-data-rest.
+     * Custom validator that extracts messages with locale. Used by spring-data-rest.
      */
     @Bean
     public LocalValidatorFactoryBean validator() {
