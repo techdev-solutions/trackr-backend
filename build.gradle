@@ -6,7 +6,7 @@ sourceCompatibility = 1.8
 version = '1.0'
 project.ext {
     springVersion = '4.0.5.RELEASE'
-    springSecurityVersion = '3.2.0.RELEASE'
+    springSecurityVersion = '3.2.3.RELEASE'
     tomcatHome = "$System.env.TOMCAT_HOME"
 }
 compileJava.options.encoding = 'UTF-8'
@@ -65,6 +65,7 @@ dependencies {
     compile "org.codehaus.jackson:jackson-core-asl:1.9.13"
     compile "javax.servlet:jstl:1.2"
     compile "org.springframework.data:spring-data-rest-webmvc:2.1.0.RELEASE"
+    compile "org.webjars:bootstrap:3.1.1"
 
     compile "javax.validation:validation-api:1.0.0.GA"
     compile "ch.qos.logback:logback-classic:1.0.13"
@@ -81,6 +82,7 @@ dependencies {
     compile "org.springframework.security:spring-security-web:$project.springSecurityVersion"
     compile "org.springframework.security:spring-security-config:$project.springSecurityVersion"
     compile "org.springframework.security:spring-security-aspects:$project.springSecurityVersion"
+    compile "org.springframework.security.oauth:spring-security-oauth2:2.0.1.RELEASE"
 
     //utils
     compile "commons-io:commons-io:2.4"
