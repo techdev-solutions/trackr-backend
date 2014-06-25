@@ -18,16 +18,6 @@ repositories {
     }
 }
 
-sourceSets {
-    war {
-        exclude 'WEB-INF/app/node_modules/*'
-    }
-}
-
-war.doFirst {
-    tasks['gruntDist'].execute()
-}
-
 war {
     //to tell tomcat to use it as the root application we use ROOT.war as the name
     archiveName "ROOT.war"
@@ -41,17 +31,7 @@ sonarRunner {
         property "sonar.jdbc.driverClassName", "org.postgresql.Driver"
         property "sonar.jdbc.username", "sonar"
         property "sonar.sourceEncoding", "UTF-8"
-        properties["sonar.sources"] += "src/main/webapp/WEB-INF/app/src/modules"
-        properties["sonar.sources"] += "src/main/webapp/WEB-INF/app/test"
     }
-}
-
-//TODO: this shouldn't be before compileJava..
-compileJava.dependsOn('npm')
-compileJava.dependsOn('bowerInstall')
-
-test.doLast {
-    tasks['gruntTest'].execute()
 }
 
 dependencies {
@@ -112,42 +92,6 @@ dependencies {
 
 task wrapper(type: Wrapper) {
     gradleVersion = '1.10'
-}
-
-//prune old dependencies
-task bowerPrune(type: Exec) {
-    workingDir = 'src/main/webapp/WEB-INF/app'
-    executable = 'bower'
-    args = ['prune']
-}
-
-// install bower dependencies
-task bowerInstall(type: Exec) {
-    workingDir = 'src/main/webapp/WEB-INF/app'
-    executable = 'bower'
-    args = ['install']
-}
-bowerInstall.dependsOn('bowerPrune')
-
-// install npm dependencies
-task npm(type: Exec) {
-    workingDir 'src/main/webapp/WEB-INF/app'
-    executable = 'npm'
-    args = ['install']
-}
-
-// execute grunt tests
-task gruntTest(type: Exec) {
-    workingDir 'src/main/webapp/WEB-INF/app'
-    executable = 'grunt'
-    args = ['test']
-}
-
-//build the distibution
-task gruntDist(type: Exec) {
-    workingDir 'src/main/webapp/WEB-INF/app'
-    executable = 'grunt'
-    args = ['dist']
 }
 
 //copy the war to the tomcat directory
