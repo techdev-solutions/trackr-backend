@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl;
 import org.springframework.security.access.vote.RoleHierarchyVoter;
@@ -69,9 +70,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.addFilterBefore(openIdReturnToFilter(), OpenIDAuthenticationFilter.class);
 
         http
-            .authorizeRequests().antMatchers("/login", "/admin").permitAll()
+            .authorizeRequests()
+                .antMatchers("/login", "/admin").permitAll()
+                .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
             .and()
-            .authorizeRequests().anyRequest().hasAnyRole("ADMIN", "EMPLOYEE", "SUPERVISOR")
+                .authorizeRequests().antMatchers("/**").hasAnyRole("ADMIN", "EMPLOYEE", "SUPERVISOR")
             .and()
             .formLogin() //this is only for the admin account
                 .loginPage("/login") //redirect to /login if no authenticated session is active
@@ -80,7 +83,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .and()
             .csrf().requireCsrfProtectionMatcher(new AntPathRequestMatcher("/oauth/authorize")).disable()
             .logout().logoutUrl("/logout").logoutSuccessUrl("/login")
-            /*.and()
+            .and()
             .openidLogin()
                 .loginPage("/login") //see above
                 .defaultSuccessUrl("/success", true)
@@ -91,7 +94,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                     .and()
                     .attribute("first").required(true).type("http://schema.openid.net/namePerson/first")
                     .and()
-                    .attribute("last").required(true).type("http://schema.openid.net/namePerson/last")*/;
+                    .attribute("last").required(true).type("http://schema.openid.net/namePerson/last");
     }
 
     @Bean

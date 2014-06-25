@@ -1,6 +1,7 @@
 package de.techdev.trackr.core.security;
 
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
@@ -28,10 +29,26 @@ public class OAuth2ServerConfiguration {
 
         @Override
         public void configure(HttpSecurity http) throws Exception {
+            http.anonymous().authorities("ROLE_ANONYMOUS");
             http.requestMatchers().antMatchers("/api/**")
                     .and()
                     .authorizeRequests()
-                    .antMatchers("/api/**").access("#oauth2.hasScope('read')");
+                    .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                    .antMatchers(HttpMethod.GET, "/**").access("#oauth2.hasScope('read')")
+                    .antMatchers(HttpMethod.PATCH, "/**").access("#oauth2.hasScope('write')")
+                    .antMatchers(HttpMethod.POST, "/**").access("#oauth2.hasScope('write')")
+                    .antMatchers(HttpMethod.PUT, "/**").access("#oauth2.hasScope('write')")
+                    .antMatchers(HttpMethod.DELETE, "/**").access("#oauth2.hasScope('write')");
+
+
+            http.headers().addHeaderWriter((request, response) -> {
+                response.setHeader("Access-Control-Allow-Origin", "*");
+                response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
+                response.setHeader("Access-Control-Max-Age", "3600");
+                if (request.getMethod().equals("OPTIONS")) {
+                    response.setHeader("Access-Control-Allow-Headers", request.getHeader("Access-Control-Request-Headers"));
+                }
+            });
         }
     }
 
