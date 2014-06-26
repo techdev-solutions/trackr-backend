@@ -79,14 +79,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .formLogin() //this is only for the admin account
                 .loginPage("/login") //redirect to /login if no authenticated session is active
                 .loginProcessingUrl("/login/admin") //form has to post to /login/admin
-                .defaultSuccessUrl("/success", true)
+                .defaultSuccessUrl("/success", false)
             .and()
             .csrf().requireCsrfProtectionMatcher(new AntPathRequestMatcher("/oauth/authorize")).disable()
             .logout().logoutUrl("/logout").logoutSuccessUrl("/login")
             .and()
             .openidLogin()
                 .loginPage("/login") //see above
-                .defaultSuccessUrl("/success", true)
+                .defaultSuccessUrl("/success", false)
                 .failureUrl("/login")
                 .authenticationUserDetailsService(trackrUserDetailsService()) //use our user detail service to map google accounts to techdev accounts
                 .attributeExchange("https://www.google.com/.*")

@@ -1,7 +1,10 @@
 package de.techdev.trackr.core.web.app;
 
+import de.techdev.trackr.core.security.AccessConfirmationController;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.http.MediaType;
 import org.springframework.web.accept.ContentNegotiationManagerFactoryBean;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -17,16 +20,36 @@ import static java.util.Arrays.asList;
  */
 @Configuration
 @EnableWebMvc
+@PropertySource({"classpath:application_${spring.profiles.active:dev}.properties"})
 public class AppWebMvcConfiguration extends WebMvcConfigurerAdapter {
+
+    /**
+     * Needed to load the .properties file.
+     */
+    @Bean
+    public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
+        return new PropertySourcesPlaceholderConfigurer();
+    }
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/webjars/**").addResourceLocations("/webjars/");
     }
 
+    /**
+     * This controller displays the JSPs.
+     */
     @Bean
     public LoginPageController loginPageController() {
         return new LoginPageController();
+    }
+
+    /**
+     * Controller for a custom OAuth confirmation page.
+     */
+    @Bean
+    public AccessConfirmationController accessConfirmationController() {
+        return new AccessConfirmationController();
     }
 
     @Bean

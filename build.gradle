@@ -63,6 +63,7 @@ dependencies {
     compile "org.springframework.security:spring-security-config:$project.springSecurityVersion"
     compile "org.springframework.security:spring-security-aspects:$project.springSecurityVersion"
     compile "org.springframework.security.oauth:spring-security-oauth2:2.0.1.RELEASE"
+    compile "org.springframework.security:spring-security-taglibs:$project.springSecurityVersion"
 
     //utils
     compile "commons-io:commons-io:2.4"
