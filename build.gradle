@@ -6,7 +6,7 @@ sourceCompatibility = 1.8
 version = '1.0'
 project.ext {
     springVersion = '4.0.5.RELEASE'
-    springSecurityVersion = '3.2.0.RELEASE'
+    springSecurityVersion = '3.2.3.RELEASE'
     tomcatHome = "$System.env.TOMCAT_HOME"
 }
 compileJava.options.encoding = 'UTF-8'
@@ -16,16 +16,6 @@ repositories {
     maven {
         url 'http://repo.springsource.org/libs-milestone/'
     }
-}
-
-sourceSets {
-    war {
-        exclude 'WEB-INF/app/node_modules/*'
-    }
-}
-
-war.doFirst {
-    tasks['gruntDist'].execute()
 }
 
 war {
@@ -41,17 +31,7 @@ sonarRunner {
         property "sonar.jdbc.driverClassName", "org.postgresql.Driver"
         property "sonar.jdbc.username", "sonar"
         property "sonar.sourceEncoding", "UTF-8"
-        properties["sonar.sources"] += "src/main/webapp/WEB-INF/app/src/modules"
-        properties["sonar.sources"] += "src/main/webapp/WEB-INF/app/test"
     }
-}
-
-//TODO: this shouldn't be before compileJava..
-compileJava.dependsOn('npm')
-compileJava.dependsOn('bowerInstall')
-
-test.doLast {
-    tasks['gruntTest'].execute()
 }
 
 dependencies {
@@ -65,6 +45,7 @@ dependencies {
     compile "org.codehaus.jackson:jackson-core-asl:1.9.13"
     compile "javax.servlet:jstl:1.2"
     compile "org.springframework.data:spring-data-rest-webmvc:2.1.0.RELEASE"
+    compile "org.webjars:bootstrap:3.1.1"
 
     compile "javax.validation:validation-api:1.0.0.GA"
     compile "ch.qos.logback:logback-classic:1.0.13"
@@ -81,6 +62,8 @@ dependencies {
     compile "org.springframework.security:spring-security-web:$project.springSecurityVersion"
     compile "org.springframework.security:spring-security-config:$project.springSecurityVersion"
     compile "org.springframework.security:spring-security-aspects:$project.springSecurityVersion"
+    compile "org.springframework.security.oauth:spring-security-oauth2:2.0.1.RELEASE"
+    compile "org.springframework.security:spring-security-taglibs:$project.springSecurityVersion"
 
     //utils
     compile "commons-io:commons-io:2.4"
@@ -110,42 +93,6 @@ dependencies {
 
 task wrapper(type: Wrapper) {
     gradleVersion = '1.10'
-}
-
-//prune old dependencies
-task bowerPrune(type: Exec) {
-    workingDir = 'src/main/webapp/WEB-INF/app'
-    executable = 'bower'
-    args = ['prune']
-}
-
-// install bower dependencies
-task bowerInstall(type: Exec) {
-    workingDir = 'src/main/webapp/WEB-INF/app'
-    executable = 'bower'
-    args = ['install']
-}
-bowerInstall.dependsOn('bowerPrune')
-
-// install npm dependencies
-task npm(type: Exec) {
-    workingDir 'src/main/webapp/WEB-INF/app'
-    executable = 'npm'
-    args = ['install']
-}
-
-// execute grunt tests
-task gruntTest(type: Exec) {
-    workingDir 'src/main/webapp/WEB-INF/app'
-    executable = 'grunt'
-    args = ['test']
-}
-
-//build the distibution
-task gruntDist(type: Exec) {
-    workingDir 'src/main/webapp/WEB-INF/app'
-    executable = 'grunt'
-    args = ['dist']
 }
 
 //copy the war to the tomcat directory

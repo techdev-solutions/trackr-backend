@@ -9,18 +9,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class LoginPageController {
 
-    @RequestMapping("/")
-    public String root() {
-        return "index.html";
-    }
+    /*
+        TODO: I don't know why this controller is needed.
+        Resolving the JSPs directly does not work.
+     */
 
     @RequestMapping("/login")
     public String loginForm() {
-        return "views/login.jsp";
+        return "login";
     }
 
     @RequestMapping("/admin")
     public String adminForm() {
-        return "views/admin.jsp";
+        return "admin";
+    }
+
+    @RequestMapping("/success")
+    public String successPage() {
+        return "success";
     }
 }
