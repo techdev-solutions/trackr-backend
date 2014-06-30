@@ -7,7 +7,6 @@ version = '1.0'
 project.ext {
     springVersion = '4.0.5.RELEASE'
     springSecurityVersion = '3.2.3.RELEASE'
-    tomcatHome = "$System.env.TOMCAT_HOME"
 }
 compileJava.options.encoding = 'UTF-8'
 
@@ -19,8 +18,9 @@ repositories {
 }
 
 war {
-    //to tell tomcat to use it as the root application we use ROOT.war as the name
-    archiveName "ROOT.war"
+    if(project.hasProperty('teamcity')) {
+        archiveName "trackr-" + version + "_" + teamcity['build.number'] + '.war'
+    }
 }
 
 sonarRunner {
@@ -93,10 +93,4 @@ dependencies {
 
 task wrapper(type: Wrapper) {
     gradleVersion = '1.10'
-}
-
-//copy the war to the tomcat directory
-task deployToTomcat(type: Copy) {
-    from war
-    into "${project.tomcatHome}/webapps"
 }
