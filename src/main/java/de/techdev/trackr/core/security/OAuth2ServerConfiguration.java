@@ -22,6 +22,7 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Res
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore;
 import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
+import org.springframework.security.web.context.SecurityContextPersistenceFilter;
 
 import javax.sql.DataSource;
 
@@ -46,6 +47,7 @@ public class OAuth2ServerConfiguration {
 
         @Override
         public void configure(HttpSecurity http) throws Exception {
+            http.addFilterBefore(new RemoveSessionAndCookieForApiFilter(), SecurityContextPersistenceFilter.class);
             http.anonymous().authorities("ROLE_ANONYMOUS");
             http.requestMatchers().antMatchers("/api/**")
                     .and()
