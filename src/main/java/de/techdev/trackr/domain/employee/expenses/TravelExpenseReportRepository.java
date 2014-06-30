@@ -27,6 +27,5 @@ public interface TravelExpenseReportRepository extends CrudRepository<TravelExpe
     List<TravelExpenseReport> findByEmployeeOrderByStatusAsc(@Param("employee") Employee employee);
 
     @PreAuthorize("hasRole('ROLE_SUPERVISOR')")
-    @PostFilter("filterObject.employee.id != principal.id")
     List<TravelExpenseReport> findByStatusOrderByEmployee_LastNameAsc(@Param("status") TravelExpenseReportStatus status);
 }
