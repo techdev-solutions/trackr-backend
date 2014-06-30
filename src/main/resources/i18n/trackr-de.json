@@ -28,7 +28,8 @@
         "FIRST_NAME": "Vorname",
         "LAST_NAME": "Nachname",
         "EMAIL": "Email",
-        "PHONE": "Telefon"
+        "PHONE": "Telefon",
+        "ROLES": "Rollen"
     },
     "EMPLOYEE": {
         "CREATE_NEW": "Neuen Angestellten anlegen",

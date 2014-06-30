@@ -25,6 +25,7 @@ public class ContactPersonDataOnDemand extends AbstractDataOnDemand<ContactPerso
         contactPerson.setPhone("phone_" + i);
         contactPerson.setSalutation("salutation_" + i);
         contactPerson.setCompany(companyDataOnDemand.getRandomObject());
+        contactPerson.setRoles("roles_" + i);
         return contactPerson;
     }
 }

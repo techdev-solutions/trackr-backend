@@ -28,7 +28,8 @@
         "FIRST_NAME": "First name",
         "LAST_NAME": "Last name",
         "EMAIL": "Email",
-        "PHONE": "Phone"
+        "PHONE": "Phone",
+        "ROLES": "Roles"
     },
     "EMPLOYEE": {
         "CREATE_NEW": "Create new employee",

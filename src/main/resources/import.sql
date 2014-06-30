@@ -31,7 +31,7 @@ INSERT INTO company (id, version, companyId, name, address_id) VALUES (13, 0, 10
 INSERT INTO company (id, version, companyId, name, address_id) VALUES (14, 0, 1001, 'cofinpro AG', 11);
 INSERT INTO company (id, version, companyId, name, address_id) VALUES (15, 0, 5000, 'Hays', 12);
 
-INSERT INTO contactPerson (id, version, firstName, lastName, email, salutation, phone, company) VALUES (16, 0, 'Alexander', 'Hanschke', 'alexander.hanschke@techdev.de', 'Herr', '0178/11234566', 13);
+INSERT INTO contactPerson (id, version, firstName, lastName, email, salutation, phone, company, roles) VALUES (16, 0, 'Alexander', 'Hanschke', 'alexander.hanschke@techdev.de', 'Herr', '0178/11234566', 13, 'Boss 1');
 INSERT INTO contactPerson (id, version, firstName, lastName, email, salutation, phone, company) VALUES (17, 0, 'Adrian', 'Krion', 'adrian.krion@techdev.de', 'Herr', '0178/234586923', 13);
 
 INSERT INTO project (id, version, identifier, name, company_id, volume, fixedPrice, debitor_id) VALUES (18, 0, '1001.1', 'Freiberuflerverwaltung', 13, 142, 500000.01, 14);
