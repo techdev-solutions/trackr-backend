@@ -73,7 +73,8 @@ public class OAuth2ServerConfiguration {
 
     @Configuration
     @EnableAuthorizationServer
-    @PropertySource({"classpath:/META-INF/spring/database_${spring.profiles.active:dev}.properties"})
+    @PropertySource({"classpath:/META-INF/spring/database_${spring.profiles.active:dev}.properties",
+            "classpath:/application_${spring.profiles.active:dev}.properties"})
     protected static class AuthorizationServerConfiguration extends AuthorizationServerConfigurerAdapter {
 
         @Value("${tokenDatabase.driverClassName}")
@@ -91,6 +92,9 @@ public class OAuth2ServerConfiguration {
         @Value("${tokenDatabase.jndiName}")
         private String jndiName;
 
+        @Value("${oauth.trackr-page.redirect_uris}")
+        private String trackrPageRedirectUris;
+
         @Autowired
         private Environment env;
 
@@ -105,7 +109,8 @@ public class OAuth2ServerConfiguration {
                 .resourceIds(TRACKR_RESOURCE_ID)
                 .authorizedGrantTypes("authorization_code", "implicit") //TODO: what to set here?
                 .authorities("ROLE_CLIENT")
-                .scopes("read", "write");
+                .scopes("read", "write")
+                .redirectUris(trackrPageRedirectUris.split(","));
         }
 
         @Bean
