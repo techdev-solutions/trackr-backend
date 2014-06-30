@@ -4,7 +4,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>trackr admin login</title>
-    <link rel="stylesheet" href="src/vendor/bootstrap/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="webjars/bootstrap/3.1.1/css/bootstrap.min.css"/>
 </head>
 <body>
 

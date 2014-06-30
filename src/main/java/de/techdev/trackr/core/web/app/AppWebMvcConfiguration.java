@@ -1,15 +1,19 @@
 package de.techdev.trackr.core.web.app;
 
-import org.springframework.beans.factory.annotation.Value;
+import de.techdev.trackr.core.security.AccessConfirmationController;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
-import org.springframework.web.servlet.ViewResolver;
+import org.springframework.http.MediaType;
+import org.springframework.web.accept.ContentNegotiationManagerFactoryBean;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.view.ContentNegotiatingViewResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
+
+import static java.util.Arrays.asList;
 
 /**
  * @author Moritz Schulze
@@ -19,14 +23,9 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 @PropertySource({"classpath:application_${spring.profiles.active:dev}.properties"})
 public class AppWebMvcConfiguration extends WebMvcConfigurerAdapter {
 
-    @Value("${angular.path}")
-    private String angularPath;
-
-    @Bean
-    public LoginPageController loginPageController() {
-        return new LoginPageController();
-    }
-
+    /**
+     * Needed to load the .properties file.
+     */
     @Bean
     public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
         return new PropertySourcesPlaceholderConfigurer();
@@ -34,16 +33,37 @@ public class AppWebMvcConfiguration extends WebMvcConfigurerAdapter {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        //this is only needed for the login page, the view Resolver seems to want to load "WEB-INF/app/index.html" instead of "/WEB-INF/...".
-        registry.addResourceHandler("WEB-INF/*.html").addResourceLocations(angularPath);
-        registry.addResourceHandler("/**").addResourceLocations(angularPath);
+        registry.addResourceHandler("/webjars/**").addResourceLocations("/webjars/");
+    }
+
+    /**
+     * This controller displays the JSPs.
+     */
+    @Bean
+    public LoginPageController loginPageController() {
+        return new LoginPageController();
+    }
+
+    /**
+     * Controller for a custom OAuth confirmation page.
+     */
+    @Bean
+    public AccessConfirmationController accessConfirmationController() {
+        return new AccessConfirmationController();
     }
 
     @Bean
-    public ViewResolver viewResolver() {
-        InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
-        viewResolver.setPrefix("/WEB-INF/");
-        return viewResolver;
-    }
+    public ContentNegotiatingViewResolver contentNegotiatingViewResolver() {
+        ContentNegotiationManagerFactoryBean contentNegotiationManager = new ContentNegotiationManagerFactoryBean();
+        contentNegotiationManager.addMediaType("json", MediaType.APPLICATION_JSON);
 
+        InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
+        viewResolver.setPrefix("/WEB-INF/views/");
+        viewResolver.setSuffix(".jsp");
+
+        ContentNegotiatingViewResolver contentNegotiatingViewResolver = new ContentNegotiatingViewResolver();
+        contentNegotiatingViewResolver.setContentNegotiationManager(contentNegotiationManager.getObject());
+        contentNegotiatingViewResolver.setViewResolvers(asList(viewResolver));
+        return contentNegotiatingViewResolver;
+    }
 }
