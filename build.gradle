@@ -18,7 +18,7 @@ repositories {
 }
 
 war {
-    if(project.hasProperty('teamcity')) {
+    if(hasProperty('teamcity')) {
         archiveName "trackr-" + version + "_" + teamcity['build.number'] + '.war'
     }
 }
