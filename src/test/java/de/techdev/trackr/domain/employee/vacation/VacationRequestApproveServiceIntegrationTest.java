@@ -40,7 +40,7 @@ public class VacationRequestApproveServiceIntegrationTest extends IntegrationTes
         vacationRequestRepository.save(vacationRequest);
         SecurityContextHolder.getContext().setAuthentication(AuthorityMocks.supervisorAuthentication(vacationRequest.getEmployee().getId()));
         try {
-            vacationRequestApproveService.approve(vacationRequest.getId(), "");
+            vacationRequestApproveService.approve(vacationRequest, "");
             fail("An exception must be thrown.");
         } catch (Exception e) {
             VacationRequest one = vacationRequestRepository.findOne(vacationRequest.getId());
@@ -55,7 +55,7 @@ public class VacationRequestApproveServiceIntegrationTest extends IntegrationTes
         vacationRequestRepository.save(vacationRequest);
         SecurityContextHolder.getContext().setAuthentication(AuthorityMocks.supervisorAuthentication(vacationRequest.getEmployee().getId()));
         try {
-            vacationRequestApproveService.reject(vacationRequest.getId(), "");
+            vacationRequestApproveService.reject(vacationRequest, "");
             fail("An exception must be thrown.");
         } catch (Exception e) {
             VacationRequest one = vacationRequestRepository.findOne(vacationRequest.getId());

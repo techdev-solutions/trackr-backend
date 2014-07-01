@@ -1,11 +1,13 @@
 package de.techdev.trackr.domain.employee.vacation;
 
+import de.techdev.trackr.core.security.AuthorityMocks;
 import de.techdev.trackr.domain.AbstractDomainResourceTest;
 import de.techdev.trackr.domain.employee.EmployeeDataOnDemand;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockHttpSession;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import javax.json.stream.JsonGenerator;
 import java.io.StringWriter;
@@ -15,8 +17,10 @@ import java.util.function.Function;
 import static de.techdev.trackr.domain.DomainResourceTestMatchers.*;
 import static org.echocat.jomon.testing.BaseMatchers.isNotNull;
 import static org.echocat.jomon.testing.BaseMatchers.isNull;
+import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -241,17 +245,51 @@ public class VacationRequestResourceTest extends AbstractDomainResourceTest<Vaca
     }
 
     @Test
-    public void findByStatusOrderBySubmissionTimeAscWithSupervisorDoesNotContainOwnRequests() throws Exception {
-        repository.deleteAll();
-        VacationRequest vacationRequest = dataOnDemand.getNewTransientObject(500);
+    public void approveNotAllowedForSupervisorOnOwnVacationRequest() throws Exception {
+        VacationRequest vacationRequest = dataOnDemand.getRandomObject();
+        vacationRequest.setStatus(VacationRequestStatus.PENDING);
         repository.save(vacationRequest);
         mockMvc.perform(
-                get("/vacationRequests/search/findByStatusOrderBySubmissionTimeAsc")
+                put("/vacationRequests/" + vacationRequest.getId() + "/approve")
                         .session(supervisorSession(vacationRequest.getEmployee().getId()))
-                        .param("approved", vacationRequest.getStatus().toString())
         )
-               .andExpect(status().isOk())
-               .andExpect(jsonPath("_embedded", isNull()));
+                .andExpect(status().isForbidden());
+
+        SecurityContextHolder.getContext().setAuthentication(AuthorityMocks.supervisorAuthentication());
+        VacationRequest one = repository.findOne(vacationRequest.getId());
+        assertThat(one.getStatus(), is(VacationRequestStatus.PENDING));
+    }
+
+    @Test
+    public void approveNotAllowedForEmployees() throws Exception {
+        VacationRequest vacationRequest = dataOnDemand.getRandomObject();
+        vacationRequest.setStatus(VacationRequestStatus.PENDING);
+        repository.save(vacationRequest);
+        mockMvc.perform(
+                put("/vacationRequests/" + vacationRequest.getId() + "/approve")
+                        .session(employeeSession(vacationRequest.getEmployee().getId()))
+        )
+                .andExpect(status().isForbidden());
+
+        SecurityContextHolder.getContext().setAuthentication(AuthorityMocks.supervisorAuthentication());
+        VacationRequest one = repository.findOne(vacationRequest.getId());
+        assertThat(one.getStatus(), is(VacationRequestStatus.PENDING));
+    }
+
+    @Test
+    public void approveAllowedForOtherSupervisor() throws Exception {
+        VacationRequest vacationRequest = dataOnDemand.getRandomObject();
+        vacationRequest.setStatus(VacationRequestStatus.PENDING);
+        repository.save(vacationRequest);
+        mockMvc.perform(
+                put("/vacationRequests/" + vacationRequest.getId() + "/approve")
+                        .session(supervisorSession(vacationRequest.getEmployee().getId() + 1))
+        )
+                .andExpect(status().isOk());
+
+        SecurityContextHolder.getContext().setAuthentication(AuthorityMocks.supervisorAuthentication());
+        VacationRequest one = repository.findOne(vacationRequest.getId());
+        assertThat(one.getStatus(), is(VacationRequestStatus.APPROVED));
     }
 
     @Override
