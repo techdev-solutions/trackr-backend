@@ -15,22 +15,21 @@ public class TravelExpenseReportServiceImpl implements TravelExpenseReportServic
     private TravelExpenseReportRepository travelExpenseReportRepository;
 
     @Override
-    public TravelExpenseReport submit(Long id) {
-        return setStatusOnTravelExpenseReport(id, TravelExpenseReportStatus.SUBMITTED);
+    public TravelExpenseReport submit(TravelExpenseReport travelExpenseReport) {
+        return setStatusOnTravelExpenseReport(travelExpenseReport, TravelExpenseReportStatus.SUBMITTED);
     }
 
     @Override
-    public TravelExpenseReport accept(Long id) {
-        return setStatusOnTravelExpenseReport(id, TravelExpenseReportStatus.APPROVED);
+    public TravelExpenseReport accept(TravelExpenseReport travelExpenseReport) {
+        return setStatusOnTravelExpenseReport(travelExpenseReport, TravelExpenseReportStatus.APPROVED);
     }
 
     @Override
-    public TravelExpenseReport reject(Long id) {
-        return setStatusOnTravelExpenseReport(id, TravelExpenseReportStatus.REJECTED);
+    public TravelExpenseReport reject(TravelExpenseReport travelExpenseReport) {
+        return setStatusOnTravelExpenseReport(travelExpenseReport, TravelExpenseReportStatus.REJECTED);
     }
 
-    private TravelExpenseReport setStatusOnTravelExpenseReport(Long id, TravelExpenseReportStatus status) {
-        TravelExpenseReport travelExpenseReport = travelExpenseReportRepository.findOne(id);
+    private TravelExpenseReport setStatusOnTravelExpenseReport(TravelExpenseReport travelExpenseReport, TravelExpenseReportStatus status) {
         travelExpenseReport.setStatus(status);
         return travelExpenseReportRepository.save(travelExpenseReport);
     }

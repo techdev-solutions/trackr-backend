@@ -1,6 +1,5 @@
 package de.techdev.trackr.domain.employee.expenses;
 
-import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -10,14 +9,12 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public interface TravelExpenseReportService {
 
-    @PostAuthorize("returnObject.employee.id == principal.id")
-    TravelExpenseReport submit(Long id);
+    @PreAuthorize("#travelExpenseReport.employee.id == principal.id")
+    TravelExpenseReport submit(TravelExpenseReport travelExpenseReport);
 
-    @PreAuthorize("hasRole('ROLE_SUPERVISOR')")
-    @PostAuthorize("returnObject.employee.id != principal.id")
-    TravelExpenseReport accept(Long id);
+    @PreAuthorize("hasRole('ROLE_SUPERVISOR') and #travelExpenseReport.employee.id != principal.id")
+    TravelExpenseReport accept(TravelExpenseReport travelExpenseReport);
 
-    @PreAuthorize("hasRole('ROLE_SUPERVISOR')")
-    @PostAuthorize("returnObject.employee.id != principal.id")
-    TravelExpenseReport reject(Long id);
+    @PreAuthorize("hasRole('ROLE_SUPERVISOR') and #travelExpenseReport.employee.id != principal.id")
+    TravelExpenseReport reject(TravelExpenseReport travelExpenseReport);
 }
