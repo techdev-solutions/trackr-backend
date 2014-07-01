@@ -155,8 +155,10 @@
             "TEXT_TIMESHEET_OVERVIEW": "Arbeitszeiten Übersicht",
             "TIMESHEET_OVERVIEW": {
                 "GROUPED_BY_PROJECT": "Nach Projekt gruppiert"
+            },
+            "ADDRESS_BOOK": {
+                "TITLE": "Adressbuch"
             }
-
         },
         "SUPERVISOR": {
             "TITLE": "Supervisor",
