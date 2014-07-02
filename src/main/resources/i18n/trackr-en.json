@@ -185,6 +185,24 @@
                 "EMPTY_TEXT": "No submitted travel expense reports."
             }
         },
+        "REPORTR": {
+            "REVENUE": {
+                "TITLE": "Revenues",
+                "TURNOVER": "Turnover"
+            },
+            "VACATION": {
+                "TITLE": "Vacation"
+            },
+            "PROJECT_HOURS": {
+                "TITLE": "Project hours"
+            },
+            "EMPLOYEE_HOURS": {
+                "TITLE": "Employee hours"
+            },
+            "TRAVEL_EXPENSE": {
+                "TITLE": "Travel expenses"
+            }
+        },
         "BREADCRUMB_UNKNOWN": "unknown"
     },
     "ACTIONS": {

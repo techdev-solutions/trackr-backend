@@ -70,21 +70,21 @@ INSERT INTO travelExpenseReport (id, version, employee_id, status) VALUES (44, 0
 INSERT INTO travelExpense (id, version, report_id, fromDate, toDate, cost, vat, submissionDate, type) VALUES (45, 0, 44, '2014-04-01', '2014-04-10', 130.49, 19, '2014-04-12 10:00:30', 'TAXI');
 INSERT INTO travelExpense (id, version, report_id, fromDate, toDate, cost, vat, submissionDate, type) VALUES (46, 0, 44, '2014-04-05', '2014-04-07', 200.13, 18, '2014-04-12 10:00:30', 'HOTEL');
 
-INSERT INTO invoice (id, version, identifier, debitor, creationDate, invoiceTotal, invoiceState, dueDate) VALUES (47, 0, 'C201406-ZIM1', 13, '2014-06-01', 100.20, 'OUTSTANDING', '2014-06-29');
-INSERT INTO invoice (id, version, identifier, debitor, creationDate, invoiceTotal, invoiceState, dueDate) VALUES (48, 0, 'C201406-ZIM2', 13, '2014-06-01', 100.20, 'OUTSTANDING', '2014-06-29');
-INSERT INTO invoice (id, version, identifier, debitor, creationDate, invoiceTotal, invoiceState, dueDate) VALUES (49, 0, 'C201406-DBCE1', 13, '2014-06-01', 100.20, 'OUTSTANDING', '2014-06-29');
-INSERT INTO invoice (id, version, identifier, debitor, creationDate, invoiceTotal, invoiceState, dueDate) VALUES (50, 0, 'C201405-ZIM3', 13, '2014-06-01', 100.20, 'OVERDUE', '2014-06-10');
-INSERT INTO invoice (id, version, identifier, debitor, creationDate, invoiceTotal, invoiceState, dueDate) VALUES (51, 0, 'C201406-DBCE2', 13, '2014-06-01', 100.20, 'OVERDUE', '2014-06-10');
-INSERT INTO invoice (id, version, identifier, debitor, creationDate, invoiceTotal, invoiceState, dueDate) VALUES (52, 0, 'C201405-COF3', 13, '2014-06-01', 100.20, 'OVERDUE', '2014-06-10');
-INSERT INTO invoice (id, version, identifier, debitor, creationDate, invoiceTotal, invoiceState, dueDate) VALUES (53, 0, 'C201405-COF4', 13, '2014-06-01', 100.20, 'OVERDUE', '2014-06-10');
-INSERT INTO invoice (id, version, identifier, debitor, creationDate, invoiceTotal, invoiceState, dueDate) VALUES (54, 0, 'C201405-COF5', 13, '2014-06-01', 100.20, 'OUTSTANDING', '2014-06-29');
-INSERT INTO invoice (id, version, identifier, debitor, creationDate, invoiceTotal, invoiceState, dueDate) VALUES (55, 0, 'C201405-COF6', 13, '2014-06-01', 100.20, 'PAID', '2014-06-29');
-INSERT INTO invoice (id, version, identifier, debitor, creationDate, invoiceTotal, invoiceState, dueDate) VALUES (56, 0, 'C201405-COF2', 13, '2014-06-01', 100.20, 'PAID', '2014-06-29');
-INSERT INTO invoice (id, version, identifier, debitor, creationDate, invoiceTotal, invoiceState, dueDate) VALUES (57, 0, 'C201405-COF7', 13, '2014-06-01', 100.20, 'OUTSTANDING', '2014-06-29');
-INSERT INTO invoice (id, version, identifier, debitor, creationDate, invoiceTotal, invoiceState, dueDate) VALUES (58, 0, 'C201405-COF1', 13, '2014-06-01', 100.20, 'OUTSTANDING', '2014-06-29');
-INSERT INTO invoice (id, version, identifier, debitor, creationDate, invoiceTotal, invoiceState, dueDate) VALUES (59, 0, 'C201406-DBCE3', 13, '2014-06-01', 100.20, 'PAID', '2014-06-29');
-INSERT INTO invoice (id, version, identifier, debitor, creationDate, invoiceTotal, invoiceState, dueDate) VALUES (60, 0, 'C201405-AUD1', 13, '2014-06-01', 100.20, 'PAID', '2014-06-29');
-INSERT INTO invoice (id, version, identifier, debitor, creationDate, invoiceTotal, invoiceState, dueDate) VALUES (61, 0, 'C201405-AUD2', 13, '21314-06-01', 100.20, 'PAID', '2014-06-29');
+INSERT INTO invoice (id, version, identifier, debitor, creationDate, invoiceTotal, invoiceState, dueDate) VALUES (47, 0, 'C201406-ZIM1', 13, '2014-07-03', 1234.00, 'OUTSTANDING', '2014-06-29');
+INSERT INTO invoice (id, version, identifier, debitor, creationDate, invoiceTotal, invoiceState, dueDate) VALUES (48, 0, 'C201406-ZIM2', 13, '2014-07-01', 1007.34, 'OUTSTANDING', '2014-06-29');
+INSERT INTO invoice (id, version, identifier, debitor, creationDate, invoiceTotal, invoiceState, dueDate) VALUES (49, 0, 'C201406-DBCE1', 14, '2014-07-24', 2000.38, 'OUTSTANDING', '2014-06-29');
+INSERT INTO invoice (id, version, identifier, debitor, creationDate, invoiceTotal, invoiceState, dueDate) VALUES (50, 0, 'C201405-ZIM3', 14, '2014-07-04', 500.61, 'OVERDUE', '2014-06-10');
+INSERT INTO invoice (id, version, identifier, debitor, creationDate, invoiceTotal, invoiceState, dueDate) VALUES (51, 0, 'C201406-DBCE2', 15, '2014-07-03', 100.20, 'OVERDUE', '2014-06-10');
+INSERT INTO invoice (id, version, identifier, debitor, creationDate, invoiceTotal, invoiceState, dueDate) VALUES (52, 0, 'C201405-COF3', 15, '2014-07-01', 381.78, 'OVERDUE', '2014-06-10');
+INSERT INTO invoice (id, version, identifier, debitor, creationDate, invoiceTotal, invoiceState, dueDate) VALUES (53, 0, 'C201405-COF4', 15, '2014-07-01', 789.65, 'OVERDUE', '2014-06-10');
+INSERT INTO invoice (id, version, identifier, debitor, creationDate, invoiceTotal, invoiceState, dueDate) VALUES (54, 0, 'C201405-COF5', 15, '2014-07-01', 777.77, 'OUTSTANDING', '2014-06-29');
+INSERT INTO invoice (id, version, identifier, debitor, creationDate, invoiceTotal, invoiceState, dueDate) VALUES (55, 0, 'C201405-COF6', 15, '2014-07-01', 666.66, 'PAID', '2014-06-29');
+INSERT INTO invoice (id, version, identifier, debitor, creationDate, invoiceTotal, invoiceState, dueDate) VALUES (56, 0, 'C201405-COF2', 14, '2014-07-01', 98.01, 'PAID', '2014-06-29');
+INSERT INTO invoice (id, version, identifier, debitor, creationDate, invoiceTotal, invoiceState, dueDate) VALUES (57, 0, 'C201405-COF7', 15, '2014-07-05', 0.01, 'OUTSTANDING', '2014-06-29');
+INSERT INTO invoice (id, version, identifier, debitor, creationDate, invoiceTotal, invoiceState, dueDate) VALUES (58, 0, 'C201405-COF1', 13, '2014-07-01', 768.13, 'OUTSTANDING', '2014-06-29');
+INSERT INTO invoice (id, version, identifier, debitor, creationDate, invoiceTotal, invoiceState, dueDate) VALUES (59, 0, 'C201406-DBCE3', 13, '2014-07-01', 1540.00, 'PAID', '2014-06-29');
+INSERT INTO invoice (id, version, identifier, debitor, creationDate, invoiceTotal, invoiceState, dueDate) VALUES (60, 0, 'C201405-AUD1', 13, '2014-07-10', 4321.32, 'PAID', '2014-06-29');
+INSERT INTO invoice (id, version, identifier, debitor, creationDate, invoiceTotal, invoiceState, dueDate) VALUES (61, 0, 'C201405-AUD2', 13, '21314-07-01', 300.00, 'PAID', '2014-06-29');
 
 DROP SEQUENCE IF EXISTS hibernate_sequence;
 CREATE SEQUENCE hibernate_sequence START WITH 100;

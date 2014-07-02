@@ -184,6 +184,24 @@
                 "TITLE": "Travel expenses",
                 "EMPTY_TEXT": "Keine Reisekostenberichte"
             }
+        },
+        "REPORTR": {
+            "REVENUE": {
+                "TITLE": "Einnahmen",
+                "TURNOVER": "Umsatz"
+            },
+            "VACATION": {
+                "TITLE": "Urlaub"
+            },
+            "PROJECT_HOURS": {
+                "TITLE": "Projektstunden"
+            },
+            "EMPLOYEE_HOURS": {
+                "TITLE": "Arbeitsstunden"
+            },
+            "TRAVEL_EXPENSE": {
+                "TITLE": "Reisekosten"
+            }
         }
     },
     "ACTIONS": {
