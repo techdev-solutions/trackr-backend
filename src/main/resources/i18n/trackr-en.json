@@ -195,7 +195,9 @@
                 "DAYS": "Days"
             },
             "PROJECT_HOURS": {
-                "TITLE": "Project hours"
+                "TITLE": "Project hours",
+                "TRACKED_HOURS": "Tracked hours",
+                "BILLED_HOURS": "Billed hours"
             },
             "EMPLOYEE_HOURS": {
                 "TITLE": "Employee hours"

@@ -37,15 +37,15 @@ INSERT INTO contactPerson (id, version, firstName, lastName, email, salutation, 
 INSERT INTO project (id, version, identifier, name, company_id, volume, fixedPrice, debitor_id) VALUES (18, 0, '1001.1', 'Freiberuflerverwaltung', 13, 142, 500000.01, 14);
 INSERT INTO project (id, version, identifier, name, company_id, volume, hourlyRate) VALUES (19, 0, '5000.1', 'Zaun streichen', 14, 1, 62.12);
 
-INSERT INTO workTime (id, version, project, employee, date, startTime, endTime, comment) VALUES (20, 0, 18, 1, '2014-03-03', '09:00:00', '17:15:00', 'Kommentar 1');
-INSERT INTO workTime (id, version, project, employee, date, startTime, endTime, comment) VALUES (21, 0, 18, 2, '2014-03-03', '09:00:00', '17:00:00', 'Kommentar 123');
-INSERT INTO workTime (id, version, project, employee, date, startTime, endTime, comment) VALUES (22, 0, 18, 4, '2014-03-03', '09:00:00', '12:00:00', 'Kommentar 46');
-INSERT INTO workTime (id, version, project, employee, date, startTime, endTime, comment) VALUES (23, 0, 18, 4, '2014-03-04', '12:00:00', '15:00:00', 'Kommentar 789');
-INSERT INTO workTime (id, version, project, employee, date, startTime, endTime, comment) VALUES (24, 0, 18, 1, '2014-03-04', '09:00:00', '17:00:00', 'Kommentar 2');
-INSERT INTO workTime (id, version, project, employee, date, startTime, endTime, comment) VALUES (25, 0, 19, 1, '2014-03-05', '09:00:00', '12:00:00', 'Kommentar 3');
-INSERT INTO workTime (id, version, project, employee, date, startTime, endTime, comment) VALUES (26, 0, 18, 1, '2014-03-05', '13:00:00', '17:00:00', 'Kommentar 4');
-INSERT INTO workTime (id, version, project, employee, date, startTime, endTime, comment) VALUES (27, 0, 18, 1, '2014-03-06', '09:00:00', '17:00:00', 'Kommentar 5');
-INSERT INTO workTime (id, version, project, employee, date, startTime, endTime, comment) VALUES (28, 0, 18, 1, '2014-03-07', '09:00:00', '17:00:00', 'Kommentar 6');
+INSERT INTO workTime (id, version, project, employee, date, startTime, endTime, comment) VALUES (20, 0, 18, 1, '2014-07-03', '09:00:00', '17:15:00', 'Kommentar 1');
+INSERT INTO workTime (id, version, project, employee, date, startTime, endTime, comment) VALUES (21, 0, 18, 2, '2014-07-03', '09:00:00', '17:00:00', 'Kommentar 123');
+INSERT INTO workTime (id, version, project, employee, date, startTime, endTime, comment) VALUES (22, 0, 18, 4, '2014-07-03', '09:00:00', '12:00:00', 'Kommentar 46');
+INSERT INTO workTime (id, version, project, employee, date, startTime, endTime, comment) VALUES (23, 0, 18, 4, '2014-07-04', '12:00:00', '15:00:00', 'Kommentar 789');
+INSERT INTO workTime (id, version, project, employee, date, startTime, endTime, comment) VALUES (24, 0, 18, 1, '2014-07-04', '09:00:00', '17:00:00', 'Kommentar 2');
+INSERT INTO workTime (id, version, project, employee, date, startTime, endTime, comment) VALUES (25, 0, 19, 1, '2014-07-05', '09:00:00', '12:00:00', 'Kommentar 3');
+INSERT INTO workTime (id, version, project, employee, date, startTime, endTime, comment) VALUES (26, 0, 19, 1, '2014-07-05', '13:00:00', '17:00:00', 'Kommentar 4');
+INSERT INTO workTime (id, version, project, employee, date, startTime, endTime, comment) VALUES (27, 0, 19, 1, '2014-07-06', '09:00:00', '17:00:00', 'Kommentar 5');
+INSERT INTO workTime (id, version, project, employee, date, startTime, endTime, comment) VALUES (28, 0, 18, 1, '2014-07-07', '09:00:00', '17:00:00', 'Kommentar 6');
 
 INSERT INTO holiday (id, day, name, federalState) VALUES (29, '2014-12-25', '1. Weihnachtsfeiertag', 'BERLIN');
 INSERT INTO holiday (id, day, name, federalState) VALUES (30, '2014-12-26', '2. Weihnachtsfeiertag', 'BERLIN');
@@ -92,6 +92,27 @@ INSERT INTO vacationRequest (id, version, employee_id, startDate, endDate, numbe
 INSERT INTO vacationRequest (id, version, employee_id, startDate, endDate, numberOfDays, status, submissionTime) VALUES (65, 0, 4, '2014-07-13', '2014-07-20', 5, 'APPROVED', '2014-01-01 11:00:00');
 INSERT INTO vacationRequest (id, version, employee_id, startDate, endDate, numberOfDays, status, submissionTime) VALUES (66, 0, 5, '2014-07-22', '2014-07-30', 6, 'APPROVED', '2014-01-01 11:00:00');
 INSERT INTO vacationRequest (id, version, employee_id, startDate, endDate, numberOfDays, status, submissionTime) VALUES (67, 0, 6, '2014-07-01', '2014-07-31', 27, 'APPROVED', '2014-01-01 11:00:00');
+
+INSERT INTO billableTime (id, version , employee, project, date, minutes) VALUES (68, 0, 1, 18, '2014-07-01', 480);
+INSERT INTO billableTime (id, version , employee, project, date, minutes) VALUES (69, 0, 1, 18, '2014-07-02', 480);
+INSERT INTO billableTime (id, version , employee, project, date, minutes) VALUES (70, 0, 1, 18, '2014-07-03', 420);
+INSERT INTO billableTime (id, version , employee, project, date, minutes) VALUES (71, 0, 1, 18, '2014-07-04', 360);
+INSERT INTO billableTime (id, version , employee, project, date, minutes) VALUES (72, 0, 1, 19, '2014-07-01', 480);
+INSERT INTO billableTime (id, version , employee, project, date, minutes) VALUES (73, 0, 1, 19, '2014-07-08', 540);
+INSERT INTO billableTime (id, version , employee, project, date, minutes) VALUES (74, 0, 1, 19, '2014-07-09', 480);
+INSERT INTO billableTime (id, version , employee, project, date, minutes) VALUES (75, 0, 1, 19, '2014-07-10', 420);
+INSERT INTO billableTime (id, version , employee, project, date, minutes) VALUES (76, 0, 1, 19, '2014-07-12', 480);
+
+INSERT INTO project (id, version, identifier, name, company_id, volume, hourlyRate) VALUES (77, 0, '5001.1', 'Cloud IaaS synergy promotion', 14, 100, 80.00);
+INSERT INTO workTime (id, version, project, employee, date, startTime, endTime, comment) VALUES (78, 0, 77, 1, '2014-07-12', '09:00:00', '17:00:00', 'Kommentar 5');
+INSERT INTO workTime (id, version, project, employee, date, startTime, endTime, comment) VALUES (79, 0, 77, 1, '2014-07-13', '08:30:00', '18:00:00', 'Kommentar 5');
+INSERT INTO workTime (id, version, project, employee, date, startTime, endTime, comment) VALUES (80, 0, 77, 1, '2014-07-14', '09:00:00', '18:30:00', 'Kommentar 5');
+INSERT INTO workTime (id, version, project, employee, date, startTime, endTime, comment) VALUES (81, 0, 77, 1, '2014-07-15', '09:00:00', '17:00:00', 'Kommentar 5');
+
+INSERT INTO billableTime (id, version , employee, project, date, minutes) VALUES (81, 0, 1, 77, '2014-07-12', 420);
+INSERT INTO billableTime (id, version , employee, project, date, minutes) VALUES (82, 0, 1, 77, '2014-07-13', 460);
+INSERT INTO billableTime (id, version , employee, project, date, minutes) VALUES (83, 0, 1, 77, '2014-07-14', 430);
+INSERT INTO billableTime (id, version , employee, project, date, minutes) VALUES (84, 0, 1, 77, '2014-07-15', 480);
 
 DROP SEQUENCE IF EXISTS hibernate_sequence;
 CREATE SEQUENCE hibernate_sequence START WITH 100;

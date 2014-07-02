@@ -42,4 +42,6 @@ public interface WorkTimeRepository extends CrudRepository<WorkTime, Long> {
                                                                          @Param("start") @Temporal(TemporalType.DATE) Date start,
                                                                          @Param("end") @Temporal(TemporalType.DATE) Date end);
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    List<WorkTime> findByDateBetween(@Param("start") Date start, @Param("end") Date end);
 }

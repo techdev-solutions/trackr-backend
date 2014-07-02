@@ -195,7 +195,9 @@
                 "DAYS": "Tage"
             },
             "PROJECT_HOURS": {
-                "TITLE": "Projektstunden"
+                "TITLE": "Projektstunden",
+                "TRACKED_HOURS": "Erfasste Stunden",
+                "BILLED_HOURS": "Berechnete Stunden"
             },
             "EMPLOYEE_HOURS": {
                 "TITLE": "Arbeitsstunden"
