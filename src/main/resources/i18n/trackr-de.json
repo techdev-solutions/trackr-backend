@@ -191,7 +191,8 @@
                 "TURNOVER": "Umsatz"
             },
             "VACATION": {
-                "TITLE": "Urlaub"
+                "TITLE": "Urlaub",
+                "DAYS": "Tage"
             },
             "PROJECT_HOURS": {
                 "TITLE": "Projektstunden"

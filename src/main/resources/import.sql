@@ -86,5 +86,12 @@ INSERT INTO invoice (id, version, identifier, debitor, creationDate, invoiceTota
 INSERT INTO invoice (id, version, identifier, debitor, creationDate, invoiceTotal, invoiceState, dueDate) VALUES (60, 0, 'C201405-AUD1', 13, '2014-07-10', 4321.32, 'PAID', '2014-06-29');
 INSERT INTO invoice (id, version, identifier, debitor, creationDate, invoiceTotal, invoiceState, dueDate) VALUES (61, 0, 'C201405-AUD2', 13, '21314-07-01', 300.00, 'PAID', '2014-06-29');
 
+INSERT INTO vacationRequest (id, version, employee_id, startDate, endDate, numberOfDays, status, submissionTime) VALUES (62, 0, 1, '2014-07-01', '2014-07-21', 15, 'APPROVED', '2014-01-01 11:00:00');
+INSERT INTO vacationRequest (id, version, employee_id, startDate, endDate, numberOfDays, status, submissionTime) VALUES (63, 0, 2, '2014-07-05', '2014-07-08', 4, 'APPROVED', '2014-01-01 11:00:00');
+INSERT INTO vacationRequest (id, version, employee_id, startDate, endDate, numberOfDays, status, submissionTime) VALUES (64, 0, 3, '2014-07-07', '2014-07-12', 5, 'APPROVED', '2014-01-01 11:00:00');
+INSERT INTO vacationRequest (id, version, employee_id, startDate, endDate, numberOfDays, status, submissionTime) VALUES (65, 0, 4, '2014-07-13', '2014-07-20', 5, 'APPROVED', '2014-01-01 11:00:00');
+INSERT INTO vacationRequest (id, version, employee_id, startDate, endDate, numberOfDays, status, submissionTime) VALUES (66, 0, 5, '2014-07-22', '2014-07-30', 6, 'APPROVED', '2014-01-01 11:00:00');
+INSERT INTO vacationRequest (id, version, employee_id, startDate, endDate, numberOfDays, status, submissionTime) VALUES (67, 0, 6, '2014-07-01', '2014-07-31', 27, 'APPROVED', '2014-01-01 11:00:00');
+
 DROP SEQUENCE IF EXISTS hibernate_sequence;
 CREATE SEQUENCE hibernate_sequence START WITH 100;

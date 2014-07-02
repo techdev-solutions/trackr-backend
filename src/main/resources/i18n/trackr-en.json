@@ -191,7 +191,8 @@
                 "TURNOVER": "Turnover"
             },
             "VACATION": {
-                "TITLE": "Vacation"
+                "TITLE": "Vacation",
+                "DAYS": "Days"
             },
             "PROJECT_HOURS": {
                 "TITLE": "Project hours"
