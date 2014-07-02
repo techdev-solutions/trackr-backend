@@ -46,6 +46,6 @@ public class DateConverterTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void convertWrongLength() throws Exception {
-        dateConverter.convert("2014");
+        dateConverter.convert("2014-01");
     }
 }
