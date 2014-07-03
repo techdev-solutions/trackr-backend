@@ -6,6 +6,7 @@ import de.techdev.trackr.domain.employee.login.DeactivateEmployeesService;
 import de.techdev.trackr.domain.employee.vacation.HolidayCalculator;
 import de.techdev.trackr.domain.employee.vacation.VacationRequestApproveService;
 import de.techdev.trackr.domain.employee.vacation.support.VacationRequestApproveServiceImpl;
+import de.techdev.trackr.domain.employee.vacation.support.VacationRequestEmployeeToDaysTotalService;
 import de.techdev.trackr.domain.employee.vacation.support.VacationRequestNotifyService;
 import de.techdev.trackr.domain.employee.worktimetracking.WorkTimeTrackingReminderService;
 import de.techdev.trackr.domain.project.invoice.ChangeStateService;
@@ -44,6 +45,11 @@ public class ApiBeansConfiguration {
     @Bean
     public VacationRequestApproveService vacationRequestService() {
         return new VacationRequestApproveServiceImpl();
+    }
+
+    @Bean
+    public VacationRequestEmployeeToDaysTotalService vacationRequestEmployeeToDaysTotalService() {
+        return new VacationRequestEmployeeToDaysTotalService();
     }
 
     @Bean

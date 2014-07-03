@@ -1,5 +1,6 @@
 package de.techdev.trackr.domain.employee.vacation;
 
+import de.techdev.trackr.domain.employee.vacation.support.VacationRequestEmployeeToDaysTotalService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -9,9 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.Date;
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * @author Moritz Schulze
@@ -25,10 +24,7 @@ public class VacationRequestController {
     private VacationRequestApproveService vacationRequestApproveService;
 
     @Autowired
-    private VacationRequestRepository vacationRequestRepository;
-
-    @Autowired
-    private HolidayCalculator holidayCalculator;
+    private VacationRequestEmployeeToDaysTotalService vacationRequestEmployeeToDaysTotalService;
 
     /**
      * Approve a vacation request. Can only be done by supervisors, but they are not allowed to approve their own requests.
@@ -76,42 +72,6 @@ public class VacationRequestController {
             @RequestParam("start") Date start,
             @RequestParam("end") Date end
     ) {
-        List<VacationRequest> vacationRequests = vacationRequestRepository
-                .findByStartDateBetweenOrEndDateBetweenAndStatus(start, end, start, end, VacationRequestStatus.APPROVED);
-        return vacationRequests.stream().collect(
-                Collectors.groupingBy(
-                        vacationRequest -> vacationRequest.getEmployee().getFirstName() + " " + vacationRequest.getEmployee().getLastName(),
-                        Collectors.summingInt(
-                                vacationRequest -> getVacationDaysBetween(vacationRequest, start, end)
-                        )
-                )
-        );
-    }
-
-    /**
-     * @return Returns the number of days of the vacation request between start and end that aren't holidays or weekends.
-     */
-    protected Integer getVacationDaysBetween(VacationRequest vacationRequest, Date start, Date end) {
-        return holidayCalculator.calculateDifferenceBetweenExcludingHolidaysAndWeekends(
-                // If the start of the vacation request is before the desired period we use the period start
-                getMaximum(start, vacationRequest.getStartDate()),
-                // If the end of the vacation request is after the desired period we use the period end
-                getMinimum(end, vacationRequest.getEndDate()),
-                vacationRequest.getEmployee().getFederalState()
-        );
-    }
-
-    /**
-     * The minimum of the two dates. No null checks.
-     */
-    protected Date getMinimum(Date a, Date b) {
-        return a.before(b) ? a : b;
-    }
-
-    /**
-     * The maximum of the two dates. No null checks.
-     */
-    protected Date getMaximum(Date a, Date b) {
-        return a.before(b) ? b : a;
+        return vacationRequestEmployeeToDaysTotalService.mapVacationRequestsToTotalDays(start, end);
     }
 }
