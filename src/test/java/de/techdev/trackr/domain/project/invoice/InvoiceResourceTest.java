@@ -8,6 +8,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import javax.json.stream.JsonGenerator;
 import java.io.StringWriter;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import static de.techdev.trackr.domain.DomainResourceTestMatchers.*;
 import static org.hamcrest.CoreMatchers.is;
@@ -105,6 +106,28 @@ public class InvoiceResourceTest extends AbstractDomainResourceTest<Invoice> {
                 get("/invoices/search/findByIdentifierLikeIgnoreCaseAndInvoiceState")
                         .param("identifier", "TEST")
                         .param("state", "OUTSTANDING")
+                        .session(supervisorSession())
+        )
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    public void findByCreationDateBetweenAccessibleForAdmin() throws Exception {
+        mockMvc.perform(
+                get("/invoices/search/findByCreationDateBetween")
+                        .param("start", String.valueOf(new Date().getTime()))
+                        .param("end", String.valueOf(new Date().getTime()))
+                        .session(adminSession())
+        )
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void findByCreationDateBetweenForbiddenForSupervisor() throws Exception {
+        mockMvc.perform(
+                get("/invoices/search/findByCreationDateBetween")
+                        .param("start", String.valueOf(new Date().getTime()))
+                        .param("end", String.valueOf(new Date().getTime()))
                         .session(supervisorSession())
         )
                 .andExpect(status().isForbidden());
