@@ -200,7 +200,8 @@
                 "BILLED_HOURS": "Billed hours"
             },
             "EMPLOYEE_HOURS": {
-                "TITLE": "Employee hours"
+                "TITLE": "Employee hours",
+                "WORKED_HOURS": "Worked hours"
             },
             "TRAVEL_EXPENSE": {
                 "TITLE": "Travel expenses"

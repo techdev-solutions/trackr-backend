@@ -200,7 +200,8 @@
                 "BILLED_HOURS": "Berechnete Stunden"
             },
             "EMPLOYEE_HOURS": {
-                "TITLE": "Arbeitsstunden"
+                "TITLE": "Arbeitsstunden",
+                "WORKED_HOURS": "Gearbeitete Stunden"
             },
             "TRAVEL_EXPENSE": {
                 "TITLE": "Reisekosten"
