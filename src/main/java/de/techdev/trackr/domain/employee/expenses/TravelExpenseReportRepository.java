@@ -7,6 +7,7 @@ import org.springframework.data.rest.core.annotation.RestResource;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -27,4 +28,8 @@ public interface TravelExpenseReportRepository extends CrudRepository<TravelExpe
 
     @PreAuthorize("hasRole('ROLE_SUPERVISOR')")
     List<TravelExpenseReport> findByStatusOrderByEmployee_LastNameAsc(@Param("status") TravelExpenseReportStatus status);
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    List<TravelExpenseReport> findBySubmissionDateBetween(@Param("start") Date start, @Param("end") Date end);
 }
+

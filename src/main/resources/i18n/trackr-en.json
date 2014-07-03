@@ -204,7 +204,8 @@
                 "WORKED_HOURS": "Worked hours"
             },
             "TRAVEL_EXPENSE": {
-                "TITLE": "Travel expenses"
+                "TITLE": "Travel expenses",
+                "EXPENSES": "Expenses"
             }
         },
         "BREADCRUMB_UNKNOWN": "unknown"

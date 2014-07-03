@@ -6,6 +6,8 @@ import de.techdev.trackr.domain.employee.expenses.TravelExpenseReportService;
 import de.techdev.trackr.domain.employee.expenses.TravelExpenseReportStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.Date;
+
 /**
  * @author Moritz Schulze
  */
@@ -30,6 +32,9 @@ public class TravelExpenseReportServiceImpl implements TravelExpenseReportServic
     }
 
     private TravelExpenseReport setStatusOnTravelExpenseReport(TravelExpenseReport travelExpenseReport, TravelExpenseReportStatus status) {
+        if (status == TravelExpenseReportStatus.SUBMITTED) {
+            travelExpenseReport.setSubmissionDate(new Date());
+        }
         travelExpenseReport.setStatus(status);
         return travelExpenseReportRepository.save(travelExpenseReport);
     }

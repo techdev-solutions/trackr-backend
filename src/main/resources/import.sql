@@ -55,18 +55,18 @@ INSERT INTO vacationRequest (id, version, employee_id, startDate, endDate, numbe
 INSERT INTO vacationRequest (id, version, employee_id, startDate, endDate, numberOfDays, status, submissionTime, approvalDate) VALUES (33, 0, 0, '2014-03-09', '2014-03-16', 5, 'APPROVED', '2014-01-01 10:00:00', '2014-03-25 12:30:00');
 INSERT INTO vacationRequest (id, version, employee_id, startDate, endDate, numberOfDays, status, submissionTime, approver_id, approvalDate) VALUES (34, 0, 0, '2014-03-17', '2014-03-24', 5, 'REJECTED', '2014-01-01 16:00:00', 1, '2014-03-25 17:00:01');
 
-INSERT INTO travelExpenseReport (id, version, employee_id, status) VALUES (35, 0, 0, 'PENDING');
-INSERT INTO travelExpenseReport (id, version, employee_id, status) VALUES (36, 0, 0, 'APPROVED');
-INSERT INTO travelExpenseReport (id, version, employee_id, status) VALUES (37, 0, 0, 'REJECTED');
+INSERT INTO travelExpenseReport (id, version, employee_id, status, submissionDate) VALUES (35, 0, 1, 'PENDING', '2014-07-03 12:30:21');
+INSERT INTO travelExpenseReport (id, version, employee_id, status, submissionDate) VALUES (36, 0, 1, 'APPROVED', '2014-07-10 09:00:34');
+INSERT INTO travelExpenseReport (id, version, employee_id, status, submissionDate) VALUES (37, 0, 1, 'REJECTED', '2014-07-25 17:44:58');
 INSERT INTO travelExpense (id, version, report_id, fromDate, toDate, cost, vat, submissionDate, type) VALUES (38, 0, 35, '2014-04-01', '2014-04-10', 130.49, 19, '2014-04-12 10:00:30', 'TAXI');
-INSERT INTO travelExpense (id, version, report_id, fromDate, toDate, cost, vat, submissionDate, type) VALUES (39, 0, 36, '2014-04-01', '2014-04-10', 100000, 19, '2014-04-12 10:00:30', 'HOTEL');
+INSERT INTO travelExpense (id, version, report_id, fromDate, toDate, cost, vat, submissionDate, type) VALUES (39, 0, 36, '2014-04-01', '2014-04-10', 1000, 19, '2014-04-12 10:00:30', 'HOTEL');
 INSERT INTO travelExpense (id, version, report_id, fromDate, toDate, cost, vat, submissionDate, type) VALUES (40, 0, 37, '2014-04-01', '2014-04-10', 100000000, 25, '2014-04-12 10:00:30', 'HOTEL');
 
-INSERT INTO travelExpenseReport (id, version, employee_id, status) VALUES (41, 0, 1, 'PENDING');
-INSERT INTO travelExpense (id, version, report_id, fromDate, toDate, cost, vat, submissionDate, type) VALUES (42, 0, 41, '2014-04-01', '2014-04-10', 130.49, 19, '2014-04-12 10:00:30', 'TAXI');
-INSERT INTO travelExpense (id, version, report_id, fromDate, toDate, cost, vat, submissionDate, type) VALUES (43, 0, 41, '2014-04-05', '2014-04-07', 200.13, 18, '2014-04-12 10:00:30', 'HOTEL');
+INSERT INTO travelExpenseReport (id, version, employee_id, status, submissionDate) VALUES (41, 0, 2, 'PENDING', '2014-07-14 13:30:21');
+INSERT INTO travelExpense (id, version, report_id, fromDate, toDate, cost, vat, submissionDate, type) VALUES (42, 0, 41, '2014-04-01', '2014-04-10', 141.49, 19, '2014-04-12 10:00:30', 'TAXI');
+INSERT INTO travelExpense (id, version, report_id, fromDate, toDate, cost, vat, submissionDate, type) VALUES (43, 0, 41, '2014-04-05', '2014-04-07', 520.37, 18, '2014-04-12 10:00:30', 'HOTEL');
 
-INSERT INTO travelExpenseReport (id, version, employee_id, status) VALUES (44, 0, 1, 'SUBMITTED');
+INSERT INTO travelExpenseReport (id, version, employee_id, status, submissionDate) VALUES (44, 0, 3, 'SUBMITTED', '2014-07-04 12:30:21');
 INSERT INTO travelExpense (id, version, report_id, fromDate, toDate, cost, vat, submissionDate, type) VALUES (45, 0, 44, '2014-04-01', '2014-04-10', 130.49, 19, '2014-04-12 10:00:30', 'TAXI');
 INSERT INTO travelExpense (id, version, report_id, fromDate, toDate, cost, vat, submissionDate, type) VALUES (46, 0, 44, '2014-04-05', '2014-04-07', 200.13, 18, '2014-04-12 10:00:30', 'HOTEL');
 

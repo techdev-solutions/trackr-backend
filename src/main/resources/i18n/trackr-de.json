@@ -204,7 +204,8 @@
                 "WORKED_HOURS": "Gearbeitete Stunden"
             },
             "TRAVEL_EXPENSE": {
-                "TITLE": "Reisekosten"
+                "TITLE": "Reisekosten",
+                "EXPENSES": "Ausgaben"
             }
         }
     },

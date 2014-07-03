@@ -9,6 +9,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 import javax.json.stream.JsonGenerator;
 import java.io.StringWriter;
+import java.text.SimpleDateFormat;
 import java.util.function.Function;
 
 import static de.techdev.trackr.domain.DomainResourceTestMatchers.*;
@@ -134,9 +135,14 @@ public class TravelExpenseReportResourceTest extends AbstractDomainResourceTest<
     protected String getJsonRepresentation(TravelExpenseReport travelExpenseReport) {
         StringWriter writer = new StringWriter();
         JsonGenerator jg = jsonGeneratorFactory.createGenerator(writer);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
         jg.writeStartObject()
           .write("status", travelExpenseReport.getStatus().toString())
           .write("employee", "/employees/" + travelExpenseReport.getEmployee().getId());
+
+        if(travelExpenseReport.getSubmissionDate() != null) {
+            jg.write("submissionDate", sdf.format(travelExpenseReport.getSubmissionDate()));
+        }
         if (travelExpenseReport.getId() != null) {
             jg.write("id", travelExpenseReport.getId());
         }
