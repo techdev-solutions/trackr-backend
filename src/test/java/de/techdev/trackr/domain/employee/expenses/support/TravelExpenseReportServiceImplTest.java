@@ -6,10 +6,12 @@ import de.techdev.trackr.domain.ApiBeansConfiguration;
 import de.techdev.trackr.domain.employee.expenses.TravelExpenseReport;
 import de.techdev.trackr.domain.employee.expenses.TravelExpenseReportService;
 import de.techdev.trackr.domain.employee.expenses.TravelExpenseReportStatus;
+import de.techdev.trackr.util.LocalDateUtil;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -41,7 +43,8 @@ public class TravelExpenseReportServiceImplTest extends TransactionalIntegration
 
     @Test
     public void testSubmit() throws Exception {
-        Date date = new Date();
+        LocalDate localDate = LocalDate.of(2014, 1, 1);
+        Date date = LocalDateUtil.fromLocalDate(localDate);
         TravelExpenseReport travelExpenseReport = new TravelExpenseReport();
         travelExpenseReport.setStatus(TravelExpenseReportStatus.PENDING);
         travelExpenseReport.setSubmissionDate(date);
