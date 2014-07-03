@@ -12,15 +12,14 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import javax.json.stream.JsonGenerator;
 import java.io.StringWriter;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.function.Function;
 
 import static de.techdev.trackr.domain.DomainResourceTestMatchers.*;
 import static org.echocat.jomon.testing.BaseMatchers.isNotNull;
-import static org.echocat.jomon.testing.BaseMatchers.isNull;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -290,6 +289,30 @@ public class VacationRequestResourceTest extends AbstractDomainResourceTest<Vaca
         SecurityContextHolder.getContext().setAuthentication(AuthorityMocks.supervisorAuthentication());
         VacationRequest one = repository.findOne(vacationRequest.getId());
         assertThat(one.getStatus(), is(VacationRequestStatus.APPROVED));
+    }
+
+    @Test
+    public void daysPerEmployeeBetweenAccessibleForAdmin() throws Exception {
+        VacationRequest vacationRequest = dataOnDemand.getRandomObject();
+        mockMvc.perform(
+                get("/vacationRequests/daysPerEmployeeBetween")
+                .session(adminSession())
+                .param("start", String.valueOf(vacationRequest.getStartDate().getTime()))
+                .param("end", String.valueOf(vacationRequest.getEndDate().getTime()))
+        )
+                .andExpect(status().isOk())
+                .andExpect(jsonPath(vacationRequest.getEmployee().getFirstName() + " " + vacationRequest.getEmployee().getLastName()).exists());
+    }
+
+    @Test
+    public void daysPerEmployeeBetweenForbiddenForSupervisor() throws Exception {
+        mockMvc.perform(
+                get("/vacationRequests/daysPerEmployeeBetween")
+                        .session(supervisorSession())
+                        .param("start", String.valueOf(new Date().getTime()))
+                        .param("end", String.valueOf(new Date().getTime()))
+        )
+                .andExpect(status().isForbidden());
     }
 
     @Override
