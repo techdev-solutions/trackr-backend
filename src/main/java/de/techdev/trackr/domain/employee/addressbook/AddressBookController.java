@@ -25,6 +25,7 @@ import java.util.stream.Collectors;
 @RequestMapping("/address_book")
 public class AddressBookController {
 
+    public static final String ADMIN_EMAIL = "admin@techdev.de";
     @Autowired
     private EmployeeRepository employeeRepository;
 
@@ -36,7 +37,7 @@ public class AddressBookController {
             @RequestParam(value = "page", defaultValue = "0", required = false) int page) {
         Pageable pageable = new PageRequest(page, size);
         Page<Employee> pageOfEmployees = employeeRepository.findAllNotExported(pageable);
-        List<ReducedEmployee> reducedEmployees = transformToReducedEmployees(pageOfEmployees.getContent());
+        List<ReducedEmployee> reducedEmployees = transformToReducedEmployeesAndRemoveAdmin(pageOfEmployees.getContent());
         return new PagedResources<ReducedEmployee>(reducedEmployees, pageMetadataFromPage(pageOfEmployees));
     }
 
@@ -46,10 +47,11 @@ public class AddressBookController {
      * @param listOfEmployees The list to transform
      * @return The transformed list.
      */
-    protected List<ReducedEmployee> transformToReducedEmployees(List<Employee> listOfEmployees) {
+    protected List<ReducedEmployee> transformToReducedEmployeesAndRemoveAdmin(List<Employee> listOfEmployees) {
         return listOfEmployees
                 .stream()
                 .map(ReducedEmployee::valueOf)
+                .filter( e -> !ADMIN_EMAIL.equals(e.getEmail()))
                 .collect(Collectors.toList());
     }
 
