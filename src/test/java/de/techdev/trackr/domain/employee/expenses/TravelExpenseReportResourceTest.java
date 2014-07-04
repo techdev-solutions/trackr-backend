@@ -100,6 +100,35 @@ public class TravelExpenseReportResourceTest extends AbstractDomainResourceTest<
     }
 
     @Test
+    public void deleteAllowedForOwnerIfPending() throws Exception {
+        TravelExpenseReport travelExpenseReport = dataOnDemand.getRandomObject();
+        travelExpenseReport.setStatus(TravelExpenseReportStatus.PENDING);
+        repository.save(travelExpenseReport);
+        assertThat(removeUrl(employeeSession(travelExpenseReport.getEmployee().getId()), "/travelExpenseReports/" + travelExpenseReport.getId()), isNoContent());
+    }
+
+    @Test
+    public void deleteAllowedForAdmin() throws Exception {
+        assertThat(remove(adminSession()), isNoContent());
+    }
+
+    @Test
+    public void deleteForbiddenForOtherEvenIfPending() throws Exception {
+        TravelExpenseReport travelExpenseReport = dataOnDemand.getRandomObject();
+        travelExpenseReport.setStatus(TravelExpenseReportStatus.PENDING);
+        repository.save(travelExpenseReport);
+        assertThat(removeUrl(employeeSession(travelExpenseReport.getEmployee().getId() + 1), "/travelExpenseReports/" + travelExpenseReport.getId()), isForbidden());
+    }
+
+    @Test
+    public void deleteForbiddenForOwnerIfSubmitted() throws Exception {
+        TravelExpenseReport travelExpenseReport = dataOnDemand.getRandomObject();
+        travelExpenseReport.setStatus(TravelExpenseReportStatus.SUBMITTED);
+        repository.save(travelExpenseReport);
+        assertThat(removeUrl(employeeSession(travelExpenseReport.getEmployee().getId()), "/travelExpenseReports/" + travelExpenseReport.getId()), isForbidden());
+    }
+
+    @Test
     public void submitNotAllowedForOtherSupervisor() throws Exception {
         TravelExpenseReport travelExpenseReport = dataOnDemand.getRandomObject();
         travelExpenseReport.setStatus(TravelExpenseReportStatus.PENDING);

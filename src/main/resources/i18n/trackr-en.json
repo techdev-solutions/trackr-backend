@@ -151,7 +151,10 @@
             "TEXT_EDIT_PROFILE": "Edit your profile",
             "TEXT_EDIT_TIMESHEET": "Track times",
             "TEXT_VACATION": "Vacation request",
-            "TEXT_EXPENSES": "Travel expenses",
+            "EXPENSES": {
+                "TITLE": "Travel expenses",
+                "DELETE_FORBIDDEN": "You cannot delete this report."
+            },
             "TEXT_TIMESHEET_OVERVIEW": "Working times overview",
             "TIMESHEET_OVERVIEW": {
                 "GROUPED_BY_PROJECT": "Grouped by project"
@@ -228,11 +231,15 @@
         "ADD": "Add",
         "BACK": "Back",
         "SEARCH": "Search",
+        "DELETE": "Delete",
         "REALLY_DELETE": "Really delete?"
     },
     "DATE": {
         "TODAY": "Today",
         "WEEKS": "Weeks"
     },
-    "LANGUAGE": "Language"
+    "LANGUAGE": "Language",
+    "ERRORS": {
+        "FAILED_REQUEST": "Request failed."
+    }
 }
