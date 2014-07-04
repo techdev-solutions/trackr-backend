@@ -21,8 +21,13 @@ public class AccessConfirmationController {
 
     @RequestMapping("/oauth/confirm_access")
     public ModelAndView confirmAccess(Map<String, Object> model, Principal principal) {
-        //We set the proxy path so the form has the correct action.
-        model.put("proxyPath", proxyPath);
+        //We set the proxy path so the form has the correct action. Since on local and QS we don't use a complete
+        //URI we add a leading slash.
+        if (proxyPath != null && proxyPath.startsWith("http")) {
+            model.put("proxyPath", proxyPath);
+        } else {
+            model.put("proxyPath", "/" + proxyPath);
+        }
         return new ModelAndView("confirm_access", model);
     }
 

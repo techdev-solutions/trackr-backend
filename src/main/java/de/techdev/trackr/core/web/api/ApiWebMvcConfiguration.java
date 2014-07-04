@@ -2,6 +2,7 @@ package de.techdev.trackr.core.web.api;
 
 import de.techdev.trackr.core.web.converters.DateConverter;
 import de.techdev.trackr.domain.ApiBeansConfiguration;
+import de.techdev.trackr.domain.common.StringToEntityConverter;
 import de.techdev.trackr.domain.common.TrackrUserLocaleResolver;
 import de.techdev.trackr.domain.company.Address;
 import de.techdev.trackr.domain.company.Company;
@@ -16,7 +17,6 @@ import de.techdev.trackr.domain.project.BillableTime;
 import de.techdev.trackr.domain.project.Project;
 import de.techdev.trackr.domain.project.WorkTime;
 import de.techdev.trackr.domain.project.invoice.Invoice;
-import de.techdev.trackr.domain.project.invoice.StringInvoiceConverter;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.*;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
@@ -85,7 +85,17 @@ public class ApiWebMvcConfiguration extends RepositoryRestMvcConfiguration {
 
     @Bean
     public Converter<String, Invoice> stringInvoiceConverter() {
-        return new StringInvoiceConverter();
+        return new StringToEntityConverter.StringToInvoiceConverter();
+    }
+
+    @Bean
+    public Converter<String, VacationRequest> vacationRequestConverter() {
+        return new StringToEntityConverter.StringToVacationRequestConverter();
+    }
+
+    @Bean
+    public Converter<String, TravelExpenseReport> travelExpenseReportConverter() {
+        return new StringToEntityConverter.StringToTravelExpenseReportConverter();
     }
 
     @Override
@@ -101,6 +111,8 @@ public class ApiWebMvcConfiguration extends RepositoryRestMvcConfiguration {
     public void addFormatters(FormatterRegistry registry) {
         registry.addConverter(dateConverter());
         registry.addConverter(stringInvoiceConverter());
+        registry.addConverter(vacationRequestConverter());
+        registry.addConverter(travelExpenseReportConverter());
     }
 
     @Bean

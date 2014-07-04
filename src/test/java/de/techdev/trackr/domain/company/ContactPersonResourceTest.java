@@ -148,6 +148,9 @@ public class ContactPersonResourceTest extends AbstractDomainResourceTest<Contac
           .write("phone", contactPerson.getPhone())
           .write("company", "/api/companies/" + contactPerson.getCompany().getId());
 
+        if (contactPerson.getRoles() != null) {
+            jg.write("roles", contactPerson.getRoles());
+        }
         if (contactPerson.getId() != null) {
             jg.write("id", contactPerson.getId());
         }

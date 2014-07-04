@@ -158,6 +158,26 @@ public class WorkTimeResourceTest extends AbstractDomainResourceTest<WorkTime> {
     }
 
     @Test
+    public void findByDateBetweenAllowedForAdmin() throws Exception {
+        mockMvc.perform(
+                get("/workTimes/search/findByDateBetween")
+                        .session(adminSession())
+                        .param("start", String.valueOf(new Date().getTime()))
+                        .param("end", String.valueOf(new Date().getTime())))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void findByDateBetweenForbiddenForSupervisor() throws Exception {
+        mockMvc.perform(
+                get("/workTimes/search/findByDateBetween")
+                        .session(supervisorSession())
+                        .param("start", String.valueOf(new Date().getTime()))
+                        .param("end", String.valueOf(new Date().getTime())))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
     public void findByEmployeeAndDateBetweenOrderByDateAscStartTimeAscAllowedForOwner() throws Exception {
         WorkTime workTime1 = dataOnDemand.getRandomObject();
         WorkTime workTime2 = dataOnDemand.getRandomObject();

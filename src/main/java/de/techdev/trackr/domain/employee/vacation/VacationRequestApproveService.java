@@ -1,6 +1,5 @@
 package de.techdev.trackr.domain.employee.vacation;
 
-import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,13 +14,13 @@ public interface VacationRequestApproveService {
      * <p>
      * Will not approve pending vacation requests.
      *
-     * @param vacationRequestId The id of the vacation request to approve.
-     * @param supervisorEmail   The email address of the employee to use as the approver.
+     * @param vacationRequest The vacation request to approve
+     * @param supervisorEmail The email address of the employee to use as the approver.
      * @return The approved (or not) vacation request.
      */
     @Transactional
-    @PostAuthorize("hasRole('ROLE_SUPERVISOR') and principal.id != returnObject.employee.id")
-    VacationRequest approve(Long vacationRequestId, String supervisorEmail);
+    @PreAuthorize("hasRole('ROLE_SUPERVISOR') and principal.id != #vacationRequest.employee.id")
+    VacationRequest approve(VacationRequest vacationRequest, String supervisorEmail);
 
     /**
      * Rejects a vacation request. The vacation request will be fetched from the repository, the rejector by the name given in
@@ -29,13 +28,13 @@ public interface VacationRequestApproveService {
      * <p>
      * Will only reject pending vacation requests.
      *
-     * @param vacationRequestId The id of the vacation request to approve.
+     * @param vacationRequest   The vacation request to reject.
      * @param supervisorEmail   The email address of the employee to use as the approver.
      * @return The approved (or not) vacation request.
      */
     @Transactional
-    @PostAuthorize("hasRole('ROLE_SUPERVISOR') and principal.id != returnObject.employee.id")
-    VacationRequest reject(Long vacationRequestId, String supervisorEmail);
+    @PreAuthorize("hasRole('ROLE_SUPERVISOR') and principal.id != #vacationRequest.employee.id")
+    VacationRequest reject(VacationRequest vacationRequest, String supervisorEmail);
 
     /**
      * Approves all requests that are more than seven days old.

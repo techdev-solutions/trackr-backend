@@ -31,4 +31,13 @@ public interface VacationRequestRepository extends CrudRepository<VacationReques
 
     @RestResource(exported = false)
     List<VacationRequest> findBySubmissionTimeBeforeAndStatus(Date date, VacationRequestStatus status);
+
+    /**
+     * Find vacation requests of a certain status that overlap with a period.
+     */
+    @RestResource(exported = false)
+    List<VacationRequest> findByStartDateBetweenOrEndDateBetweenAndStatus(
+            Date startLower, Date startHigher,
+            Date endLower, Date endHigher,
+            VacationRequestStatus status);
 }

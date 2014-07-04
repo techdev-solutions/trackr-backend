@@ -8,10 +8,13 @@ import org.springframework.mock.web.MockHttpSession;
 import javax.json.stream.JsonGenerator;
 import java.io.StringWriter;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.function.Function;
 
 import static de.techdev.trackr.domain.DomainResourceTestMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
  * @author Moritz Schulze
@@ -108,6 +111,28 @@ public class BillableTimeResourceTest extends AbstractDomainResourceTest<Billabl
     @Test
     public void updateProjectForbiddenForEmployee() throws Exception {
         assertThat(updateLink(sameEmployeeSessionProvider, "project", "/projects/0"), isForbidden());
+    }
+
+    @Test
+    public void findByDateBetweenAllowedForAdmin() throws Exception {
+        mockMvc.perform(
+                get("/billableTimes/search/findByDateBetween")
+                        .session(adminSession())
+                        .param("start", String.valueOf(new Date().getTime()))
+                        .param("end", String.valueOf(new Date().getTime()))
+        )
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void findByDateBetweenForbiddenForSupervisor() throws Exception {
+        mockMvc.perform(
+                get("/billableTimes/search/findByDateBetween")
+                        .session(supervisorSession())
+                        .param("start", String.valueOf(new Date().getTime()))
+                        .param("end", String.valueOf(new Date().getTime()))
+        )
+                .andExpect(status().isForbidden());
     }
 
     @Override

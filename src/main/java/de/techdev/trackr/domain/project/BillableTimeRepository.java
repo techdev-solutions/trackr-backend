@@ -28,4 +28,7 @@ public interface BillableTimeRepository extends CrudRepository<BillableTime, Lon
     List<BillableTime> findByProjectAndDateBetweenOrderByDateAsc(@Param("project") Project project,
                                                                  @Param("start") Date start,
                                                                  @Param("end") Date end);
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    List<BillableTime> findByDateBetween(@Param("start") Date start, @Param("end") Date end);
 }

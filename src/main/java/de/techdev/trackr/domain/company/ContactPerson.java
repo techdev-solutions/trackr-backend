@@ -40,4 +40,6 @@ public class ContactPerson {
     @NotEmpty
     private String salutation;
 
+    private String roles;
+
 }

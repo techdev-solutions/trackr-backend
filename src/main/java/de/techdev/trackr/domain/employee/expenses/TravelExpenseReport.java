@@ -5,6 +5,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -29,4 +30,7 @@ public class TravelExpenseReport {
 
     @Enumerated(EnumType.STRING)
     private TravelExpenseReportStatus status;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date submissionDate;
 }

@@ -28,7 +28,8 @@
         "FIRST_NAME": "First name",
         "LAST_NAME": "Last name",
         "EMAIL": "Email",
-        "PHONE": "Phone"
+        "PHONE": "Phone",
+        "ROLES": "Roles"
     },
     "EMPLOYEE": {
         "CREATE_NEW": "Create new employee",
@@ -154,6 +155,9 @@
             "TEXT_TIMESHEET_OVERVIEW": "Working times overview",
             "TIMESHEET_OVERVIEW": {
                 "GROUPED_BY_PROJECT": "Grouped by project"
+            },
+            "ADDRESS_BOOK": {
+                "TITLE": "Address book"
             }
         },
         "SUPERVISOR": {
@@ -179,6 +183,29 @@
             "TRAVEL_EXPENSE_REPORTS": {
                 "TITLE": "Travel expenses",
                 "EMPTY_TEXT": "No submitted travel expense reports."
+            }
+        },
+        "REPORTR": {
+            "REVENUE": {
+                "TITLE": "Revenues",
+                "TURNOVER": "Turnover"
+            },
+            "VACATION": {
+                "TITLE": "Vacation",
+                "DAYS": "Days"
+            },
+            "PROJECT_HOURS": {
+                "TITLE": "Project hours",
+                "TRACKED_HOURS": "Tracked hours",
+                "BILLED_HOURS": "Billed hours"
+            },
+            "EMPLOYEE_HOURS": {
+                "TITLE": "Employee hours",
+                "WORKED_HOURS": "Worked hours"
+            },
+            "TRAVEL_EXPENSE": {
+                "TITLE": "Travel expenses",
+                "EXPENSES": "Expenses"
             }
         },
         "BREADCRUMB_UNKNOWN": "unknown"

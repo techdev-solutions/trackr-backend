@@ -29,6 +29,12 @@ public class DateConverter implements Converter<String, Date> {
             return null;
         }
         Date date;
+        try {
+            Long milliSeconds = Long.valueOf(source);
+            return new Date(milliSeconds);
+        } catch (NumberFormatException e) {
+            //Continue with other formats
+        }
         if(source.length() == 10) {
             try {
                 date = date10.parse(source);

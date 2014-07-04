@@ -31,13 +31,13 @@ public class VacationRequestApproveServiceImpl implements VacationRequestApprove
     private VacationRequestNotifyService vacationRequestNotifyService;
 
     @Override
-    public VacationRequest approve(Long vacationRequestId, String supervisorEmail) {
-        return setStatusOnVacationRequest(vacationRequestId, supervisorEmail, VacationRequestStatus.APPROVED);
+    public VacationRequest approve(VacationRequest vacationRequest, String supervisorEmail) {
+        return setStatusOnVacationRequest(vacationRequest, supervisorEmail, VacationRequestStatus.APPROVED);
     }
 
     @Override
-    public VacationRequest reject(Long vacationRequestId, String supervisorEmail) {
-        return setStatusOnVacationRequest(vacationRequestId, supervisorEmail, VacationRequestStatus.REJECTED);
+    public VacationRequest reject(VacationRequest vacationRequest, String supervisorEmail) {
+        return setStatusOnVacationRequest(vacationRequest, supervisorEmail, VacationRequestStatus.REJECTED);
     }
 
     @Override
@@ -46,12 +46,11 @@ public class VacationRequestApproveServiceImpl implements VacationRequestApprove
         List<VacationRequest> vacationRequests = vacationRequestRepository.findBySubmissionTimeBeforeAndStatus(LocalDateUtil.fromLocalDate(oneWeekAgo), VacationRequestStatus.PENDING);
         vacationRequests.forEach(vacationRequest -> {
             log.info("Approving more then seven days old vacation request {}", vacationRequest);
-            approve(vacationRequest.getId(), null);
+            approve(vacationRequest, null);
         });
     }
 
-    protected VacationRequest setStatusOnVacationRequest(Long vacationRequestId, String supervisorEmail, VacationRequestStatus status) {
-        VacationRequest vacationRequest = vacationRequestRepository.findOne(vacationRequestId);
+    protected VacationRequest setStatusOnVacationRequest(VacationRequest vacationRequest, String supervisorEmail, VacationRequestStatus status) {
         if (vacationRequest.getStatus() == VacationRequestStatus.PENDING) {
             Employee supervisor = null;
             Credential byEmail = credentialRepository.findByEmail(supervisorEmail);

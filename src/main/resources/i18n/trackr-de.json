@@ -28,7 +28,8 @@
         "FIRST_NAME": "Vorname",
         "LAST_NAME": "Nachname",
         "EMAIL": "Email",
-        "PHONE": "Telefon"
+        "PHONE": "Telefon",
+        "ROLES": "Rollen"
     },
     "EMPLOYEE": {
         "CREATE_NEW": "Neuen Angestellten anlegen",
@@ -154,8 +155,10 @@
             "TEXT_TIMESHEET_OVERVIEW": "Arbeitszeiten Übersicht",
             "TIMESHEET_OVERVIEW": {
                 "GROUPED_BY_PROJECT": "Nach Projekt gruppiert"
+            },
+            "ADDRESS_BOOK": {
+                "TITLE": "Adressbuch"
             }
-
         },
         "SUPERVISOR": {
             "TITLE": "Supervisor",
@@ -180,6 +183,29 @@
             "TRAVEL_EXPENSE_REPORTS": {
                 "TITLE": "Travel expenses",
                 "EMPTY_TEXT": "Keine Reisekostenberichte"
+            }
+        },
+        "REPORTR": {
+            "REVENUE": {
+                "TITLE": "Einnahmen",
+                "TURNOVER": "Umsatz"
+            },
+            "VACATION": {
+                "TITLE": "Urlaub",
+                "DAYS": "Tage"
+            },
+            "PROJECT_HOURS": {
+                "TITLE": "Projektstunden",
+                "TRACKED_HOURS": "Erfasste Stunden",
+                "BILLED_HOURS": "Berechnete Stunden"
+            },
+            "EMPLOYEE_HOURS": {
+                "TITLE": "Arbeitsstunden",
+                "WORKED_HOURS": "Gearbeitete Stunden"
+            },
+            "TRAVEL_EXPENSE": {
+                "TITLE": "Reisekosten",
+                "EXPENSES": "Ausgaben"
             }
         }
     },

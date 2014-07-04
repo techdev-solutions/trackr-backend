@@ -18,22 +18,22 @@ public class TravelExpenseReportController {
     @RequestMapping(value = "/{id}/submit", method = RequestMethod.PUT)
     @ResponseBody
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void submit(@PathVariable("id") Long id) {
-        travelExpenseReportService.submit(id);
+    public void submit(@PathVariable("id") TravelExpenseReport travelExpenseReport) {
+        travelExpenseReportService.submit(travelExpenseReport);
     }
 
     @RequestMapping(value = "/{id}/approve", method = RequestMethod.PUT)
     @ResponseBody
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void approve(@PathVariable("id") Long id) {
-        travelExpenseReportService.accept(id);
+    public void approve(@PathVariable("id") TravelExpenseReport travelExpenseReport) {
+        travelExpenseReportService.accept(travelExpenseReport);
     }
 
     @RequestMapping(value = "/{id}/reject", method = RequestMethod.PUT)
     @ResponseBody
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void reject(@PathVariable("id") Long id) {
-        travelExpenseReportService.reject(id);
+    public void reject(@PathVariable("id") TravelExpenseReport travelExpenseReport) {
+        travelExpenseReportService.reject(travelExpenseReport);
     }
 
 }
