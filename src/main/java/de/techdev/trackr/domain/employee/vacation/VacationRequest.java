@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import de.techdev.trackr.domain.employee.Employee;
 import de.techdev.trackr.domain.validation.constraints.EndAfterBegin;
 import lombok.Data;
+import lombok.ToString;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -15,6 +16,7 @@ import java.util.Date;
 @Entity
 @Data
 @EndAfterBegin(begin = "startDate", end = "endDate")
+@ToString(exclude = {"employee"})
 public class VacationRequest {
 
     @Id

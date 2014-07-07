@@ -25,7 +25,7 @@ import java.util.List;
  */
 @Data
 @Entity
-@ToString(exclude = {"workTimes", "billableTimes", "vacationRequests", "approvedRequests", "travelExpenseReports"})
+@ToString(exclude = {"credential", "workTimes", "billableTimes", "vacationRequests", "approvedRequests", "travelExpenseReports"})
 @JsonIgnoreProperties({"credential", "workTimes", "billableTimes", "vacationRequests", "approvedRequests", "travelExpenseReports"})
 @EndAfterBegin(begin = "joinDate", end = "leaveDate")
 public class Employee {

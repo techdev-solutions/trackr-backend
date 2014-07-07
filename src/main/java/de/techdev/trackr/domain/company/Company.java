@@ -17,7 +17,7 @@ import java.util.List;
  * @author Moritz Schulze
  */
 @Data
-@ToString(exclude = "contactPersons")
+@ToString(exclude = {"contactPersons", "address", "projects", "debitorProjects"})
 @EqualsAndHashCode(exclude = "contactPersons")
 @Entity
 @JsonIgnoreProperties({"debitorProjects"})
