@@ -3,6 +3,7 @@ package de.techdev.trackr.domain;
 import de.techdev.trackr.domain.employee.expenses.TravelExpenseReportService;
 import de.techdev.trackr.domain.employee.expenses.support.TravelExpenseReportServiceImpl;
 import de.techdev.trackr.domain.employee.login.DeactivateEmployeesService;
+import de.techdev.trackr.domain.employee.login.support.SupervisorService;
 import de.techdev.trackr.domain.employee.vacation.HolidayCalculator;
 import de.techdev.trackr.domain.employee.vacation.VacationRequestApproveService;
 import de.techdev.trackr.domain.employee.vacation.support.VacationRequestApproveServiceImpl;
@@ -65,5 +66,10 @@ public class ApiBeansConfiguration {
     @Bean
     public ChangeStateService changeStateService() {
         return new ChangeStateService();
+    }
+
+    @Bean
+    public SupervisorService supervisorService() {
+        return new SupervisorService();
     }
 }

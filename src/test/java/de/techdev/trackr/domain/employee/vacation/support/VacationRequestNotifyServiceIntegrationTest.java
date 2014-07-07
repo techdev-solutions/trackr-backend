@@ -6,13 +6,9 @@ import de.techdev.trackr.domain.ApiBeansConfiguration;
 import de.techdev.trackr.domain.employee.vacation.VacationRequest;
 import de.techdev.trackr.domain.employee.vacation.VacationRequestDataOnDemand;
 import de.techdev.trackr.domain.employee.vacation.VacationRequestStatus;
-import de.techdev.trackr.domain.employee.vacation.support.VacationRequestNotifyService;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
-
-import static org.echocat.jomon.testing.BaseMatchers.isNotEmpty;
-import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
  * @author Moritz Schulze
@@ -38,11 +34,5 @@ public class VacationRequestNotifyServiceIntegrationTest extends IntegrationTest
         VacationRequest vacationRequest = vacationRequestDataOnDemand.getRandomObject();
         vacationRequest.setStatus(VacationRequestStatus.REJECTED);
         vacationRequestNotifyService.sendEmailNotification(vacationRequest);
-    }
-
-    @Test
-    public void collectSupervisorAddresses() throws Exception {
-        String[] supervisorEmailsConcatenated = vacationRequestNotifyService.getSupervisorEmailsConcatenated();
-        assertThat(supervisorEmailsConcatenated, isNotEmpty());
     }
 }
