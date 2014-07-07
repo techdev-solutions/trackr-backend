@@ -217,6 +217,9 @@
             "TRAVEL_EXPENSE": {
                 "TITLE": "Travel expenses",
                 "EXPENSES": "Expenses"
+            },
+            "SICK_DAYS": {
+                "TITLE": "Sick days"
             }
         },
         "BREADCRUMB_UNKNOWN": "unknown"

@@ -217,6 +217,9 @@
             "TRAVEL_EXPENSE": {
                 "TITLE": "Reisekosten",
                 "EXPENSES": "Ausgaben"
+            },
+            "SICK_DAYS": {
+                "TITLE": "Krankheitstage"
             }
         }
     },
