@@ -135,6 +135,11 @@
         "COMMENT": "Comment",
         "TOTAL_HOURS": "Total hours"
     },
+    "SICK_DAYS": {
+        "START_DATE": "Start date",
+        "END_DATE": "End date",
+        "TOTAL_DAYS": "Total days"
+    },
     "PAGES": {
         "HOME": {
             "WELCOME_TEXT": "Welcome to trackr",
@@ -161,6 +166,9 @@
             },
             "ADDRESS_BOOK": {
                 "TITLE": "Address book"
+            },
+            "SICK_DAYS": {
+                "TITLE": "Sick days"
             }
         },
         "SUPERVISOR": {

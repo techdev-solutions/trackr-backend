@@ -135,6 +135,11 @@
         "IDENTIFIER_CONFLICT": "Bezeichner schon in Nutzung.",
         "INVOICE_CREATED": "Rechnung angelegt."
     },
+    "SICK_DAYS": {
+        "START_DATE": "Startdatum",
+        "END_DATE": "Enddate",
+        "TOTAL_DAYS": "Anzahl Tage"
+    },
     "PAGES": {
         "HOME": {
             "WELCOME_TEXT": "Willkommen bei trackr",
@@ -161,6 +166,9 @@
             },
             "ADDRESS_BOOK": {
                 "TITLE": "Adressbuch"
+            },
+            "SICK_DAYS": {
+                "TITLE": "Krankheitstage"
             }
         },
         "SUPERVISOR": {
