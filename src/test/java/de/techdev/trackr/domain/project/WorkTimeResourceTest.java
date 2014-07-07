@@ -313,8 +313,11 @@ public class WorkTimeResourceTest extends AbstractDomainResourceTest<WorkTime> {
           .write("startTime", workTime.getStartTime().toString())
           .write("endTime", workTime.getEndTime().toString())
           .write("employee", "/employees/" + workTime.getEmployee().getId())
-          .write("project", "/projects/" + workTime.getProject().getId())
-          .write("comment", workTime.getComment());
+          .write("project", "/projects/" + workTime.getProject().getId());
+
+        if (workTime.getComment() != null) {
+            jg.write("comment", workTime.getComment());
+        }
 
         if (workTime.getId() != null) {
             jg.write("id", workTime.getId());
