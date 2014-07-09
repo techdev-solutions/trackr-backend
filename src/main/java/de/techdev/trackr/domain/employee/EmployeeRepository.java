@@ -46,9 +46,11 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
     List<Employee> findByFederalState(FederalState berlin);
 
     /**
-     * Not exported find all method to access all employees without the need for SUPERVISOR rights.
+     * Not exported find all method to access all employees without the need for SUPERVISOR/ADMIN rights.
+     *
+     * Filters the admin out. Only used for the address book.
      */
     @RestResource(exported = false)
-    @Query("select e from Employee e")
-    Page<Employee> findAllNotExported(Pageable pageable);
+    @Query("select e from Employee e where e.credential.email <> 'admin@techdev.de'")
+    Page<Employee> findAllForAddressBook(Pageable pageable);
 }

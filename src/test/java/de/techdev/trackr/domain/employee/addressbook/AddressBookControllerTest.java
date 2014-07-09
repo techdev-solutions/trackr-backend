@@ -9,7 +9,7 @@ import java.util.List;
 
 import static java.util.Arrays.asList;
 import static org.echocat.jomon.testing.BaseMatchers.isNotEmpty;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
 
 public class AddressBookControllerTest {
 

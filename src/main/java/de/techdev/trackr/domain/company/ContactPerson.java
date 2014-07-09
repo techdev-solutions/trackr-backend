@@ -1,6 +1,7 @@
 package de.techdev.trackr.domain.company;
 
 import lombok.Data;
+import lombok.ToString;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -12,6 +13,7 @@ import javax.validation.constraints.NotNull;
  */
 @Entity
 @Data
+@ToString(exclude = {"company"})
 public class ContactPerson {
 
     @Id

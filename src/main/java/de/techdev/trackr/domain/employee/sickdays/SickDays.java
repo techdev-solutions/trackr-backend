@@ -1,13 +1,11 @@
-package de.techdev.trackr.domain.project;
+package de.techdev.trackr.domain.employee.sickdays;
 
 import de.techdev.trackr.domain.employee.Employee;
 import de.techdev.trackr.domain.validation.constraints.EndAfterBegin;
 import lombok.Data;
-import lombok.ToString;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.sql.Time;
 import java.util.Date;
 
 /**
@@ -15,9 +13,8 @@ import java.util.Date;
  */
 @Entity
 @Data
-@ToString(exclude = {"employee", "project"})
-@EndAfterBegin(begin = "startTime", end = "endTime")
-public class WorkTime {
+@EndAfterBegin(begin = "startDate", end = "endDate")
+public class SickDays {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -28,22 +25,13 @@ public class WorkTime {
 
     @ManyToOne
     @NotNull
-    @JoinColumn(name = "employee")
     private Employee employee;
 
-    @ManyToOne
-    @NotNull
-    @JoinColumn(name = "project")
-    private Project project;
-
-    @NotNull
     @Temporal(TemporalType.DATE)
-    private Date date;
+    @NotNull
+    private Date startDate;
 
-    private Time startTime;
-
-    private Time endTime;
-
-    private String comment;
+    @Temporal(TemporalType.DATE)
+    private Date endDate;
 
 }

@@ -135,6 +135,11 @@
         "IDENTIFIER_CONFLICT": "Bezeichner schon in Nutzung.",
         "INVOICE_CREATED": "Rechnung angelegt."
     },
+    "SICK_DAYS": {
+        "START_DATE": "Startdatum",
+        "END_DATE": "Enddate",
+        "TOTAL_DAYS": "Anzahl Tage"
+    },
     "PAGES": {
         "HOME": {
             "WELCOME_TEXT": "Willkommen bei trackr",
@@ -151,13 +156,19 @@
             "TEXT_EDIT_PROFILE": "Editieren Sie ihr Profil",
             "TEXT_EDIT_TIMESHEET": "Erfassen Sie Arbeitszeiten",
             "TEXT_VACATION": "Urlaubsanträge",
-            "TEXT_EXPENSES": "Reisekosten",
+            "EXPENSES": {
+                "TITLE": "Reisekosten",
+                "DELETE_FORBIDDEN": "Dieser Report darf nicht gelöscht werden."
+            },
             "TEXT_TIMESHEET_OVERVIEW": "Arbeitszeiten Übersicht",
             "TIMESHEET_OVERVIEW": {
                 "GROUPED_BY_PROJECT": "Nach Projekt gruppiert"
             },
             "ADDRESS_BOOK": {
                 "TITLE": "Adressbuch"
+            },
+            "SICK_DAYS": {
+                "TITLE": "Krankheitstage"
             }
         },
         "SUPERVISOR": {
@@ -206,6 +217,9 @@
             "TRAVEL_EXPENSE": {
                 "TITLE": "Reisekosten",
                 "EXPENSES": "Ausgaben"
+            },
+            "SICK_DAYS": {
+                "TITLE": "Krankheitstage"
             }
         }
     },
@@ -227,11 +241,15 @@
         "ADD": "Hinzufügen",
         "BACK": "Zurück",
         "SEARCH": "Suchen",
+        "DELETE": "Löschen",
         "REALLY_DELETE": "Wirklich löschen?"
     },
     "DATE": {
         "TODAY": "Heute",
         "WEEKS": "Wochen"
     },
-    "LANGUAGE": "Sprache"
+    "LANGUAGE": "Sprache",
+    "ERRORS": {
+        "FAILED_REQUEST": "Aufruf fehlgeschlagen."
+    }
 }

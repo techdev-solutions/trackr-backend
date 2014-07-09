@@ -2,6 +2,7 @@ package de.techdev.trackr.domain.employee.expenses;
 
 import de.techdev.trackr.domain.employee.Employee;
 import lombok.Data;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -13,6 +14,7 @@ import java.util.List;
  */
 @Data
 @Entity
+@ToString(exclude = {"expenses"})
 public class TravelExpenseReport {
 
     @Id

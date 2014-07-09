@@ -26,7 +26,7 @@ public class TravelExpenseReportEventHandler {
     }
 
     @HandleBeforeDelete
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("(isAuthenticated() and @travelExpenseReportEventHandler.employeeCanDeleteReport(#travelExpenseReport, principal.id)) or hasRole('ROLE_ADMIN')")
     public void checkDeleteAuthority(TravelExpenseReport travelExpenseReport) {
         log.debug("Deleting travel expense report {}", travelExpenseReport);
     }
@@ -45,5 +45,9 @@ public class TravelExpenseReportEventHandler {
         if(travelExpenseReport.getEmployee() == null) {
             throw new AccessDeniedException("Employee is not deletable on a travel expense report.");
         }
+    }
+
+    public boolean employeeCanDeleteReport(TravelExpenseReport report, Long principalId) {
+        return report.getEmployee().getId().equals(principalId) && report.getStatus() == TravelExpenseReportStatus.PENDING;
     }
 }
