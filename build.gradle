@@ -23,6 +23,9 @@ war {
     } else {
         archiveName "trackr-" + version + "_0.war"
     }
+    from("src/main/database") {
+        into "flyway"
+    }
 }
 
 sonarRunner {
