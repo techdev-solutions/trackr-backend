@@ -28,7 +28,7 @@ public class TravelExpenseReportServiceImplTest extends TransactionalIntegration
         TravelExpenseReport travelExpenseReport = new TravelExpenseReport();
         travelExpenseReport.setStatus(TravelExpenseReportStatus.SUBMITTED);
 
-        TravelExpenseReport result = service.reject(travelExpenseReport);
+        TravelExpenseReport result = service.reject(travelExpenseReport, "admin@techdev.de");
         assertThat(result.getStatus(), is(TravelExpenseReportStatus.REJECTED));
     }
 
@@ -37,7 +37,7 @@ public class TravelExpenseReportServiceImplTest extends TransactionalIntegration
         TravelExpenseReport travelExpenseReport = new TravelExpenseReport();
         travelExpenseReport.setStatus(TravelExpenseReportStatus.SUBMITTED);
 
-        TravelExpenseReport result = service.accept(travelExpenseReport);
+        TravelExpenseReport result = service.accept(travelExpenseReport, "admin@techdev.de");
         assertThat(result.getStatus(), is(TravelExpenseReportStatus.APPROVED));
     }
 

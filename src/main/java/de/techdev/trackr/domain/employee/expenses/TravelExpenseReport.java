@@ -14,7 +14,7 @@ import java.util.List;
  */
 @Data
 @Entity
-@ToString(exclude = {"expenses"})
+@ToString(exclude = {"expenses", "employee", "approver"})
 public class TravelExpenseReport {
 
     @Id
@@ -35,4 +35,10 @@ public class TravelExpenseReport {
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date submissionDate;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date approvalDate;
+
+    @ManyToOne
+    private Employee approver;
 }
