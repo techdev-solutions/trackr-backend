@@ -117,7 +117,12 @@
         "PENDING": "Wartend",
         "APPROVED": "Akzeptiert",
         "REJECTED": "Abgelehnt",
-        "SUBMITTED": "Abgeschickt"
+        "SUBMITTED": "Abgeschickt",
+        "ID": "Nummber",
+        "EMPLOYEE": "Angesteller",
+        "APPROVER": "Genehmiger",
+        "SUBMISSION_DATE": "Eingereicht am",
+        "APPROVAL_DATE": "Genehmigt am"
     },
     "INVOICE": {
         "INVOICE": "Rechnung",

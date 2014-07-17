@@ -1,6 +1,8 @@
 package de.techdev.trackr.domain.employee.expenses;
 
 import de.techdev.trackr.domain.employee.Employee;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RestResource;
@@ -27,7 +29,7 @@ public interface TravelExpenseReportRepository extends CrudRepository<TravelExpe
     List<TravelExpenseReport> findByEmployeeOrderByStatusAsc(@Param("employee") Employee employee);
 
     @PreAuthorize("hasRole('ROLE_SUPERVISOR')")
-    List<TravelExpenseReport> findByStatusOrderByEmployee_LastNameAsc(@Param("status") TravelExpenseReportStatus status);
+    Page<TravelExpenseReport> findByStatusOrderByEmployee_LastNameAsc(@Param("status") TravelExpenseReportStatus status, Pageable pageable);
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     List<TravelExpenseReport> findBySubmissionDateBetween(@Param("start") Date start, @Param("end") Date end);

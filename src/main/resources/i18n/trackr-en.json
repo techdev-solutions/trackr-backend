@@ -109,7 +109,12 @@
         "PENDING": "Pending",
         "APPROVED": "Approved",
         "REJECTED": "Rejected",
-        "SUBMITTED": "Submitted"
+        "SUBMITTED": "Submitted",
+        "ID": "Id",
+        "EMPLOYEE": "Employee",
+        "APPROVER": "Approver",
+        "SUBMISSION_DATE": "Submission date",
+        "APPROVAL_DATE": "Approval date"
     },
     "INVOICE": {
         "INVOICE": "Invoice",
