@@ -21,8 +21,12 @@ public class TravelExpenseReportServiceImpl implements TravelExpenseReportServic
     @Autowired
     private CredentialRepository credentialRepository;
 
+    @Autowired
+    private TravelExpenseReportNotifyService travelExpenseReportNotifyService;
+
     @Override
     public TravelExpenseReport submit(TravelExpenseReport travelExpenseReport) {
+        travelExpenseReportNotifyService.sendSubmittedReportMail(travelExpenseReport);
         return setStatusOnTravelExpenseReport(travelExpenseReport, TravelExpenseReportStatus.SUBMITTED, null);
     }
 

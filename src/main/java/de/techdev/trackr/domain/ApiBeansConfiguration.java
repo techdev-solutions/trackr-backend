@@ -1,6 +1,7 @@
 package de.techdev.trackr.domain;
 
 import de.techdev.trackr.domain.employee.expenses.TravelExpenseReportService;
+import de.techdev.trackr.domain.employee.expenses.support.TravelExpenseReportNotifyService;
 import de.techdev.trackr.domain.employee.expenses.support.TravelExpenseReportServiceImpl;
 import de.techdev.trackr.domain.employee.login.DeactivateEmployeesService;
 import de.techdev.trackr.domain.employee.login.support.SupervisorService;
@@ -15,6 +16,7 @@ import de.techdev.trackr.domain.project.invoice.ChangeStateService;
 import de.techdev.trackr.domain.project.invoice.InvoiceOverdueService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
  * All Beans needed for the API that have nothing to do with web.
@@ -22,11 +24,17 @@ import org.springframework.context.annotation.Configuration;
  * @author Moritz Schulze
  */
 @Configuration
+@EnableTransactionManagement
 public class ApiBeansConfiguration {
 
     @Bean
     public TravelExpenseReportService travelExpenseReportService() {
         return new TravelExpenseReportServiceImpl();
+    }
+
+    @Bean
+    public TravelExpenseReportNotifyService travelExpenseReportNotifyService() {
+        return new TravelExpenseReportNotifyService();
     }
 
     @Bean

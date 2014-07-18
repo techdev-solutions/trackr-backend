@@ -4,6 +4,7 @@ import de.techdev.trackr.TransactionalIntegrationTest;
 import de.techdev.trackr.core.mail.MailConfiguration;
 import de.techdev.trackr.domain.ApiBeansConfiguration;
 import de.techdev.trackr.domain.employee.expenses.TravelExpenseReport;
+import de.techdev.trackr.domain.employee.expenses.TravelExpenseReportDataOnDemand;
 import de.techdev.trackr.domain.employee.expenses.TravelExpenseReportService;
 import de.techdev.trackr.domain.employee.expenses.TravelExpenseReportStatus;
 import de.techdev.trackr.util.LocalDateUtil;
@@ -22,6 +23,9 @@ public class TravelExpenseReportServiceImplTest extends TransactionalIntegration
 
     @Autowired
     TravelExpenseReportService service;
+
+    @Autowired
+    private TravelExpenseReportDataOnDemand dataOnDemand;
 
     @Test
     public void testReject() throws Exception {
@@ -43,9 +47,9 @@ public class TravelExpenseReportServiceImplTest extends TransactionalIntegration
 
     @Test
     public void testSubmit() throws Exception {
+        TravelExpenseReport travelExpenseReport = dataOnDemand.getRandomObject();
         LocalDate localDate = LocalDate.of(2014, 1, 1);
         Date date = LocalDateUtil.fromLocalDate(localDate);
-        TravelExpenseReport travelExpenseReport = new TravelExpenseReport();
         travelExpenseReport.setStatus(TravelExpenseReportStatus.PENDING);
         travelExpenseReport.setSubmissionDate(date);
 

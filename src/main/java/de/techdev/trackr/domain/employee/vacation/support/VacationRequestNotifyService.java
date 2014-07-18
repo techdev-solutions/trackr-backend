@@ -20,6 +20,10 @@ public class VacationRequestNotifyService {
     @Autowired
     private SupervisorService supervisorService;
 
+    /**
+     * Sends an approval or rejection mail depending on the status of the parameter.
+     * @param request The request for which the mail is to sent.
+     */
     public void sendEmailNotification(VacationRequest request) {
         SimpleMailMessage mailMessage = new SimpleMailMessage();
         mailMessage.setFrom("no-reply@techdev.de");
