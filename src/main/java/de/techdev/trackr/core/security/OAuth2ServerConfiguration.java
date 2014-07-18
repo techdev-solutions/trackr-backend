@@ -19,6 +19,9 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.approval.ApprovalStore;
+import org.springframework.security.oauth2.provider.approval.InMemoryApprovalStore;
+import org.springframework.security.oauth2.provider.approval.JdbcApprovalStore;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore;
 import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
@@ -130,6 +133,15 @@ public class OAuth2ServerConfiguration {
         }
 
         @Bean
+        public ApprovalStore approvalStore() {
+            if (asList(env.getActiveProfiles()).contains("dev")) {
+                return new InMemoryApprovalStore();
+            } else {
+                return new JdbcApprovalStore(tokenDataSource());
+            }
+        }
+
+        @Bean
         public TokenStore tokenStore() {
             if(asList(env.getActiveProfiles()).contains("dev")) {
                 return new InMemoryTokenStore();
@@ -140,7 +152,7 @@ public class OAuth2ServerConfiguration {
 
         @Override
         public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
-            endpoints.tokenStore(tokenStore());
+            endpoints.tokenStore(tokenStore()).approvalStore(approvalStore());
         }
     }
 }
