@@ -247,7 +247,8 @@
         "BACK": "Zurück",
         "SEARCH": "Suchen",
         "DELETE": "Löschen",
-        "REALLY_DELETE": "Wirklich löschen?"
+        "REALLY_DELETE": "Wirklich löschen?",
+        "DOWNLOAD": "Herunterladen"
     },
     "DATE": {
         "TODAY": "Heute",

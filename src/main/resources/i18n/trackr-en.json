@@ -248,7 +248,8 @@
         "BACK": "Back",
         "SEARCH": "Search",
         "DELETE": "Delete",
-        "REALLY_DELETE": "Really delete?"
+        "REALLY_DELETE": "Really delete?",
+        "DOWNLOAD": "Download"
     },
     "DATE": {
         "TODAY": "Today",

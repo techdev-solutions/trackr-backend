@@ -1,5 +1,6 @@
 package de.techdev.trackr.domain;
 
+import de.techdev.trackr.core.pdf.PdfRenderer;
 import de.techdev.trackr.domain.employee.expenses.TravelExpenseReportService;
 import de.techdev.trackr.domain.employee.expenses.support.TravelExpenseReportNotifyService;
 import de.techdev.trackr.domain.employee.expenses.support.TravelExpenseReportServiceImpl;
@@ -85,5 +86,10 @@ public class ApiBeansConfiguration {
     @Bean
     public SupervisorService supervisorService() {
         return new SupervisorService();
+    }
+
+    @Bean
+    public PdfRenderer pdfRenderer() {
+        return new PdfRenderer();
     }
 }
