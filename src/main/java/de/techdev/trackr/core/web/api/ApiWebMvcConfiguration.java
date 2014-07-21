@@ -20,7 +20,6 @@ import de.techdev.trackr.domain.project.WorkTime;
 import de.techdev.trackr.domain.project.invoice.Invoice;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.*;
-import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.core.convert.support.ConfigurableConversionService;
@@ -50,16 +49,7 @@ import java.util.List;
                 @ComponentScan.Filter(type = FilterType.ANNOTATION, value = {Controller.class, ControllerAdvice.class, RepositoryEventHandler.class})
         })
 @Import({ApiBeansConfiguration.class})
-@PropertySources({
-        @PropertySource({"classpath:application_${spring.profiles.active:dev}.properties"}),
-        @PropertySource(value = "${trackr.externalconfig:file:/etc/trackr.properties}", ignoreResourceNotFound = true)
-})
 public class ApiWebMvcConfiguration extends RepositoryRestMvcConfiguration {
-
-    @Bean
-    public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
-        return new PropertySourcesPlaceholderConfigurer();
-    }
 
     @Override
     protected void configureRepositoryRestConfiguration(RepositoryRestConfiguration config) {
