@@ -28,7 +28,11 @@ import static java.util.Arrays.asList;
         includeFilters = {
                 @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = {Repository.class})
         })
-@PropertySource({"classpath:/META-INF/spring/database_${spring.profiles.active:dev}.properties"})
+
+@PropertySources({
+        @PropertySource("classpath:/META-INF/spring/database_${spring.profiles.active:dev}.properties"),
+        @PropertySource(value = "${trackr.externalconfig:file:/etc/trackr.properties}", ignoreResourceNotFound = true)
+})
 public class JpaConfiguration {
 
     @Value("${database.driverClassName}")

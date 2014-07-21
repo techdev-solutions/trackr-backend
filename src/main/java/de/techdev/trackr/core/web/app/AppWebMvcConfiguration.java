@@ -4,6 +4,7 @@ import de.techdev.trackr.core.security.AccessConfirmationController;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.PropertySources;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.http.MediaType;
 import org.springframework.web.accept.ContentNegotiationManagerFactoryBean;
@@ -20,7 +21,10 @@ import static java.util.Arrays.asList;
  */
 @Configuration
 @EnableWebMvc
-@PropertySource({"classpath:application_${spring.profiles.active:dev}.properties"})
+@PropertySources({
+        @PropertySource({"classpath:application_${spring.profiles.active:dev}.properties"}),
+        @PropertySource(value = "${trackr.externalconfig:file:/etc/trackr.properties}", ignoreResourceNotFound = true)
+})
 public class AppWebMvcConfiguration extends WebMvcConfigurerAdapter {
 
     /**
