@@ -7,6 +7,7 @@ import de.techdev.trackr.domain.employee.expenses.TravelExpenseReport;
 import de.techdev.trackr.domain.employee.expenses.TravelExpenseReportRepository;
 import de.techdev.trackr.domain.employee.login.support.SupervisorService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,6 +27,9 @@ public class TravelExpenseReportNotifyService {
 
     @Autowired
     private TravelExpenseReportRepository travelExpenseReportRepository;
+
+    @Value("${trackr.frontendUrl}")
+    private String frontendUrl;
 
     /**
      * Sends a mail to all supervisors except the owning for a submitted travel expense report.
@@ -49,7 +53,7 @@ public class TravelExpenseReportNotifyService {
     }
 
     protected String getWebLink(TravelExpenseReport report) {
-        return "https:///trackr/supervisor/expenses/" + report.getId();
+        return frontendUrl + "/supervisor/expenses/" + report.getId();
     }
 
     @Transactional
