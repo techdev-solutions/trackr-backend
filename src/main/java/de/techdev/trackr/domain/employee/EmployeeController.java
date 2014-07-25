@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
 
 /**
@@ -36,7 +37,10 @@ public class EmployeeController {
     @PreAuthorize("isAuthenticated() and #employeeId == principal.id")
     @ResponseBody
     @RequestMapping(value = "/{employee}/self", method = {RequestMethod.PUT, RequestMethod.PATCH}, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public SelfEmployee updateSelf(@PathVariable("employee") Long employeeId, @RequestBody SelfEmployee selfEmployee) {
+    public SelfEmployee updateSelf(@PathVariable("employee") Long employeeId, @RequestBody @Valid SelfEmployee selfEmployee, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            throw new RepositoryConstraintViolationException(bindingResult);
+        }
         Employee employee = employeeRepository.findOne(employeeId);
         //Since patch is allowed all fields can be null and shouldn't be overwritten in that case.
         if (selfEmployee.getFirstName() != null) {
