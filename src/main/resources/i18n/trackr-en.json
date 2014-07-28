@@ -101,6 +101,7 @@
         "TO_DATE": "To",
         "VAT": "VAT",
         "COST": "Total",
+        "COMMENT": "Comment",
         "SUBMITTED": "Submitted"
     },
     "TRAVEL_EXPENSE_REPORT": {

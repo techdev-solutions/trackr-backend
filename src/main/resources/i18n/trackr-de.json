@@ -109,6 +109,7 @@
         "TO_DATE": "Bis",
         "VAT": "Mehrwertsteuer",
         "COST": "Gesamt",
+        "COMMENT": "Kommentar",
         "SUBMITTED": "Eingereicht am"
     },
     "TRAVEL_EXPENSE_REPORT": {

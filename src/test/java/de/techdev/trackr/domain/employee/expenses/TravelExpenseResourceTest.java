@@ -124,6 +124,11 @@ public class TravelExpenseResourceTest extends AbstractDomainResourceTest<Travel
           .write("submissionDate", sdf2.format(travelExpense.getSubmissionDate()))
           .write("type", travelExpense.getType().toString())
           .write("report", "/travelExpenseReports/" + travelExpense.getReport().getId());
+
+        if(travelExpense.getComment() != null) {
+            jg.write("comment", travelExpense.getComment());
+        }
+
         if (travelExpense.getId() != null) {
             jg.write("id", travelExpense.getId());
         }

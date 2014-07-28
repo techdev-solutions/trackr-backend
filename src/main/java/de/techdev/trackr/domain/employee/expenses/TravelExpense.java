@@ -50,4 +50,6 @@ public class TravelExpense {
     @NotNull
     @Temporal(TemporalType.TIMESTAMP)
     private Date submissionDate;
+
+    private String comment;
 }
