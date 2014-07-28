@@ -14,7 +14,7 @@ import java.util.List;
  */
 @Data
 @Entity
-@ToString(exclude = {"expenses", "employee", "approver"})
+@ToString(exclude = {"expenses", "employee", "approver", "comments"})
 public class TravelExpenseReport {
 
     @Id
@@ -41,4 +41,7 @@ public class TravelExpenseReport {
 
     @ManyToOne
     private Employee approver;
+
+    @OneToMany(mappedBy = "travelExpenseReport", cascade = CascadeType.REMOVE)
+    private List<TravelExpenseReportComment> comments;
 }

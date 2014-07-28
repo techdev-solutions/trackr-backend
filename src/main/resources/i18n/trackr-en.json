@@ -116,7 +116,8 @@
         "EMPLOYEE": "Employee",
         "APPROVER": "Approver",
         "SUBMISSION_DATE": "Submission date",
-        "APPROVAL_DATE": "Approval date"
+        "APPROVAL_DATE": "Approval date",
+        "COMMENTS": "Comments"
     },
     "INVOICE": {
         "INVOICE": "Invoice",
@@ -146,6 +147,12 @@
         "START_DATE": "Start date",
         "END_DATE": "End date",
         "TOTAL_DAYS": "Total days"
+    },
+    "DIRECTIVES": {
+        "COMMENT_SECTION": {
+            "COMMENTS": "Comments",
+            "TEXT": "Text"
+        }
     },
     "PAGES": {
         "HOME": {

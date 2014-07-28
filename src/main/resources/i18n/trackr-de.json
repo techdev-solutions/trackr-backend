@@ -124,7 +124,8 @@
         "EMPLOYEE": "Angesteller",
         "APPROVER": "Genehmiger",
         "SUBMISSION_DATE": "Eingereicht am",
-        "APPROVAL_DATE": "Genehmigt am"
+        "APPROVAL_DATE": "Genehmigt am",
+        "COMMENTS": "Kommentare"
     },
     "INVOICE": {
         "INVOICE": "Rechnung",
@@ -146,6 +147,12 @@
         "START_DATE": "Startdatum",
         "END_DATE": "Enddate",
         "TOTAL_DAYS": "Anzahl Tage"
+    },
+    "DIRECTIVES": {
+        "COMMENT_SECTION": {
+            "COMMENTS": "Kommentare",
+            "TEXT": "Text"
+        }
     },
     "PAGES": {
         "HOME": {
