@@ -94,6 +94,7 @@
             "TRAIN": "Train",
             "PARKING": "Parking",
             "OEPNV": "ÖPNV",
+            "MILEAGE_ALLOWANCE": "Mileage allowance",
             "OTHER": "Other"
         },
         "FROM_DATE": "From",

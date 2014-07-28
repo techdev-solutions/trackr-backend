@@ -102,6 +102,7 @@
             "TRAIN": "Zugfahrt",
             "PARKING": "Parken",
             "OEPNV": "ÖPNV",
+            "MILEAGE_ALLOWANCE": "Kilometerpauschale",
             "OTHER": "Andere"
         },
         "FROM_DATE": "Von",
