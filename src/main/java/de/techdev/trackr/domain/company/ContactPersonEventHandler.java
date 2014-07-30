@@ -1,10 +1,7 @@
 package de.techdev.trackr.domain.company;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.rest.core.annotation.HandleBeforeCreate;
-import org.springframework.data.rest.core.annotation.HandleBeforeDelete;
-import org.springframework.data.rest.core.annotation.HandleBeforeSave;
-import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
+import org.springframework.data.rest.core.annotation.*;
 import org.springframework.security.access.prepost.PreAuthorize;
 
 /**
@@ -30,5 +27,17 @@ public class ContactPersonEventHandler {
     @PreAuthorize("hasRole('ROLE_SUPERVISOR')")
     public void checkDeleteAuthority(ContactPerson contactPerson) {
         log.debug("Deleting contact person {}", contactPerson);
+    }
+
+    @HandleBeforeLinkSave
+    @PreAuthorize("hasRole('ROLE_SUPERVISOR')")
+    public void checkLinkUpdateAuthority(ContactPerson contactPerson, Object links) {
+        // only security check
+    }
+
+    @HandleBeforeLinkDelete
+    @PreAuthorize("denyAll()")
+    public void checkLinkDeleteAuthority(ContactPerson contactPerson) {
+        // only security check
     }
 }
