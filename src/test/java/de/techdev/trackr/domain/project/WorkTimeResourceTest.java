@@ -57,11 +57,6 @@ public class WorkTimeResourceTest extends AbstractDomainResourceTest<WorkTime> {
     }
 
     @Test
-    public void createAllowedForAdmin() throws Exception {
-        assertThat(create(adminSession()), isCreated());
-    }
-
-    @Test
     public void updateAllowedForOwner() throws Exception {
         assertThat(update(sameEmployeeSessionProvider), isUpdated());
     }
