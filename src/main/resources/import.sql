@@ -71,43 +71,43 @@ INSERT INTO project (id, version, identifier, name, company_id, volume, hourlyRa
 INSERT INTO project (id, version, identifier, name, company_id, volume, hourlyRate, debitor_id) VALUES (33, 0, '1003.2014.1', 'ESB Architecture', 22, 90, 80, 20);
 
 /* TRAVEL EXPENSE REPORTS */
-INSERT INTO travelExpenseReport (id, version, employee_id, status, submissionDate) VALUES (34, 0, 1, 'PENDING', '2014-07-01 13:30:21');
+INSERT INTO travelExpenseReport (id, version, employee_id, status) VALUES (34, 0, 1, 'PENDING');
 INSERT INTO travelExpenseReport (id, version, employee_id, status, submissionDate) VALUES (35, 0, 1, 'SUBMITTED', '2014-06-01 19:41:31');
-INSERT INTO travelExpenseReport (id, version, employee_id, status, submissionDate) VALUES (36, 0, 1, 'APPROVED', '2014-04-01 20:01:21');
+INSERT INTO travelExpenseReport (id, version, employee_id, status, submissionDate, approvalDate, approver_id) VALUES (36, 0, 1, 'APPROVED', '2014-04-01 20:01:21', '2014-04-04 15:40:00', 8);
 INSERT INTO travelExpenseReport (id, version, employee_id, status, submissionDate) VALUES (37, 0, 1, 'REJECTED', '2014-05-01 17:45:21');
 
-INSERT INTO travelExpenseReport (id, version, employee_id, status, submissionDate) VALUES (38, 0, 2, 'PENDING', '2014-07-01 09:13:21');
+INSERT INTO travelExpenseReport (id, version, employee_id, status) VALUES (38, 0, 2, 'PENDING');
 INSERT INTO travelExpenseReport (id, version, employee_id, status, submissionDate) VALUES (39, 0, 2, 'SUBMITTED', '2014-06-01 13:30:21');
-INSERT INTO travelExpenseReport (id, version, employee_id, status, submissionDate) VALUES (40, 0, 2, 'APPROVED', '2014-04-01 13:30:21');
+INSERT INTO travelExpenseReport (id, version, employee_id, status, submissionDate, approvalDate, approver_id) VALUES (40, 0, 2, 'APPROVED', '2014-04-01 13:30:21', '2014-04-06 08:30:12', 3);
 INSERT INTO travelExpenseReport (id, version, employee_id, status, submissionDate) VALUES (41, 0, 2, 'REJECTED', '2014-05-01 13:30:21');
 
-INSERT INTO travelExpenseReport (id, version, employee_id, status, submissionDate) VALUES (42, 0, 3, 'PENDING', '2014-07-01 08:25:21');
+INSERT INTO travelExpenseReport (id, version, employee_id, status) VALUES (42, 0, 3, 'PENDING');
 INSERT INTO travelExpenseReport (id, version, employee_id, status, submissionDate) VALUES (43, 0, 3, 'SUBMITTED', '2014-06-01 13:30:21');
-INSERT INTO travelExpenseReport (id, version, employee_id, status, submissionDate) VALUES (44, 0, 3, 'APPROVED', '2014-04-01 13:30:21');
+INSERT INTO travelExpenseReport (id, version, employee_id, status, submissionDate, approvalDate, approver_id) VALUES (44, 0, 3, 'APPROVED', '2014-04-01 13:30:21', '2014-04-01 18:20:53', 1);
 INSERT INTO travelExpenseReport (id, version, employee_id, status, submissionDate) VALUES (45, 0, 3, 'REJECTED', '2014-05-01 13:30:21');
 
-INSERT INTO travelExpenseReport (id, version, employee_id, status, submissionDate) VALUES (46, 0, 4, 'PENDING', '2014-07-01 14:36:21');
+INSERT INTO travelExpenseReport (id, version, employee_id, status) VALUES (46, 0, 4, 'PENDING');
 INSERT INTO travelExpenseReport (id, version, employee_id, status, submissionDate) VALUES (47, 0, 4, 'SUBMITTED', '2014-06-01 13:30:21');
-INSERT INTO travelExpenseReport (id, version, employee_id, status, submissionDate) VALUES (48, 0, 4, 'APPROVED', '2014-04-01 13:30:21');
+INSERT INTO travelExpenseReport (id, version, employee_id, status, submissionDate, approvalDate, approver_id) VALUES (48, 0, 4, 'APPROVED', '2014-04-01 13:30:21', '2014-04-05 14:00:12', 8);
 INSERT INTO travelExpenseReport (id, version, employee_id, status, submissionDate) VALUES (49, 0, 4, 'REJECTED', '2014-05-01 13:30:21');
 
-INSERT INTO travelExpenseReport (id, version, employee_id, status, submissionDate) VALUES (50, 0, 5, 'PENDING', '2014-07-01 10:55:21');
+INSERT INTO travelExpenseReport (id, version, employee_id, status) VALUES (50, 0, 5, 'PENDING');
 INSERT INTO travelExpenseReport (id, version, employee_id, status, submissionDate) VALUES (51, 0, 5, 'SUBMITTED', '2014-06-01 13:30:21');
-INSERT INTO travelExpenseReport (id, version, employee_id, status, submissionDate) VALUES (52, 0, 5, 'APPROVED', '2014-04-01 13:30:21');
+INSERT INTO travelExpenseReport (id, version, employee_id, status, submissionDate, approvalDate, approver_id) VALUES (52, 0, 5, 'APPROVED', '2014-04-01 13:30:21', '2014-04-02 10:30:12', 7);
 INSERT INTO travelExpenseReport (id, version, employee_id, status, submissionDate) VALUES (53, 0, 5, 'REJECTED', '2014-05-01 13:30:21');
 
-INSERT INTO travelExpenseReport (id, version, employee_id, status, submissionDate) VALUES (54, 0, 6, 'PENDING', '2014-07-01 21:09:21');
+INSERT INTO travelExpenseReport (id, version, employee_id, status) VALUES (54, 0, 6, 'PENDING');
 INSERT INTO travelExpenseReport (id, version, employee_id, status, submissionDate) VALUES (55, 0, 6, 'SUBMITTED', '2014-06-01 13:30:21');
-INSERT INTO travelExpenseReport (id, version, employee_id, status, submissionDate) VALUES (56, 0, 6, 'APPROVED', '2014-04-01 13:30:21');
+INSERT INTO travelExpenseReport (id, version, employee_id, status, submissionDate, approvalDate, approver_id) VALUES (56, 0, 6, 'APPROVED', '2014-04-01 13:30:21', '2014-04-02 10:30:12', 5);
 INSERT INTO travelExpenseReport (id, version, employee_id, status, submissionDate) VALUES (57, 0, 6, 'REJECTED', '2014-05-01 13:30:21');
 
-INSERT INTO travelExpenseReport (id, version, employee_id, status, submissionDate) VALUES (58, 0, 7, 'APPROVED', '2013-11-01 13:30:21');
-INSERT INTO travelExpenseReport (id, version, employee_id, status, submissionDate) VALUES (59, 0, 7, 'APPROVED', '2013-12-01 13:30:21');
-INSERT INTO travelExpenseReport (id, version, employee_id, status, submissionDate) VALUES (60, 0, 7, 'APPROVED', '2014-01-01 13:30:21');
-INSERT INTO travelExpenseReport (id, version, employee_id, status, submissionDate) VALUES (61, 0, 7, 'APPROVED', '2014-02-01 13:30:21');
-INSERT INTO travelExpenseReport (id, version, employee_id, status, submissionDate) VALUES (62, 0, 11, 'APPROVED', '2014-05-01 13:30:21');
-INSERT INTO travelExpenseReport (id, version, employee_id, status, submissionDate) VALUES (63, 0, 11, 'APPROVED', '2014-06-01 13:30:21');
-INSERT INTO travelExpenseReport (id, version, employee_id, status, submissionDate) VALUES (64, 0, 11, 'APPROVED', '2014-07-01 13:30:21');
+INSERT INTO travelExpenseReport (id, version, employee_id, status, submissionDate, approvalDate, approver_id) VALUES (58, 0, 7, 'APPROVED', '2013-11-01 13:30:21', '2013-11-02 10:30:12', 8);
+INSERT INTO travelExpenseReport (id, version, employee_id, status, submissionDate, approvalDate, approver_id) VALUES (59, 0, 7, 'APPROVED', '2013-12-01 13:30:21', '2013-12-04 10:30:12', 8);
+INSERT INTO travelExpenseReport (id, version, employee_id, status, submissionDate, approvalDate, approver_id) VALUES (60, 0, 7, 'APPROVED', '2014-01-01 13:30:21', '2014-01-07 10:30:12', 8);
+INSERT INTO travelExpenseReport (id, version, employee_id, status, submissionDate, approvalDate, approver_id) VALUES (61, 0, 7, 'APPROVED', '2014-02-01 13:30:21', '2014-02-10 10:30:12', 8);
+INSERT INTO travelExpenseReport (id, version, employee_id, status, submissionDate, approvalDate, approver_id) VALUES (62, 0, 11, 'APPROVED', '2014-05-01 13:30:21', '2014-05-02 10:30:12', 8);
+INSERT INTO travelExpenseReport (id, version, employee_id, status, submissionDate, approvalDate, approver_id) VALUES (63, 0, 11, 'APPROVED', '2014-06-01 13:30:21', '2014-06-02 10:30:12', 8);
+INSERT INTO travelExpenseReport (id, version, employee_id, status, submissionDate, approvalDate, approver_id) VALUES (64, 0, 11, 'APPROVED', '2014-07-01 13:30:21', '2014-07-02 10:30:12', 8);
 
 
 /* ************************************* FROM HERE ON ENTITIES DON'T NEED A SET ID BECAUSE THEY ARE NOT REFERENCED ******************************************** */
@@ -120,49 +120,49 @@ INSERT INTO workTime (version, project, employee, date, startTime, endTime) VALU
 INSERT INTO workTime (version, project, employee, date, startTime, endTime) VALUES (0, 28, 1, '2014-06-06', '09:00:00', '15:00:00');
 
 INSERT INTO workTime (version, project, employee, date, startTime, endTime) VALUES (0, 28, 1, '2014-06-09', '09:00:00', '17:15:00');
-INSERT INTO workTime (version, project, employee, date, startTime, endTime) VALUES (0, 28, 1, '2014-06-10', '09:00:00', '17:30:00');
-INSERT INTO workTime (version, project, employee, date, startTime, endTime) VALUES (0, 28, 1, '2014-06-11', '08:30:00', '16:30:00');
-INSERT INTO workTime (version, project, employee, date, startTime, endTime) VALUES (0, 28, 1, '2014-06-12', '10:00:00', '17:30:00');
+INSERT INTO workTime (version, project, employee, date, startTime, endTime) VALUES (0, 28, 1, '2014-06-10', '09:00:00', '17:00:00');
+INSERT INTO workTime (version, project, employee, date, startTime, endTime) VALUES (0, 28, 1, '2014-06-11', '08:30:00', '16:45:00');
+INSERT INTO workTime (version, project, employee, date, startTime, endTime) VALUES (0, 28, 1, '2014-06-12', '10:30:00', '17:30:00');
 INSERT INTO workTime (version, project, employee, date, startTime, endTime) VALUES (0, 28, 1, '2014-06-13', '09:00:00', '15:00:00');
 
 INSERT INTO workTime (version, project, employee, date, startTime, endTime) VALUES (0, 28, 1, '2014-06-16', '09:00:00', '17:15:00');
-INSERT INTO workTime (version, project, employee, date, startTime, endTime) VALUES (0, 28, 1, '2014-06-17', '09:00:00', '17:30:00');
+INSERT INTO workTime (version, project, employee, date, startTime, endTime) VALUES (0, 28, 1, '2014-06-17', '08:30:00', '17:30:00');
 INSERT INTO workTime (version, project, employee, date, startTime, endTime) VALUES (0, 28, 1, '2014-06-18', '08:30:00', '16:30:00');
-INSERT INTO workTime (version, project, employee, date, startTime, endTime) VALUES (0, 28, 1, '2014-06-19', '10:00:00', '17:30:00');
-INSERT INTO workTime (version, project, employee, date, startTime, endTime) VALUES (0, 28, 1, '2014-06-20', '09:00:00', '15:00:00');
+INSERT INTO workTime (version, project, employee, date, startTime, endTime) VALUES (0, 28, 1, '2014-06-19', '09:00:00', '17:30:00');
+INSERT INTO workTime (version, project, employee, date, startTime, endTime) VALUES (0, 28, 1, '2014-06-20', '08:00:00', '16:00:00');
 
-INSERT INTO workTime (version, project, employee, date, startTime, endTime) VALUES (0, 28, 1, '2014-06-24', '09:00:00', '17:15:00');
+INSERT INTO workTime (version, project, employee, date, startTime, endTime) VALUES (0, 28, 1, '2014-06-24', '10:00:00', '17:00:00');
 INSERT INTO workTime (version, project, employee, date, startTime, endTime) VALUES (0, 28, 1, '2014-06-25', '09:00:00', '17:30:00');
 INSERT INTO workTime (version, project, employee, date, startTime, endTime) VALUES (0, 28, 1, '2014-06-26', '08:30:00', '16:30:00');
 INSERT INTO workTime (version, project, employee, date, startTime, endTime) VALUES (0, 28, 1, '2014-06-27', '10:00:00', '17:30:00');
-INSERT INTO workTime (version, project, employee, date, startTime, endTime) VALUES (0, 28, 1, '2014-06-28', '09:00:00', '15:00:00');
+INSERT INTO workTime (version, project, employee, date, startTime, endTime) VALUES (0, 28, 1, '2014-06-28', '11:00:00', '18:00:00');
 
 INSERT INTO workTime (version, project, employee, date, startTime, endTime) VALUES (0, 28, 1, '2014-06-30', '12:00:00', '15:00:00');
 
 /* WORKTIMES project 1000.2014.1 EMPLOYEE 2 */
-INSERT INTO workTime (version, project, employee, date, startTime, endTime) VALUES (0, 28, 2, '2014-06-02', '09:00:00', '17:15:00');
-INSERT INTO workTime (version, project, employee, date, startTime, endTime) VALUES (0, 28, 2, '2014-06-03', '09:00:00', '17:30:00');
+INSERT INTO workTime (version, project, employee, date, startTime, endTime) VALUES (0, 28, 2, '2014-06-02', '08:30:00', '17:30:00');
+INSERT INTO workTime (version, project, employee, date, startTime, endTime) VALUES (0, 28, 2, '2014-06-03', '09:45:00', '17:30:00');
 INSERT INTO workTime (version, project, employee, date, startTime, endTime) VALUES (0, 28, 2, '2014-06-04', '08:30:00', '16:30:00');
-INSERT INTO workTime (version, project, employee, date, startTime, endTime) VALUES (0, 28, 2, '2014-06-05', '10:00:00', '17:30:00');
+INSERT INTO workTime (version, project, employee, date, startTime, endTime) VALUES (0, 28, 2, '2014-06-05', '10:15:00', '18:30:00');
 INSERT INTO workTime (version, project, employee, date, startTime, endTime) VALUES (0, 28, 2, '2014-06-06', '09:00:00', '15:00:00');
 
 INSERT INTO workTime (version, project, employee, date, startTime, endTime) VALUES (0, 28, 2, '2014-06-09', '09:00:00', '17:15:00');
-INSERT INTO workTime (version, project, employee, date, startTime, endTime) VALUES (0, 28, 2, '2014-06-10', '09:00:00', '17:30:00');
+INSERT INTO workTime (version, project, employee, date, startTime, endTime) VALUES (0, 28, 2, '2014-06-10', '09:15:00', '17:30:00');
 INSERT INTO workTime (version, project, employee, date, startTime, endTime) VALUES (0, 28, 2, '2014-06-11', '08:30:00', '16:30:00');
-INSERT INTO workTime (version, project, employee, date, startTime, endTime) VALUES (0, 28, 2, '2014-06-12', '10:00:00', '17:30:00');
+INSERT INTO workTime (version, project, employee, date, startTime, endTime) VALUES (0, 28, 2, '2014-06-12', '09:00:00', '17:30:00');
 INSERT INTO workTime (version, project, employee, date, startTime, endTime) VALUES (0, 28, 2, '2014-06-13', '09:00:00', '15:00:00');
 
 INSERT INTO workTime (version, project, employee, date, startTime, endTime) VALUES (0, 28, 2, '2014-06-16', '09:00:00', '17:15:00');
-INSERT INTO workTime (version, project, employee, date, startTime, endTime) VALUES (0, 28, 2, '2014-06-17', '09:00:00', '17:30:00');
+INSERT INTO workTime (version, project, employee, date, startTime, endTime) VALUES (0, 28, 2, '2014-06-17', '08:00:00', '17:30:00');
 INSERT INTO workTime (version, project, employee, date, startTime, endTime) VALUES (0, 28, 2, '2014-06-18', '08:30:00', '16:30:00');
 INSERT INTO workTime (version, project, employee, date, startTime, endTime) VALUES (0, 28, 2, '2014-06-19', '10:00:00', '17:30:00');
-INSERT INTO workTime (version, project, employee, date, startTime, endTime) VALUES (0, 28, 2, '2014-06-20', '09:00:00', '15:00:00');
+INSERT INTO workTime (version, project, employee, date, startTime, endTime) VALUES (0, 28, 2, '2014-06-20', '09:30:00', '16:00:00');
 
 INSERT INTO workTime (version, project, employee, date, startTime, endTime) VALUES (0, 28, 2, '2014-06-24', '09:00:00', '17:15:00');
-INSERT INTO workTime (version, project, employee, date, startTime, endTime) VALUES (0, 28, 2, '2014-06-25', '09:00:00', '17:30:00');
+INSERT INTO workTime (version, project, employee, date, startTime, endTime) VALUES (0, 28, 2, '2014-06-25', '08:45:00', '17:30:00');
 INSERT INTO workTime (version, project, employee, date, startTime, endTime) VALUES (0, 28, 2, '2014-06-26', '08:30:00', '16:30:00');
-INSERT INTO workTime (version, project, employee, date, startTime, endTime) VALUES (0, 28, 2, '2014-06-27', '10:00:00', '17:30:00');
-INSERT INTO workTime (version, project, employee, date, startTime, endTime) VALUES (0, 28, 2, '2014-06-28', '09:00:00', '15:00:00');
+INSERT INTO workTime (version, project, employee, date, startTime, endTime) VALUES (0, 28, 2, '2014-06-27', '09:45:00', '17:30:00');
+INSERT INTO workTime (version, project, employee, date, startTime, endTime) VALUES (0, 28, 2, '2014-06-28', '09:00:00', '17:00:00');
 
 INSERT INTO workTime (version, project, employee, date, startTime, endTime) VALUES (0, 28, 2, '2014-06-30', '12:00:00', '15:00:00');
 
@@ -177,33 +177,33 @@ INSERT INTO workTime (version, project, employee, date, startTime, endTime) VALU
 INSERT INTO workTime (version, project, employee, date, startTime, endTime) VALUES (0, 32, 3, '2014-06-10', '09:00:00', '17:30:00');
 INSERT INTO workTime (version, project, employee, date, startTime, endTime) VALUES (0, 32, 3, '2014-06-11', '07:30:00', '16:30:00');
 INSERT INTO workTime (version, project, employee, date, startTime, endTime) VALUES (0, 32, 3, '2014-06-12', '10:00:00', '17:30:00');
-INSERT INTO workTime (version, project, employee, date, startTime, endTime) VALUES (0, 32, 3, '2014-06-13', '09:00:00', '15:00:00');
+INSERT INTO workTime (version, project, employee, date, startTime, endTime) VALUES (0, 32, 3, '2014-06-13', '09:00:00', '16:00:00');
 
 INSERT INTO workTime (version, project, employee, date, startTime, endTime) VALUES (0, 32, 3, '2014-06-16', '13:00:00', '18:00:00');
-INSERT INTO workTime (version, project, employee, date, startTime, endTime) VALUES (0, 32, 3, '2014-06-17', '09:00:00', '17:30:00');
-INSERT INTO workTime (version, project, employee, date, startTime, endTime) VALUES (0, 32, 3, '2014-06-18', '09:00:00', '16:30:00');
-INSERT INTO workTime (version, project, employee, date, startTime, endTime) VALUES (0, 32, 3, '2014-06-19', '10:00:00', '17:30:00');
+INSERT INTO workTime (version, project, employee, date, startTime, endTime) VALUES (0, 32, 3, '2014-06-17', '08:00:00', '17:45:00');
+INSERT INTO workTime (version, project, employee, date, startTime, endTime) VALUES (0, 32, 3, '2014-06-18', '09:45:00', '18:30:00');
+INSERT INTO workTime (version, project, employee, date, startTime, endTime) VALUES (0, 32, 3, '2014-06-19', '09:00:00', '17:30:00');
 INSERT INTO workTime (version, project, employee, date, startTime, endTime) VALUES (0, 32, 3, '2014-06-20', '09:00:00', '15:00:00');
 
 INSERT INTO workTime (version, project, employee, date, startTime, endTime) VALUES (0, 32, 3, '2014-06-24', '11:00:00', '18:15:00');
 INSERT INTO workTime (version, project, employee, date, startTime, endTime) VALUES (0, 32, 3, '2014-06-25', '09:00:00', '17:30:00');
 INSERT INTO workTime (version, project, employee, date, startTime, endTime) VALUES (0, 32, 3, '2014-06-26', '08:30:00', '16:30:00');
-INSERT INTO workTime (version, project, employee, date, startTime, endTime) VALUES (0, 32, 3, '2014-06-27', '10:00:00', '17:30:00');
+INSERT INTO workTime (version, project, employee, date, startTime, endTime) VALUES (0, 32, 3, '2014-06-27', '11:00:00', '19:30:00');
 INSERT INTO workTime (version, project, employee, date, startTime, endTime) VALUES (0, 32, 3, '2014-06-28', '09:00:00', '15:00:00');
 
 INSERT INTO workTime (version, project, employee, date, startTime, endTime) VALUES (0, 32, 3, '2014-06-30', '12:00:00', '17:00:00');
 
 /* WORKTIMES project 1002.2014.1 EMPLOYEE 4 */
-INSERT INTO workTime (version, project, employee, date, startTime, endTime) VALUES (0, 32, 4, '2014-06-02', '12:00:00', '18:00:00');
+INSERT INTO workTime (version, project, employee, date, startTime, endTime) VALUES (0, 32, 4, '2014-06-02', '11:00:00', '18:00:00');
 INSERT INTO workTime (version, project, employee, date, startTime, endTime) VALUES (0, 32, 4, '2014-06-03', '10:00:00', '17:30:00');
-INSERT INTO workTime (version, project, employee, date, startTime, endTime) VALUES (0, 32, 4, '2014-06-04', '09:30:00', '16:30:00');
-INSERT INTO workTime (version, project, employee, date, startTime, endTime) VALUES (0, 32, 4, '2014-06-05', '10:00:00', '17:30:00');
-INSERT INTO workTime (version, project, employee, date, startTime, endTime) VALUES (0, 32, 4, '2014-06-06', '09:00:00', '15:00:00');
+INSERT INTO workTime (version, project, employee, date, startTime, endTime) VALUES (0, 32, 4, '2014-06-04', '08:30:00', '16:30:00');
+INSERT INTO workTime (version, project, employee, date, startTime, endTime) VALUES (0, 32, 4, '2014-06-05', '10:15:00', '17:30:00');
+INSERT INTO workTime (version, project, employee, date, startTime, endTime) VALUES (0, 32, 4, '2014-06-06', '07:00:00', '15:00:00');
 
 INSERT INTO workTime (version, project, employee, date, startTime, endTime) VALUES (0, 32, 4, '2014-06-09', '12:00:00', '18:00:00');
-INSERT INTO workTime (version, project, employee, date, startTime, endTime) VALUES (0, 32, 4, '2014-06-10', '09:00:00', '17:30:00');
+INSERT INTO workTime (version, project, employee, date, startTime, endTime) VALUES (0, 32, 4, '2014-06-10', '08:00:00', '17:30:00');
 INSERT INTO workTime (version, project, employee, date, startTime, endTime) VALUES (0, 32, 4, '2014-06-11', '07:30:00', '16:30:00');
-INSERT INTO workTime (version, project, employee, date, startTime, endTime) VALUES (0, 32, 4, '2014-06-12', '10:00:00', '17:30:00');
+INSERT INTO workTime (version, project, employee, date, startTime, endTime) VALUES (0, 32, 4, '2014-06-12', '09:00:00', '17:45:00');
 INSERT INTO workTime (version, project, employee, date, startTime, endTime) VALUES (0, 32, 4, '2014-06-13', '09:00:00', '15:00:00');
 
 INSERT INTO workTime (version, project, employee, date, startTime, endTime) VALUES (0, 32, 4, '2014-06-16', '13:00:00', '18:00:00');
@@ -242,16 +242,16 @@ INSERT INTO holiday (day, name, federalState) VALUES ('2014-01-01', 'Neujahr', '
 
 
 /* VACATION REQUESTS */
-INSERT INTO vacationRequest (version, employee_id, startDate, endDate, numberOfDays, status, submissionTime, approvalDate) VALUES (0, 1, '2013-12-19', '2014-01-03', 9, 'APPROVED', '2013-12-01 11:00:00', '2013-12-02 10:30:13');
-INSERT INTO vacationRequest (version, employee_id, startDate, endDate, numberOfDays, status, submissionTime, approver_id, approvalDate) VALUES (0, 1, '2014-07-14', '2014-07-18', 5, 'APPROVED', '2014-06-01 11:00:00', 2, '2014-06-03 10:00:03');
+INSERT INTO vacationRequest (version, employee_id, startDate, endDate, numberOfDays, status, submissionTime, approvalDate) VALUES (0, 1, '2013-12-18', '2014-01-03', 10, 'APPROVED', '2013-12-01 11:00:00', '2013-12-02 10:30:13');
+INSERT INTO vacationRequest (version, employee_id, startDate, endDate, numberOfDays, status, submissionTime, approver_id, approvalDate) VALUES (0, 1, '2014-07-10', '2014-07-18', 7, 'APPROVED', '2014-06-01 11:00:00', 2, '2014-06-03 10:00:03');
 INSERT INTO vacationRequest (version, employee_id, startDate, endDate, numberOfDays, status, submissionTime, approver_id, approvalDate) VALUES (0, 1, '2014-04-07', '2014-04-11', 5, 'REJECTED', '2014-03-15 11:00:00', 5, '2014-03-19 13:05:06');
 
 INSERT INTO vacationRequest (version, employee_id, startDate, endDate, numberOfDays, status, submissionTime, approvalDate) VALUES (0, 2, '2013-12-19', '2014-01-03', 9, 'APPROVED', '2013-12-01 11:00:00', '2013-12-02 10:30:13');
-INSERT INTO vacationRequest (version, employee_id, startDate, endDate, numberOfDays, status, submissionTime, approver_id, approvalDate) VALUES (0, 2, '2014-07-14', '2014-07-18', 5, 'APPROVED', '2014-06-01 11:00:00', 3, '2014-06-03 10:00:03');
+INSERT INTO vacationRequest (version, employee_id, startDate, endDate, numberOfDays, status, submissionTime, approver_id, approvalDate) VALUES (0, 2, '2014-07-14', '2014-07-17', 4, 'APPROVED', '2014-06-01 11:00:00', 3, '2014-06-03 10:00:03');
 INSERT INTO vacationRequest (version, employee_id, startDate, endDate, numberOfDays, status, submissionTime, approver_id, approvalDate) VALUES (0, 2, '2014-04-07', '2014-04-11', 5, 'REJECTED', '2014-03-15 11:00:00', 4, '2014-03-19 13:05:06');
 
 INSERT INTO vacationRequest (version, employee_id, startDate, endDate, numberOfDays, status, submissionTime, approvalDate) VALUES (0, 3, '2013-12-19', '2014-01-03', 9, 'APPROVED', '2013-12-01 11:00:00', '2013-12-02 10:30:13');
-INSERT INTO vacationRequest (version, employee_id, startDate, endDate, numberOfDays, status, submissionTime, approver_id, approvalDate) VALUES (0, 3, '2014-07-14', '2014-07-18', 5, 'APPROVED', '2014-06-01 11:00:00', 1, '2014-06-03 10:00:03');
+INSERT INTO vacationRequest (version, employee_id, startDate, endDate, numberOfDays, status, submissionTime, approver_id, approvalDate) VALUES (0, 3, '2014-07-10', '2014-07-18', 8, 'APPROVED', '2014-06-01 11:00:00', 1, '2014-06-03 10:00:03');
 INSERT INTO vacationRequest (version, employee_id, startDate, endDate, numberOfDays, status, submissionTime, approver_id, approvalDate) VALUES (0, 3, '2014-04-07', '2014-04-11', 5, 'REJECTED', '2014-03-15 11:00:00', 6, '2014-03-19 13:05:06');
 
 INSERT INTO vacationRequest (version, employee_id, startDate, endDate, numberOfDays, status, submissionTime, approvalDate) VALUES (0, 4, '2013-12-19', '2014-01-03', 9, 'APPROVED', '2013-12-01 11:00:00', '2013-12-02 10:30:13');
@@ -259,11 +259,11 @@ INSERT INTO vacationRequest (version, employee_id, startDate, endDate, numberOfD
 INSERT INTO vacationRequest (version, employee_id, startDate, endDate, numberOfDays, status, submissionTime, approver_id, approvalDate) VALUES (0, 4, '2014-04-07', '2014-04-11', 5, 'REJECTED', '2014-03-15 11:00:00', 5, '2014-03-19 13:05:06');
 
 INSERT INTO vacationRequest (version, employee_id, startDate, endDate, numberOfDays, status, submissionTime, approvalDate) VALUES (0, 5, '2013-12-19', '2014-01-03', 9, 'APPROVED', '2013-12-01 11:00:00', '2013-12-02 10:30:13');
-INSERT INTO vacationRequest (version, employee_id, startDate, endDate, numberOfDays, status, submissionTime, approver_id, approvalDate) VALUES (0, 5, '2014-07-14', '2014-07-18', 5, 'APPROVED', '2014-06-01 11:00:00', 1, '2014-06-03 10:00:03');
+INSERT INTO vacationRequest (version, employee_id, startDate, endDate, numberOfDays, status, submissionTime, approver_id, approvalDate) VALUES (0, 5, '2014-07-14', '2014-07-15', 2, 'APPROVED', '2014-06-01 11:00:00', 1, '2014-06-03 10:00:03');
 INSERT INTO vacationRequest (version, employee_id, startDate, endDate, numberOfDays, status, submissionTime, approver_id, approvalDate) VALUES (0, 5, '2014-04-07', '2014-04-11', 5, 'REJECTED', '2014-03-15 11:00:00', 1, '2014-03-19 13:05:06');
 
 INSERT INTO vacationRequest (version, employee_id, startDate, endDate, numberOfDays, status, submissionTime, approvalDate) VALUES (0, 6, '2013-12-19', '2014-01-03', 9, 'APPROVED', '2013-12-01 11:00:00', '2013-12-02 10:30:13');
-INSERT INTO vacationRequest (version, employee_id, startDate, endDate, numberOfDays, status, submissionTime, approver_id, approvalDate) VALUES (0, 6, '2014-07-14', '2014-07-18', 5, 'APPROVED', '2014-06-01 11:00:00', 4, '2014-06-03 10:00:03');
+INSERT INTO vacationRequest (version, employee_id, startDate, endDate, numberOfDays, status, submissionTime, approver_id, approvalDate) VALUES (0, 6, '2014-07-14', '2014-07-14', 1, 'APPROVED', '2014-06-01 11:00:00', 4, '2014-06-03 10:00:03');
 INSERT INTO vacationRequest (version, employee_id, startDate, endDate, numberOfDays, status, submissionTime, approver_id, approvalDate) VALUES (0, 6, '2014-04-07', '2014-04-11', 5, 'REJECTED', '2014-03-15 11:00:00', 3, '2014-03-19 13:05:06');
 
 INSERT INTO vacationRequest (version, employee_id, startDate, endDate, numberOfDays, status, submissionTime, approvalDate) VALUES (0, 9, '2014-04-24', '2014-04-29', 5, 'APPROVED', '2014-01-03 11:00:00', '2014-01-10 04:00:00');
@@ -280,8 +280,8 @@ INSERT INTO travelExpense (version, report_id, fromDate, toDate, cost, vat, subm
 INSERT INTO travelExpense (version, report_id, fromDate, toDate, cost, vat, submissionDate, type) VALUES (0, 37, '2014-05-01', '2014-05-10', 330.13, 19, '2014-06-01 10:00:30', 'TAXI');
 INSERT INTO travelExpense (version, report_id, fromDate, toDate, cost, vat, submissionDate, type) VALUES (0, 37, '2014-05-01', '2014-05-10', 1000, 19, '2014-06-01 10:00:30', 'HOTEL');
 
-INSERT INTO travelExpense (version, report_id, fromDate, toDate, cost, vat, submissionDate, type) VALUES (0, 38, '2014-07-01', '2014-07-01', 31.34, 19, '2014-04-16 10:00:30', 'TAXI');
-INSERT INTO travelExpense (version, report_id, fromDate, toDate, cost, vat, submissionDate, type) VALUES (0, 38, '2014-07-01', '2014-07-04', 350, 19, '2014-07-16 10:00:30', 'HOTEL');
+INSERT INTO travelExpense (version, report_id, fromDate, toDate, cost, vat, submissionDate, type) VALUES (0, 38, '2014-07-01', '2014-07-01', 15.16, 19, '2014-04-16 10:00:30', 'TAXI');
+INSERT INTO travelExpense (version, report_id, fromDate, toDate, cost, vat, submissionDate, type) VALUES (0, 38, '2014-07-01', '2014-07-04', 250, 19, '2014-07-16 10:00:30', 'HOTEL');
 INSERT INTO travelExpense (version, report_id, fromDate, toDate, cost, vat, submissionDate, type) VALUES (0, 39, '2014-06-02', '2014-06-02', 32.40, 19, '2014-07-01 12:40:51', 'TAXI');
 INSERT INTO travelExpense (version, report_id, fromDate, toDate, cost, vat, submissionDate, type) VALUES (0, 39, '2014-06-02', '2014-06-05', 350, 19, '2014-07-01 12:40:51', 'HOTEL');
 INSERT INTO travelExpense (version, report_id, fromDate, toDate, cost, vat, submissionDate, type) VALUES (0, 40, '2014-04-01', '2014-04-10', 30.33, 19, '2014-05-01 08:31:12', 'TAXI');
@@ -289,8 +289,8 @@ INSERT INTO travelExpense (version, report_id, fromDate, toDate, cost, vat, subm
 INSERT INTO travelExpense (version, report_id, fromDate, toDate, cost, vat, submissionDate, type) VALUES (0, 41, '2014-05-01', '2014-05-10', 330.13, 19, '2014-06-01 10:00:30', 'TAXI');
 INSERT INTO travelExpense (version, report_id, fromDate, toDate, cost, vat, submissionDate, type) VALUES (0, 41, '2014-05-01', '2014-05-10', 1000, 19, '2014-06-01 10:00:30', 'HOTEL');
 
-INSERT INTO travelExpense (version, report_id, fromDate, toDate, cost, vat, submissionDate, type) VALUES (0, 42, '2014-07-01', '2014-07-01', 31.34, 19, '2014-04-16 10:00:30', 'TAXI');
-INSERT INTO travelExpense (version, report_id, fromDate, toDate, cost, vat, submissionDate, type) VALUES (0, 42, '2014-07-01', '2014-07-04', 350, 19, '2014-07-16 10:00:30', 'HOTEL');
+INSERT INTO travelExpense (version, report_id, fromDate, toDate, cost, vat, submissionDate, type) VALUES (0, 42, '2014-07-01', '2014-07-01', 131.34, 19, '2014-04-16 10:00:30', 'TAXI');
+INSERT INTO travelExpense (version, report_id, fromDate, toDate, cost, vat, submissionDate, type) VALUES (0, 42, '2014-07-01', '2014-07-04', 1350, 19, '2014-07-16 10:00:30', 'HOTEL');
 INSERT INTO travelExpense (version, report_id, fromDate, toDate, cost, vat, submissionDate, type) VALUES (0, 43, '2014-06-02', '2014-06-02', 32.40, 19, '2014-07-01 12:40:51', 'TAXI');
 INSERT INTO travelExpense (version, report_id, fromDate, toDate, cost, vat, submissionDate, type) VALUES (0, 43, '2014-06-02', '2014-06-05', 350, 19, '2014-07-01 12:40:51', 'HOTEL');
 INSERT INTO travelExpense (version, report_id, fromDate, toDate, cost, vat, submissionDate, type) VALUES (0, 44, '2014-04-01', '2014-04-10', 30.33, 19, '2014-05-01 08:31:12', 'TAXI');
@@ -298,8 +298,8 @@ INSERT INTO travelExpense (version, report_id, fromDate, toDate, cost, vat, subm
 INSERT INTO travelExpense (version, report_id, fromDate, toDate, cost, vat, submissionDate, type) VALUES (0, 45, '2014-05-01', '2014-05-10', 330.13, 19, '2014-06-01 10:00:30', 'TAXI');
 INSERT INTO travelExpense (version, report_id, fromDate, toDate, cost, vat, submissionDate, type) VALUES (0, 45, '2014-05-01', '2014-05-10', 1000, 19, '2014-06-01 10:00:30', 'HOTEL');
 
-INSERT INTO travelExpense (version, report_id, fromDate, toDate, cost, vat, submissionDate, type) VALUES (0, 46, '2014-07-01', '2014-07-01', 31.34, 19, '2014-04-16 10:00:30', 'TAXI');
-INSERT INTO travelExpense (version, report_id, fromDate, toDate, cost, vat, submissionDate, type) VALUES (0, 46, '2014-07-01', '2014-07-04', 350, 19, '2014-07-16 10:00:30', 'HOTEL');
+INSERT INTO travelExpense (version, report_id, fromDate, toDate, cost, vat, submissionDate, type) VALUES (0, 46, '2014-07-01', '2014-07-01', 85.34, 19, '2014-04-16 10:00:30', 'TAXI');
+INSERT INTO travelExpense (version, report_id, fromDate, toDate, cost, vat, submissionDate, type) VALUES (0, 46, '2014-07-01', '2014-07-04', 250, 19, '2014-07-16 10:00:30', 'HOTEL');
 INSERT INTO travelExpense (version, report_id, fromDate, toDate, cost, vat, submissionDate, type) VALUES (0, 47, '2014-06-02', '2014-06-02', 32.40, 19, '2014-07-01 12:40:51', 'TAXI');
 INSERT INTO travelExpense (version, report_id, fromDate, toDate, cost, vat, submissionDate, type) VALUES (0, 47, '2014-06-02', '2014-06-05', 350, 19, '2014-07-01 12:40:51', 'HOTEL');
 INSERT INTO travelExpense (version, report_id, fromDate, toDate, cost, vat, submissionDate, type) VALUES (0, 48, '2014-04-01', '2014-04-10', 30.33, 19, '2014-05-01 08:31:12', 'TAXI');
@@ -307,8 +307,8 @@ INSERT INTO travelExpense (version, report_id, fromDate, toDate, cost, vat, subm
 INSERT INTO travelExpense (version, report_id, fromDate, toDate, cost, vat, submissionDate, type) VALUES (0, 49, '2014-05-01', '2014-05-10', 330.13, 19, '2014-06-01 10:00:30', 'TAXI');
 INSERT INTO travelExpense (version, report_id, fromDate, toDate, cost, vat, submissionDate, type) VALUES (0, 49, '2014-05-01', '2014-05-10', 1000, 19, '2014-06-01 10:00:30', 'HOTEL');
 
-INSERT INTO travelExpense (version, report_id, fromDate, toDate, cost, vat, submissionDate, type) VALUES (0, 50, '2014-07-01', '2014-07-01', 31.34, 19, '2014-04-16 10:00:30', 'TAXI');
-INSERT INTO travelExpense (version, report_id, fromDate, toDate, cost, vat, submissionDate, type) VALUES (0, 50, '2014-07-01', '2014-07-04', 350, 19, '2014-07-16 10:00:30', 'HOTEL');
+INSERT INTO travelExpense (version, report_id, fromDate, toDate, cost, vat, submissionDate, type) VALUES (0, 50, '2014-07-01', '2014-07-01', 16.34, 19, '2014-04-16 10:00:30', 'TAXI');
+INSERT INTO travelExpense (version, report_id, fromDate, toDate, cost, vat, submissionDate, type) VALUES (0, 50, '2014-07-01', '2014-07-04', 370, 19, '2014-07-16 10:00:30', 'HOTEL');
 INSERT INTO travelExpense (version, report_id, fromDate, toDate, cost, vat, submissionDate, type) VALUES (0, 51, '2014-06-02', '2014-06-02', 32.40, 19, '2014-07-01 12:40:51', 'TAXI');
 INSERT INTO travelExpense (version, report_id, fromDate, toDate, cost, vat, submissionDate, type) VALUES (0, 51, '2014-06-02', '2014-06-05', 350, 19, '2014-07-01 12:40:51', 'HOTEL');
 INSERT INTO travelExpense (version, report_id, fromDate, toDate, cost, vat, submissionDate, type) VALUES (0, 52, '2014-04-01', '2014-04-10', 30.33, 19, '2014-05-01 08:31:12', 'TAXI');
@@ -316,8 +316,8 @@ INSERT INTO travelExpense (version, report_id, fromDate, toDate, cost, vat, subm
 INSERT INTO travelExpense (version, report_id, fromDate, toDate, cost, vat, submissionDate, type) VALUES (0, 53, '2014-05-01', '2014-05-10', 330.13, 19, '2014-06-01 10:00:30', 'TAXI');
 INSERT INTO travelExpense (version, report_id, fromDate, toDate, cost, vat, submissionDate, type) VALUES (0, 53, '2014-05-01', '2014-05-10', 1000, 19, '2014-06-01 10:00:30', 'HOTEL');
 
-INSERT INTO travelExpense (version, report_id, fromDate, toDate, cost, vat, submissionDate, type) VALUES (0, 54, '2014-07-01', '2014-07-01', 31.34, 19, '2014-04-16 10:00:30', 'TAXI');
-INSERT INTO travelExpense (version, report_id, fromDate, toDate, cost, vat, submissionDate, type) VALUES (0, 54, '2014-07-01', '2014-07-04', 350, 19, '2014-07-16 10:00:30', 'HOTEL');
+INSERT INTO travelExpense (version, report_id, fromDate, toDate, cost, vat, submissionDate, type) VALUES (0, 54, '2014-07-01', '2014-07-01', 30.54, 19, '2014-04-16 10:00:30', 'TAXI');
+INSERT INTO travelExpense (version, report_id, fromDate, toDate, cost, vat, submissionDate, type) VALUES (0, 54, '2014-07-01', '2014-07-04', 330, 19, '2014-07-16 10:00:30', 'HOTEL');
 INSERT INTO travelExpense (version, report_id, fromDate, toDate, cost, vat, submissionDate, type) VALUES (0, 55, '2014-06-02', '2014-06-02', 32.40, 19, '2014-07-01 12:40:51', 'TAXI');
 INSERT INTO travelExpense (version, report_id, fromDate, toDate, cost, vat, submissionDate, type) VALUES (0, 55, '2014-06-02', '2014-06-05', 350, 19, '2014-07-01 12:40:51', 'HOTEL');
 INSERT INTO travelExpense (version, report_id, fromDate, toDate, cost, vat, submissionDate, type) VALUES (0, 56, '2014-04-01', '2014-04-10', 30.33, 19, '2014-05-01 08:31:12', 'TAXI');

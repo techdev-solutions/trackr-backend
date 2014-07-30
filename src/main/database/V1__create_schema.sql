@@ -1,66 +1,3 @@
-
-    alter table BillableTime 
-        drop constraint FK3EBA06E37BE2CBE;
-
-    alter table BillableTime 
-        drop constraint FK3EBA06E65C090FD;
-
-    alter table Company 
-        drop constraint FK9BDFD45D9475612A;
-
-    alter table ContactPerson 
-        drop constraint FK4E7B4375FA3D5CEA;
-
-    alter table Credential_Authority 
-        drop constraint FK3DA6FD5B34EFD736;
-
-    alter table Credential_Authority 
-        drop constraint FK3DA6FD5B27F2CCA0;
-
-    alter table Project 
-        drop constraint FK50C8E2F98F0FA88A;
-
-    alter table Project 
-        drop constraint FK50C8E2F9F02B33F8;
-
-    alter table VacationRequest 
-        drop constraint FK266F9CD248918324;
-
-    alter table VacationRequest 
-        drop constraint FK266F9CD255198E9B;
-
-    alter table WorkTime 
-        drop constraint FK5EE019E37BE2CBE;
-
-    alter table WorkTime 
-        drop constraint FK5EE019E65C090FD;
-
-    drop table if exists Address cascade;
-
-    drop table if exists Authority cascade;
-
-    drop table if exists BillableTime cascade;
-
-    drop table if exists Company cascade;
-
-    drop table if exists ContactPerson cascade;
-
-    drop table if exists Credential cascade;
-
-    drop table if exists Credential_Authority cascade;
-
-    drop table if exists Employee cascade;
-
-    drop table if exists Holiday cascade;
-
-    drop table if exists Project cascade;
-
-    drop table if exists VacationRequest cascade;
-
-    drop table if exists WorkTime cascade;
-
-    drop sequence hibernate_sequence;
-
     create table Address (
         id int8 not null,
         city varchar(255),
@@ -188,64 +125,96 @@
         primary key (id)
     );
 
-    alter table BillableTime 
-        add constraint FK3EBA06E37BE2CBE 
-        foreign key (project) 
+     create table TravelExpense (
+        id int8 not null,
+        cost numeric(19, 2),
+        fromDate date,
+        submissionDate timestamp,
+        toDate date,
+        type varchar(255),
+        vat numeric(19, 2),
+        version int4,
+        report_id int8,
+        primary key (id)
+    );
+
+    create table TravelExpenseReport (
+        id int8 not null,
+        status varchar(255),
+        version int4,
+        employee_id int8,
+        primary key (id)
+    );
+
+    alter table BillableTime
+        add constraint FK3EBA06E37BE2CBE
+        foreign key (project)
         references Project;
 
-    alter table BillableTime 
-        add constraint FK3EBA06E65C090FD 
-        foreign key (employee) 
+    alter table BillableTime
+        add constraint FK3EBA06E65C090FD
+        foreign key (employee)
         references Employee;
 
-    alter table Company 
-        add constraint FK9BDFD45D9475612A 
-        foreign key (address_id) 
+    alter table Company
+        add constraint FK9BDFD45D9475612A
+        foreign key (address_id)
         references Address;
 
-    alter table ContactPerson 
-        add constraint FK4E7B4375FA3D5CEA 
-        foreign key (company) 
+    alter table ContactPerson
+        add constraint FK4E7B4375FA3D5CEA
+        foreign key (company)
         references Company;
 
-    alter table Credential_Authority 
-        add constraint FK3DA6FD5B34EFD736 
-        foreign key (authorities_id) 
+    alter table Credential_Authority
+        add constraint FK3DA6FD5B34EFD736
+        foreign key (authorities_id)
         references Authority;
 
-    alter table Credential_Authority 
-        add constraint FK3DA6FD5B27F2CCA0 
-        foreign key (Credential_id) 
+    alter table Credential_Authority
+        add constraint FK3DA6FD5B27F2CCA0
+        foreign key (Credential_id)
         references Credential;
 
-    alter table Project 
-        add constraint FK50C8E2F98F0FA88A 
-        foreign key (company_id) 
+    alter table Project
+        add constraint FK50C8E2F98F0FA88A
+        foreign key (company_id)
         references Company;
 
-    alter table Project 
-        add constraint FK50C8E2F9F02B33F8 
-        foreign key (debitor_id) 
+    alter table Project
+        add constraint FK50C8E2F9F02B33F8
+        foreign key (debitor_id)
         references Company;
 
-    alter table VacationRequest 
-        add constraint FK266F9CD248918324 
-        foreign key (approver_id) 
+    alter table VacationRequest
+        add constraint FK266F9CD248918324
+        foreign key (approver_id)
         references Employee;
 
-    alter table VacationRequest 
-        add constraint FK266F9CD255198E9B 
-        foreign key (employee_id) 
+    alter table VacationRequest
+        add constraint FK266F9CD255198E9B
+        foreign key (employee_id)
         references Employee;
 
-    alter table WorkTime 
-        add constraint FK5EE019E37BE2CBE 
-        foreign key (project) 
+    alter table WorkTime
+        add constraint FK5EE019E37BE2CBE
+        foreign key (project)
         references Project;
 
-    alter table WorkTime 
-        add constraint FK5EE019E65C090FD 
-        foreign key (employee) 
+    alter table WorkTime
+        add constraint FK5EE019E65C090FD
+        foreign key (employee)
+        references Employee;
+
+    alter table TravelExpense
+        add constraint FK1BC7BFBE1E281C46
+        foreign key (report_id)
+        references TravelExpenseReport;
+
+    alter table TravelExpenseReport
+        add constraint FK854DBA9255198E9B
+        foreign key (employee_id)
         references Employee;
 
     create sequence hibernate_sequence;
+

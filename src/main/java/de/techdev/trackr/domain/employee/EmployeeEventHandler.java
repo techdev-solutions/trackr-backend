@@ -29,7 +29,8 @@ public class EmployeeEventHandler {
     }
 
     protected void deactivateEmployeeIfNecessary(Employee employee) {
-        if(employee.getLeaveDate() != null && employee.getCredential().getEnabled()) {
+        // enabled can be null (was needed for TRACKR-20)
+        if(employee.getLeaveDate() != null && employee.getCredential().getEnabled() != null && employee.getCredential().getEnabled()) {
             LocalDate today = LocalDate.now();
             LocalDate leaveDate = LocalDateUtil.fromDate(employee.getLeaveDate());
             if(leaveDate.isBefore(today) || leaveDate.equals(today)) {

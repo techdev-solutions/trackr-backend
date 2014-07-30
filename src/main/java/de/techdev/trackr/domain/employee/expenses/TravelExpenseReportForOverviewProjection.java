@@ -3,6 +3,9 @@ package de.techdev.trackr.domain.employee.expenses;
 import de.techdev.trackr.domain.employee.Employee;
 import org.springframework.data.rest.core.config.Projection;
 
+import java.util.Date;
+import java.util.List;
+
 /**
  * @author Moritz Schulze
  */
@@ -13,4 +16,12 @@ public interface TravelExpenseReportForOverviewProjection {
     Employee getEmployee();
 
     TravelExpenseReportStatus getStatus();
+
+    List<TravelExpense> getExpenses();
+
+    Date getSubmissionDate();
+
+    Date getApprovalDate();
+
+    Employee getApprover();
 }

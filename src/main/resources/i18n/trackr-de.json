@@ -102,12 +102,14 @@
             "TRAIN": "Zugfahrt",
             "PARKING": "Parken",
             "OEPNV": "ÖPNV",
+            "MILEAGE_ALLOWANCE": "Kilometerpauschale",
             "OTHER": "Andere"
         },
         "FROM_DATE": "Von",
         "TO_DATE": "Bis",
         "VAT": "Mehrwertsteuer",
         "COST": "Gesamt",
+        "COMMENT": "Kommentar",
         "SUBMITTED": "Eingereicht am"
     },
     "TRAVEL_EXPENSE_REPORT": {
@@ -117,7 +119,13 @@
         "PENDING": "Wartend",
         "APPROVED": "Akzeptiert",
         "REJECTED": "Abgelehnt",
-        "SUBMITTED": "Abgeschickt"
+        "SUBMITTED": "Abgeschickt",
+        "ID": "Nummber",
+        "EMPLOYEE": "Angesteller",
+        "APPROVER": "Genehmiger",
+        "SUBMISSION_DATE": "Eingereicht am",
+        "APPROVAL_DATE": "Genehmigt am",
+        "COMMENTS": "Kommentare"
     },
     "INVOICE": {
         "INVOICE": "Rechnung",
@@ -139,6 +147,12 @@
         "START_DATE": "Startdatum",
         "END_DATE": "Enddate",
         "TOTAL_DAYS": "Anzahl Tage"
+    },
+    "DIRECTIVES": {
+        "COMMENT_SECTION": {
+            "COMMENTS": "Kommentare",
+            "TEXT": "Text"
+        }
     },
     "PAGES": {
         "HOME": {
@@ -242,7 +256,8 @@
         "BACK": "Zurück",
         "SEARCH": "Suchen",
         "DELETE": "Löschen",
-        "REALLY_DELETE": "Wirklich löschen?"
+        "REALLY_DELETE": "Wirklich löschen?",
+        "DOWNLOAD": "Herunterladen"
     },
     "DATE": {
         "TODAY": "Heute",

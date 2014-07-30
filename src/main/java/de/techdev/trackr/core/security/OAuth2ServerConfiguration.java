@@ -3,10 +3,7 @@ package de.techdev.trackr.core.security;
 import org.apache.commons.dbcp.BasicDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
-import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.*;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpMethod;
@@ -19,6 +16,9 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.approval.ApprovalStore;
+import org.springframework.security.oauth2.provider.approval.InMemoryApprovalStore;
+import org.springframework.security.oauth2.provider.approval.JdbcApprovalStore;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore;
 import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
@@ -73,8 +73,11 @@ public class OAuth2ServerConfiguration {
 
     @Configuration
     @EnableAuthorizationServer
-    @PropertySource({"classpath:/META-INF/spring/database_${spring.profiles.active:dev}.properties",
-            "classpath:/application_${spring.profiles.active:dev}.properties"})
+    @PropertySources({
+            @PropertySource({"classpath:/META-INF/spring/database_${spring.profiles.active:dev}.properties",
+                    "classpath:/application_${spring.profiles.active:dev}.properties"}),
+            @PropertySource(value = "${trackr.externalconfig:file:/etc/trackr.properties}", ignoreResourceNotFound = true)
+    })
     protected static class AuthorizationServerConfiguration extends AuthorizationServerConfigurerAdapter {
 
         @Value("${tokenDatabase.driverClassName}")
@@ -130,6 +133,15 @@ public class OAuth2ServerConfiguration {
         }
 
         @Bean
+        public ApprovalStore approvalStore() {
+            if (asList(env.getActiveProfiles()).contains("dev")) {
+                return new InMemoryApprovalStore();
+            } else {
+                return new JdbcApprovalStore(tokenDataSource());
+            }
+        }
+
+        @Bean
         public TokenStore tokenStore() {
             if(asList(env.getActiveProfiles()).contains("dev")) {
                 return new InMemoryTokenStore();
@@ -140,7 +152,7 @@ public class OAuth2ServerConfiguration {
 
         @Override
         public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
-            endpoints.tokenStore(tokenStore());
+            endpoints.tokenStore(tokenStore()).approvalStore(approvalStore());
         }
     }
 }

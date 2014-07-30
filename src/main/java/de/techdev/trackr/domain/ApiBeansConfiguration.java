@@ -1,6 +1,8 @@
 package de.techdev.trackr.domain;
 
+import de.techdev.trackr.core.pdf.PdfRenderer;
 import de.techdev.trackr.domain.employee.expenses.TravelExpenseReportService;
+import de.techdev.trackr.domain.employee.expenses.support.TravelExpenseReportNotifyService;
 import de.techdev.trackr.domain.employee.expenses.support.TravelExpenseReportServiceImpl;
 import de.techdev.trackr.domain.employee.login.DeactivateEmployeesService;
 import de.techdev.trackr.domain.employee.login.support.SupervisorService;
@@ -15,6 +17,10 @@ import de.techdev.trackr.domain.project.invoice.ChangeStateService;
 import de.techdev.trackr.domain.project.invoice.InvoiceOverdueService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.PropertySources;
+import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
  * All Beans needed for the API that have nothing to do with web.
@@ -22,11 +28,26 @@ import org.springframework.context.annotation.Configuration;
  * @author Moritz Schulze
  */
 @Configuration
+@EnableTransactionManagement
+@PropertySources({
+        @PropertySource({"classpath:application_${spring.profiles.active:dev}.properties"}),
+        @PropertySource(value = "${trackr.externalconfig:file:/etc/trackr.properties}", ignoreResourceNotFound = true)
+})
 public class ApiBeansConfiguration {
+
+    @Bean
+    public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
+        return new PropertySourcesPlaceholderConfigurer();
+    }
 
     @Bean
     public TravelExpenseReportService travelExpenseReportService() {
         return new TravelExpenseReportServiceImpl();
+    }
+
+    @Bean
+    public TravelExpenseReportNotifyService travelExpenseReportNotifyService() {
+        return new TravelExpenseReportNotifyService();
     }
 
     @Bean
@@ -77,5 +98,10 @@ public class ApiBeansConfiguration {
     @Bean
     public SupervisorService supervisorService() {
         return new SupervisorService();
+    }
+
+    @Bean
+    public PdfRenderer pdfRenderer() {
+        return new PdfRenderer();
     }
 }

@@ -48,6 +48,7 @@ public class TravelExpenseReportEventHandler {
     }
 
     public boolean employeeCanDeleteReport(TravelExpenseReport report, Long principalId) {
-        return report.getEmployee().getId().equals(principalId) && report.getStatus() == TravelExpenseReportStatus.PENDING;
+        return report.getEmployee().getId().equals(principalId) &&
+                (report.getStatus() == TravelExpenseReportStatus.PENDING || report.getStatus() == TravelExpenseReportStatus.REJECTED);
     }
 }

@@ -1,6 +1,7 @@
 package de.techdev.trackr.domain.employee;
 
 import lombok.Data;
+import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  * A class used to transfer data that one employee can change about himself
@@ -10,8 +11,10 @@ import lombok.Data;
 @Data
 public class SelfEmployee {
 
+    @NotEmpty
     private String firstName;
 
+    @NotEmpty
     private String lastName;
 
     private String phoneNumber;

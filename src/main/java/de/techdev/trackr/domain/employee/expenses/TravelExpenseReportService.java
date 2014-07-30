@@ -13,8 +13,8 @@ public interface TravelExpenseReportService {
     TravelExpenseReport submit(TravelExpenseReport travelExpenseReport);
 
     @PreAuthorize("hasRole('ROLE_SUPERVISOR') and #travelExpenseReport.employee.id != principal.id")
-    TravelExpenseReport accept(TravelExpenseReport travelExpenseReport);
+    TravelExpenseReport accept(TravelExpenseReport travelExpenseReport, String approverName);
 
     @PreAuthorize("hasRole('ROLE_SUPERVISOR') and #travelExpenseReport.employee.id != principal.id")
-    TravelExpenseReport reject(TravelExpenseReport travelExpenseReport);
+    TravelExpenseReport reject(TravelExpenseReport travelExpenseReport, String rejecterName);
 }

@@ -94,12 +94,14 @@
             "TRAIN": "Train",
             "PARKING": "Parking",
             "OEPNV": "ÖPNV",
+            "MILEAGE_ALLOWANCE": "Mileage allowance",
             "OTHER": "Other"
         },
         "FROM_DATE": "From",
         "TO_DATE": "To",
         "VAT": "VAT",
         "COST": "Total",
+        "COMMENT": "Comment",
         "SUBMITTED": "Submitted"
     },
     "TRAVEL_EXPENSE_REPORT": {
@@ -109,7 +111,13 @@
         "PENDING": "Pending",
         "APPROVED": "Approved",
         "REJECTED": "Rejected",
-        "SUBMITTED": "Submitted"
+        "SUBMITTED": "Submitted",
+        "ID": "Id",
+        "EMPLOYEE": "Employee",
+        "APPROVER": "Approver",
+        "SUBMISSION_DATE": "Submission date",
+        "APPROVAL_DATE": "Approval date",
+        "COMMENTS": "Comments"
     },
     "INVOICE": {
         "INVOICE": "Invoice",
@@ -139,6 +147,12 @@
         "START_DATE": "Start date",
         "END_DATE": "End date",
         "TOTAL_DAYS": "Total days"
+    },
+    "DIRECTIVES": {
+        "COMMENT_SECTION": {
+            "COMMENTS": "Comments",
+            "TEXT": "Text"
+        }
     },
     "PAGES": {
         "HOME": {
@@ -243,7 +257,8 @@
         "BACK": "Back",
         "SEARCH": "Search",
         "DELETE": "Delete",
-        "REALLY_DELETE": "Really delete?"
+        "REALLY_DELETE": "Really delete?",
+        "DOWNLOAD": "Download"
     },
     "DATE": {
         "TODAY": "Today",

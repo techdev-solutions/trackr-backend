@@ -4,6 +4,7 @@ import de.techdev.trackr.TransactionalIntegrationTest;
 import de.techdev.trackr.core.mail.MailConfiguration;
 import de.techdev.trackr.domain.ApiBeansConfiguration;
 import de.techdev.trackr.domain.employee.expenses.TravelExpenseReport;
+import de.techdev.trackr.domain.employee.expenses.TravelExpenseReportDataOnDemand;
 import de.techdev.trackr.domain.employee.expenses.TravelExpenseReportService;
 import de.techdev.trackr.domain.employee.expenses.TravelExpenseReportStatus;
 import de.techdev.trackr.util.LocalDateUtil;
@@ -23,12 +24,15 @@ public class TravelExpenseReportServiceImplTest extends TransactionalIntegration
     @Autowired
     TravelExpenseReportService service;
 
+    @Autowired
+    private TravelExpenseReportDataOnDemand dataOnDemand;
+
     @Test
     public void testReject() throws Exception {
         TravelExpenseReport travelExpenseReport = new TravelExpenseReport();
         travelExpenseReport.setStatus(TravelExpenseReportStatus.SUBMITTED);
 
-        TravelExpenseReport result = service.reject(travelExpenseReport);
+        TravelExpenseReport result = service.reject(travelExpenseReport, "admin@techdev.de");
         assertThat(result.getStatus(), is(TravelExpenseReportStatus.REJECTED));
     }
 
@@ -37,15 +41,15 @@ public class TravelExpenseReportServiceImplTest extends TransactionalIntegration
         TravelExpenseReport travelExpenseReport = new TravelExpenseReport();
         travelExpenseReport.setStatus(TravelExpenseReportStatus.SUBMITTED);
 
-        TravelExpenseReport result = service.accept(travelExpenseReport);
+        TravelExpenseReport result = service.accept(travelExpenseReport, "admin@techdev.de");
         assertThat(result.getStatus(), is(TravelExpenseReportStatus.APPROVED));
     }
 
     @Test
     public void testSubmit() throws Exception {
+        TravelExpenseReport travelExpenseReport = dataOnDemand.getRandomObject();
         LocalDate localDate = LocalDate.of(2014, 1, 1);
         Date date = LocalDateUtil.fromLocalDate(localDate);
-        TravelExpenseReport travelExpenseReport = new TravelExpenseReport();
         travelExpenseReport.setStatus(TravelExpenseReportStatus.PENDING);
         travelExpenseReport.setSubmissionDate(date);
 

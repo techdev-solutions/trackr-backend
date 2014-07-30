@@ -29,12 +29,24 @@ public class EmployeeControllerTest extends MockMvcTest {
                 patch("/employees/" + employee.getId() + "/self")
                         .session(employeeSession(employee.getId()))
                         .header("Content-Type", MediaType.APPLICATION_JSON_VALUE) //TODO: why do we have to do this ourself?
-                        .content("{\"phoneNumber\": \"12345\"}")
+                        .content("{\"firstName\": \"asd\", \"lastName\": \"asdf\", \"phoneNumber\": \"12345\"}")
         )
                .andExpect(status().isOk())
                .andExpect(jsonPath("phoneNumber", is("12345")))
                .andExpect(jsonPath("firstName", is(employee.getFirstName())))
                .andExpect(jsonPath("lastName", is(employee.getLastName())));
+    }
+
+    @Test
+    public void updateSelfViaPatchReturns400() throws Exception {
+        Employee employee = employeeDataOnDemand.getRandomObject();
+        mockMvc.perform(
+                patch("/employees/" + employee.getId() + "/self")
+                        .session(employeeSession(employee.getId()))
+                        .header("Content-Type", MediaType.APPLICATION_JSON_VALUE)
+                        .content("{\"phoneNumber\": \"12345\"}")
+        )
+                .andExpect(status().isBadRequest());
     }
 
     @Test

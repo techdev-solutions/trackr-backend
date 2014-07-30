@@ -23,10 +23,14 @@ war {
     } else {
         archiveName "trackr-" + version + "_0.war"
     }
+    from("src/main/database") {
+        into "flyway"
+    }
 }
 
 sonarRunner {
     sonarProperties {
+        property "sonar.projectKey", "a5e626097d2cedbf"
         property "sonar.projectName", "trackr"
         property "sonar.host.url", "http://localhost:8112"
         property "sonar.jdbc.url", "jdbc:postgresql://localhost:5432/sonar"
@@ -80,6 +84,10 @@ dependencies {
     compile "org.hibernate:hibernate-validator:4.3.1.Final"
     //needed because java 8 compability
     compile "org.javassist:javassist:3.18.1-GA"
+
+    //pdf
+    compile("org.xhtmlrenderer:flying-saucer-pdf-itext5:9.0.6")
+    compile("org.thymeleaf:thymeleaf:2.1.3.RELEASE")
 
     //tomcat
     providedCompile "javax.servlet:javax.servlet-api:3.0.1"
