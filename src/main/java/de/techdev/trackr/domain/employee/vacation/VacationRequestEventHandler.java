@@ -22,7 +22,7 @@ public class VacationRequestEventHandler {
     private VacationRequestNotifyService vacationRequestNotifyService;
 
     @HandleBeforeCreate
-    @PreAuthorize("hasRole('ROLE_SUPERVISOR') or ( isAuthenticated() and principal.id == #vacationRequest.employee.id )")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or ( isAuthenticated() and principal.id == #vacationRequest.employee.id )")
     public void prepareVacationRequest(VacationRequest vacationRequest) {
         Integer difference = holidayCalculator.calculateDifferenceBetweenExcludingHolidaysAndWeekends(vacationRequest.getStartDate(),
                 vacationRequest.getEndDate(),

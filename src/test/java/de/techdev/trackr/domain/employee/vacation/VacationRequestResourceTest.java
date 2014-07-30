@@ -33,6 +33,7 @@ public class VacationRequestResourceTest extends AbstractDomainResourceTest<Vaca
 
     private Function<VacationRequest, MockHttpSession> sameEmployeeSessionProvider;
     private Function<VacationRequest, MockHttpSession> otherEmployeeSessionProvider;
+    private Function<VacationRequest, MockHttpSession> otherSupervisorSessionProvider;
 
     @Override
     protected String getResourceName() {
@@ -42,6 +43,7 @@ public class VacationRequestResourceTest extends AbstractDomainResourceTest<Vaca
     public VacationRequestResourceTest() {
         sameEmployeeSessionProvider = vacationRequest -> employeeSession(vacationRequest.getEmployee().getId());
         otherEmployeeSessionProvider = vacationRequest -> employeeSession(vacationRequest.getEmployee().getId() + 1);
+        otherSupervisorSessionProvider = vacationRequest -> supervisorSession(vacationRequest.getEmployee().getId() + 1);
     }
 
     @Test
@@ -103,6 +105,11 @@ public class VacationRequestResourceTest extends AbstractDomainResourceTest<Vaca
     @Test
     public void createAllowedForEmployee() throws Exception {
         assertThat(create(sameEmployeeSessionProvider), isCreated());
+    }
+
+    @Test
+    public void createForbiddenForSupervisorIfNotOwner() throws Exception {
+        assertThat(create(otherSupervisorSessionProvider), isForbidden());
     }
 
     @Test
