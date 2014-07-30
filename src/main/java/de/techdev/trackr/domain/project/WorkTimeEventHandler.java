@@ -13,6 +13,12 @@ import org.springframework.web.HttpRequestMethodNotSupportedException;
 @Slf4j
 public class WorkTimeEventHandler {
 
+    @HandleBeforeCreate
+    @PreAuthorize("#workTime.employee.id == principal.id")
+    public void checkCreateAuthority(WorkTime workTime) {
+        log.debug("Creating work time {}", workTime);
+    }
+
     @HandleBeforeSave
     @PreAuthorize("hasRole('ROLE_ADMIN') or ( #workTime.employee.id == principal.id )")
     public void checkUpdateAuthority(WorkTime workTime) {
