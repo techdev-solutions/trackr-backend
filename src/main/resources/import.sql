@@ -50,9 +50,9 @@ INSERT INTO address (id, version, street, houseNumber, zipCode, city, country) V
 INSERT INTO address (id, version, street, houseNumber, zipCode, city, country) VALUES (18, 0, 'Temple Road', '67', '40931', 'Düsseldorf', 'Deutschland');
 
 /* COMPANIES */
-INSERT INTO company (id, version, companyId, name, address_id) VALUES (19, 0, 1000, 'webshop Ltd.', 15);
+INSERT INTO company (id, version, companyId, name, address_id, timeForPayment) VALUES (19, 0, 1000, 'webshop Ltd.', 15, 30);
 INSERT INTO company (id, version, companyId, name, address_id) VALUES (20, 0, 1001, 'finance Meier & partners', 16);
-INSERT INTO company (id, version, companyId, name, address_id) VALUES (21, 0, 1002, 'Origins', 17);
+INSERT INTO company (id, version, companyId, name, address_id, timeForPayment) VALUES (21, 0, 1002, 'Origins', 17, 14);
 INSERT INTO company (id, version, companyId, name, address_id) VALUES (22, 0, 1003, 'scalar deployment GmbH', 18);
 
 /* CONTACT PERSONS */
@@ -71,43 +71,43 @@ INSERT INTO project (id, version, identifier, name, company_id, volume, hourlyRa
 INSERT INTO project (id, version, identifier, name, company_id, volume, hourlyRate, debitor_id) VALUES (33, 0, '1003.2014.1', 'ESB Architecture', 22, 90, 80, 20);
 
 /* TRAVEL EXPENSE REPORTS */
-INSERT INTO travelExpenseReport (id, version, employee_id, status) VALUES (34, 0, 1, 'PENDING');
-INSERT INTO travelExpenseReport (id, version, employee_id, status, submissionDate) VALUES (35, 0, 1, 'SUBMITTED', '2014-06-01 19:41:31');
-INSERT INTO travelExpenseReport (id, version, employee_id, status, submissionDate, approvalDate, approver_id) VALUES (36, 0, 1, 'APPROVED', '2014-04-01 20:01:21', '2014-04-04 15:40:00', 8);
-INSERT INTO travelExpenseReport (id, version, employee_id, status, submissionDate) VALUES (37, 0, 1, 'REJECTED', '2014-05-01 17:45:21');
+INSERT INTO travelExpenseReport (id, version, employee_id, status, debitor_id) VALUES (34, 0, 1, 'PENDING', 19);
+INSERT INTO travelExpenseReport (id, version, employee_id, status, submissionDate, debitor_id) VALUES (35, 0, 1, 'SUBMITTED', '2014-06-01 19:41:31', 20);
+INSERT INTO travelExpenseReport (id, version, employee_id, status, submissionDate, approvalDate, approver_id, debitor_id) VALUES (36, 0, 1, 'APPROVED', '2014-04-01 20:01:21', '2014-04-04 15:40:00', 8, 21);
+INSERT INTO travelExpenseReport (id, version, employee_id, status, submissionDate, debitor_id) VALUES (37, 0, 1, 'REJECTED', '2014-05-01 17:45:21', 22);
 
-INSERT INTO travelExpenseReport (id, version, employee_id, status) VALUES (38, 0, 2, 'PENDING');
-INSERT INTO travelExpenseReport (id, version, employee_id, status, submissionDate) VALUES (39, 0, 2, 'SUBMITTED', '2014-06-01 13:30:21');
-INSERT INTO travelExpenseReport (id, version, employee_id, status, submissionDate, approvalDate, approver_id) VALUES (40, 0, 2, 'APPROVED', '2014-04-01 13:30:21', '2014-04-06 08:30:12', 3);
-INSERT INTO travelExpenseReport (id, version, employee_id, status, submissionDate) VALUES (41, 0, 2, 'REJECTED', '2014-05-01 13:30:21');
+INSERT INTO travelExpenseReport (id, version, employee_id, status, debitor_id) VALUES (38, 0, 2, 'PENDING', 19);
+INSERT INTO travelExpenseReport (id, version, employee_id, status, submissionDate, debitor_id) VALUES (39, 0, 2, 'SUBMITTED', '2014-06-01 13:30:21', 20);
+INSERT INTO travelExpenseReport (id, version, employee_id, status, submissionDate, approvalDate, approver_id, debitor_id) VALUES (40, 0, 2, 'APPROVED', '2014-04-01 13:30:21', '2014-04-06 08:30:12', 3, 21);
+INSERT INTO travelExpenseReport (id, version, employee_id, status, submissionDate, debitor_id) VALUES (41, 0, 2, 'REJECTED', '2014-05-01 13:30:21', 22);
 
-INSERT INTO travelExpenseReport (id, version, employee_id, status) VALUES (42, 0, 3, 'PENDING');
-INSERT INTO travelExpenseReport (id, version, employee_id, status, submissionDate) VALUES (43, 0, 3, 'SUBMITTED', '2014-06-01 13:30:21');
-INSERT INTO travelExpenseReport (id, version, employee_id, status, submissionDate, approvalDate, approver_id) VALUES (44, 0, 3, 'APPROVED', '2014-04-01 13:30:21', '2014-04-01 18:20:53', 1);
-INSERT INTO travelExpenseReport (id, version, employee_id, status, submissionDate) VALUES (45, 0, 3, 'REJECTED', '2014-05-01 13:30:21');
+INSERT INTO travelExpenseReport (id, version, employee_id, status, debitor_id) VALUES (42, 0, 3, 'PENDING', 19);
+INSERT INTO travelExpenseReport (id, version, employee_id, status, submissionDate, debitor_id) VALUES (43, 0, 3, 'SUBMITTED', '2014-06-01 13:30:21', 20);
+INSERT INTO travelExpenseReport (id, version, employee_id, status, submissionDate, approvalDate, approver_id, debitor_id) VALUES (44, 0, 3, 'APPROVED', '2014-04-01 13:30:21', '2014-04-01 18:20:53', 1, 21);
+INSERT INTO travelExpenseReport (id, version, employee_id, status, submissionDate, debitor_id) VALUES (45, 0, 3, 'REJECTED', '2014-05-01 13:30:21', 22);
 
-INSERT INTO travelExpenseReport (id, version, employee_id, status) VALUES (46, 0, 4, 'PENDING');
-INSERT INTO travelExpenseReport (id, version, employee_id, status, submissionDate) VALUES (47, 0, 4, 'SUBMITTED', '2014-06-01 13:30:21');
-INSERT INTO travelExpenseReport (id, version, employee_id, status, submissionDate, approvalDate, approver_id) VALUES (48, 0, 4, 'APPROVED', '2014-04-01 13:30:21', '2014-04-05 14:00:12', 8);
-INSERT INTO travelExpenseReport (id, version, employee_id, status, submissionDate) VALUES (49, 0, 4, 'REJECTED', '2014-05-01 13:30:21');
+INSERT INTO travelExpenseReport (id, version, employee_id, status, debitor_id) VALUES (46, 0, 4, 'PENDING', 19);
+INSERT INTO travelExpenseReport (id, version, employee_id, status, submissionDate, debitor_id) VALUES (47, 0, 4, 'SUBMITTED', '2014-06-01 13:30:21', 20);
+INSERT INTO travelExpenseReport (id, version, employee_id, status, submissionDate, approvalDate, approver_id, debitor_id) VALUES (48, 0, 4, 'APPROVED', '2014-04-01 13:30:21', '2014-04-05 14:00:12', 8, 21);
+INSERT INTO travelExpenseReport (id, version, employee_id, status, submissionDate, debitor_id) VALUES (49, 0, 4, 'REJECTED', '2014-05-01 13:30:21', 22);
 
-INSERT INTO travelExpenseReport (id, version, employee_id, status) VALUES (50, 0, 5, 'PENDING');
-INSERT INTO travelExpenseReport (id, version, employee_id, status, submissionDate) VALUES (51, 0, 5, 'SUBMITTED', '2014-06-01 13:30:21');
-INSERT INTO travelExpenseReport (id, version, employee_id, status, submissionDate, approvalDate, approver_id) VALUES (52, 0, 5, 'APPROVED', '2014-04-01 13:30:21', '2014-04-02 10:30:12', 7);
-INSERT INTO travelExpenseReport (id, version, employee_id, status, submissionDate) VALUES (53, 0, 5, 'REJECTED', '2014-05-01 13:30:21');
+INSERT INTO travelExpenseReport (id, version, employee_id, status, debitor_id) VALUES (50, 0, 5, 'PENDING', 19);
+INSERT INTO travelExpenseReport (id, version, employee_id, status, submissionDate, debitor_id) VALUES (51, 0, 5, 'SUBMITTED', '2014-06-01 13:30:21', 20);
+INSERT INTO travelExpenseReport (id, version, employee_id, status, submissionDate, approvalDate, approver_id, debitor_id) VALUES (52, 0, 5, 'APPROVED', '2014-04-01 13:30:21', '2014-04-02 10:30:12', 7, 21);
+INSERT INTO travelExpenseReport (id, version, employee_id, status, submissionDate, debitor_id) VALUES (53, 0, 5, 'REJECTED', '2014-05-01 13:30:21', 22);
 
-INSERT INTO travelExpenseReport (id, version, employee_id, status) VALUES (54, 0, 6, 'PENDING');
-INSERT INTO travelExpenseReport (id, version, employee_id, status, submissionDate) VALUES (55, 0, 6, 'SUBMITTED', '2014-06-01 13:30:21');
-INSERT INTO travelExpenseReport (id, version, employee_id, status, submissionDate, approvalDate, approver_id) VALUES (56, 0, 6, 'APPROVED', '2014-04-01 13:30:21', '2014-04-02 10:30:12', 5);
-INSERT INTO travelExpenseReport (id, version, employee_id, status, submissionDate) VALUES (57, 0, 6, 'REJECTED', '2014-05-01 13:30:21');
+INSERT INTO travelExpenseReport (id, version, employee_id, status, debitor_id) VALUES (54, 0, 6, 'PENDING', 19);
+INSERT INTO travelExpenseReport (id, version, employee_id, status, submissionDate, debitor_id) VALUES (55, 0, 6, 'SUBMITTED', '2014-06-01 13:30:21', 20);
+INSERT INTO travelExpenseReport (id, version, employee_id, status, submissionDate, approvalDate, approver_id, debitor_id) VALUES (56, 0, 6, 'APPROVED', '2014-04-01 13:30:21', '2014-04-02 10:30:12', 5, 21);
+INSERT INTO travelExpenseReport (id, version, employee_id, status, submissionDate, debitor_id) VALUES (57, 0, 6, 'REJECTED', '2014-05-01 13:30:21', 22);
 
-INSERT INTO travelExpenseReport (id, version, employee_id, status, submissionDate, approvalDate, approver_id) VALUES (58, 0, 7, 'APPROVED', '2013-11-01 13:30:21', '2013-11-02 10:30:12', 8);
-INSERT INTO travelExpenseReport (id, version, employee_id, status, submissionDate, approvalDate, approver_id) VALUES (59, 0, 7, 'APPROVED', '2013-12-01 13:30:21', '2013-12-04 10:30:12', 8);
-INSERT INTO travelExpenseReport (id, version, employee_id, status, submissionDate, approvalDate, approver_id) VALUES (60, 0, 7, 'APPROVED', '2014-01-01 13:30:21', '2014-01-07 10:30:12', 8);
-INSERT INTO travelExpenseReport (id, version, employee_id, status, submissionDate, approvalDate, approver_id) VALUES (61, 0, 7, 'APPROVED', '2014-02-01 13:30:21', '2014-02-10 10:30:12', 8);
-INSERT INTO travelExpenseReport (id, version, employee_id, status, submissionDate, approvalDate, approver_id) VALUES (62, 0, 11, 'APPROVED', '2014-05-01 13:30:21', '2014-05-02 10:30:12', 8);
-INSERT INTO travelExpenseReport (id, version, employee_id, status, submissionDate, approvalDate, approver_id) VALUES (63, 0, 11, 'APPROVED', '2014-06-01 13:30:21', '2014-06-02 10:30:12', 8);
-INSERT INTO travelExpenseReport (id, version, employee_id, status, submissionDate, approvalDate, approver_id) VALUES (64, 0, 11, 'APPROVED', '2014-07-01 13:30:21', '2014-07-02 10:30:12', 8);
+INSERT INTO travelExpenseReport (id, version, employee_id, status, submissionDate, approvalDate, approver_id, debitor_id) VALUES (58, 0, 7, 'APPROVED', '2013-11-01 13:30:21', '2013-11-02 10:30:12', 8, 19);
+INSERT INTO travelExpenseReport (id, version, employee_id, status, submissionDate, approvalDate, approver_id, debitor_id) VALUES (59, 0, 7, 'APPROVED', '2013-12-01 13:30:21', '2013-12-04 10:30:12', 8, 19);
+INSERT INTO travelExpenseReport (id, version, employee_id, status, submissionDate, approvalDate, approver_id, debitor_id) VALUES (60, 0, 7, 'APPROVED', '2014-01-01 13:30:21', '2014-01-07 10:30:12', 8, 19);
+INSERT INTO travelExpenseReport (id, version, employee_id, status, submissionDate, approvalDate, approver_id, debitor_id) VALUES (61, 0, 7, 'APPROVED', '2014-02-01 13:30:21', '2014-02-10 10:30:12', 8, 19);
+INSERT INTO travelExpenseReport (id, version, employee_id, status, submissionDate, approvalDate, approver_id, debitor_id) VALUES (62, 0, 11, 'APPROVED', '2014-05-01 13:30:21', '2014-05-02 10:30:12', 8, 20);
+INSERT INTO travelExpenseReport (id, version, employee_id, status, submissionDate, approvalDate, approver_id, debitor_id) VALUES (63, 0, 11, 'APPROVED', '2014-06-01 13:30:21', '2014-06-02 10:30:12', 8, 20);
+INSERT INTO travelExpenseReport (id, version, employee_id, status, submissionDate, approvalDate, approver_id, debitor_id) VALUES (64, 0, 11, 'APPROVED', '2014-07-01 13:30:21', '2014-07-02 10:30:12', 8, 20);
 
 
 /* ************************************* FROM HERE ON ENTITIES DON'T NEED A SET ID BECAUSE THEY ARE NOT REFERENCED ******************************************** */

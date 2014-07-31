@@ -34,7 +34,10 @@ public class TravelExpenseReportEventHandler {
     @HandleBeforeLinkSave
     @PreAuthorize("hasRole('ROLE_SUPERVISOR') or ( isAuthenticated() and #travelExpenseReport.employee.id == principal.id )")
     public void checkLinkSaveAuthority(TravelExpenseReport travelExpenseReport, Object links) {
-        if (Employee.class.isAssignableFrom(links.getClass())) {
+        //TODO: links is the _old_ content of the link
+        //TODO: how to check for security? the employee should not be able to edit debitor/project but how do we check that?
+        //TODO: it is not possible to prohibit employees from editing links in general because it is used to add travel expenses.
+        if (links != null && Employee.class.isAssignableFrom(links.getClass())) {
             throw new AccessDeniedException("Employee is not changeable on a travel expense report.");
         }
     }

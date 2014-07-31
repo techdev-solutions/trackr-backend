@@ -10,7 +10,8 @@
         "COMPANIES": "Companies",
         "COMPANY_ID": "Unique identifier",
         "NAME": "Name",
-        "COMPANY_ID_CONFLICT": "Identifier already in use."
+        "COMPANY_ID_CONFLICT": "Identifier already in use.",
+        "TIME_FOR_PAYMENT": "Time for payment"
     },
     "ADDRESS": {
         "ADDRESS": "Address",
@@ -117,7 +118,9 @@
         "APPROVER": "Approver",
         "SUBMISSION_DATE": "Submission date",
         "APPROVAL_DATE": "Approval date",
-        "COMMENTS": "Comments"
+        "COMMENTS": "Comments",
+        "DEBITOR": "Debitor",
+        "PROJECT": "Project"
     },
     "INVOICE": {
         "INVOICE": "Invoice",
@@ -259,6 +262,9 @@
         "DELETE": "Delete",
         "REALLY_DELETE": "Really delete?",
         "DOWNLOAD": "Download"
+    },
+    "FIELDS": {
+        "OPTIONAL": "optional"
     },
     "DATE": {
         "TODAY": "Today",

@@ -18,6 +18,8 @@ public interface CompanyWithAddressAndContactPersonsProjection {
 
     String getName();
 
+    Integer getTimeForPayment();
+
     Address getAddress();
 
     List<ContactPerson> getContactPersons();

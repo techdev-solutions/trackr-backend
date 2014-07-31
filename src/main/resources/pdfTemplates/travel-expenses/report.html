@@ -20,6 +20,14 @@
                     <td><b th:text="${report.employee.firstName} + ' ' + ${report.employee.lastName}">Mister Techdev</b></td>
                 </tr>
                 <tr>
+                    <td>Debitor:</td>
+                    <td><span th:text="${report.debitor.name}">Techdev</span></td>
+                </tr>
+                <tr th:if="${report.project}">
+                    <td>Project:</td>
+                    <td><span th:text="${report.project.name}">Techdev</span></td>
+                </tr>
+                <tr>
                     <td>Period:</td>
                     <td><span th:if="${startDate}" th:text="${#dates.format(startDate, 'dd.MM.yyyy')}">10.10.2013</span> -
                         <span th:if="${endDate}" th:text="${#dates.format(endDate, 'dd.MM.yyyy')}">13.10.2013</span></td>

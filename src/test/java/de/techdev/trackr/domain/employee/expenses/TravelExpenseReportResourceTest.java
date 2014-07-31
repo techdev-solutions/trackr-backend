@@ -167,10 +167,14 @@ public class TravelExpenseReportResourceTest extends AbstractDomainResourceTest<
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
         jg.writeStartObject()
           .write("status", travelExpenseReport.getStatus().toString())
-          .write("employee", "/employees/" + travelExpenseReport.getEmployee().getId());
+          .write("employee", "/employees/" + travelExpenseReport.getEmployee().getId())
+          .write("debitor", "/companies/" + travelExpenseReport.getDebitor().getId());
 
         if(travelExpenseReport.getSubmissionDate() != null) {
             jg.write("submissionDate", sdf.format(travelExpenseReport.getSubmissionDate()));
+        }
+        if (travelExpenseReport.getProject() != null) {
+            jg.write("project", "/projects/" + travelExpenseReport.getProject().getId());
         }
         if (travelExpenseReport.getId() != null) {
             jg.write("id", travelExpenseReport.getId());

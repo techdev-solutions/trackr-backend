@@ -7,8 +7,11 @@ import javax.json.stream.JsonGenerator;
 import java.io.StringWriter;
 
 import static de.techdev.trackr.domain.DomainResourceTestMatchers.*;
+import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
@@ -134,6 +137,40 @@ public class ContactPersonResourceTest extends AbstractDomainResourceTest<Contac
     @Test
     public void deleteForbiddenForEmployee() throws Exception {
         assertThat(remove(employeeSession()), isForbidden());
+    }
+
+    @Test
+    public void updateCompanyForbiddenForEmployee() throws Exception {
+        ContactPerson contactPerson = dataOnDemand.getRandomObject();
+        mockMvc.perform(
+                put("/contactPersons/" + contactPerson.getId() + "/company")
+                        .session(employeeSession())
+                        .header("Content-Type", "text/uri-list")
+                        .content("companies/0")
+        )
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    public void updateCompanyAllowedForSupervisor() throws Exception {
+        ContactPerson contactPerson = dataOnDemand.getRandomObject();
+        mockMvc.perform(
+                put("/contactPersons/" + contactPerson.getId() + "/company")
+                        .session(supervisorSession())
+                        .header("Content-Type", "text/uri-list")
+                        .content("companies/0")
+        )
+                .andExpect(status().isNoContent());
+    }
+
+    @Test
+    public void deleteCompanyForbiddenForSupervisor() throws Exception {
+        ContactPerson contactPerson = dataOnDemand.getRandomObject();
+        mockMvc.perform(
+                delete("/contactPersons/" + contactPerson.getId() + "/company")
+                        .session(supervisorSession())
+        )
+                .andExpect(status().isForbidden());
     }
 
     @Override
