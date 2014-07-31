@@ -118,7 +118,9 @@
         "APPROVER": "Approver",
         "SUBMISSION_DATE": "Submission date",
         "APPROVAL_DATE": "Approval date",
-        "COMMENTS": "Comments"
+        "COMMENTS": "Comments",
+        "DEBITOR": "Debitor",
+        "PROJECT": "Project"
     },
     "INVOICE": {
         "INVOICE": "Invoice",
@@ -260,6 +262,9 @@
         "DELETE": "Delete",
         "REALLY_DELETE": "Really delete?",
         "DOWNLOAD": "Download"
+    },
+    "FIELDS": {
+        "OPTIONAL": "optional"
     },
     "DATE": {
         "TODAY": "Today",

@@ -1,6 +1,9 @@
 package de.techdev.trackr.domain.employee.expenses;
 
+import de.techdev.trackr.domain.company.Company;
 import de.techdev.trackr.domain.employee.Employee;
+import de.techdev.trackr.domain.project.Project;
+import de.techdev.trackr.domain.validation.constraints.ProjectBelongsToCompany;
 import lombok.Data;
 import lombok.ToString;
 
@@ -15,6 +18,7 @@ import java.util.List;
 @Data
 @Entity
 @ToString(exclude = {"expenses", "employee", "approver", "comments"})
+@ProjectBelongsToCompany(companyField = "debitor")
 public class TravelExpenseReport {
 
     @Id
@@ -44,4 +48,10 @@ public class TravelExpenseReport {
 
     @OneToMany(mappedBy = "travelExpenseReport", cascade = CascadeType.REMOVE)
     private List<TravelExpenseReportComment> comments;
+
+    @ManyToOne(optional = false)
+    private Company debitor;
+
+    @ManyToOne
+    private Project project;
 }

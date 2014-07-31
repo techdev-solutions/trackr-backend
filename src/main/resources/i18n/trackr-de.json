@@ -126,7 +126,9 @@
         "APPROVER": "Genehmiger",
         "SUBMISSION_DATE": "Eingereicht am",
         "APPROVAL_DATE": "Genehmigt am",
-        "COMMENTS": "Kommentare"
+        "COMMENTS": "Kommentare",
+        "DEBITOR": "Debitor",
+        "PROJECT": "Projekt"
     },
     "INVOICE": {
         "INVOICE": "Rechnung",
@@ -259,6 +261,9 @@
         "DELETE": "Löschen",
         "REALLY_DELETE": "Wirklich löschen?",
         "DOWNLOAD": "Herunterladen"
+    },
+    "FIELDS": {
+        "OPTIONAL": "optional"
     },
     "DATE": {
         "TODAY": "Heute",
