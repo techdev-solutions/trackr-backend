@@ -10,7 +10,8 @@
         "COMPANIES": "Firmen",
         "COMPANY_ID": "Eindeutiger Bezeichner",
         "NAME": "Name",
-        "COMPANY_ID_CONFLICT": "Bezeichner bereits vergeben."
+        "COMPANY_ID_CONFLICT": "Bezeichner bereits vergeben.",
+        "TIME_FOR_PAYMENT": "Zahlungsziel"
     },
     "ADDRESS": {
         "ADDRESS": "Adresse",

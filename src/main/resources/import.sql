@@ -50,9 +50,9 @@ INSERT INTO address (id, version, street, houseNumber, zipCode, city, country) V
 INSERT INTO address (id, version, street, houseNumber, zipCode, city, country) VALUES (18, 0, 'Temple Road', '67', '40931', 'Düsseldorf', 'Deutschland');
 
 /* COMPANIES */
-INSERT INTO company (id, version, companyId, name, address_id) VALUES (19, 0, 1000, 'webshop Ltd.', 15);
+INSERT INTO company (id, version, companyId, name, address_id, timeForPayment) VALUES (19, 0, 1000, 'webshop Ltd.', 15, 30);
 INSERT INTO company (id, version, companyId, name, address_id) VALUES (20, 0, 1001, 'finance Meier & partners', 16);
-INSERT INTO company (id, version, companyId, name, address_id) VALUES (21, 0, 1002, 'Origins', 17);
+INSERT INTO company (id, version, companyId, name, address_id, timeForPayment) VALUES (21, 0, 1002, 'Origins', 17, 14);
 INSERT INTO company (id, version, companyId, name, address_id) VALUES (22, 0, 1003, 'scalar deployment GmbH', 18);
 
 /* CONTACT PERSONS */

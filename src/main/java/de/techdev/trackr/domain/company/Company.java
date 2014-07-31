@@ -38,6 +38,11 @@ public class Company {
     @NotEmpty
     private String name;
 
+    /**
+     * Full days that the company has to pay their invoices.
+     */
+    private Integer timeForPayment;
+
     @NotNull
     @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "address_id")

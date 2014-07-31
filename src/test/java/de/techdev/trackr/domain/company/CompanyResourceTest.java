@@ -243,15 +243,18 @@ public class CompanyResourceTest extends AbstractDomainResourceTest<Company> {
     }
 
     @Override
-    protected String getJsonRepresentation(Company item) {
+    protected String getJsonRepresentation(Company company) {
         StringWriter writer = new StringWriter();
         JsonGenerator jg = jsonGeneratorFactory.createGenerator(writer);
         jg.writeStartObject()
-          .write("name", item.getName())
-          .write("companyId", item.getCompanyId())
-          .write("address", "/api/addresses/" + item.getAddress().getId());
-        if (item.getId() != null) {
-            jg.write("id", item.getId());
+          .write("name", company.getName())
+          .write("companyId", company.getCompanyId())
+          .write("address", "/api/addresses/" + company.getAddress().getId());
+        if (company.getId() != null) {
+            jg.write("id", company.getId());
+        }
+        if (company.getTimeForPayment() != null) {
+            jg.write("timeForPayment", company.getTimeForPayment());
         }
         jg.writeEnd().close();
         return writer.toString();
