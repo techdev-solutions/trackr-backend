@@ -216,7 +216,8 @@
         "REPORTR": {
             "REVENUE": {
                 "TITLE": "Revenues",
-                "TURNOVER": "Turnover"
+                "TURNOVER": "Turnover",
+                "TOTAL": "Total"
             },
             "VACATION": {
                 "TITLE": "Vacation",

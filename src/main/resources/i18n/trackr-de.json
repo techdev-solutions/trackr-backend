@@ -216,7 +216,8 @@
         "REPORTR": {
             "REVENUE": {
                 "TITLE": "Einnahmen",
-                "TURNOVER": "Umsatz"
+                "TURNOVER": "Umsatz",
+                "TOTAL": "Gesamt"
             },
             "VACATION": {
                 "TITLE": "Urlaub",
