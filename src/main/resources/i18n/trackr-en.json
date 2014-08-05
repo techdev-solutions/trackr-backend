@@ -237,7 +237,11 @@
             },
             "SICK_DAYS": {
                 "TITLE": "Sick days"
+            },
+            "EXPENSES_DEBITOR": {
+                "TITLE": "Expenses by debitor"
             }
+
         },
         "BREADCRUMB_UNKNOWN": "unknown"
     },

@@ -237,6 +237,9 @@
             },
             "SICK_DAYS": {
                 "TITLE": "Krankheitstage"
+            },
+            "EXPENSES_DEBITOR": {
+                "TITLE": "Reisekosten nach Debitor"
             }
         }
     },
