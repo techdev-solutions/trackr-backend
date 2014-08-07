@@ -179,7 +179,9 @@
             },
             "TEXT_TIMESHEET_OVERVIEW": "Arbeitszeiten Übersicht",
             "TIMESHEET_OVERVIEW": {
-                "GROUPED_BY_PROJECT": "Nach Projekt gruppiert"
+                "GROUPED_BY_PROJECT": "Nach Projekt gruppiert",
+                "HOURS_PER_DAY": "Stunden pro Tag",
+                "TOTAL": "Gesamt"
             },
             "ADDRESS_BOOK": {
                 "TITLE": "Adressbuch"
