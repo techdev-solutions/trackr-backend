@@ -35,6 +35,7 @@ import static java.util.Arrays.asList;
 public class OAuth2ServerConfiguration {
 
     public static final String TRACKR_RESOURCE_ID = "techdev-services";
+    public static final String TRACKR_PAGE_CLIENT = "trackr-page";
 
     @Configuration
     @EnableResourceServer
@@ -108,7 +109,7 @@ public class OAuth2ServerConfiguration {
 
         @Override
         public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-            clients.inMemory().withClient("trackr-page")
+            clients.inMemory().withClient(TRACKR_PAGE_CLIENT)
                 .resourceIds(TRACKR_RESOURCE_ID)
                 .authorizedGrantTypes("authorization_code", "implicit") //TODO: what to set here?
                 .authorities("ROLE_CLIENT")
@@ -148,6 +149,11 @@ public class OAuth2ServerConfiguration {
             } else {
                 return new JdbcTokenStore(tokenDataSource());
             }
+        }
+
+        @Bean
+        public RemoveTokenService removeTokenService() {
+            return new RemoveTokenService();
         }
 
         @Override

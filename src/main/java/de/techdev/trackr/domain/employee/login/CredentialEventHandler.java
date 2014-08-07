@@ -1,6 +1,9 @@
 package de.techdev.trackr.domain.employee.login;
 
+import de.techdev.trackr.core.security.OAuth2ServerConfiguration;
+import de.techdev.trackr.core.security.RemoveTokenService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.core.annotation.*;
 import org.springframework.security.access.prepost.PreAuthorize;
 
@@ -13,6 +16,9 @@ import java.util.List;
 @Slf4j
 public class CredentialEventHandler {
 
+    @Autowired
+    private RemoveTokenService removeTokenService;
+
     @HandleBeforeCreate
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void beforeSaveAuthority(Credential credential) {
@@ -23,6 +29,12 @@ public class CredentialEventHandler {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void beforeUpdateAuthority(Credential credential) {
         log.debug("Updating credential {}", credential);
+    }
+
+    @HandleAfterDelete
+    @HandleAfterSave
+    public void afterDeleteOrUpdateDeleteTokens(Credential credential) {
+        removeTokenService.removeTokens(OAuth2ServerConfiguration.TRACKR_PAGE_CLIENT, credential.getEmail());
     }
 
     @HandleBeforeDelete
@@ -41,6 +53,7 @@ public class CredentialEventHandler {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void beforeAuthoritySave(Credential credential, List<Authority> authorities) {
         log.debug("Updating credential authorities for user {} to {}.", credential, authorities);
+        removeTokenService.removeTokens(OAuth2ServerConfiguration.TRACKR_PAGE_CLIENT, credential.getEmail());
     }
 
     /**
@@ -51,5 +64,6 @@ public class CredentialEventHandler {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void beforeAuthorityDelete(Credential credential) {
         log.debug("Deleted linked object from credential, is now {}.", credential);
+        removeTokenService.removeTokens(OAuth2ServerConfiguration.TRACKR_PAGE_CLIENT, credential.getEmail());
     }
 }
