@@ -1,5 +1,6 @@
 package de.techdev.trackr.core.security;
 
+import de.techdev.trackr.core.security.support.DefaultRemoveTokenService;
 import org.apache.commons.dbcp.BasicDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -153,7 +154,7 @@ public class OAuth2ServerConfiguration {
 
         @Bean
         public RemoveTokenService removeTokenService() {
-            return new RemoveTokenService();
+            return new DefaultRemoveTokenService();
         }
 
         @Override
