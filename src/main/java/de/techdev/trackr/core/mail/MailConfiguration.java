@@ -40,7 +40,7 @@ public class MailConfiguration {
                 mailProperties.put(propertyName, propertyValue);
             }
         } catch (NamingException e) {
-            throw new IllegalStateException("Cannot read mail properties from tomcat environemt in context.xml", e);
+            throw new IllegalStateException("Cannot read mail properties from tomcat environment in context.xml", e);
         }
         return mailProperties;
     }
