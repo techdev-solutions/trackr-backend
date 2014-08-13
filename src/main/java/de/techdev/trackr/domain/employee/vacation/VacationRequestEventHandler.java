@@ -1,5 +1,6 @@
 package de.techdev.trackr.domain.employee.vacation;
 
+import de.techdev.trackr.domain.common.UuidMapper;
 import de.techdev.trackr.domain.employee.vacation.support.VacationRequestNotifyService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,7 @@ import org.springframework.data.rest.core.annotation.*;
 import org.springframework.security.access.prepost.PreAuthorize;
 
 import java.util.Date;
+import java.util.UUID;
 
 /**
  * @author Moritz Schulze
@@ -21,6 +23,9 @@ public class VacationRequestEventHandler {
     @Autowired
     private VacationRequestNotifyService vacationRequestNotifyService;
 
+    @Autowired
+    private UuidMapper uuidMapper;
+
     @HandleBeforeCreate
     @PreAuthorize("hasRole('ROLE_ADMIN') or ( isAuthenticated() and principal.id == #vacationRequest.employee.id )")
     public void prepareVacationRequest(VacationRequest vacationRequest) {
@@ -32,8 +37,14 @@ public class VacationRequestEventHandler {
         vacationRequest.setApprover(null);
         vacationRequest.setApprovalDate(null);
         vacationRequest.setSubmissionTime(new Date());
-        vacationRequestNotifyService.notifySupervisors(vacationRequest);
         log.debug("Creating vacation request {}", vacationRequest);
+    }
+
+    @HandleAfterCreate
+    public void afterCreation(VacationRequest vacationRequest) {
+        UUID uuid = uuidMapper.createUUID(vacationRequest.getId());
+        log.debug(uuid.toString());
+        vacationRequestNotifyService.notifySupervisors(vacationRequest);
     }
 
     @HandleBeforeSave

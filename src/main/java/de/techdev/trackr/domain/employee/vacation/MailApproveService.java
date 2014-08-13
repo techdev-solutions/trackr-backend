@@ -6,5 +6,5 @@ import javax.mail.Message;
  * @author Moritz Schulze
  */
 public interface MailApproveService {
-    void process(Message mail);
+    void approveOrRejectFromMail(Message mail);
 }

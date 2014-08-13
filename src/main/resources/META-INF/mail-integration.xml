@@ -24,6 +24,6 @@
                                         should-mark-messages-as-read="true"
                                         java-mail-properties="mailProperties"/>
 
-    <service-activator input-channel="receiveChannel" ref="mailApproveService" method="process"/>
+    <service-activator input-channel="receiveChannel" ref="mailApproveService" method="approveOrRejectFromMail"/>
     <!--mail-filter-expression="subject matches '(?i).*TRACKR.*'"-->
 </beans:beans>

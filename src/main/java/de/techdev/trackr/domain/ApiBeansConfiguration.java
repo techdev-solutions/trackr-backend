@@ -1,6 +1,7 @@
 package de.techdev.trackr.domain;
 
 import de.techdev.trackr.core.pdf.PdfRenderer;
+import de.techdev.trackr.domain.common.UuidMapper;
 import de.techdev.trackr.domain.employee.expenses.TravelExpenseReportService;
 import de.techdev.trackr.domain.employee.expenses.support.TravelExpenseReportNotifyService;
 import de.techdev.trackr.domain.employee.expenses.support.TravelExpenseReportServiceImpl;
@@ -110,5 +111,10 @@ public class ApiBeansConfiguration {
     @Bean
     public MailApproveService mailApproveService() {
         return new DefaultMailApproveService();
+    }
+
+    @Bean
+    public UuidMapper uuidMapper() {
+        return new UuidMapper();
     }
 }
