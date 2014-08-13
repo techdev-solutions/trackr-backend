@@ -43,8 +43,7 @@ public class VacationRequestEventHandler {
     @HandleAfterCreate
     public void afterCreation(VacationRequest vacationRequest) {
         UUID uuid = uuidMapper.createUUID(vacationRequest.getId());
-        log.debug(uuid.toString());
-        vacationRequestNotifyService.notifySupervisors(vacationRequest);
+        vacationRequestNotifyService.notifySupervisors(vacationRequest, uuid);
     }
 
     @HandleBeforeSave
