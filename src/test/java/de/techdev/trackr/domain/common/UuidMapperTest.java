@@ -20,4 +20,16 @@ public class UuidMapperTest {
         String uuid = uuidMapper.extractUUUIDfromString("7f08028d-700e-47b4-bec0-b82192d0f1c0");
         assertThat(uuid, is("7f08028d-700e-47b4-bec0-b82192d0f1c0"));
     }
+
+    @Test
+    public void extractUuidWithPrefix() throws Exception {
+        String uuid = uuidMapper.extractUUUIDfromString("TEST 7f08028d-700e-47b4-bec0-b82192d0f1c0");
+        assertThat(uuid, is("7f08028d-700e-47b4-bec0-b82192d0f1c0"));
+    }
+
+    @Test
+    public void extractUuidWithPrefixAndSuffix() throws Exception {
+        String uuid = uuidMapper.extractUUUIDfromString("TEST 7f08028d-700e-47b4-bec0-b82192d0f1c0 TEST2");
+        assertThat(uuid, is("7f08028d-700e-47b4-bec0-b82192d0f1c0"));
+    }
 }

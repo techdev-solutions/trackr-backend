@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
  */
 public class UuidMapper {
 
-    public static final Pattern UUID_PATTERN = Pattern.compile("([a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12})");
+    public static final Pattern UUID_PATTERN = Pattern.compile("^.*([a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}).*$");
 
     @Autowired
     private DataSource dataSource;
