@@ -1,4 +1,4 @@
-CREATE TABLE uuid_mapping (id int, uuid varchar);
+CREATE TABLE IF NOT EXISTS uuid_mapping (id int, uuid varchar);
 /* EMPLOYEES */
 INSERT INTO employee (id, version, firstName, lastName, title, hourlyCostRate, salary, federalState) VALUES (0, 0, 'admin', 'admin', 'Technical Administrator', 0, 0, 'BERLIN');
 INSERT INTO employee (id, version, firstName, lastName, title, hourlyCostRate, salary, federalState, joinDate, vacationEntitlement) VALUES (1, 0, 'John', 'Johnson', 'Software Engineer', 80, 50000, 'BERLIN', '2014-02-01', 30);
