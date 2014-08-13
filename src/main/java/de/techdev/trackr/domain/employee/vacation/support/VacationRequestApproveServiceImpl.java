@@ -1,5 +1,6 @@
 package de.techdev.trackr.domain.employee.vacation.support;
 
+import de.techdev.trackr.domain.common.UuidMapper;
 import de.techdev.trackr.domain.employee.Employee;
 import de.techdev.trackr.domain.employee.login.Credential;
 import de.techdev.trackr.domain.employee.login.CredentialRepository;
@@ -29,6 +30,9 @@ public class VacationRequestApproveServiceImpl implements VacationRequestApprove
 
     @Autowired
     private VacationRequestNotifyService vacationRequestNotifyService;
+
+    @Autowired
+    private UuidMapper uuidMapper;
 
     @Override
     public VacationRequest approve(VacationRequest vacationRequest, String supervisorEmail) {
@@ -64,7 +68,7 @@ public class VacationRequestApproveServiceImpl implements VacationRequestApprove
 
             vacationRequestNotifyService.sendEmailNotification(vacationRequest);
         }
-
+        uuidMapper.deleteUUID(vacationRequest.getId());
         return vacationRequest;
     }
 

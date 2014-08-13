@@ -118,6 +118,8 @@ public class DefaultMailApproveService implements MailApproveService {
         if (id != null) {
             log.debug("Got ID {} from the mapper.", id);
             actualApprove(id, from, content);
+        } else {
+            log.debug("Did not find an ID for UUID {}, deleting record.", uuid);
             uuidMapper.deleteUUID(uuid);
         }
     }

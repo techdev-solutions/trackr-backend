@@ -57,6 +57,17 @@ public class UuidMapper {
         }
     }
 
+    public void deleteUUID(Long id) {
+        try {
+            PreparedStatement deleteStatement = dataSource.getConnection().prepareStatement("DELETE FROM uuid_mapping WHERE id = ?");
+            deleteStatement.setLong(1, id);
+            deleteStatement.execute();
+            deleteStatement.close();
+        } catch (SQLException e) {
+            // nothing to do
+        }
+    }
+
     public UUID createUUID(Long id) {
         UUID uuid = UUID.randomUUID();
         try {
