@@ -1,6 +1,7 @@
-package de.techdev.trackr.domain.employee.expenses;
+package de.techdev.trackr.domain.employee.expenses.report.comment;
 
 import de.techdev.trackr.domain.AbstractDataOnDemand;
+import de.techdev.trackr.domain.employee.expenses.report.ReportDataOnDemand;
 import de.techdev.trackr.domain.employee.expenses.reports.Report;
 import de.techdev.trackr.domain.employee.expenses.reports.comments.Comment;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,10 +11,10 @@ import java.util.Date;
 /**
  * @author Moritz Schulze
  */
-public class TravelExpenseReportCommentDataOnDemand extends AbstractDataOnDemand<Comment> {
+public class CommentDataOnDemand extends AbstractDataOnDemand<Comment> {
 
     @Autowired
-    private TravelExpenseReportDataOnDemand travelExpenseReportDataOnDemand;
+    private ReportDataOnDemand travelExpenseReportDataOnDemand;
 
     @Override
     public Comment getNewTransientObject(int i) {

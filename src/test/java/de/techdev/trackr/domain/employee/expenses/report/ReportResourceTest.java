@@ -1,4 +1,4 @@
-package de.techdev.trackr.domain.employee.expenses;
+package de.techdev.trackr.domain.employee.expenses.report;
 
 import de.techdev.trackr.core.security.AuthorityMocks;
 import de.techdev.trackr.domain.AbstractDomainResourceTest;
@@ -22,12 +22,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 /**
  * @author Moritz Schulze
  */
-public class TravelExpenseReportResourceTest extends AbstractDomainResourceTest<Report> {
+public class ReportResourceTest extends AbstractDomainResourceTest<Report> {
 
     private final Function<Report, MockHttpSession> sameEmployeeSessionProvider;
     private final Function<Report, MockHttpSession> otherEmployeeSessionProvider;
 
-    public TravelExpenseReportResourceTest() {
+    public ReportResourceTest() {
         this.sameEmployeeSessionProvider = travelExpenseReport -> employeeSession(travelExpenseReport.getEmployee().getId());
         this.otherEmployeeSessionProvider = travelExpenseReport -> employeeSession(travelExpenseReport.getEmployee().getId() + 1);
     }

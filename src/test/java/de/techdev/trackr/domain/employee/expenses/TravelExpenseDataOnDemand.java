@@ -1,6 +1,7 @@
 package de.techdev.trackr.domain.employee.expenses;
 
 import de.techdev.trackr.domain.AbstractDataOnDemand;
+import de.techdev.trackr.domain.employee.expenses.report.ReportDataOnDemand;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.math.BigDecimal;
@@ -12,7 +13,7 @@ import java.util.Date;
 public class TravelExpenseDataOnDemand extends AbstractDataOnDemand<TravelExpense> {
 
     @Autowired
-    private TravelExpenseReportDataOnDemand travelExpenseReportDataOnDemand;
+    private ReportDataOnDemand travelExpenseReportDataOnDemand;
 
     @Override
     protected int getExpectedElements() {

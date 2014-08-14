@@ -1,4 +1,4 @@
-package de.techdev.trackr.domain.employee.expenses;
+package de.techdev.trackr.domain.employee.expenses.report;
 
 import de.techdev.trackr.domain.AbstractDataOnDemand;
 import de.techdev.trackr.domain.employee.EmployeeDataOnDemand;
@@ -12,7 +12,7 @@ import java.util.Date;
 /**
  * @author Moritz Schulze
  */
-public class TravelExpenseReportDataOnDemand extends AbstractDataOnDemand<Report> {
+public class ReportDataOnDemand extends AbstractDataOnDemand<Report> {
 
     @Override
     protected int getExpectedElements() {

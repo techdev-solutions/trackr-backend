@@ -1,4 +1,4 @@
-package de.techdev.trackr.domain.employee.expenses;
+package de.techdev.trackr.domain.employee.expenses.report;
 
 import de.techdev.trackr.IntegrationTest;
 import de.techdev.trackr.domain.employee.expenses.reports.Report;
@@ -14,10 +14,10 @@ import static org.hamcrest.MatcherAssert.assertThat;
 /**
  * @author Moritz Schulze
  */
-public class TravelExpenseReportRepositoryTest extends IntegrationTest {
+public class ReportRepositoryTest extends IntegrationTest {
 
     @Autowired
-    private TravelExpenseReportDataOnDemand travelExpenseReportDataOnDemand;
+    private ReportDataOnDemand travelExpenseReportDataOnDemand;
 
     @Autowired
     private ReportRepository travelExpenseReportRepository;

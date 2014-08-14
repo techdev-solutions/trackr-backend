@@ -1,4 +1,4 @@
-package de.techdev.trackr.domain.project.support;
+package de.techdev.trackr.domain.project.worktimes;
 
 import de.techdev.trackr.domain.project.worktimes.CustomWorkTime;
 import de.techdev.trackr.domain.project.worktimes.WorkTime;
