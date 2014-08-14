@@ -3,7 +3,7 @@ package de.techdev.trackr.core;
 import de.techdev.trackr.core.mail.MailConfiguration;
 import de.techdev.trackr.core.security.MethodSecurityConfiguration;
 import de.techdev.trackr.core.web.api.ApiWebMvcConfiguration;
-import de.techdev.trackr.domain.ScheduledJobsConfiguration;
+import de.techdev.trackr.domain.scheduling.ScheduledJobsConfiguration;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 import javax.servlet.ServletRegistration;

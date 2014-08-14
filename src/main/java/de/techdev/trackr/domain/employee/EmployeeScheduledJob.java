@@ -30,7 +30,7 @@ public class EmployeeScheduledJob {
     }
 
     /**
-     * Task that gets triggered in {@link de.techdev.trackr.domain.ScheduledJobsConfiguration} by a custom trigger.
+     * Task that gets triggered in {@link de.techdev.trackr.domain.scheduling.ScheduledJobsConfiguration} by a custom trigger.
      *
      * @param state The federal state to send out reminders for.
      * @return A task that reminds employees in the federal state to track their working times.

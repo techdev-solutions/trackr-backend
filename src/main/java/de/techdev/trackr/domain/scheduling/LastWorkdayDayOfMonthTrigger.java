@@ -1,5 +1,6 @@
-package de.techdev.trackr.domain.common;
+package de.techdev.trackr.domain.scheduling;
 
+import de.techdev.trackr.domain.common.FederalState;
 import de.techdev.trackr.domain.employee.vacation.HolidayRepository;
 import de.techdev.trackr.util.LocalDateUtil;
 import lombok.Setter;

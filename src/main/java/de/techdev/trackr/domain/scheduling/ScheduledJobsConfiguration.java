@@ -1,7 +1,6 @@
-package de.techdev.trackr.domain;
+package de.techdev.trackr.domain.scheduling;
 
 import de.techdev.trackr.domain.common.FederalState;
-import de.techdev.trackr.domain.common.LastWorkdayDayOfMonthTrigger;
 import de.techdev.trackr.domain.employee.EmployeeScheduledJob;
 import de.techdev.trackr.domain.employee.vacation.VacationRequestScheduledJobs;
 import de.techdev.trackr.domain.project.invoice.InvoiceScheduledJob;

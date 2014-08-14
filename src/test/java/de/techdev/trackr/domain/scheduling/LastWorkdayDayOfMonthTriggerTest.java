@@ -1,7 +1,9 @@
-package de.techdev.trackr.domain.common;
+package de.techdev.trackr.domain.scheduling;
 
+import de.techdev.trackr.domain.common.FederalState;
 import de.techdev.trackr.domain.employee.vacation.Holiday;
 import de.techdev.trackr.domain.employee.vacation.HolidayRepository;
+import de.techdev.trackr.domain.scheduling.LastWorkdayDayOfMonthTrigger;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
