@@ -19,6 +19,10 @@ import java.util.Date;
 @ToString(exclude = {"employee"})
 public class VacationRequest {
 
+    public static enum VacationRequestStatus {
+        APPROVED, PENDING, REJECTED
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;

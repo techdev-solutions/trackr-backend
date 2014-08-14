@@ -33,7 +33,7 @@ public class VacationRequestEventHandler {
                 vacationRequest.getEndDate(),
                 vacationRequest.getEmployee().getFederalState());
         vacationRequest.setNumberOfDays(difference);
-        vacationRequest.setStatus(VacationRequestStatus.PENDING);
+        vacationRequest.setStatus(VacationRequest.VacationRequestStatus.PENDING);
         vacationRequest.setApprover(null);
         vacationRequest.setApprovalDate(null);
         vacationRequest.setSubmissionTime(new Date());
@@ -77,6 +77,6 @@ public class VacationRequestEventHandler {
      * @return true if the user may delete, false otherwise.
      */
     public boolean employeeCanDeleteRequest(Long principalId, VacationRequest request) {
-        return principalId.equals(request.getEmployee().getId()) && request.getStatus() == VacationRequestStatus.PENDING;
+        return principalId.equals(request.getEmployee().getId()) && request.getStatus() == VacationRequest.VacationRequestStatus.PENDING;
     }
 }

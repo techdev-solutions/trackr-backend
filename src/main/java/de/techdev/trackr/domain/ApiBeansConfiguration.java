@@ -10,8 +10,6 @@ import de.techdev.trackr.domain.employee.sickdays.SickDaysNotifyService;
 import de.techdev.trackr.domain.employee.vacation.HolidayCalculator;
 import de.techdev.trackr.domain.employee.vacation.MailApproveService;
 import de.techdev.trackr.domain.employee.vacation.VacationRequestApproveService;
-import de.techdev.trackr.domain.employee.vacation.support.DefaultMailApproveService;
-import de.techdev.trackr.domain.employee.vacation.support.VacationRequestApproveServiceImpl;
 import de.techdev.trackr.domain.employee.vacation.support.VacationRequestEmployeeToDaysTotalService;
 import de.techdev.trackr.domain.employee.vacation.support.VacationRequestNotifyService;
 import de.techdev.trackr.domain.employee.worktimetracking.WorkTimeTrackingReminderService;
@@ -69,7 +67,7 @@ public class ApiBeansConfiguration {
 
     @Bean
     public VacationRequestApproveService vacationRequestService() {
-        return new VacationRequestApproveServiceImpl();
+        return new VacationRequestApproveService();
     }
 
     @Bean
@@ -109,7 +107,7 @@ public class ApiBeansConfiguration {
 
     @Bean
     public MailApproveService mailApproveService() {
-        return new DefaultMailApproveService();
+        return new MailApproveService();
     }
 
     @Bean

@@ -5,7 +5,6 @@ import de.techdev.trackr.core.mail.MailConfiguration;
 import de.techdev.trackr.domain.ApiBeansConfiguration;
 import de.techdev.trackr.domain.employee.vacation.VacationRequest;
 import de.techdev.trackr.domain.employee.vacation.VacationRequestDataOnDemand;
-import de.techdev.trackr.domain.employee.vacation.VacationRequestStatus;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -25,14 +24,14 @@ public class VacationRequestNotifyServiceIntegrationTest extends IntegrationTest
     @Test
     public void sendNotificationApproved() throws Exception {
         VacationRequest vacationRequest = vacationRequestDataOnDemand.getRandomObject();
-        vacationRequest.setStatus(VacationRequestStatus.APPROVED);
+        vacationRequest.setStatus(VacationRequest.VacationRequestStatus.APPROVED);
         vacationRequestNotifyService.sendEmailNotification(vacationRequest);
     }
 
     @Test
     public void sendNotificationRejected() throws Exception {
         VacationRequest vacationRequest = vacationRequestDataOnDemand.getRandomObject();
-        vacationRequest.setStatus(VacationRequestStatus.REJECTED);
+        vacationRequest.setStatus(VacationRequest.VacationRequestStatus.REJECTED);
         vacationRequestNotifyService.sendEmailNotification(vacationRequest);
     }
 }

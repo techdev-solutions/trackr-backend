@@ -27,10 +27,10 @@ public interface VacationRequestRepository extends CrudRepository<VacationReques
     List<VacationRequest> findByEmployeeOrderByStartDateAsc(@Param("employee") Employee employee);
 
     @PreAuthorize("hasRole('ROLE_SUPERVISOR')")
-    List<VacationRequest> findByStatusOrderBySubmissionTimeAsc(@Param("status") VacationRequestStatus status);
+    List<VacationRequest> findByStatusOrderBySubmissionTimeAsc(@Param("status") VacationRequest.VacationRequestStatus status);
 
     @RestResource(exported = false)
-    List<VacationRequest> findBySubmissionTimeBeforeAndStatus(Date date, VacationRequestStatus status);
+    List<VacationRequest> findBySubmissionTimeBeforeAndStatus(Date date, VacationRequest.VacationRequestStatus status);
 
     /**
      * Find vacation requests of a certain status that overlap with a period.
@@ -39,5 +39,5 @@ public interface VacationRequestRepository extends CrudRepository<VacationReques
     List<VacationRequest> findByStartDateBetweenOrEndDateBetweenAndStatus(
             Date startLower, Date startHigher,
             Date endLower, Date endHigher,
-            VacationRequestStatus status);
+            VacationRequest.VacationRequestStatus status);
 }

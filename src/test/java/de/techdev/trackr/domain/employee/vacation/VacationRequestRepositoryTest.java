@@ -60,9 +60,9 @@ public class VacationRequestRepositoryTest extends TransactionalIntegrationTest 
     public void findBySubmissionTimeBefore() throws Exception {
         VacationRequest vacationRequest = vacationRequestDataOnDemand.getRandomObject();
         vacationRequest.setSubmissionTime(LocalDateUtil.fromLocalDate(LocalDate.now().minusDays(8)));
-        vacationRequest.setStatus(VacationRequestStatus.PENDING);
+        vacationRequest.setStatus(VacationRequest.VacationRequestStatus.PENDING);
         vacationRequestRepository.save(vacationRequest);
-        List<VacationRequest> all = vacationRequestRepository.findBySubmissionTimeBeforeAndStatus(LocalDateUtil.fromLocalDate(LocalDate.now().minusDays(7)), VacationRequestStatus.PENDING);
+        List<VacationRequest> all = vacationRequestRepository.findBySubmissionTimeBeforeAndStatus(LocalDateUtil.fromLocalDate(LocalDate.now().minusDays(7)), VacationRequest.VacationRequestStatus.PENDING);
         assertThat(all, isNotEmpty());
     }
 }

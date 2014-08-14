@@ -3,7 +3,6 @@ package de.techdev.trackr.domain.employee.vacation.support;
 import de.techdev.trackr.domain.employee.vacation.HolidayCalculator;
 import de.techdev.trackr.domain.employee.vacation.VacationRequest;
 import de.techdev.trackr.domain.employee.vacation.VacationRequestRepository;
-import de.techdev.trackr.domain.employee.vacation.VacationRequestStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Date;
@@ -32,7 +31,7 @@ public class VacationRequestEmployeeToDaysTotalService {
      */
     public Map<String, Integer> mapVacationRequestsToTotalDays(Date start, Date end) {
         List<VacationRequest> vacationRequests = vacationRequestRepository
-                .findByStartDateBetweenOrEndDateBetweenAndStatus(start, end, start, end, VacationRequestStatus.APPROVED);
+                .findByStartDateBetweenOrEndDateBetweenAndStatus(start, end, start, end, VacationRequest.VacationRequestStatus.APPROVED);
         return mapToEmployeesAndSumUp(vacationRequests, vacationRequest -> getVacationDaysBetween(vacationRequest, start, end));
     }
 
