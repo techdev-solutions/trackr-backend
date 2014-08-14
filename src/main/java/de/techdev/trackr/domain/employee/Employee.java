@@ -2,7 +2,7 @@ package de.techdev.trackr.domain.employee;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import de.techdev.trackr.domain.common.FederalState;
-import de.techdev.trackr.domain.employee.expenses.TravelExpenseReport;
+import de.techdev.trackr.domain.employee.expenses.reports.Report;
 import de.techdev.trackr.domain.employee.login.Credential;
 import de.techdev.trackr.domain.employee.vacation.VacationRequest;
 import de.techdev.trackr.domain.project.BillableTime;
@@ -80,7 +80,7 @@ public class Employee {
     private List<VacationRequest> approvedRequests;
 
     @OneToMany(mappedBy = "employee")
-    private List<TravelExpenseReport> travelExpenseReports;
+    private List<Report> travelExpenseReports;
 
     public String fullName() {
         return getFirstName() + " " + getLastName();

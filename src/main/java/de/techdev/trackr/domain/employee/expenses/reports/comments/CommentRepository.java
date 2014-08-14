@@ -1,7 +1,9 @@
-package de.techdev.trackr.domain.employee.expenses;
+package de.techdev.trackr.domain.employee.expenses.reports.comments;
 
+import de.techdev.trackr.domain.employee.expenses.reports.Report;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
+import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.data.rest.core.annotation.RestResource;
 import org.springframework.security.access.prepost.PreAuthorize;
 
@@ -10,20 +12,21 @@ import java.util.List;
 /**
  * @author Moritz Schulze
  */
-public interface TravelExpenseReportCommentRepository extends CrudRepository<TravelExpenseReportComment, Long> {
+@RepositoryRestResource(path = "travelExpenseReportComments")
+public interface CommentRepository extends CrudRepository<Comment, Long> {
 
     @Override
     @RestResource(exported = false)
-    Iterable<TravelExpenseReportComment> findAll();
+    Iterable<Comment> findAll();
 
     @Override
     @RestResource(exported = false)
-    TravelExpenseReportComment findOne(Long aLong);
+    Comment findOne(Long aLong);
 
     @Override
     @RestResource(exported = false)
     void delete(Long aLong);
 
     @PreAuthorize("hasRole('ROLE_SUPERVISOR') or ( isAuthenticated() and  #travelExpenseReport.employee.id == principal.id )")
-    List<TravelExpenseReportComment> findByTravelExpenseReportOrderBySubmissionDateAsc(@Param("report") TravelExpenseReport travelExpenseReport);
+    List<Comment> findByTravelExpenseReportOrderBySubmissionDateAsc(@Param("report") Report travelExpenseReport);
 }

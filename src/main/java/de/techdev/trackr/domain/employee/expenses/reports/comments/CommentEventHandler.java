@@ -1,4 +1,4 @@
-package de.techdev.trackr.domain.employee.expenses;
+package de.techdev.trackr.domain.employee.expenses.reports.comments;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.rest.core.annotation.*;
@@ -9,32 +9,32 @@ import java.util.Date;
 /**
  * @author Moritz Schulze
  */
-@RepositoryEventHandler(value = TravelExpenseReportComment.class)
+@RepositoryEventHandler(value = Comment.class)
 @Slf4j
-public class TravelExpenseReportCommentEventHandler {
+public class CommentEventHandler {
 
     @HandleBeforeCreate
     @PreAuthorize("hasRole('ROLE_SUPERVISOR') or ( isAuthenticated() and #comment.employee.id == principal.id )")
-    public void checkCreateAuthority(TravelExpenseReportComment comment) {
+    public void checkCreateAuthority(Comment comment) {
         comment.setSubmissionDate(new Date());
         log.debug("Creating comment {}", comment);
     }
 
     @HandleBeforeSave
     @PreAuthorize("denyAll()")
-    public void checkUpdateAuthority(TravelExpenseReportComment comment) {
+    public void checkUpdateAuthority(Comment comment) {
         //deny all
     }
 
     @HandleBeforeLinkSave
     @PreAuthorize("denyAll()")
-    public void checkLinkSaveAuthority(TravelExpenseReportComment comment, Object links) {
+    public void checkLinkSaveAuthority(Comment comment, Object links) {
         //deny all
     }
 
     @HandleBeforeLinkDelete
     @PreAuthorize("denyAll()")
-    public void checkLinkDeleteAuthority(TravelExpenseReportComment comment) {
+    public void checkLinkDeleteAuthority(Comment comment) {
         //deny all
     }
 }

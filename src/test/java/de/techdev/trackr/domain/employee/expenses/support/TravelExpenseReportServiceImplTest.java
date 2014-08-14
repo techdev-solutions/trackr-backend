@@ -5,11 +5,9 @@ import de.techdev.trackr.core.mail.MailConfiguration;
 import de.techdev.trackr.domain.ApiBeansConfiguration;
 import de.techdev.trackr.domain.company.Company;
 import de.techdev.trackr.domain.company.CompanyDataOnDemand;
-import de.techdev.trackr.domain.company.CompanyRepository;
-import de.techdev.trackr.domain.employee.expenses.TravelExpenseReport;
+import de.techdev.trackr.domain.employee.expenses.reports.Report;
 import de.techdev.trackr.domain.employee.expenses.TravelExpenseReportDataOnDemand;
-import de.techdev.trackr.domain.employee.expenses.TravelExpenseReportService;
-import de.techdev.trackr.domain.employee.expenses.TravelExpenseReportStatus;
+import de.techdev.trackr.domain.employee.expenses.reports.ReportService;
 import de.techdev.trackr.util.LocalDateUtil;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +23,7 @@ import static org.junit.Assert.assertThat;
 public class TravelExpenseReportServiceImplTest extends TransactionalIntegrationTest {
 
     @Autowired
-    private TravelExpenseReportService service;
+    private ReportService service;
 
     @Autowired
     private TravelExpenseReportDataOnDemand dataOnDemand;
@@ -35,36 +33,36 @@ public class TravelExpenseReportServiceImplTest extends TransactionalIntegration
 
     @Test
     public void testReject() throws Exception {
-        TravelExpenseReport travelExpenseReport = new TravelExpenseReport();
-        travelExpenseReport.setStatus(TravelExpenseReportStatus.SUBMITTED);
+        Report travelExpenseReport = new Report();
+        travelExpenseReport.setStatus(Report.Status.SUBMITTED);
         Company company = companyDataOnDemand.getRandomObject();
         travelExpenseReport.setDebitor(company);
 
-        TravelExpenseReport result = service.reject(travelExpenseReport, "admin@techdev.de");
-        assertThat(result.getStatus(), is(TravelExpenseReportStatus.REJECTED));
+        Report result = service.reject(travelExpenseReport, "admin@techdev.de");
+        assertThat(result.getStatus(), is(Report.Status.REJECTED));
     }
 
     @Test
     public void testApprove() throws Exception {
-        TravelExpenseReport travelExpenseReport = new TravelExpenseReport();
-        travelExpenseReport.setStatus(TravelExpenseReportStatus.SUBMITTED);
+        Report travelExpenseReport = new Report();
+        travelExpenseReport.setStatus(Report.Status.SUBMITTED);
         Company company = companyDataOnDemand.getRandomObject();
         travelExpenseReport.setDebitor(company);
 
-        TravelExpenseReport result = service.accept(travelExpenseReport, "admin@techdev.de");
-        assertThat(result.getStatus(), is(TravelExpenseReportStatus.APPROVED));
+        Report result = service.accept(travelExpenseReport, "admin@techdev.de");
+        assertThat(result.getStatus(), is(Report.Status.APPROVED));
     }
 
     @Test
     public void testSubmit() throws Exception {
-        TravelExpenseReport travelExpenseReport = dataOnDemand.getRandomObject();
+        Report travelExpenseReport = dataOnDemand.getRandomObject();
         LocalDate localDate = LocalDate.of(2014, 1, 1);
         Date date = LocalDateUtil.fromLocalDate(localDate);
-        travelExpenseReport.setStatus(TravelExpenseReportStatus.PENDING);
+        travelExpenseReport.setStatus(Report.Status.PENDING);
         travelExpenseReport.setSubmissionDate(date);
 
-        TravelExpenseReport result = service.submit(travelExpenseReport);
-        assertThat(result.getStatus(), is(TravelExpenseReportStatus.SUBMITTED));
+        Report result = service.submit(travelExpenseReport);
+        assertThat(result.getStatus(), is(Report.Status.SUBMITTED));
         assertThat(result.getSubmissionDate().after(date), is(true));
     }
 }

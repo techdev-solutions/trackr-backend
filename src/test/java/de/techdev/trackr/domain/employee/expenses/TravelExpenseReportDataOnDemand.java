@@ -2,6 +2,7 @@ package de.techdev.trackr.domain.employee.expenses;
 
 import de.techdev.trackr.domain.AbstractDataOnDemand;
 import de.techdev.trackr.domain.employee.EmployeeDataOnDemand;
+import de.techdev.trackr.domain.employee.expenses.reports.Report;
 import de.techdev.trackr.domain.project.Project;
 import de.techdev.trackr.domain.project.ProjectDataOnDemand;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,7 @@ import java.util.Date;
 /**
  * @author Moritz Schulze
  */
-public class TravelExpenseReportDataOnDemand extends AbstractDataOnDemand<TravelExpenseReport> {
+public class TravelExpenseReportDataOnDemand extends AbstractDataOnDemand<Report> {
 
     @Override
     protected int getExpectedElements() {
@@ -25,10 +26,10 @@ public class TravelExpenseReportDataOnDemand extends AbstractDataOnDemand<Travel
     private ProjectDataOnDemand projectDataOnDemand;
 
     @Override
-    public TravelExpenseReport getNewTransientObject(int i) {
-        TravelExpenseReport travelExpenseReport = new TravelExpenseReport();
+    public Report getNewTransientObject(int i) {
+        Report travelExpenseReport = new Report();
         travelExpenseReport.setEmployee(employeeDataOnDemand.getRandomObject());
-        travelExpenseReport.setStatus(TravelExpenseReportStatus.PENDING);
+        travelExpenseReport.setStatus(Report.Status.PENDING);
         travelExpenseReport.setSubmissionDate(new Date());
 
         Project project = projectDataOnDemand.getRandomObject();

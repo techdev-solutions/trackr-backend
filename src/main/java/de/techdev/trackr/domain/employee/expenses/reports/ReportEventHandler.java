@@ -1,4 +1,4 @@
-package de.techdev.trackr.domain.employee.expenses;
+package de.techdev.trackr.domain.employee.expenses.reports;
 
 import de.techdev.trackr.domain.employee.Employee;
 import lombok.extern.slf4j.Slf4j;
@@ -9,31 +9,31 @@ import org.springframework.security.access.prepost.PreAuthorize;
 /**
  * @author Moritz Schulze
  */
-@RepositoryEventHandler(TravelExpenseReport.class)
+@RepositoryEventHandler(Report.class)
 @Slf4j
-public class TravelExpenseReportEventHandler {
+public class ReportEventHandler {
 
     @HandleBeforeCreate
     @PreAuthorize("#travelExpenseReport.employee.id == principal.id")
-    public void checkCreateAuthority(TravelExpenseReport travelExpenseReport) {
+    public void checkCreateAuthority(Report travelExpenseReport) {
         log.debug("Creating travel expense report {}", travelExpenseReport);
     }
 
     @HandleBeforeSave
     @PreAuthorize("hasRole('ROLE_SUPERVISOR')")
-    public void checkUpdateAuthority(TravelExpenseReport travelExpenseReport) {
+    public void checkUpdateAuthority(Report travelExpenseReport) {
         log.debug("Updating travel expense report {}", travelExpenseReport);
     }
 
     @HandleBeforeDelete
-    @PreAuthorize("(isAuthenticated() and @travelExpenseReportEventHandler.employeeCanDeleteReport(#travelExpenseReport, principal.id)) or hasRole('ROLE_ADMIN')")
-    public void checkDeleteAuthority(TravelExpenseReport travelExpenseReport) {
+    @PreAuthorize("(isAuthenticated() and @reportEventHandler.employeeCanDeleteReport(#travelExpenseReport, principal.id)) or hasRole('ROLE_ADMIN')")
+    public void checkDeleteAuthority(Report travelExpenseReport) {
         log.debug("Deleting travel expense report {}", travelExpenseReport);
     }
 
     @HandleBeforeLinkSave
     @PreAuthorize("hasRole('ROLE_SUPERVISOR') or ( isAuthenticated() and #travelExpenseReport.employee.id == principal.id )")
-    public void checkLinkSaveAuthority(TravelExpenseReport travelExpenseReport, Object links) {
+    public void checkLinkSaveAuthority(Report travelExpenseReport, Object links) {
         //TODO: links is the _old_ content of the link
         //TODO: how to check for security? the employee should not be able to edit debitor/project but how do we check that?
         //TODO: it is not possible to prohibit employees from editing links in general because it is used to add travel expenses.
@@ -44,14 +44,14 @@ public class TravelExpenseReportEventHandler {
 
     @HandleBeforeLinkDelete
     @PreAuthorize("hasRole('ROLE_SUPERVISOR') or ( isAuthenticated() and #travelExpenseReport.employee.id == principal.id )")
-    public void checkLinkDeleteAuthority(TravelExpenseReport travelExpenseReport) {
+    public void checkLinkDeleteAuthority(Report travelExpenseReport) {
         if(travelExpenseReport.getEmployee() == null) {
             throw new AccessDeniedException("Employee is not deletable on a travel expense report.");
         }
     }
 
-    public boolean employeeCanDeleteReport(TravelExpenseReport report, Long principalId) {
+    public boolean employeeCanDeleteReport(Report report, Long principalId) {
         return report.getEmployee().getId().equals(principalId) &&
-                (report.getStatus() == TravelExpenseReportStatus.PENDING || report.getStatus() == TravelExpenseReportStatus.REJECTED);
+                (report.getStatus() == Report.Status.PENDING || report.getStatus() == Report.Status.REJECTED);
     }
 }

@@ -1,6 +1,7 @@
-package de.techdev.trackr.domain.employee.expenses;
+package de.techdev.trackr.domain.employee.expenses.reports.comments;
 
 import de.techdev.trackr.domain.employee.Employee;
+import de.techdev.trackr.domain.employee.expenses.reports.Report;
 import lombok.Data;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -13,7 +14,7 @@ import java.util.Date;
  */
 @Entity
 @Data
-public class TravelExpenseReportComment {
+public class Comment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -28,7 +29,7 @@ public class TravelExpenseReportComment {
 
     @ManyToOne
     @NotNull
-    private TravelExpenseReport travelExpenseReport;
+    private Report travelExpenseReport;
 
     @ManyToOne
     @NotNull

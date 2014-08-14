@@ -1,10 +1,8 @@
-package de.techdev.trackr.domain.employee.expenses.support;
+package de.techdev.trackr.domain.employee.expenses.reports;
 
 import de.techdev.trackr.core.mail.MailService;
 import de.techdev.trackr.domain.employee.Employee;
 import de.techdev.trackr.domain.employee.expenses.TravelExpense;
-import de.techdev.trackr.domain.employee.expenses.TravelExpenseReport;
-import de.techdev.trackr.domain.employee.expenses.TravelExpenseReportRepository;
 import de.techdev.trackr.domain.employee.login.support.SupervisorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,7 +15,7 @@ import java.util.List;
 /**
  * @author Moritz Schulze
  */
-public class TravelExpenseReportNotifyService {
+public class ReportNotifyService {
 
     @Autowired
     private MailService mailService;
@@ -26,7 +24,7 @@ public class TravelExpenseReportNotifyService {
     private SupervisorService supervisorService;
 
     @Autowired
-    private TravelExpenseReportRepository travelExpenseReportRepository;
+    private ReportRepository travelExpenseReportRepository;
 
     @Value("${trackr.frontendUrl}")
     private String frontendUrl;
@@ -36,7 +34,7 @@ public class TravelExpenseReportNotifyService {
      *
      * @param report The report for which the mail is to be sent.
      */
-    public void sendSubmittedReportMail(TravelExpenseReport report) {
+    public void sendSubmittedReportMail(Report report) {
         String[] emails = supervisorService.getSupervisorEmailsArrayWithout(credential ->
                         !report.getEmployee().getCredential().getEmail().equals(credential.getEmail())
         );
@@ -52,12 +50,12 @@ public class TravelExpenseReportNotifyService {
         mailService.sendMail(mailMessage);
     }
 
-    protected String getWebLink(TravelExpenseReport report) {
+    protected String getWebLink(Report report) {
         return frontendUrl + "/supervisor/expenses/" + report.getId();
     }
 
     @Transactional
-    protected BigDecimal getTotalAmount(TravelExpenseReport report) {
+    protected BigDecimal getTotalAmount(Report report) {
         // Since the report passed to this method is not attached to the JPA session anymore we have to reload it to get
         // the expenses which are lazily fetched.
         List<TravelExpense> expenses = travelExpenseReportRepository.findOne(report.getId()).getExpenses();

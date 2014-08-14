@@ -1,7 +1,9 @@
-package de.techdev.trackr.domain.employee.expenses;
+package de.techdev.trackr.domain.employee.expenses.reports;
 
 import de.techdev.trackr.domain.company.Company;
 import de.techdev.trackr.domain.employee.Employee;
+import de.techdev.trackr.domain.employee.expenses.TravelExpense;
+import de.techdev.trackr.domain.employee.expenses.reports.comments.Comment;
 import de.techdev.trackr.domain.project.Project;
 import de.techdev.trackr.domain.validation.constraints.ProjectBelongsToCompany;
 import lombok.Data;
@@ -17,9 +19,14 @@ import java.util.List;
  */
 @Data
 @Entity
+@Table(name = "travelExpenseReport")
 @ToString(exclude = {"expenses", "employee", "approver", "comments"})
 @ProjectBelongsToCompany(companyField = "debitor")
-public class TravelExpenseReport {
+public class Report {
+
+    public static enum Status {
+        SUBMITTED, PENDING, APPROVED, REJECTED
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -35,7 +42,7 @@ public class TravelExpenseReport {
     private List<TravelExpense> expenses = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
-    private TravelExpenseReportStatus status;
+    private Status status;
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date submissionDate;
@@ -47,7 +54,7 @@ public class TravelExpenseReport {
     private Employee approver;
 
     @OneToMany(mappedBy = "travelExpenseReport", cascade = CascadeType.REMOVE)
-    private List<TravelExpenseReportComment> comments;
+    private List<Comment> comments;
 
     @ManyToOne(optional = false)
     private Company debitor;

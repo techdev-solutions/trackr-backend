@@ -1,10 +1,11 @@
-package de.techdev.trackr.domain.employee.expenses;
+package de.techdev.trackr.domain.employee.expenses.reports;
 
 import de.techdev.trackr.domain.employee.Employee;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
+import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.data.rest.core.annotation.RestResource;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -15,23 +16,24 @@ import java.util.List;
 /**
  * @author Moritz Schulze
  */
-public interface TravelExpenseReportRepository extends CrudRepository<TravelExpenseReport, Long> {
+@RepositoryRestResource(path = "travelExpenseReports")
+public interface ReportRepository extends CrudRepository<Report, Long> {
 
     @Override
     @RestResource(exported = false)
-    Iterable<TravelExpenseReport> findAll();
+    Iterable<Report> findAll();
 
     @Override
     @PostAuthorize("hasRole('ROLE_SUPERVISOR') or ( isAuthenticated() and returnObject.employee.id == principal.id )")
-    TravelExpenseReport findOne(Long aLong);
+    Report findOne(Long aLong);
 
     @PreAuthorize("isAuthenticated() and #employee.id == principal.id")
-    Page<TravelExpenseReport> findByEmployeeAndStatusOrderByStatusAsc(@Param("employee") Employee employee, @Param("status") TravelExpenseReportStatus status, Pageable pageable);
+    Page<Report> findByEmployeeAndStatusOrderByStatusAsc(@Param("employee") Employee employee, @Param("status") Report.Status status, Pageable pageable);
 
     @PreAuthorize("hasRole('ROLE_SUPERVISOR')")
-    Page<TravelExpenseReport> findByStatusOrderByEmployee_LastNameAsc(@Param("status") TravelExpenseReportStatus status, Pageable pageable);
+    Page<Report> findByStatusOrderByEmployee_LastNameAsc(@Param("status") Report.Status status, Pageable pageable);
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    List<TravelExpenseReport> findBySubmissionDateBetween(@Param("start") Date start, @Param("end") Date end);
+    List<Report> findBySubmissionDateBetween(@Param("start") Date start, @Param("end") Date end);
 }
 

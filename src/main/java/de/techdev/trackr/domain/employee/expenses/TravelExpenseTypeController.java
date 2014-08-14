@@ -1,6 +1,6 @@
-package de.techdev.trackr.domain.employee.expenses.support;
+package de.techdev.trackr.domain.employee.expenses;
 
-import de.techdev.trackr.domain.employee.expenses.TravelExpenseType;
+import de.techdev.trackr.domain.employee.expenses.TravelExpense;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,7 +20,7 @@ public class TravelExpenseTypeController {
 
     @ResponseBody
     @RequestMapping(value = "types", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<TravelExpenseType> types() {
-        return asList(TravelExpenseType.values());
+    public List<TravelExpense.Type> types() {
+        return asList(TravelExpense.Type.values());
     }
 }

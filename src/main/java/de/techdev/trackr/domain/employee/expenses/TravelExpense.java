@@ -1,5 +1,6 @@
 package de.techdev.trackr.domain.employee.expenses;
 
+import de.techdev.trackr.domain.employee.expenses.reports.Report;
 import de.techdev.trackr.domain.validation.constraints.EndAfterBegin;
 import lombok.Data;
 import lombok.ToString;
@@ -18,6 +19,10 @@ import java.util.Date;
 @EndAfterBegin(begin = "fromDate", end = "toDate")
 public class TravelExpense {
 
+    public static enum Type {
+        HOTEL, TAXI, FLIGHT, TRAIN, PARKING, OEPNV, MILEAGE_ALLOWANCE, OTHER
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -27,11 +32,11 @@ public class TravelExpense {
 
     @NotNull
     @ManyToOne
-    private TravelExpenseReport report;
+    private Report report;
 
     @NotNull
     @Enumerated(EnumType.STRING)
-    private TravelExpenseType type;
+    private Type type;
 
     @NotNull
     private BigDecimal cost;

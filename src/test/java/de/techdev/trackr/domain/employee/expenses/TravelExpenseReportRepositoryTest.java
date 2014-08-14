@@ -1,6 +1,8 @@
 package de.techdev.trackr.domain.employee.expenses;
 
 import de.techdev.trackr.IntegrationTest;
+import de.techdev.trackr.domain.employee.expenses.reports.Report;
+import de.techdev.trackr.domain.employee.expenses.reports.ReportRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +20,7 @@ public class TravelExpenseReportRepositoryTest extends IntegrationTest {
     private TravelExpenseReportDataOnDemand travelExpenseReportDataOnDemand;
 
     @Autowired
-    private TravelExpenseReportRepository travelExpenseReportRepository;
+    private ReportRepository travelExpenseReportRepository;
 
     @Before
     public void setUp() throws Exception {
@@ -27,14 +29,14 @@ public class TravelExpenseReportRepositoryTest extends IntegrationTest {
 
     @Test
     public void one() throws Exception {
-        TravelExpenseReport travelExpenseReport = travelExpenseReportDataOnDemand.getRandomObject();
-        TravelExpenseReport one = travelExpenseReportRepository.findOne(travelExpenseReport.getId());
+        Report travelExpenseReport = travelExpenseReportDataOnDemand.getRandomObject();
+        Report one = travelExpenseReportRepository.findOne(travelExpenseReport.getId());
         assertThat(one.getId(), is(travelExpenseReport.getId()));
     }
 
     @Test
     public void all() throws Exception {
-        Iterable<TravelExpenseReport> all = travelExpenseReportRepository.findAll();
+        Iterable<Report> all = travelExpenseReportRepository.findAll();
         assertThat(all, isNotEmpty());
     }
 }

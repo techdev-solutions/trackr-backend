@@ -1,6 +1,6 @@
 package de.techdev.trackr.domain.common;
 
-import de.techdev.trackr.domain.employee.expenses.TravelExpenseReport;
+import de.techdev.trackr.domain.employee.expenses.reports.Report;
 import de.techdev.trackr.domain.employee.vacation.VacationRequest;
 import de.techdev.trackr.domain.project.invoice.Invoice;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +39,7 @@ public class StringToEntityConverter<T> implements Converter<String,T> {
 
     }
 
-    public static class StringToTravelExpenseReportConverter extends StringToEntityConverter<TravelExpenseReport> {
+    public static class StringToTravelExpenseReportConverter extends StringToEntityConverter<Report> {
 
     }
 

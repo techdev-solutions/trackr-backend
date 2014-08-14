@@ -2,9 +2,8 @@ package de.techdev.trackr.domain;
 
 import de.techdev.trackr.core.pdf.PdfRenderer;
 import de.techdev.trackr.domain.common.UuidMapper;
-import de.techdev.trackr.domain.employee.expenses.TravelExpenseReportService;
-import de.techdev.trackr.domain.employee.expenses.support.TravelExpenseReportNotifyService;
-import de.techdev.trackr.domain.employee.expenses.support.TravelExpenseReportServiceImpl;
+import de.techdev.trackr.domain.employee.expenses.reports.ReportNotifyService;
+import de.techdev.trackr.domain.employee.expenses.reports.ReportService;
 import de.techdev.trackr.domain.employee.login.DeactivateEmployeesService;
 import de.techdev.trackr.domain.employee.login.support.SupervisorService;
 import de.techdev.trackr.domain.employee.sickdays.SickDaysNotifyService;
@@ -44,13 +43,13 @@ public class ApiBeansConfiguration {
     }
 
     @Bean
-    public TravelExpenseReportService travelExpenseReportService() {
-        return new TravelExpenseReportServiceImpl();
+    public ReportService travelExpenseReportService() {
+        return new ReportService();
     }
 
     @Bean
-    public TravelExpenseReportNotifyService travelExpenseReportNotifyService() {
-        return new TravelExpenseReportNotifyService();
+    public ReportNotifyService travelExpenseReportNotifyService() {
+        return new ReportNotifyService();
     }
 
     @Bean

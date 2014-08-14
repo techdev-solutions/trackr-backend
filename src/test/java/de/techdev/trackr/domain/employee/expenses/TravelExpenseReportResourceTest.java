@@ -2,6 +2,7 @@ package de.techdev.trackr.domain.employee.expenses;
 
 import de.techdev.trackr.core.security.AuthorityMocks;
 import de.techdev.trackr.domain.AbstractDomainResourceTest;
+import de.techdev.trackr.domain.employee.expenses.reports.Report;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.mock.web.MockHttpSession;
@@ -21,10 +22,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 /**
  * @author Moritz Schulze
  */
-public class TravelExpenseReportResourceTest extends AbstractDomainResourceTest<TravelExpenseReport> {
+public class TravelExpenseReportResourceTest extends AbstractDomainResourceTest<Report> {
 
-    private final Function<TravelExpenseReport, MockHttpSession> sameEmployeeSessionProvider;
-    private final Function<TravelExpenseReport, MockHttpSession> otherEmployeeSessionProvider;
+    private final Function<Report, MockHttpSession> sameEmployeeSessionProvider;
+    private final Function<Report, MockHttpSession> otherEmployeeSessionProvider;
 
     public TravelExpenseReportResourceTest() {
         this.sameEmployeeSessionProvider = travelExpenseReport -> employeeSession(travelExpenseReport.getEmployee().getId());
@@ -74,7 +75,7 @@ public class TravelExpenseReportResourceTest extends AbstractDomainResourceTest<
 
     @Test
     public void travelExpensesAllowedForSelf() throws Exception {
-        TravelExpenseReport travelExpenseReport = dataOnDemand.getRandomObject();
+        Report travelExpenseReport = dataOnDemand.getRandomObject();
         assertThat(oneUrl(employeeSession(travelExpenseReport.getEmployee().getId()), "/travelExpenseReports/" + travelExpenseReport.getId() + "/expenses"), isAccessible());
     }
 
@@ -85,7 +86,7 @@ public class TravelExpenseReportResourceTest extends AbstractDomainResourceTest<
 
     @Test
     public void deleteEmployeeNotAllowed() throws Exception {
-        TravelExpenseReport travelExpenseReport = dataOnDemand.getRandomObject();
+        Report travelExpenseReport = dataOnDemand.getRandomObject();
         assertThat(removeUrl(supervisorSession(), "/travelExpenseReports/" + travelExpenseReport.getId() + "/employee"), isForbidden());
     }
 
@@ -101,8 +102,8 @@ public class TravelExpenseReportResourceTest extends AbstractDomainResourceTest<
 
     @Test
     public void deleteAllowedForOwnerIfPending() throws Exception {
-        TravelExpenseReport travelExpenseReport = dataOnDemand.getRandomObject();
-        travelExpenseReport.setStatus(TravelExpenseReportStatus.PENDING);
+        Report travelExpenseReport = dataOnDemand.getRandomObject();
+        travelExpenseReport.setStatus(Report.Status.PENDING);
         repository.save(travelExpenseReport);
         assertThat(removeUrl(employeeSession(travelExpenseReport.getEmployee().getId()), "/travelExpenseReports/" + travelExpenseReport.getId()), isNoContent());
     }
@@ -114,24 +115,24 @@ public class TravelExpenseReportResourceTest extends AbstractDomainResourceTest<
 
     @Test
     public void deleteForbiddenForOtherEvenIfPending() throws Exception {
-        TravelExpenseReport travelExpenseReport = dataOnDemand.getRandomObject();
-        travelExpenseReport.setStatus(TravelExpenseReportStatus.PENDING);
+        Report travelExpenseReport = dataOnDemand.getRandomObject();
+        travelExpenseReport.setStatus(Report.Status.PENDING);
         repository.save(travelExpenseReport);
         assertThat(removeUrl(employeeSession(travelExpenseReport.getEmployee().getId() + 1), "/travelExpenseReports/" + travelExpenseReport.getId()), isForbidden());
     }
 
     @Test
     public void deleteForbiddenForOwnerIfSubmitted() throws Exception {
-        TravelExpenseReport travelExpenseReport = dataOnDemand.getRandomObject();
-        travelExpenseReport.setStatus(TravelExpenseReportStatus.SUBMITTED);
+        Report travelExpenseReport = dataOnDemand.getRandomObject();
+        travelExpenseReport.setStatus(Report.Status.SUBMITTED);
         repository.save(travelExpenseReport);
         assertThat(removeUrl(employeeSession(travelExpenseReport.getEmployee().getId()), "/travelExpenseReports/" + travelExpenseReport.getId()), isForbidden());
     }
 
     @Test
     public void submitNotAllowedForOtherSupervisor() throws Exception {
-        TravelExpenseReport travelExpenseReport = dataOnDemand.getRandomObject();
-        travelExpenseReport.setStatus(TravelExpenseReportStatus.PENDING);
+        Report travelExpenseReport = dataOnDemand.getRandomObject();
+        travelExpenseReport.setStatus(Report.Status.PENDING);
         repository.save(travelExpenseReport);
         mockMvc.perform(
                 put("/travelExpenseReports/" + travelExpenseReport.getId() + "/submit")
@@ -140,14 +141,14 @@ public class TravelExpenseReportResourceTest extends AbstractDomainResourceTest<
                 .andExpect(status().isForbidden());
 
         SecurityContextHolder.getContext().setAuthentication(AuthorityMocks.adminAuthentication());
-        TravelExpenseReport one = repository.findOne(travelExpenseReport.getId());
-        assertThat(one.getStatus(), is(TravelExpenseReportStatus.PENDING));
+        Report one = repository.findOne(travelExpenseReport.getId());
+        assertThat(one.getStatus(), is(Report.Status.PENDING));
     }
 
     @Test
     public void approveNotAllowedForOwningSupervisor() throws Exception {
-        TravelExpenseReport travelExpenseReport = dataOnDemand.getRandomObject();
-        travelExpenseReport.setStatus(TravelExpenseReportStatus.SUBMITTED);
+        Report travelExpenseReport = dataOnDemand.getRandomObject();
+        travelExpenseReport.setStatus(Report.Status.SUBMITTED);
         repository.save(travelExpenseReport);
         mockMvc.perform(
                 put("/travelExpenseReports/" + travelExpenseReport.getId() + "/approve")
@@ -156,12 +157,12 @@ public class TravelExpenseReportResourceTest extends AbstractDomainResourceTest<
                 .andExpect(status().isForbidden());
 
         SecurityContextHolder.getContext().setAuthentication(AuthorityMocks.adminAuthentication());
-        TravelExpenseReport one = repository.findOne(travelExpenseReport.getId());
-        assertThat(one.getStatus(), is(TravelExpenseReportStatus.SUBMITTED));
+        Report one = repository.findOne(travelExpenseReport.getId());
+        assertThat(one.getStatus(), is(Report.Status.SUBMITTED));
     }
 
     @Override
-    protected String getJsonRepresentation(TravelExpenseReport travelExpenseReport) {
+    protected String getJsonRepresentation(Report travelExpenseReport) {
         StringWriter writer = new StringWriter();
         JsonGenerator jg = jsonGeneratorFactory.createGenerator(writer);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");

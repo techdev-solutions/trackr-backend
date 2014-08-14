@@ -1,6 +1,7 @@
 package de.techdev.trackr.domain.employee.expenses;
 
 import de.techdev.trackr.domain.AbstractDomainResourceTest;
+import de.techdev.trackr.domain.employee.expenses.reports.comments.Comment;
 import org.junit.Test;
 
 import javax.json.stream.JsonGenerator;
@@ -12,7 +13,7 @@ import static de.techdev.trackr.domain.DomainResourceTestMatchers.isForbidden;
 import static de.techdev.trackr.domain.DomainResourceTestMatchers.isMethodNotAllowed;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class TravelExpenseReportCommentResourceTest extends AbstractDomainResourceTest<TravelExpenseReportComment> {
+public class TravelExpenseReportCommentResourceTest extends AbstractDomainResourceTest<Comment> {
 
     @Override
     protected String getResourceName() {
@@ -50,7 +51,7 @@ public class TravelExpenseReportCommentResourceTest extends AbstractDomainResour
     }
 
     @Override
-    protected String getJsonRepresentation(TravelExpenseReportComment comment) {
+    protected String getJsonRepresentation(Comment comment) {
         StringWriter writer = new StringWriter();
         JsonGenerator jg = jsonGeneratorFactory.createGenerator(writer);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");

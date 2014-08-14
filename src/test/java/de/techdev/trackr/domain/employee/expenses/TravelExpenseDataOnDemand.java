@@ -26,7 +26,7 @@ public class TravelExpenseDataOnDemand extends AbstractDataOnDemand<TravelExpens
         travelExpense.setFromDate(new Date());
         travelExpense.setToDate(new Date());
         travelExpense.setCost(BigDecimal.TEN);
-        travelExpense.setType(TravelExpenseType.TAXI);
+        travelExpense.setType(TravelExpense.Type.TAXI);
         travelExpense.setSubmissionDate(new Date());
         travelExpense.setVat(BigDecimal.ONE);
         travelExpense.setComment("comment_" + i);

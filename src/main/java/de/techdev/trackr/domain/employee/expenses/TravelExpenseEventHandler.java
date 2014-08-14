@@ -1,5 +1,6 @@
 package de.techdev.trackr.domain.employee.expenses;
 
+import de.techdev.trackr.domain.employee.expenses.reports.Report;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.rest.core.annotation.*;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -43,20 +44,20 @@ public class TravelExpenseEventHandler {
 
     public boolean canCreate(Long id, TravelExpense travelExpense) {
         return travelExpense.getReport().getEmployee().getId().equals(id) &&
-                travelExpense.getReport().getStatus() != TravelExpenseReportStatus.APPROVED &&
-                travelExpense.getReport().getStatus() != TravelExpenseReportStatus.SUBMITTED;
+                travelExpense.getReport().getStatus() != Report.Status.APPROVED &&
+                travelExpense.getReport().getStatus() != Report.Status.SUBMITTED;
     }
 
     public boolean canEdit(Long id, TravelExpense travelExpense) {
         return travelExpense.getReport().getEmployee().getId().equals(id) &&
-                travelExpense.getReport().getStatus() != TravelExpenseReportStatus.APPROVED &&
-                travelExpense.getReport().getStatus() != TravelExpenseReportStatus.SUBMITTED;
+                travelExpense.getReport().getStatus() != Report.Status.APPROVED &&
+                travelExpense.getReport().getStatus() != Report.Status.SUBMITTED;
     }
 
     public boolean canDelete(Long id, TravelExpense travelExpense) {
         return travelExpense.getReport().getEmployee().getId().equals(id) &&
-                travelExpense.getReport().getStatus() != TravelExpenseReportStatus.APPROVED &&
-                travelExpense.getReport().getStatus() != TravelExpenseReportStatus.SUBMITTED;
+                travelExpense.getReport().getStatus() != Report.Status.APPROVED &&
+                travelExpense.getReport().getStatus() != Report.Status.SUBMITTED;
     }
 }
 

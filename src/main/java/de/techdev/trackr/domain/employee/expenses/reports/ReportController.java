@@ -1,7 +1,8 @@
-package de.techdev.trackr.domain.employee.expenses;
+package de.techdev.trackr.domain.employee.expenses.reports;
 
 import de.techdev.trackr.core.pdf.PdfCreationException;
 import de.techdev.trackr.core.pdf.PdfRenderer;
+import de.techdev.trackr.domain.employee.expenses.TravelExpense;
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.thymeleaf.context.Context;
 
-import javax.servlet.http.HttpServletResponse;
 import java.math.BigDecimal;
 import java.security.Principal;
 import java.util.Date;
@@ -24,43 +24,43 @@ import java.util.Optional;
  */
 @Controller
 @RequestMapping("/travelExpenseReports")
-public class TravelExpenseReportController {
+public class ReportController {
 
     @Autowired
-    private TravelExpenseReportService travelExpenseReportService;
+    private ReportService travelExpenseReportService;
 
     @Autowired
     private PdfRenderer pdfRenderer;
 
     @Autowired
-    private TravelExpenseReportRepository travelExpenseReportRepository;
+    private ReportRepository travelExpenseReportRepository;
 
     @RequestMapping(value = "/{id}/submit", method = RequestMethod.PUT)
     @ResponseBody
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void submit(@PathVariable("id") TravelExpenseReport travelExpenseReport) {
+    public void submit(@PathVariable("id") Report travelExpenseReport) {
         travelExpenseReportService.submit(travelExpenseReport);
     }
 
     @RequestMapping(value = "/{id}/approve", method = RequestMethod.PUT)
     @ResponseBody
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void approve(@PathVariable("id") TravelExpenseReport travelExpenseReport, Principal principal) {
+    public void approve(@PathVariable("id") Report travelExpenseReport, Principal principal) {
         travelExpenseReportService.accept(travelExpenseReport, principal.getName());
     }
 
     @RequestMapping(value = "/{id}/reject", method = RequestMethod.PUT)
     @ResponseBody
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void reject(@PathVariable("id") TravelExpenseReport travelExpenseReport, Principal principal) {
+    public void reject(@PathVariable("id") Report travelExpenseReport, Principal principal) {
         travelExpenseReportService.reject(travelExpenseReport, principal.getName());
     }
 
     @PreAuthorize("hasRole('ROLE_SUPERVISOR')")
     @RequestMapping(value = "/{id}/pdf", produces = "application/pdf")
     @Transactional
-    public ResponseEntity<byte[]> asPdf(@PathVariable("id") TravelExpenseReport travelExpenseReport) {
-        TravelExpenseReport report = travelExpenseReportRepository.findOne(travelExpenseReport.getId());
+    public ResponseEntity<byte[]> asPdf(@PathVariable("id") Report travelExpenseReport) {
+        Report report = travelExpenseReportRepository.findOne(travelExpenseReport.getId());
 
         Context ctx = new Context();
         ctx.setVariable("report", report);
