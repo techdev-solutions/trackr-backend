@@ -1,7 +1,7 @@
-package de.techdev.trackr.domain.project.support;
+package de.techdev.trackr.domain.project.worktimes;
 
 import de.techdev.trackr.domain.employee.Employee;
-import de.techdev.trackr.domain.project.BillableTime;
+import de.techdev.trackr.domain.project.billtimes.BillableTime;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.hateoas.ResourceSupport;

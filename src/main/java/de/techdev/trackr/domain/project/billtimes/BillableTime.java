@@ -1,6 +1,7 @@
-package de.techdev.trackr.domain.project;
+package de.techdev.trackr.domain.project.billtimes;
 
 import de.techdev.trackr.domain.employee.Employee;
+import de.techdev.trackr.domain.project.Project;
 import lombok.Data;
 import lombok.ToString;
 

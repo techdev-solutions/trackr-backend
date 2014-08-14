@@ -1,6 +1,7 @@
 package de.techdev.trackr.domain.project.support;
 
-import de.techdev.trackr.domain.project.WorkTime;
+import de.techdev.trackr.domain.project.worktimes.CustomWorkTime;
+import de.techdev.trackr.domain.project.worktimes.WorkTime;
 import org.junit.Test;
 
 import java.sql.Time;

@@ -25,10 +25,10 @@ public class InvoiceOverdueService {
      */
     @Transactional
     public void markOverdueInvoices(LocalDate expiryDate) {
-        List<Invoice> invoices = invoiceRepository.findByDueDateBeforeAndInvoiceState(fromLocalDate(expiryDate), InvoiceState.OUTSTANDING);
+        List<Invoice> invoices = invoiceRepository.findByDueDateBeforeAndInvoiceState(fromLocalDate(expiryDate), Invoice.InvoiceState.OUTSTANDING);
         for (Invoice invoice : invoices) {
             log.info("Setting state to overdue on invoice {}", invoice);
-            invoice.setInvoiceState(InvoiceState.OVERDUE);
+            invoice.setInvoiceState(Invoice.InvoiceState.OVERDUE);
             invoiceRepository.save(invoice);
         }
     }

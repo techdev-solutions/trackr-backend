@@ -1,8 +1,9 @@
-package de.techdev.trackr.domain.project;
+package de.techdev.trackr.domain.project.worktimes;
 
 import de.techdev.trackr.domain.employee.Employee;
-import de.techdev.trackr.domain.project.support.CustomWorkTime;
-import de.techdev.trackr.domain.project.support.WorkTimeEmployee;
+import de.techdev.trackr.domain.project.Project;
+import de.techdev.trackr.domain.project.billtimes.BillableTime;
+import de.techdev.trackr.domain.project.billtimes.BillableTimeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.convert.ConversionService;

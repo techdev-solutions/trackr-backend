@@ -25,7 +25,7 @@ public class InvoiceEventHandlerTest {
         LocalDate dueDate = LocalDate.of(2013, 10, 1);
         invoice.setDueDate(LocalDateUtil.fromLocalDate(dueDate));
         invoiceEventHandler.setInvoiceStateIfNecessary(invoice);
-        assertThat(invoice.getInvoiceState(), is(InvoiceState.OVERDUE));
+        assertThat(invoice.getInvoiceState(), is(Invoice.InvoiceState.OVERDUE));
     }
 
     @Test
@@ -34,7 +34,7 @@ public class InvoiceEventHandlerTest {
         LocalDate dueDate = LocalDate.now().plusDays(7);
         invoice.setDueDate(LocalDateUtil.fromLocalDate(dueDate));
         invoiceEventHandler.setInvoiceStateIfNecessary(invoice);
-        assertThat(invoice.getInvoiceState(), is(InvoiceState.OUTSTANDING));
+        assertThat(invoice.getInvoiceState(), is(Invoice.InvoiceState.OUTSTANDING));
     }
 
     @Test
@@ -89,6 +89,6 @@ public class InvoiceEventHandlerTest {
 
         invoiceEventHandler.authorizeCreate(invoice);
         assertThat(invoice.getDueDate(), is(LocalDateUtil.fromLocalDate(LocalDate.of(2014, 1, 15))));
-        assertThat(invoice.getInvoiceState(), is(InvoiceState.OVERDUE));
+        assertThat(invoice.getInvoiceState(), is(Invoice.InvoiceState.OVERDUE));
     }
 }

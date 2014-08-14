@@ -22,7 +22,7 @@ public class InvoiceController {
     @ResponseBody
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String markAsPaid(@PathVariable("id") Invoice invoice) {
-        changeStateService.changeState(invoice, InvoiceState.PAID);
+        changeStateService.changeState(invoice, Invoice.InvoiceState.PAID);
         return "Ok.";
     }
 }

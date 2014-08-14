@@ -1,4 +1,4 @@
-package de.techdev.trackr.domain.project;
+package de.techdev.trackr.domain.project.worktimes;
 
 import de.techdev.trackr.domain.employee.Employee;
 import lombok.extern.slf4j.Slf4j;

@@ -10,7 +10,7 @@ public class ChangeStateService {
     @Autowired
     private InvoiceRepository invoiceRepository;
 
-    public Invoice changeState(Invoice invoice, InvoiceState invoiceState) {
+    public Invoice changeState(Invoice invoice, Invoice.InvoiceState invoiceState) {
         invoice.setInvoiceState(invoiceState);
         return invoiceRepository.save(invoice);
     }

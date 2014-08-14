@@ -1,6 +1,7 @@
-package de.techdev.trackr.domain.project;
+package de.techdev.trackr.domain.project.worktimes;
 
 import de.techdev.trackr.domain.AbstractDomainResourceTest;
+import de.techdev.trackr.domain.project.worktimes.WorkTime;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.mock.web.MockHttpSession;
@@ -88,7 +89,7 @@ public class WorkTimeResourceTest extends AbstractDomainResourceTest<WorkTime> {
 
     /**
      * TODO: when trying to set to another employee the EmployeeRepository will deny accessing that employee which will result in a HTTP 400
-     * TODO: When trying to set to the same employee our Exception thrown in the {@link de.techdev.trackr.domain.project.WorkTimeEventHandler}
+     * TODO: When trying to set to the same employee our Exception thrown in the {@link de.techdev.trackr.domain.project.worktimes.WorkTimeEventHandler}
      * TODO: won't be propagated to Web MVC.
      * TODO: so in conclusion updating does not work but will produce a 500 or 400 instead of a 405.
      * @throws Exception

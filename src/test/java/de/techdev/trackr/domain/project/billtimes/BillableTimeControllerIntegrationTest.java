@@ -1,4 +1,4 @@
-package de.techdev.trackr.domain.project;
+package de.techdev.trackr.domain.project.billtimes;
 
 import de.techdev.trackr.core.web.MockMvcTest;
 import org.junit.Test;

@@ -1,6 +1,7 @@
-package de.techdev.trackr.domain.project;
+package de.techdev.trackr.domain.project.billtimes;
 
 import de.techdev.trackr.domain.AbstractDomainResourceTest;
+import de.techdev.trackr.domain.project.billtimes.BillableTime;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.mock.web.MockHttpSession;

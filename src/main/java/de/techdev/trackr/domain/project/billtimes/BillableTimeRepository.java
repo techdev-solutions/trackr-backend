@@ -1,5 +1,6 @@
-package de.techdev.trackr.domain.project;
+package de.techdev.trackr.domain.project.billtimes;
 
+import de.techdev.trackr.domain.project.Project;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RestResource;

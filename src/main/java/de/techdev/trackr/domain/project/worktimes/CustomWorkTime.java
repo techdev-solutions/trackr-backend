@@ -1,6 +1,5 @@
-package de.techdev.trackr.domain.project.support;
+package de.techdev.trackr.domain.project.worktimes;
 
-import de.techdev.trackr.domain.project.WorkTime;
 import lombok.Getter;
 import lombok.Setter;
 

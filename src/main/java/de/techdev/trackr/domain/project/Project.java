@@ -2,6 +2,8 @@ package de.techdev.trackr.domain.project;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import de.techdev.trackr.domain.company.Company;
+import de.techdev.trackr.domain.project.billtimes.BillableTime;
+import de.techdev.trackr.domain.project.worktimes.WorkTime;
 import lombok.Data;
 import lombok.ToString;
 import org.hibernate.validator.constraints.NotEmpty;

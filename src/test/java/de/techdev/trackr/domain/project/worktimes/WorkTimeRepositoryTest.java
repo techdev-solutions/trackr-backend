@@ -1,4 +1,4 @@
-package de.techdev.trackr.domain.project;
+package de.techdev.trackr.domain.project.worktimes;
 
 import de.techdev.trackr.TransactionalIntegrationTest;
 import org.junit.Before;

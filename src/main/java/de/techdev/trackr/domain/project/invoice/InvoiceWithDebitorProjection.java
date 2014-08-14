@@ -25,5 +25,5 @@ public interface InvoiceWithDebitorProjection {
 
     Date getDueDate();
 
-    InvoiceState getInvoiceState();
+    Invoice.InvoiceState getInvoiceState();
 }
