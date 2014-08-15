@@ -14,6 +14,7 @@ import java.util.function.Function;
 import static de.techdev.trackr.domain.DomainResourceTestMatchers.*;
 import static org.echocat.jomon.testing.BaseMatchers.isNotNull;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -109,6 +110,15 @@ public class TravelExpenseResourceTest extends AbstractDomainResourceTest<Travel
     @Ignore
     public void changeReportNotAllowed() throws Exception {
         assertThat(updateLink(supervisorSession(), "report", "/travelExpenseReports/0"), isForbidden());
+    }
+
+    @Test
+    public void accessTypes() throws Exception {
+        mockMvc.perform(
+                get("/travelExpenses/types")
+                    .session(employeeSession())
+        )
+                .andExpect(status().isOk());
     }
 
     @Override

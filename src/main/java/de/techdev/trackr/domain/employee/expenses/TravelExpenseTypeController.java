@@ -1,6 +1,5 @@
 package de.techdev.trackr.domain.employee.expenses;
 
-import de.techdev.trackr.domain.employee.expenses.TravelExpense;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
