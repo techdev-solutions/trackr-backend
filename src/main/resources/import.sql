@@ -25,7 +25,7 @@ INSERT INTO credential (id, email, enabled, locale) VALUES (7, 'noop1@techdev.de
 INSERT INTO credential (id, email, enabled, locale) VALUES (8, 'noop2@techdev.de', false, 'en');
 INSERT INTO credential (id, email, enabled, locale) VALUES (9, 'noop3@techdev.de', false, 'en');
 INSERT INTO credential (id, email, enabled, locale) VALUES (10, 'noop4@techdev.de', false, 'en');
-INSERT INTO credential (id, email, enabled, locale) VALUES (11, 'noop5@techdev.de', false, 'en');
+INSERT INTO credential (id, email, enabled, locale) VALUES (11, 'supervisor@techdev.de', false, 'en');
 
 /* AUTHORITIES */
 INSERT INTO authority (id, authority, authorityOrder) VALUES (12, 'ROLE_ADMIN', 0);
@@ -42,7 +42,7 @@ INSERT INTO credential_authority (credential_id, authorities_id) VALUES (7, 14);
 INSERT INTO credential_authority (credential_id, authorities_id) VALUES (8, 14);
 INSERT INTO credential_authority (credential_id, authorities_id) VALUES (9, 14);
 INSERT INTO credential_authority (credential_id, authorities_id) VALUES (10, 14);
-INSERT INTO credential_authority (credential_id, authorities_id) VALUES (11, 14);
+INSERT INTO credential_authority (credential_id, authorities_id) VALUES (11, 13);
 
 /* (COMPANY) ADDRESSES */
 INSERT INTO address (id, version, street, houseNumber, zipCode, city, country) VALUES (15, 0, 'Sun Alley', '31', '15489', 'Munich', 'Deutschland');

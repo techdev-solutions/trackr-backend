@@ -16,6 +16,7 @@ import java.util.function.Function;
 import static de.techdev.trackr.domain.DomainResourceTestMatchers.*;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -159,6 +160,50 @@ public class ReportResourceTest extends AbstractDomainResourceTest<Report> {
         SecurityContextHolder.getContext().setAuthentication(AuthorityMocks.adminAuthentication());
         Report one = repository.findOne(travelExpenseReport.getId());
         assertThat(one.getStatus(), is(Report.Status.SUBMITTED));
+    }
+
+    @Test
+    public void approveAllowedForSupervisor() throws Exception {
+        Report travelExpenseReport = dataOnDemand.getRandomObject();
+        travelExpenseReport.setStatus(Report.Status.SUBMITTED);
+        repository.save(travelExpenseReport);
+        mockMvc.perform(
+                put("/travelExpenseReports/" + travelExpenseReport.getId() + "/approve")
+                        .session(supervisorSession(travelExpenseReport.getEmployee().getId() + 1))
+        )
+                .andExpect(status().isNoContent());
+
+        SecurityContextHolder.getContext().setAuthentication(AuthorityMocks.adminAuthentication());
+        Report one = repository.findOne(travelExpenseReport.getId());
+        assertThat(one.getStatus(), is(Report.Status.APPROVED));
+
+    }
+
+    @Test
+    public void rejectAllowedForSupervisor() throws Exception {
+        Report travelExpenseReport = dataOnDemand.getRandomObject();
+        travelExpenseReport.setStatus(Report.Status.SUBMITTED);
+        repository.save(travelExpenseReport);
+        mockMvc.perform(
+                put("/travelExpenseReports/" + travelExpenseReport.getId() + "/reject")
+                        .session(supervisorSession(travelExpenseReport.getEmployee().getId() + 1))
+        )
+                .andExpect(status().isNoContent());
+
+        SecurityContextHolder.getContext().setAuthentication(AuthorityMocks.adminAuthentication());
+        Report one = repository.findOne(travelExpenseReport.getId());
+        assertThat(one.getStatus(), is(Report.Status.REJECTED));
+
+    }
+
+    @Test
+    public void pdfExport() throws Exception {
+        Report report = dataOnDemand.getRandomObject();
+        mockMvc.perform(
+                get("/travelExpenseReports/" + report.getId() + "/pdf")
+                        .session(supervisorSession())
+        )
+                .andExpect(status().isOk());
     }
 
     @Override
