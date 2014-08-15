@@ -3,6 +3,7 @@ package de.techdev.trackr.domain.common;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.sql.DataSource;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -31,8 +32,8 @@ public class UuidMapper {
 
     public Long getIdFromUUID(String uuid) {
         Long id = null;
-        try {
-            PreparedStatement getIdStatement = dataSource.getConnection().prepareStatement("SELECT id FROM uuid_mapping WHERE uuid = ?");
+        try(Connection connection = dataSource.getConnection()) {
+            PreparedStatement getIdStatement = connection.prepareStatement("SELECT id FROM uuid_mapping WHERE uuid = ?");
             getIdStatement.setString(1, uuid);
             ResultSet resultSet = getIdStatement.executeQuery();
             if (resultSet.next()) {
@@ -47,8 +48,8 @@ public class UuidMapper {
     }
 
     public void deleteUUID(String uuid) {
-        try {
-            PreparedStatement deleteStatement = dataSource.getConnection().prepareStatement("DELETE FROM uuid_mapping WHERE uuid = ?");
+        try(Connection connection = dataSource.getConnection()) {
+            PreparedStatement deleteStatement = connection.prepareStatement("DELETE FROM uuid_mapping WHERE uuid = ?");
             deleteStatement.setString(1, uuid);
             deleteStatement.execute();
             deleteStatement.close();
@@ -58,8 +59,8 @@ public class UuidMapper {
     }
 
     public void deleteUUID(Long id) {
-        try {
-            PreparedStatement deleteStatement = dataSource.getConnection().prepareStatement("DELETE FROM uuid_mapping WHERE id = ?");
+        try(Connection connection = dataSource.getConnection()) {
+            PreparedStatement deleteStatement = connection.prepareStatement("DELETE FROM uuid_mapping WHERE id = ?");
             deleteStatement.setLong(1, id);
             deleteStatement.execute();
             deleteStatement.close();
@@ -70,8 +71,8 @@ public class UuidMapper {
 
     public UUID createUUID(Long id) {
         UUID uuid = UUID.randomUUID();
-        try {
-            PreparedStatement insertStatement = dataSource.getConnection().prepareStatement("INSERT INTO uuid_mapping (id, uuid) VALUES (?, ?)");
+        try(Connection connection = dataSource.getConnection()) {
+            PreparedStatement insertStatement = connection.prepareStatement("INSERT INTO uuid_mapping (id, uuid) VALUES (?, ?)");
             insertStatement.setLong(1, id);
             insertStatement.setString(2, uuid.toString());
             insertStatement.execute();
