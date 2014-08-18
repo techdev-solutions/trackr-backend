@@ -30,18 +30,17 @@ public class EmployeeController {
      * This method allows an employee to change some values of his entity on his own, namely the one
      * in SelfEmployee.
      *
-     * @param employeeId The id of the employee. Only if the principal has the same id access is allowed.
+     * @param employee The employee to edit.
      * @param selfEmployee The request body, i.e. the data to change
      * @return The updated data.
      */
-    @PreAuthorize("isAuthenticated() and #employeeId == principal.id")
+    @PreAuthorize("isAuthenticated() and #employee.id == principal.id")
     @ResponseBody
     @RequestMapping(value = "/{employee}/self", method = {RequestMethod.PUT, RequestMethod.PATCH}, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public SelfEmployee updateSelf(@PathVariable("employee") Long employeeId, @RequestBody @Valid SelfEmployee selfEmployee, BindingResult bindingResult) {
+    public SelfEmployee updateSelf(@PathVariable("employee") Employee employee, @RequestBody @Valid SelfEmployee selfEmployee, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             throw new RepositoryConstraintViolationException(bindingResult);
         }
-        Employee employee = employeeRepository.findOne(employeeId);
         //Since patch is allowed all fields can be null and shouldn't be overwritten in that case.
         if (selfEmployee.getFirstName() != null) {
             employee.setFirstName(selfEmployee.getFirstName());

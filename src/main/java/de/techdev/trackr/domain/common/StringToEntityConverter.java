@@ -1,5 +1,6 @@
 package de.techdev.trackr.domain.common;
 
+import de.techdev.trackr.domain.employee.Employee;
 import de.techdev.trackr.domain.employee.expenses.reports.Report;
 import de.techdev.trackr.domain.employee.vacation.VacationRequest;
 import de.techdev.trackr.domain.project.invoice.Invoice;
@@ -43,4 +44,7 @@ public class StringToEntityConverter<T> implements Converter<String,T> {
 
     }
 
+    public static class StringToEmployeeConverter extends StringToEntityConverter<Employee> {
+
+    }
 }

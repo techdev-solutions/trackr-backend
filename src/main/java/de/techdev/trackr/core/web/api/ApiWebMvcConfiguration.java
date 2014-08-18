@@ -100,6 +100,11 @@ public class ApiWebMvcConfiguration extends RepositoryRestMvcConfiguration {
         return new StringToEntityConverter.StringToTravelExpenseReportConverter();
     }
 
+    @Bean
+    public Converter<String, Employee> employeeConverter() {
+        return new StringToEntityConverter.StringToEmployeeConverter();
+    }
+
     @Override
     protected void configureConversionService(ConfigurableConversionService conversionService) {
         super.configureConversionService(conversionService);
@@ -115,6 +120,7 @@ public class ApiWebMvcConfiguration extends RepositoryRestMvcConfiguration {
         registry.addConverter(stringInvoiceConverter());
         registry.addConverter(vacationRequestConverter());
         registry.addConverter(travelExpenseReportConverter());
+        registry.addConverter(employeeConverter());
     }
 
     @Bean
