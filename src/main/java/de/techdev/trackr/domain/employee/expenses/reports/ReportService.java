@@ -23,18 +23,18 @@ public class ReportService {
     @Autowired
     private ReportNotifyService travelExpenseReportNotifyService;
 
-    @PreAuthorize("#travelExpenseReport.employee.id == principal.id")
+    @PreAuthorize("#travelExpenseReport.employee.id == principal?.id")
     public Report submit(Report travelExpenseReport) {
         travelExpenseReportNotifyService.sendSubmittedReportMail(travelExpenseReport);
         return setStatusOnTravelExpenseReport(travelExpenseReport, Report.Status.SUBMITTED, null);
     }
 
-    @PreAuthorize("hasRole('ROLE_SUPERVISOR') and #travelExpenseReport.employee.id != principal.id")
+    @PreAuthorize("hasRole('ROLE_SUPERVISOR') and #travelExpenseReport.employee.id != principal?.id")
     public Report accept(Report travelExpenseReport, String approverName) {
         return setStatusOnTravelExpenseReport(travelExpenseReport, Report.Status.APPROVED, approverName);
     }
 
-    @PreAuthorize("hasRole('ROLE_SUPERVISOR') and #travelExpenseReport.employee.id != principal.id")
+    @PreAuthorize("hasRole('ROLE_SUPERVISOR') and #travelExpenseReport.employee.id != principal?.id")
     public Report reject(Report travelExpenseReport, String rejecterName) {
         return setStatusOnTravelExpenseReport(travelExpenseReport, Report.Status.REJECTED, rejecterName);
     }

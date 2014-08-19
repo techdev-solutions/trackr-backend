@@ -14,25 +14,25 @@ import org.springframework.web.HttpRequestMethodNotSupportedException;
 public class WorkTimeEventHandler {
 
     @HandleBeforeCreate
-    @PreAuthorize("#workTime.employee.id == principal.id")
+    @PreAuthorize("#workTime.employee.id == principal?.id")
     public void checkCreateAuthority(WorkTime workTime) {
         log.debug("Creating work time {}", workTime);
     }
 
     @HandleBeforeSave
-    @PreAuthorize("hasRole('ROLE_ADMIN') or ( #workTime.employee.id == principal.id )")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or #workTime.employee.id == principal?.id")
     public void checkUpdateAuthority(WorkTime workTime) {
         log.debug("Updating work time {}", workTime);
     }
 
     @HandleBeforeDelete
-    @PreAuthorize("hasRole('ROLE_ADMIN') or ( #workTime.employee.id == principal.id )")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or #workTime.employee.id == principal?.id")
     public void checkDeleteAuthority(WorkTime workTime) {
         log.debug("Deleting work time {}", workTime);
     }
 
     @HandleBeforeLinkSave
-    @PreAuthorize("hasRole('ROLE_ADMIN') or ( #workTime.employee.id == principal.id )")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or #workTime.employee.id == principal?.id")
     public void checkUpdateLinkAuthority(WorkTime workTime, Object link) throws HttpRequestMethodNotSupportedException {
         if(Employee.class.isAssignableFrom(link.getClass())) {
             throw new HttpRequestMethodNotSupportedException("POST", new String[0]);

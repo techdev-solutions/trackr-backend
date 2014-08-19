@@ -34,7 +34,7 @@ public class VacationRequestApproveService {
     private UuidMapper uuidMapper;
 
     @Transactional
-    @PreAuthorize("hasRole('ROLE_SUPERVISOR') and principal.id != #vacationRequest.employee.id")
+    @PreAuthorize("hasRole('ROLE_SUPERVISOR') and principal?.id != #vacationRequest.employee.id")
     public VacationRequest approve(VacationRequest vacationRequest, String supervisorEmail) {
         return setStatusOnVacationRequest(vacationRequest, supervisorEmail, VacationRequest.VacationRequestStatus.APPROVED);
     }
@@ -50,7 +50,7 @@ public class VacationRequestApproveService {
      * @return The approved (or not) vacation request.
      */
     @Transactional
-    @PreAuthorize("hasRole('ROLE_SUPERVISOR') and principal.id != #vacationRequest.employee.id")
+    @PreAuthorize("hasRole('ROLE_SUPERVISOR') and principal?.id != #vacationRequest.employee.id")
     public VacationRequest reject(VacationRequest vacationRequest, String supervisorEmail) {
         return setStatusOnVacationRequest(vacationRequest, supervisorEmail, VacationRequest.VacationRequestStatus.REJECTED);
     }

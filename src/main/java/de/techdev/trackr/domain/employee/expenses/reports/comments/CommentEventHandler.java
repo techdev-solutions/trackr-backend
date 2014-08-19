@@ -14,7 +14,7 @@ import java.util.Date;
 public class CommentEventHandler {
 
     @HandleBeforeCreate
-    @PreAuthorize("hasRole('ROLE_SUPERVISOR') or ( isAuthenticated() and #comment.employee.id == principal.id )")
+    @PreAuthorize("hasRole('ROLE_SUPERVISOR') or #comment.employee.id == principal?.id")
     public void checkCreateAuthority(Comment comment) {
         comment.setSubmissionDate(new Date());
         log.debug("Creating comment {}", comment);

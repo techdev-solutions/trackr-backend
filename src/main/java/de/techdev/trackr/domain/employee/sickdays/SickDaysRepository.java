@@ -24,10 +24,10 @@ public interface SickDaysRepository extends JpaRepository<SickDays, Long> {
     Page<SickDays> findAll(Pageable pageable);
 
     @Override
-    @PostAuthorize("hasRole('ROLE_ADMIN') or ( isAuthenticated() and principal.id == returnObject.employee.id )")
+    @PostAuthorize("hasRole('ROLE_ADMIN') or principal?.id == returnObject.employee.id")
     SickDays findOne(Long aLong);
 
-    @PreAuthorize("isAuthenticated() and #employee.id == principal.id")
+    @PreAuthorize("#employee.id == principal?.id")
     List<SickDays> findByEmployee(@Param("employee") Employee employee);
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")

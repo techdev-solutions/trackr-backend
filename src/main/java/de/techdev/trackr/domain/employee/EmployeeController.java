@@ -34,7 +34,7 @@ public class EmployeeController {
      * @param selfEmployee The request body, i.e. the data to change
      * @return The updated data.
      */
-    @PreAuthorize("isAuthenticated() and #employee.id == principal.id")
+    @PreAuthorize("#employee.id == principal?.id")
     @ResponseBody
     @RequestMapping(value = "/{employee}/self", method = {RequestMethod.PUT, RequestMethod.PATCH}, consumes = MediaType.APPLICATION_JSON_VALUE)
     public SelfEmployee updateSelf(@PathVariable("employee") Employee employee, @RequestBody @Valid SelfEmployee selfEmployee, BindingResult bindingResult) {

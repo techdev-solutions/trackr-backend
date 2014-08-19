@@ -27,6 +27,6 @@ public interface CommentRepository extends CrudRepository<Comment, Long> {
     @RestResource(exported = false)
     void delete(Long aLong);
 
-    @PreAuthorize("hasRole('ROLE_SUPERVISOR') or ( isAuthenticated() and  #travelExpenseReport.employee.id == principal.id )")
+    @PreAuthorize("hasRole('ROLE_SUPERVISOR') or #travelExpenseReport.employee.id == principal?.id")
     List<Comment> findByTravelExpenseReportOrderBySubmissionDateAsc(@Param("report") Report travelExpenseReport);
 }

@@ -24,10 +24,10 @@ public interface ReportRepository extends CrudRepository<Report, Long> {
     Iterable<Report> findAll();
 
     @Override
-    @PostAuthorize("hasRole('ROLE_SUPERVISOR') or ( isAuthenticated() and returnObject.employee.id == principal.id )")
+    @PostAuthorize("hasRole('ROLE_SUPERVISOR') or returnObject.employee.id == principal?.id")
     Report findOne(Long aLong);
 
-    @PreAuthorize("isAuthenticated() and #employee.id == principal.id")
+    @PreAuthorize("#employee.id == principal?.id")
     Page<Report> findByEmployeeAndStatusOrderByStatusAsc(@Param("employee") Employee employee, @Param("status") Report.Status status, Pageable pageable);
 
     @PreAuthorize("hasRole('ROLE_SUPERVISOR')")

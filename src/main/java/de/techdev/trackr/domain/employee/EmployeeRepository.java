@@ -19,7 +19,7 @@ import java.util.List;
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 
     @Override
-    @PreAuthorize("hasRole('ROLE_SUPERVISOR') or (isAuthenticated() and #id == principal.id)")
+    @PreAuthorize("hasRole('ROLE_SUPERVISOR') or #id == principal?.id")
     Employee findOne(@Param("id") Long id);
 
     @Override

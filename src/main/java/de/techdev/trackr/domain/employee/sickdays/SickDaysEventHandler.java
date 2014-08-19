@@ -16,14 +16,14 @@ public class SickDaysEventHandler {
     private SickDaysNotifyService sickDaysNotifyService;
 
     @HandleBeforeCreate
-    @PreAuthorize("(#sickDays.employee.id == principal.id and isAuthenticated()) or hasRole('ROLE_ADMIN')")
+    @PreAuthorize("#sickDays.employee.id == principal?.id or hasRole('ROLE_ADMIN')")
     public void checkSaveAuthority(SickDays sickDays) {
         log.debug("Creating sickdays {}", sickDays);
         sickDaysNotifyService.notifySupervisorsAboutNew(sickDays);
     }
 
     @HandleBeforeSave
-    @PreAuthorize("(isAuthenticated() and #sickDays.employee.id == principal.id) or hasRole('ROLE_ADMIN')")
+    @PreAuthorize("#sickDays.employee.id == principal?.id or hasRole('ROLE_ADMIN')")
     public void checkUpdateAuthority(SickDays sickDays) {
         log.debug("Updating sickDays {}", sickDays);
         sickDaysNotifyService.notifySupervisorsAboutUpdate(sickDays);

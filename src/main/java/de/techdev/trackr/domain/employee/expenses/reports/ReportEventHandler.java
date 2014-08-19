@@ -14,7 +14,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 public class ReportEventHandler {
 
     @HandleBeforeCreate
-    @PreAuthorize("#travelExpenseReport.employee.id == principal.id")
+    @PreAuthorize("#travelExpenseReport.employee.id == principal?.id")
     public void checkCreateAuthority(Report travelExpenseReport) {
         log.debug("Creating travel expense report {}", travelExpenseReport);
     }
@@ -26,13 +26,13 @@ public class ReportEventHandler {
     }
 
     @HandleBeforeDelete
-    @PreAuthorize("(isAuthenticated() and @reportEventHandler.employeeCanDeleteReport(#travelExpenseReport, principal.id)) or hasRole('ROLE_ADMIN')")
+    @PreAuthorize("@reportEventHandler.employeeCanDeleteReport(#travelExpenseReport, principal?.id) or hasRole('ROLE_ADMIN')")
     public void checkDeleteAuthority(Report travelExpenseReport) {
         log.debug("Deleting travel expense report {}", travelExpenseReport);
     }
 
     @HandleBeforeLinkSave
-    @PreAuthorize("hasRole('ROLE_SUPERVISOR') or ( isAuthenticated() and #travelExpenseReport.employee.id == principal.id )")
+    @PreAuthorize("hasRole('ROLE_SUPERVISOR') or #travelExpenseReport.employee.id == principal?.id")
     public void checkLinkSaveAuthority(Report travelExpenseReport, Object links) {
         //TODO: links is the _old_ content of the link
         //TODO: how to check for security? the employee should not be able to edit debitor/project but how do we check that?
@@ -43,7 +43,7 @@ public class ReportEventHandler {
     }
 
     @HandleBeforeLinkDelete
-    @PreAuthorize("hasRole('ROLE_SUPERVISOR') or ( isAuthenticated() and #travelExpenseReport.employee.id == principal.id )")
+    @PreAuthorize("hasRole('ROLE_SUPERVISOR') or #travelExpenseReport.employee.id == principal?.id")
     public void checkLinkDeleteAuthority(Report travelExpenseReport) {
         if(travelExpenseReport.getEmployee() == null) {
             throw new AccessDeniedException("Employee is not deletable on a travel expense report.");
@@ -51,7 +51,7 @@ public class ReportEventHandler {
     }
 
     public boolean employeeCanDeleteReport(Report report, Long principalId) {
-        return report.getEmployee().getId().equals(principalId) &&
+        return principalId != null && report.getEmployee().getId().equals(principalId) &&
                 (report.getStatus() == Report.Status.PENDING || report.getStatus() == Report.Status.REJECTED);
     }
 }
