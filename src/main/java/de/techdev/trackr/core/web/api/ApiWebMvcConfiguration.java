@@ -9,15 +9,15 @@ import de.techdev.trackr.domain.company.Company;
 import de.techdev.trackr.domain.company.ContactPerson;
 import de.techdev.trackr.domain.employee.Employee;
 import de.techdev.trackr.domain.employee.expenses.TravelExpense;
-import de.techdev.trackr.domain.employee.expenses.TravelExpenseReport;
-import de.techdev.trackr.domain.employee.expenses.TravelExpenseReportComment;
+import de.techdev.trackr.domain.employee.expenses.reports.Report;
+import de.techdev.trackr.domain.employee.expenses.reports.comments.Comment;
 import de.techdev.trackr.domain.employee.login.Authority;
 import de.techdev.trackr.domain.employee.login.Credential;
 import de.techdev.trackr.domain.employee.sickdays.SickDays;
 import de.techdev.trackr.domain.employee.vacation.VacationRequest;
-import de.techdev.trackr.domain.project.BillableTime;
+import de.techdev.trackr.domain.project.billtimes.BillableTime;
 import de.techdev.trackr.domain.project.Project;
-import de.techdev.trackr.domain.project.WorkTime;
+import de.techdev.trackr.domain.project.worktimes.WorkTime;
 import de.techdev.trackr.domain.project.invoice.Invoice;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.*;
@@ -56,7 +56,7 @@ public class ApiWebMvcConfiguration extends RepositoryRestMvcConfiguration {
     protected void configureRepositoryRestConfiguration(RepositoryRestConfiguration config) {
         config.exposeIdsFor(new Class[]{Employee.class, Credential.class, Authority.class, Company.class, ContactPerson.class,
                 Address.class, Project.class, WorkTime.class, BillableTime.class, VacationRequest.class, TravelExpense.class,
-                TravelExpenseReport.class, TravelExpenseReportComment.class, Invoice.class, SickDays.class});
+                Report.class, Comment.class, Invoice.class, SickDays.class});
         config.setReturnBodyOnUpdate(true);
         config.setReturnBodyOnCreate(true);
     }
@@ -96,8 +96,13 @@ public class ApiWebMvcConfiguration extends RepositoryRestMvcConfiguration {
     }
 
     @Bean
-    public Converter<String, TravelExpenseReport> travelExpenseReportConverter() {
+    public Converter<String, Report> travelExpenseReportConverter() {
         return new StringToEntityConverter.StringToTravelExpenseReportConverter();
+    }
+
+    @Bean
+    public Converter<String, Employee> employeeConverter() {
+        return new StringToEntityConverter.StringToEmployeeConverter();
     }
 
     @Override
@@ -115,6 +120,7 @@ public class ApiWebMvcConfiguration extends RepositoryRestMvcConfiguration {
         registry.addConverter(stringInvoiceConverter());
         registry.addConverter(vacationRequestConverter());
         registry.addConverter(travelExpenseReportConverter());
+        registry.addConverter(employeeConverter());
     }
 
     @Bean

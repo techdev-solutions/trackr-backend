@@ -179,7 +179,9 @@
             },
             "TEXT_TIMESHEET_OVERVIEW": "Working times overview",
             "TIMESHEET_OVERVIEW": {
-                "GROUPED_BY_PROJECT": "Grouped by project"
+                "GROUPED_BY_PROJECT": "Grouped by project",
+                "HOURS_PER_DAY": "Hours per day",
+                "TOTAL": "Total"
             },
             "ADDRESS_BOOK": {
                 "TITLE": "Address book"
@@ -216,7 +218,8 @@
         "REPORTR": {
             "REVENUE": {
                 "TITLE": "Revenues",
-                "TURNOVER": "Turnover"
+                "TURNOVER": "Turnover",
+                "TOTAL": "Total"
             },
             "VACATION": {
                 "TITLE": "Vacation",
@@ -237,7 +240,11 @@
             },
             "SICK_DAYS": {
                 "TITLE": "Sick days"
+            },
+            "EXPENSES_DEBITOR": {
+                "TITLE": "Expenses by debitor"
             }
+
         },
         "BREADCRUMB_UNKNOWN": "unknown"
     },

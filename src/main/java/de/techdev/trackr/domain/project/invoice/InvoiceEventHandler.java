@@ -55,9 +55,9 @@ public class InvoiceEventHandler {
         if (invoice.getDueDate() != null) {
             LocalDate today = LocalDate.now();
             if (invoice.getDueDate().before(fromLocalDate(today))) {
-                invoice.setInvoiceState(InvoiceState.OVERDUE);
+                invoice.setInvoiceState(Invoice.InvoiceState.OVERDUE);
             } else {
-                invoice.setInvoiceState(InvoiceState.OUTSTANDING);
+                invoice.setInvoiceState(Invoice.InvoiceState.OUTSTANDING);
             }
         }
     }

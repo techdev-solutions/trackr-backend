@@ -3,11 +3,11 @@ package de.techdev.trackr.domain.employee.vacation.support;
 import de.techdev.trackr.core.mail.MailService;
 import de.techdev.trackr.domain.employee.login.support.SupervisorService;
 import de.techdev.trackr.domain.employee.vacation.VacationRequest;
-import de.techdev.trackr.domain.employee.vacation.VacationRequestStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 
 import java.text.SimpleDateFormat;
+import java.util.UUID;
 
 /**
  * @author Moritz Schulze
@@ -33,10 +33,10 @@ public class VacationRequestNotifyService {
         mailService.sendMail(mailMessage);
     }
 
-    protected String statusPastVerb(VacationRequestStatus status) {
-        if(status == VacationRequestStatus.APPROVED) {
+    protected String statusPastVerb(VacationRequest.VacationRequestStatus status) {
+        if(status == VacationRequest.VacationRequestStatus.APPROVED) {
             return "approved";
-        } else if (status == VacationRequestStatus.REJECTED) {
+        } else if (status == VacationRequest.VacationRequestStatus.REJECTED) {
             return "rejected";
         } else {
             return "is pending";
@@ -54,13 +54,13 @@ public class VacationRequestNotifyService {
     /**
      * Send a new vacation request notification to all supervisors.
      */
-    public void notifySupervisors(VacationRequest vacationRequest) {
+    public void notifySupervisors(VacationRequest vacationRequest, UUID uuid) {
         SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
         String[] receiver = supervisorService.getSupervisorEmailsAsArray();
         SimpleMailMessage mailMessage = new SimpleMailMessage();
-        String subject = "New vacation request from " + vacationRequest.getEmployee().fullName();
+        String subject = "New vacation request from " + vacationRequest.getEmployee().fullName() + "; " + uuid.toString();
         String text = "New vacation request from " + vacationRequest.getEmployee().fullName() + " for " + sdf.format(vacationRequest.getStartDate()) + " - " + sdf
-                .format(vacationRequest.getEndDate()) + ".";
+                .format(vacationRequest.getEndDate()) + ". You can reply to this email with approve or reject to do that.";
         mailMessage.setSubject(subject);
         mailMessage.setTo(receiver);
         mailMessage.setText(text);

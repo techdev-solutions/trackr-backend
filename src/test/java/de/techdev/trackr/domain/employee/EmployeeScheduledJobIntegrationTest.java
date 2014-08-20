@@ -1,6 +1,7 @@
 package de.techdev.trackr.domain.employee;
 
 import de.techdev.trackr.TransactionalIntegrationTest;
+import de.techdev.trackr.core.security.RemoveTokenService;
 import de.techdev.trackr.domain.employee.login.DeactivateEmployeesService;
 import de.techdev.trackr.util.LocalDateUtil;
 import org.junit.Before;
@@ -24,6 +25,9 @@ public class EmployeeScheduledJobIntegrationTest extends TransactionalIntegratio
     @Autowired
     private EmployeeDataOnDemand employeeDataOnDemand;
 
+    @Autowired
+    private RemoveTokenService removeTokenService;
+
     private EmployeeScheduledJob employeeScheduledJob;
 
     @Before
@@ -31,6 +35,7 @@ public class EmployeeScheduledJobIntegrationTest extends TransactionalIntegratio
         employeeScheduledJob = new EmployeeScheduledJob();
         DeactivateEmployeesService deactivateEmployeesService = new DeactivateEmployeesService();
         deactivateEmployeesService.setEmployeeRepository(employeeRepository);
+        deactivateEmployeesService.setRemoveTokenService(removeTokenService);
         employeeScheduledJob.setDeactivateEmployeesService(deactivateEmployeesService);
     }
 

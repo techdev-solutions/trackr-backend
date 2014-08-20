@@ -17,7 +17,7 @@ public class VacationRequestDataOnDemand extends AbstractDataOnDemand<VacationRe
     @Override
     public VacationRequest getNewTransientObject(int i) {
         VacationRequest vacationRequest = new VacationRequest();
-        vacationRequest.setStatus(VacationRequestStatus.PENDING);
+        vacationRequest.setStatus(VacationRequest.VacationRequestStatus.PENDING);
         vacationRequest.setEmployee(employeeDataOnDemand.getRandomObject());
         vacationRequest.setStartDate(new Date());
         vacationRequest.setEndDate(new Date());

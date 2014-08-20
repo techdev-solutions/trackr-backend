@@ -1,6 +1,8 @@
 package de.techdev.trackr.domain.project;
 
 import de.techdev.trackr.domain.AbstractDomainResourceTest;
+import de.techdev.trackr.domain.project.worktimes.WorkTime;
+import de.techdev.trackr.domain.project.worktimes.WorkTimeDataOnDemand;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;

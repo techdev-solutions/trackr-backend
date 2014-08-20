@@ -1,6 +1,7 @@
 package de.techdev.trackr.domain.employee.expenses;
 
 import de.techdev.trackr.domain.AbstractDomainResourceTest;
+import de.techdev.trackr.domain.employee.expenses.reports.Report;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.mock.web.MockHttpSession;
@@ -13,6 +14,7 @@ import java.util.function.Function;
 import static de.techdev.trackr.domain.DomainResourceTestMatchers.*;
 import static org.echocat.jomon.testing.BaseMatchers.isNotNull;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -49,7 +51,7 @@ public class TravelExpenseResourceTest extends AbstractDomainResourceTest<Travel
     @Test
     public void createAllowedForSelf() throws Exception {
         TravelExpense travelExpense = dataOnDemand.getNewTransientObject(500);
-        travelExpense.getReport().setStatus(TravelExpenseReportStatus.PENDING);
+        travelExpense.getReport().setStatus(Report.Status.PENDING);
         repository.save(travelExpense);
         mockMvc.perform(
                 post("/travelExpenses/")
@@ -69,7 +71,7 @@ public class TravelExpenseResourceTest extends AbstractDomainResourceTest<Travel
     @Test
     public void updateAllowedForSelf() throws Exception {
         TravelExpense travelExpense = dataOnDemand.getRandomObject();
-        travelExpense.getReport().setStatus(TravelExpenseReportStatus.PENDING);
+        travelExpense.getReport().setStatus(Report.Status.PENDING);
         repository.save(travelExpense);
         mockMvc.perform(
                 put("/travelExpenses/" + travelExpense.getId())
@@ -83,7 +85,7 @@ public class TravelExpenseResourceTest extends AbstractDomainResourceTest<Travel
     @Test
     public void deletePendingAllowed() throws Exception {
         TravelExpense travelExpense = dataOnDemand.getRandomObject();
-        travelExpense.getReport().setStatus(TravelExpenseReportStatus.PENDING);
+        travelExpense.getReport().setStatus(Report.Status.PENDING);
         repository.save(travelExpense);
         assertThat(removeUrl(employeeSession(travelExpense.getReport().getEmployee().getId()), "/travelExpenses/" + travelExpense.getId()), isNoContent());
     }
@@ -91,7 +93,7 @@ public class TravelExpenseResourceTest extends AbstractDomainResourceTest<Travel
     @Test
     public void deleteAcceptedNotAllowed() throws Exception {
         TravelExpense travelExpense = dataOnDemand.getRandomObject();
-        travelExpense.getReport().setStatus(TravelExpenseReportStatus.APPROVED);
+        travelExpense.getReport().setStatus(Report.Status.APPROVED);
         repository.save(travelExpense);
         assertThat(removeUrl(employeeSession(travelExpense.getReport().getEmployee().getId()), "/travelExpenses/" + travelExpense.getId()), isForbidden());
     }
@@ -99,7 +101,7 @@ public class TravelExpenseResourceTest extends AbstractDomainResourceTest<Travel
     @Test
     public void deleteSubmittedNotAllowed() throws Exception {
         TravelExpense travelExpense = dataOnDemand.getRandomObject();
-        travelExpense.getReport().setStatus(TravelExpenseReportStatus.SUBMITTED);
+        travelExpense.getReport().setStatus(Report.Status.SUBMITTED);
         repository.save(travelExpense);
         assertThat(removeUrl(employeeSession(travelExpense.getReport().getEmployee().getId()), "/travelExpenses/" + travelExpense.getId()), isForbidden());
     }
@@ -108,6 +110,15 @@ public class TravelExpenseResourceTest extends AbstractDomainResourceTest<Travel
     @Ignore
     public void changeReportNotAllowed() throws Exception {
         assertThat(updateLink(supervisorSession(), "report", "/travelExpenseReports/0"), isForbidden());
+    }
+
+    @Test
+    public void accessTypes() throws Exception {
+        mockMvc.perform(
+                get("/travelExpenses/types")
+                    .session(employeeSession())
+        )
+                .andExpect(status().isOk());
     }
 
     @Override

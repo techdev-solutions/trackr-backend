@@ -22,7 +22,7 @@ public class InvoiceDataOnDemand extends AbstractDataOnDemand<Invoice> {
         invoice.setCreationDate(new Date());
         invoice.setDebitor(companyDataOnDemand.getRandomObject());
         invoice.setDueDate(new Date());
-        invoice.setInvoiceState(InvoiceState.OUTSTANDING);
+        invoice.setInvoiceState(Invoice.InvoiceState.OUTSTANDING);
         invoice.setInvoiceTotal(BigDecimal.ONE);
         return invoice;
     }

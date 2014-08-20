@@ -156,7 +156,7 @@ public class InvoiceResourceTest extends AbstractDomainResourceTest<Invoice> {
     @Test
     public void adminCanSetPaid() throws Exception {
         Invoice invoice = dataOnDemand.getRandomObject();
-        invoice.setInvoiceState(InvoiceState.OUTSTANDING);
+        invoice.setInvoiceState(Invoice.InvoiceState.OUTSTANDING);
         SecurityContextHolder.getContext().setAuthentication(AuthorityMocks.adminAuthentication());
         repository.save(invoice);
         SecurityContextHolder.getContext().setAuthentication(null);
@@ -167,7 +167,7 @@ public class InvoiceResourceTest extends AbstractDomainResourceTest<Invoice> {
         SecurityContextHolder.getContext().setAuthentication(AuthorityMocks.adminAuthentication());
         Invoice one = repository.findOne(invoice.getId());
         SecurityContextHolder.getContext().setAuthentication(null);
-        assertThat(one.getInvoiceState(), is(InvoiceState.PAID));
+        assertThat(one.getInvoiceState(), is(Invoice.InvoiceState.PAID));
     }
 
     @Test

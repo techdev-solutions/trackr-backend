@@ -147,7 +147,7 @@ public class VacationRequestResourceTest extends AbstractDomainResourceTest<Vaca
     @Test
     public void deleteAllowedForEmployee() throws Exception {
         VacationRequest vacationRequest = dataOnDemand.getRandomObject();
-        vacationRequest.setStatus(VacationRequestStatus.PENDING);
+        vacationRequest.setStatus(VacationRequest.VacationRequestStatus.PENDING);
         repository.save(vacationRequest);
         mockMvc.perform(
                 delete("/vacationRequests/" + vacationRequest.getId())
@@ -159,7 +159,7 @@ public class VacationRequestResourceTest extends AbstractDomainResourceTest<Vaca
     @Test
     public void deleteApprovedNotAllowedForEmployee() throws Exception {
         VacationRequest vacationRequest = dataOnDemand.getRandomObject();
-        vacationRequest.setStatus(VacationRequestStatus.APPROVED);
+        vacationRequest.setStatus(VacationRequest.VacationRequestStatus.APPROVED);
         repository.save(vacationRequest);
         mockMvc.perform(
                 delete("/vacationRequests/" + vacationRequest.getId())
@@ -171,7 +171,7 @@ public class VacationRequestResourceTest extends AbstractDomainResourceTest<Vaca
     @Test
     public void deleteRejectedNotAllowedForEmployee() throws Exception {
         VacationRequest vacationRequest = dataOnDemand.getRandomObject();
-        vacationRequest.setStatus(VacationRequestStatus.REJECTED);
+        vacationRequest.setStatus(VacationRequest.VacationRequestStatus.REJECTED);
         repository.save(vacationRequest);
         mockMvc.perform(
                 delete("/vacationRequests/" + vacationRequest.getId())
@@ -233,7 +233,7 @@ public class VacationRequestResourceTest extends AbstractDomainResourceTest<Vaca
         mockMvc.perform(
                 get("/vacationRequests/search/findByStatusOrderBySubmissionTimeAsc")
                         .session(employeeSession())
-                        .param("approved", VacationRequestStatus.APPROVED.toString())
+                        .param("approved", VacationRequest.VacationRequestStatus.APPROVED.toString())
         )
                .andExpect(status().isForbidden());
     }
@@ -253,7 +253,7 @@ public class VacationRequestResourceTest extends AbstractDomainResourceTest<Vaca
     @Test
     public void approveNotAllowedForSupervisorOnOwnVacationRequest() throws Exception {
         VacationRequest vacationRequest = dataOnDemand.getRandomObject();
-        vacationRequest.setStatus(VacationRequestStatus.PENDING);
+        vacationRequest.setStatus(VacationRequest.VacationRequestStatus.PENDING);
         repository.save(vacationRequest);
         mockMvc.perform(
                 put("/vacationRequests/" + vacationRequest.getId() + "/approve")
@@ -263,13 +263,13 @@ public class VacationRequestResourceTest extends AbstractDomainResourceTest<Vaca
 
         SecurityContextHolder.getContext().setAuthentication(AuthorityMocks.supervisorAuthentication());
         VacationRequest one = repository.findOne(vacationRequest.getId());
-        assertThat(one.getStatus(), is(VacationRequestStatus.PENDING));
+        assertThat(one.getStatus(), is(VacationRequest.VacationRequestStatus.PENDING));
     }
 
     @Test
     public void approveNotAllowedForEmployees() throws Exception {
         VacationRequest vacationRequest = dataOnDemand.getRandomObject();
-        vacationRequest.setStatus(VacationRequestStatus.PENDING);
+        vacationRequest.setStatus(VacationRequest.VacationRequestStatus.PENDING);
         repository.save(vacationRequest);
         mockMvc.perform(
                 put("/vacationRequests/" + vacationRequest.getId() + "/approve")
@@ -279,13 +279,13 @@ public class VacationRequestResourceTest extends AbstractDomainResourceTest<Vaca
 
         SecurityContextHolder.getContext().setAuthentication(AuthorityMocks.supervisorAuthentication());
         VacationRequest one = repository.findOne(vacationRequest.getId());
-        assertThat(one.getStatus(), is(VacationRequestStatus.PENDING));
+        assertThat(one.getStatus(), is(VacationRequest.VacationRequestStatus.PENDING));
     }
 
     @Test
     public void approveAllowedForOtherSupervisor() throws Exception {
         VacationRequest vacationRequest = dataOnDemand.getRandomObject();
-        vacationRequest.setStatus(VacationRequestStatus.PENDING);
+        vacationRequest.setStatus(VacationRequest.VacationRequestStatus.PENDING);
         repository.save(vacationRequest);
         mockMvc.perform(
                 put("/vacationRequests/" + vacationRequest.getId() + "/approve")
@@ -295,7 +295,7 @@ public class VacationRequestResourceTest extends AbstractDomainResourceTest<Vaca
 
         SecurityContextHolder.getContext().setAuthentication(AuthorityMocks.supervisorAuthentication());
         VacationRequest one = repository.findOne(vacationRequest.getId());
-        assertThat(one.getStatus(), is(VacationRequestStatus.APPROVED));
+        assertThat(one.getStatus(), is(VacationRequest.VacationRequestStatus.APPROVED));
     }
 
     @Test

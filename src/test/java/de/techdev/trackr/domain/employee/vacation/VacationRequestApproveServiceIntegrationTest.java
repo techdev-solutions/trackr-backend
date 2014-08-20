@@ -36,7 +36,7 @@ public class VacationRequestApproveServiceIntegrationTest extends IntegrationTes
     @Test
     public void approveNotAllowedForSelfDoesRollback() throws Exception {
         VacationRequest vacationRequest = vacationRequestDataOnDemand.getRandomObject();
-        vacationRequest.setStatus(VacationRequestStatus.PENDING);
+        vacationRequest.setStatus(VacationRequest.VacationRequestStatus.PENDING);
         vacationRequestRepository.save(vacationRequest);
         SecurityContextHolder.getContext().setAuthentication(AuthorityMocks.supervisorAuthentication(vacationRequest.getEmployee().getId()));
         try {
@@ -44,14 +44,14 @@ public class VacationRequestApproveServiceIntegrationTest extends IntegrationTes
             fail("An exception must be thrown.");
         } catch (Exception e) {
             VacationRequest one = vacationRequestRepository.findOne(vacationRequest.getId());
-            assertThat(one.getStatus(), is(VacationRequestStatus.PENDING));
+            assertThat(one.getStatus(), is(VacationRequest.VacationRequestStatus.PENDING));
         }
     }
 
     @Test
     public void rejectNotAllowedForSelfDoesRollback() throws Exception {
         VacationRequest vacationRequest = vacationRequestDataOnDemand.getRandomObject();
-        vacationRequest.setStatus(VacationRequestStatus.PENDING);
+        vacationRequest.setStatus(VacationRequest.VacationRequestStatus.PENDING);
         vacationRequestRepository.save(vacationRequest);
         SecurityContextHolder.getContext().setAuthentication(AuthorityMocks.supervisorAuthentication(vacationRequest.getEmployee().getId()));
         try {
@@ -59,19 +59,19 @@ public class VacationRequestApproveServiceIntegrationTest extends IntegrationTes
             fail("An exception must be thrown.");
         } catch (Exception e) {
             VacationRequest one = vacationRequestRepository.findOne(vacationRequest.getId());
-            assertThat(one.getStatus(), is(VacationRequestStatus.PENDING));
+            assertThat(one.getStatus(), is(VacationRequest.VacationRequestStatus.PENDING));
         }
     }
 
     @Test
     public void approveSevenDayOldRequests() throws Exception {
         VacationRequest vacationRequest = vacationRequestDataOnDemand.getRandomObject();
-        vacationRequest.setStatus(VacationRequestStatus.PENDING);
+        vacationRequest.setStatus(VacationRequest.VacationRequestStatus.PENDING);
         vacationRequest.setSubmissionTime(LocalDateUtil.fromLocalDate(LocalDate.now().minusDays(8)));
         vacationRequestRepository.save(vacationRequest);
         SecurityContextHolder.getContext().setAuthentication(AuthorityMocks.adminAuthentication());
         vacationRequestApproveService.approveSevenDayOldRequests();
         VacationRequest one = vacationRequestRepository.findOne(vacationRequest.getId());
-        assertThat(one.getStatus(), is(VacationRequestStatus.APPROVED));
+        assertThat(one.getStatus(), is(VacationRequest.VacationRequestStatus.APPROVED));
     }
 }

@@ -1,15 +1,15 @@
 package de.techdev.trackr.domain;
 
 import de.techdev.trackr.core.pdf.PdfRenderer;
-import de.techdev.trackr.domain.employee.expenses.TravelExpenseReportService;
-import de.techdev.trackr.domain.employee.expenses.support.TravelExpenseReportNotifyService;
-import de.techdev.trackr.domain.employee.expenses.support.TravelExpenseReportServiceImpl;
+import de.techdev.trackr.domain.common.UuidMapper;
+import de.techdev.trackr.domain.employee.expenses.reports.ReportNotifyService;
+import de.techdev.trackr.domain.employee.expenses.reports.ReportService;
 import de.techdev.trackr.domain.employee.login.DeactivateEmployeesService;
 import de.techdev.trackr.domain.employee.login.support.SupervisorService;
 import de.techdev.trackr.domain.employee.sickdays.SickDaysNotifyService;
 import de.techdev.trackr.domain.employee.vacation.HolidayCalculator;
+import de.techdev.trackr.domain.employee.vacation.MailApproveService;
 import de.techdev.trackr.domain.employee.vacation.VacationRequestApproveService;
-import de.techdev.trackr.domain.employee.vacation.support.VacationRequestApproveServiceImpl;
 import de.techdev.trackr.domain.employee.vacation.support.VacationRequestEmployeeToDaysTotalService;
 import de.techdev.trackr.domain.employee.vacation.support.VacationRequestNotifyService;
 import de.techdev.trackr.domain.employee.worktimetracking.WorkTimeTrackingReminderService;
@@ -41,13 +41,13 @@ public class ApiBeansConfiguration {
     }
 
     @Bean
-    public TravelExpenseReportService travelExpenseReportService() {
-        return new TravelExpenseReportServiceImpl();
+    public ReportService travelExpenseReportService() {
+        return new ReportService();
     }
 
     @Bean
-    public TravelExpenseReportNotifyService travelExpenseReportNotifyService() {
-        return new TravelExpenseReportNotifyService();
+    public ReportNotifyService travelExpenseReportNotifyService() {
+        return new ReportNotifyService();
     }
 
     @Bean
@@ -67,7 +67,7 @@ public class ApiBeansConfiguration {
 
     @Bean
     public VacationRequestApproveService vacationRequestService() {
-        return new VacationRequestApproveServiceImpl();
+        return new VacationRequestApproveService();
     }
 
     @Bean
@@ -103,5 +103,15 @@ public class ApiBeansConfiguration {
     @Bean
     public PdfRenderer pdfRenderer() {
         return new PdfRenderer();
+    }
+
+    @Bean
+    public MailApproveService mailApproveService() {
+        return new MailApproveService();
+    }
+
+    @Bean
+    public UuidMapper uuidMapper() {
+        return new UuidMapper();
     }
 }

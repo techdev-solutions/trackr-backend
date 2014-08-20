@@ -16,21 +16,21 @@ import java.util.List;
 public interface VacationRequestRepository extends CrudRepository<VacationRequest, Long> {
 
     @Override
-    @PostAuthorize("hasRole('ROLE_SUPERVISOR') or ( isAuthenticated() and principal.id == returnObject.employee.id )")
+    @PostAuthorize("hasRole('ROLE_SUPERVISOR') or principal?.id == returnObject.employee.id")
     VacationRequest findOne(Long aLong);
 
     @Override
     @RestResource(exported = false)
     Iterable<VacationRequest> findAll();
 
-    @PreAuthorize("hasRole('ROLE_SUPERVISOR') or ( isAuthenticated() and principal.id == #employee.id )")
+    @PreAuthorize("hasRole('ROLE_SUPERVISOR') or principal?.id == #employee.id")
     List<VacationRequest> findByEmployeeOrderByStartDateAsc(@Param("employee") Employee employee);
 
     @PreAuthorize("hasRole('ROLE_SUPERVISOR')")
-    List<VacationRequest> findByStatusOrderBySubmissionTimeAsc(@Param("status") VacationRequestStatus status);
+    List<VacationRequest> findByStatusOrderBySubmissionTimeAsc(@Param("status") VacationRequest.VacationRequestStatus status);
 
     @RestResource(exported = false)
-    List<VacationRequest> findBySubmissionTimeBeforeAndStatus(Date date, VacationRequestStatus status);
+    List<VacationRequest> findBySubmissionTimeBeforeAndStatus(Date date, VacationRequest.VacationRequestStatus status);
 
     /**
      * Find vacation requests of a certain status that overlap with a period.
@@ -39,5 +39,5 @@ public interface VacationRequestRepository extends CrudRepository<VacationReques
     List<VacationRequest> findByStartDateBetweenOrEndDateBetweenAndStatus(
             Date startLower, Date startHigher,
             Date endLower, Date endHigher,
-            VacationRequestStatus status);
+            VacationRequest.VacationRequestStatus status);
 }

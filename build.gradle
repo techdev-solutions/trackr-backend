@@ -59,7 +59,7 @@ dependencies {
     compile "org.glassfish:javax.json:1.0"
 
     //email
-    compile "javax.mail:mail:1.4"
+    compile "javax.mail:mail:1.4.7"
     compile "jaf:activation:1.0.2"
     compile "org.springframework:spring-context-support:$project.springVersion"
 

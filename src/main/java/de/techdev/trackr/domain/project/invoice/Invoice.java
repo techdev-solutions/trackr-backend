@@ -11,14 +11,15 @@ import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.Date;
 
-/**
- * @author Moritz Schulze
- */
 @Entity
 @Data
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = "identifier"))
 @ToString(exclude = "debitor")
 public class Invoice {
+
+    public static enum InvoiceState {
+        OUTSTANDING, PAID, OVERDUE
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -47,5 +48,4 @@ public class Invoice {
     @NotNull
     @Enumerated(EnumType.STRING)
     private InvoiceState invoiceState;
-
 }

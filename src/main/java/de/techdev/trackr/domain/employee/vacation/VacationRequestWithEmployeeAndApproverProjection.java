@@ -20,7 +20,7 @@ public interface VacationRequestWithEmployeeAndApproverProjection {
 
     Integer getNumberOfDays();
 
-    VacationRequestStatus getStatus();
+    VacationRequest.VacationRequestStatus getStatus();
 
     Date getApprovalDate();
 
