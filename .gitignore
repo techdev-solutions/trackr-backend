@@ -16,3 +16,5 @@ atlassian-ide-plugin.xml
 # OSX
 .DS_Store
 /.nb-gradle/private/
+/bin/
+.classpath

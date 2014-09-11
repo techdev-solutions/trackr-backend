@@ -1,5 +1,7 @@
 apply plugin: 'java'
 apply plugin: 'war'
+apply plugin: 'eclipse'
+apply plugin: 'eclipse-wtp'
 apply plugin: 'sonar-runner'
 
 sourceCompatibility = 1.8
@@ -9,6 +11,7 @@ project.ext {
     springSecurityVersion = '3.2.3.RELEASE'
 }
 compileJava.options.encoding = 'UTF-8'
+eclipse.classpath.downloadJavadoc = true 
 
 repositories {
     mavenCentral()
