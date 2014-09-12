@@ -1,21 +1,27 @@
 package de.techdev.trackr.domain.project.billtimes;
 
-import de.techdev.trackr.domain.AbstractDomainResourceTest;
-import de.techdev.trackr.domain.project.billtimes.BillableTime;
+import static de.techdev.trackr.domain.DomainResourceTestMatchers.isAccessible;
+import static de.techdev.trackr.domain.DomainResourceTestMatchers.isCreated;
+import static de.techdev.trackr.domain.DomainResourceTestMatchers.isForbidden;
+import static de.techdev.trackr.domain.DomainResourceTestMatchers.isMethodNotAllowed;
+import static de.techdev.trackr.domain.DomainResourceTestMatchers.isNoContent;
+import static de.techdev.trackr.domain.DomainResourceTestMatchers.isUpdated;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.io.StringWriter;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
+import java.util.function.Function;
+
+import javax.json.stream.JsonGenerator;
+
 import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.mock.web.MockHttpSession;
 
-import javax.json.stream.JsonGenerator;
-import java.io.StringWriter;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.function.Function;
-
-import static de.techdev.trackr.domain.DomainResourceTestMatchers.*;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import de.techdev.trackr.domain.AbstractDomainResourceTest;
 
 /**
  * @author Moritz Schulze
@@ -140,9 +146,9 @@ public class BillableTimeResourceTest extends AbstractDomainResourceTest<Billabl
     protected String getJsonRepresentation(BillableTime billableTime) {
         StringWriter writer = new StringWriter();
         JsonGenerator jg = jsonGeneratorFactory.createGenerator(writer);
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         jg.writeStartObject()
-                .write("date", sdf.format(billableTime.getDate()))
+                .write("date", dtf.format(billableTime.getDate()))
                 .write("minutes", billableTime.getMinutes())
                 .write("employee", "/employees/" + billableTime.getEmployee().getId())
                 .write("project", "/projects/" + billableTime.getProject().getId());

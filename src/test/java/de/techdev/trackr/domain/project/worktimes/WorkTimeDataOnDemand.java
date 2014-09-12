@@ -1,13 +1,13 @@
 package de.techdev.trackr.domain.project.worktimes;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
 import de.techdev.trackr.domain.AbstractDataOnDemand;
 import de.techdev.trackr.domain.employee.EmployeeDataOnDemand;
 import de.techdev.trackr.domain.project.ProjectDataOnDemand;
-import de.techdev.trackr.domain.project.worktimes.WorkTime;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import java.sql.Time;
-import java.util.Date;
 
 /**
  * @author Moritz Schulze
@@ -30,9 +30,9 @@ public class WorkTimeDataOnDemand extends AbstractDataOnDemand<WorkTime> {
         WorkTime workTime = new WorkTime();
         workTime.setEmployee(employeeDataOnDemand.getRandomObject());
         workTime.setProject(projectDataOnDemand.getRandomObject());
-        workTime.setDate(new Date());
-        workTime.setStartTime(Time.valueOf("09:00:00"));
-        workTime.setEndTime(Time.valueOf("17:00:00"));
+        workTime.setDate(LocalDate.now());
+        workTime.setStartTime(LocalTime.parse("09:00:00"));
+        workTime.setEndTime(LocalTime.parse("17:00:00"));
         workTime.setComment("comment_" + i);
         return workTime;
     }

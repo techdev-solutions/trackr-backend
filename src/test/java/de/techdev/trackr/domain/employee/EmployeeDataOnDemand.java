@@ -5,11 +5,12 @@ import de.techdev.trackr.domain.common.FederalState;
 import de.techdev.trackr.domain.employee.login.Authority;
 import de.techdev.trackr.domain.employee.login.AuthorityDataOnDemand;
 import de.techdev.trackr.domain.employee.login.Credential;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -33,7 +34,7 @@ public class EmployeeDataOnDemand extends AbstractDataOnDemand<Employee> {
         employee.setHourlyCostRate(BigDecimal.TEN.multiply(new BigDecimal(i)));
         employee.setPhoneNumber("phoneNumber_" + i);
         employee.setTitle("title_" + i);
-        employee.setJoinDate(new Date());
+        employee.setJoinDate(LocalDate.now());
         employee.setFederalState(FederalState.BERLIN);
         employee.setVacationEntitlement((float) i);
         Credential credential = new Credential();

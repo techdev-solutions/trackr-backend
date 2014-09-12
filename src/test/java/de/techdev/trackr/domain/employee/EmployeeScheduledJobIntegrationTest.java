@@ -3,13 +3,11 @@ package de.techdev.trackr.domain.employee;
 import de.techdev.trackr.TransactionalIntegrationTest;
 import de.techdev.trackr.core.security.RemoveTokenService;
 import de.techdev.trackr.domain.employee.login.DeactivateEmployeesService;
-import de.techdev.trackr.util.LocalDateUtil;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 import static org.echocat.jomon.testing.BaseMatchers.isFalse;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -42,8 +40,8 @@ public class EmployeeScheduledJobIntegrationTest extends TransactionalIntegratio
     @Test
     public void deactivateEmployeesWithLeaveDateToday() throws Exception {
         Employee employee = employeeDataOnDemand.getRandomObject();
-        employee.setJoinDate(LocalDateUtil.fromLocalDate(LocalDate.now().minusDays(7)));
-        employee.setLeaveDate(new Date());
+        employee.setJoinDate(LocalDate.now().minusDays(7));
+        employee.setLeaveDate(LocalDate.now());
         employee.getCredential().setEnabled(true);
         employeeRepository.save(employee);
 

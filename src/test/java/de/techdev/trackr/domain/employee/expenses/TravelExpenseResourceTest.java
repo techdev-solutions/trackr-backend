@@ -2,13 +2,14 @@ package de.techdev.trackr.domain.employee.expenses;
 
 import de.techdev.trackr.domain.AbstractDomainResourceTest;
 import de.techdev.trackr.domain.employee.expenses.reports.Report;
+
 import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.mock.web.MockHttpSession;
 
 import javax.json.stream.JsonGenerator;
+
 import java.io.StringWriter;
-import java.text.SimpleDateFormat;
 import java.util.function.Function;
 
 import static de.techdev.trackr.domain.DomainResourceTestMatchers.*;
@@ -19,7 +20,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
+import static java.time.format.DateTimeFormatter.ISO_INSTANT;
+import static java.time.format.DateTimeFormatter.ISO_LOCAL_DATE;
 /**
  * @author Moritz Schulze
  */
@@ -125,14 +127,12 @@ public class TravelExpenseResourceTest extends AbstractDomainResourceTest<Travel
     protected String getJsonRepresentation(TravelExpense travelExpense) {
         StringWriter writer = new StringWriter();
         JsonGenerator jg = jsonGeneratorFactory.createGenerator(writer);
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
         jg.writeStartObject()
           .write("cost", travelExpense.getCost())
           .write("vat", travelExpense.getVat())
-          .write("fromDate", sdf.format(travelExpense.getFromDate()))
-          .write("toDate", sdf.format(travelExpense.getToDate()))
-          .write("submissionDate", sdf2.format(travelExpense.getSubmissionDate()))
+          .write("fromDate", ISO_LOCAL_DATE.format(travelExpense.getFromDate()))
+          .write("toDate", ISO_LOCAL_DATE.format(travelExpense.getToDate()))
+          .write("submissionDate", ISO_INSTANT.format(travelExpense.getSubmissionDate()))
           .write("type", travelExpense.getType().toString())
           .write("report", "/travelExpenseReports/" + travelExpense.getReport().getId());
 

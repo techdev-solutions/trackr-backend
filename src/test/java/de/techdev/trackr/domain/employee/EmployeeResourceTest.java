@@ -4,6 +4,7 @@ import de.techdev.trackr.core.security.AuthorityMocks;
 import de.techdev.trackr.domain.AbstractDomainResourceTest;
 import de.techdev.trackr.domain.employee.login.Credential;
 import de.techdev.trackr.domain.employee.login.CredentialDataOnDemand;
+
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -11,10 +12,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import javax.json.stream.JsonGenerator;
+
 import java.io.StringWriter;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 
 import static de.techdev.trackr.domain.DomainResourceTestMatchers.*;
+import static java.time.format.DateTimeFormatter.ISO_LOCAL_DATE;
 import static org.echocat.jomon.testing.BaseMatchers.isTrue;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -216,11 +219,10 @@ public class EmployeeResourceTest extends AbstractDomainResourceTest<Employee> {
 
     @Test
     public void setLeaveDateDeactivatesEmployeeIfIsInPast() throws Exception {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Employee employee = dataOnDemand.getRandomObject();
         SecurityContextHolder.getContext().setAuthentication(AuthorityMocks.adminAuthentication());
         employee.getCredential().setEnabled(true);
-        employee.setJoinDate(sdf.parse("2013-12-01"));
+        employee.setJoinDate(LocalDate.parse("2013-12-01"));
         repository.save(employee);
         mockMvc.perform(
                 patch("/employees/" + employee.getId())
@@ -252,7 +254,6 @@ public class EmployeeResourceTest extends AbstractDomainResourceTest<Employee> {
     protected String getJsonRepresentation(Employee employee) {
         StringWriter writer = new StringWriter();
         JsonGenerator jg = jsonGeneratorFactory.createGenerator(writer);
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         jg.writeStartObject()
           .write("firstName", employee.getFirstName())
           .write("lastName", employee.getLastName())
@@ -266,11 +267,11 @@ public class EmployeeResourceTest extends AbstractDomainResourceTest<Employee> {
         }
 
         if (employee.getJoinDate() != null) {
-            jg.write("joinDate", sdf.format(employee.getJoinDate()));
+            jg.write("joinDate", ISO_LOCAL_DATE.format(employee.getJoinDate()));
         }
 
         if (employee.getLeaveDate() != null) {
-            jg.write("leaveDate", sdf.format(employee.getLeaveDate()));
+            jg.write("leaveDate", ISO_LOCAL_DATE.format(employee.getLeaveDate()));
         }
 
         if (employee.getPhoneNumber() != null) {

@@ -3,6 +3,7 @@ package de.techdev.trackr.domain.employee.vacation;
 import de.techdev.trackr.core.security.AuthorityMocks;
 import de.techdev.trackr.domain.AbstractDomainResourceTest;
 import de.techdev.trackr.domain.employee.EmployeeDataOnDemand;
+
 import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,12 +11,16 @@ import org.springframework.mock.web.MockHttpSession;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import javax.json.stream.JsonGenerator;
+
 import java.io.StringWriter;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.function.Function;
 
 import static de.techdev.trackr.domain.DomainResourceTestMatchers.*;
+import static java.time.format.DateTimeFormatter.ISO_INSTANT;
+import static java.time.format.DateTimeFormatter.ISO_LOCAL_DATE;
 import static org.echocat.jomon.testing.BaseMatchers.isNotNull;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -304,12 +309,16 @@ public class VacationRequestResourceTest extends AbstractDomainResourceTest<Vaca
         mockMvc.perform(
                 get("/vacationRequests/daysPerEmployeeBetween")
                 .session(adminSession())
-                .param("start", String.valueOf(vacationRequest.getStartDate().getTime()))
-                .param("end", String.valueOf(vacationRequest.getEndDate().getTime()))
+                .param("start", String.valueOf(toEpochMilli(vacationRequest.getStartDate())))
+                .param("end", String.valueOf(toEpochMilli(vacationRequest.getEndDate())))
         )
                 .andExpect(status().isOk())
                 .andExpect(jsonPath(vacationRequest.getEmployee().getFirstName() + " " + vacationRequest.getEmployee().getLastName()).exists());
     }
+
+	private long toEpochMilli(LocalDate startDate) {
+		return startDate.atStartOfDay(ZoneId.systemDefault()).toEpochSecond()*1000;
+	}
 
     @Test
     public void daysPerEmployeeBetweenForbiddenForSupervisor() throws Exception {
@@ -324,14 +333,12 @@ public class VacationRequestResourceTest extends AbstractDomainResourceTest<Vaca
 
     @Override
     protected String getJsonRepresentation(VacationRequest vacationRequest) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
         StringWriter writer = new StringWriter();
         JsonGenerator jsonGenerator = jsonGeneratorFactory.createGenerator(writer);
         JsonGenerator jg = jsonGenerator
                 .writeStartObject()
-                .write("startDate", sdf.format(vacationRequest.getStartDate()))
-                .write("endDate", sdf.format(vacationRequest.getEndDate()))
+                .write("startDate", ISO_LOCAL_DATE.format(vacationRequest.getStartDate()))
+                .write("endDate", ISO_LOCAL_DATE.format(vacationRequest.getEndDate()))
                 .write("status", vacationRequest.getStatus().toString())
                 .write("employee", "/api/employees/" + vacationRequest.getEmployee().getId());
 
@@ -339,13 +346,13 @@ public class VacationRequestResourceTest extends AbstractDomainResourceTest<Vaca
             jg.write("id", vacationRequest.getId());
         }
         if (vacationRequest.getApprovalDate() != null) {
-            jg.write("approvalDate", sdf2.format(vacationRequest.getApprovalDate()));
-        }
+            jg.write("approvalDate", ISO_INSTANT.format(vacationRequest.getApprovalDate()));
+        } 
         if (vacationRequest.getNumberOfDays() != null) {
             jg.write("numberOfDays", vacationRequest.getNumberOfDays());
         }
         if (vacationRequest.getSubmissionTime() != null) {
-            jg.write("submissionTime", sdf2.format(vacationRequest.getSubmissionTime()));
+            jg.write("submissionTime", ISO_INSTANT.format(vacationRequest.getSubmissionTime()));
         }
 
         jg.writeEnd().close();

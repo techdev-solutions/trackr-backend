@@ -2,11 +2,9 @@ package de.techdev.trackr.domain.employee.login;
 
 import de.techdev.trackr.domain.AbstractDomainResourceTest;
 import org.junit.Test;
-import org.springframework.http.MediaType;
 
 import static de.techdev.trackr.domain.DomainResourceTestMatchers.isAccessible;
 import static de.techdev.trackr.domain.DomainResourceTestMatchers.isMethodNotAllowed;
-import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;

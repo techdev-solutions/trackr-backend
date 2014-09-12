@@ -3,17 +3,19 @@ package de.techdev.trackr.domain.employee.expenses.report;
 import de.techdev.trackr.core.security.AuthorityMocks;
 import de.techdev.trackr.domain.AbstractDomainResourceTest;
 import de.techdev.trackr.domain.employee.expenses.reports.Report;
+
 import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import javax.json.stream.JsonGenerator;
+
 import java.io.StringWriter;
-import java.text.SimpleDateFormat;
 import java.util.function.Function;
 
 import static de.techdev.trackr.domain.DomainResourceTestMatchers.*;
+import static java.time.format.DateTimeFormatter.ISO_INSTANT;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -206,18 +208,28 @@ public class ReportResourceTest extends AbstractDomainResourceTest<Report> {
                 .andExpect(status().isOk());
     }
 
+	@Test
+	public void findBySubmissionDateBetween() throws Exception {
+		mockMvc.perform(
+				get("/travelExpenseReports/search/findBySubmissionDateBetween")
+				.session(adminSession())  
+				.param("start", "2014-07-01T00:00:00Z")
+				.param("end", "2014-08-09T00:00:00Z")
+				)
+				.andExpect(status().isOk());
+	}
+	
     @Override
     protected String getJsonRepresentation(Report travelExpenseReport) {
         StringWriter writer = new StringWriter();
         JsonGenerator jg = jsonGeneratorFactory.createGenerator(writer);
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
         jg.writeStartObject()
           .write("status", travelExpenseReport.getStatus().toString())
           .write("employee", "/employees/" + travelExpenseReport.getEmployee().getId())
           .write("debitor", "/companies/" + travelExpenseReport.getDebitor().getId());
 
         if(travelExpenseReport.getSubmissionDate() != null) {
-            jg.write("submissionDate", sdf.format(travelExpenseReport.getSubmissionDate()));
+            jg.write("submissionDate", ISO_INSTANT.format(travelExpenseReport.getSubmissionDate()));
         }
         if (travelExpenseReport.getProject() != null) {
             jg.write("project", "/projects/" + travelExpenseReport.getProject().getId());

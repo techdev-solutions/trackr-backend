@@ -2,12 +2,10 @@ package de.techdev.trackr.domain.employee.vacation.support;
 
 import de.techdev.trackr.domain.employee.Employee;
 import de.techdev.trackr.domain.employee.vacation.VacationRequest;
-import de.techdev.trackr.util.LocalDateUtil;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.Map;
 
 import static java.util.Arrays.asList;
@@ -25,17 +23,17 @@ public class VacationRequestEmployeeToDaysTotalServiceTest {
 
     @Test
     public void testGetMinimum() throws Exception {
-        Date date1 = LocalDateUtil.fromLocalDate(LocalDate.of(2014, 7, 1));
-        Date date2 = LocalDateUtil.fromLocalDate(LocalDate.of(2014, 7, 2));
-        Date minimum = service.getMinimum(date1, date2);
+        LocalDate date1 = LocalDate.of(2014, 7, 1);
+        LocalDate date2 = LocalDate.of(2014, 7, 2);
+        LocalDate minimum = service.getMinimum(date1, date2);
         assertThat(minimum, is(date1));
     }
 
     @Test
     public void testGetMaximum() throws Exception {
-        Date date1 = LocalDateUtil.fromLocalDate(LocalDate.of(2014, 7, 1));
-        Date date2 = LocalDateUtil.fromLocalDate(LocalDate.of(2014, 7, 2));
-        Date maximum = service.getMaximum(date1, date2);
+        LocalDate date1 = LocalDate.of(2014, 7, 1);
+        LocalDate date2 = LocalDate.of(2014, 7, 2);
+        LocalDate maximum = service.getMaximum(date1, date2);
         assertThat(maximum, is(date2));
     }
 

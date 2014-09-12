@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import static de.techdev.trackr.util.LocalDateUtil.fromDate;
 import static de.techdev.trackr.util.LocalDateUtil.fromLocalDate;
 import static java.util.Arrays.asList;
 import static org.hamcrest.CoreMatchers.is;
@@ -44,13 +43,13 @@ public class LastWorkdayDayOfMonthTriggerTest {
     public void setUp() throws Exception {
         lastWorkdayDayOfMonthTrigger.setFederalState(FederalState.BERLIN);
         Holiday holiday = new Holiday();
-        holiday.setDay(fromLocalDate(LocalDate.of(2014, 5, 1)));
+        holiday.setDay(LocalDate.of(2014, 5, 1));
         List<Holiday> holidayList = new ArrayList<>();
         holidayList.add(holiday);
         when(holidayRepository.findByFederalStateAndDayBetween(Matchers.any(), Matchers.any(), Matchers.any())).thenReturn(holidayList);
 
         holidays = new ArrayList<>();
-        holidays.add(fromDate(holiday.getDay()));
+        holidays.add(holiday.getDay());
     }
 
     @Test

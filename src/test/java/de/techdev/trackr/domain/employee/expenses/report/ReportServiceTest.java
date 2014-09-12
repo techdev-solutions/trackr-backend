@@ -8,13 +8,14 @@ import de.techdev.trackr.domain.company.CompanyDataOnDemand;
 import de.techdev.trackr.domain.employee.expenses.report.ReportDataOnDemand;
 import de.techdev.trackr.domain.employee.expenses.reports.Report;
 import de.techdev.trackr.domain.employee.expenses.reports.ReportService;
-import de.techdev.trackr.util.LocalDateUtil;
+
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 
+import java.time.Instant;
 import java.time.LocalDate;
-import java.util.Date;
+import java.time.ZoneId;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -56,13 +57,12 @@ public class ReportServiceTest extends TransactionalIntegrationTest {
     @Test
     public void testSubmit() throws Exception {
         Report travelExpenseReport = dataOnDemand.getRandomObject();
-        LocalDate localDate = LocalDate.of(2014, 1, 1);
-        Date date = LocalDateUtil.fromLocalDate(localDate);
+        Instant localDate = LocalDate.of(2014, 1, 1).atStartOfDay(ZoneId.systemDefault()).toInstant();
         travelExpenseReport.setStatus(Report.Status.PENDING);
-        travelExpenseReport.setSubmissionDate(date);
+        travelExpenseReport.setSubmissionDate(localDate);
 
         Report result = service.submit(travelExpenseReport);
         assertThat(result.getStatus(), is(Report.Status.SUBMITTED));
-        assertThat(result.getSubmissionDate().after(date), is(true));
+        assertThat(result.getSubmissionDate().isAfter(localDate), is(true));
     }
 }

@@ -2,15 +2,17 @@ package de.techdev.trackr.domain.employee.expenses.report.comment;
 
 import de.techdev.trackr.domain.AbstractDomainResourceTest;
 import de.techdev.trackr.domain.employee.expenses.reports.comments.Comment;
+
 import org.junit.Test;
 
 import javax.json.stream.JsonGenerator;
+
 import java.io.StringWriter;
-import java.text.SimpleDateFormat;
 
 import static de.techdev.trackr.domain.DomainResourceTestMatchers.isCreated;
 import static de.techdev.trackr.domain.DomainResourceTestMatchers.isForbidden;
 import static de.techdev.trackr.domain.DomainResourceTestMatchers.isMethodNotAllowed;
+import static java.time.format.DateTimeFormatter.ISO_INSTANT;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class CommentResourceTest extends AbstractDomainResourceTest<Comment> {
@@ -54,11 +56,10 @@ public class CommentResourceTest extends AbstractDomainResourceTest<Comment> {
     protected String getJsonRepresentation(Comment comment) {
         StringWriter writer = new StringWriter();
         JsonGenerator jg = jsonGeneratorFactory.createGenerator(writer);
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
         jg.writeStartObject()
                 .write("text", comment.getText())
                 .write("employee", "/employees/" + comment.getEmployee().getId())
-                .write("submissionDate", sdf.format(comment.getSubmissionDate()))
+                .write("submissionDate", ISO_INSTANT.format(comment.getSubmissionDate()))
                 .write("travelExpenseReport", "/travelExpenseReports/" + comment.getTravelExpenseReport().getId());
 
 
