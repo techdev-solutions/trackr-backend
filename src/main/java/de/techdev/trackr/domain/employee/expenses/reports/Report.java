@@ -10,8 +10,9 @@ import lombok.Data;
 import lombok.ToString;
 
 import javax.persistence.*;
+
+import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -43,12 +44,9 @@ public class Report {
 
     @Enumerated(EnumType.STRING)
     private Status status;
+    private Instant submissionDate;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date submissionDate;
-
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date approvalDate;
+    private Instant approvalDate;
 
     @ManyToOne
     private Employee approver;

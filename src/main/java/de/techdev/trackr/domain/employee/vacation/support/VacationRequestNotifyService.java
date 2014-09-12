@@ -1,12 +1,14 @@
 package de.techdev.trackr.domain.employee.vacation.support;
 
+import static java.time.format.DateTimeFormatter.ofPattern;
 import de.techdev.trackr.core.mail.MailService;
 import de.techdev.trackr.domain.employee.login.support.SupervisorService;
 import de.techdev.trackr.domain.employee.vacation.VacationRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 
-import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
 /**
@@ -14,6 +16,8 @@ import java.util.UUID;
  */
 public class VacationRequestNotifyService {
 
+	DateTimeFormatter GERMAN_DATE_FORMAT = ofPattern("dd.MM.yyyy");
+	
     @Autowired
     private MailService mailService;
 
@@ -55,11 +59,10 @@ public class VacationRequestNotifyService {
      * Send a new vacation request notification to all supervisors.
      */
     public void notifySupervisors(VacationRequest vacationRequest, UUID uuid) {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
         String[] receiver = supervisorService.getSupervisorEmailsAsArray();
         SimpleMailMessage mailMessage = new SimpleMailMessage();
         String subject = "New vacation request from " + vacationRequest.getEmployee().fullName() + "; " + uuid.toString();
-        String text = "New vacation request from " + vacationRequest.getEmployee().fullName() + " for " + sdf.format(vacationRequest.getStartDate()) + " - " + sdf
+        String text = "New vacation request from " + vacationRequest.getEmployee().fullName() + " for " + GERMAN_DATE_FORMAT.format(vacationRequest.getStartDate()) + " - " + GERMAN_DATE_FORMAT
                 .format(vacationRequest.getEndDate()) + ". You can reply to this email with approve or reject to do that.";
         mailMessage.setSubject(subject);
         mailMessage.setTo(receiver);

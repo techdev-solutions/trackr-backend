@@ -1,14 +1,23 @@
 package de.techdev.trackr.domain.project.billtimes;
 
-import de.techdev.trackr.domain.employee.Employee;
-import de.techdev.trackr.domain.project.Project;
-import lombok.Data;
-import lombok.ToString;
+import java.time.LocalDate;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
+import javax.persistence.Version;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import java.util.Date;
+
+import lombok.Data;
+import lombok.ToString;
+import de.techdev.trackr.domain.employee.Employee;
+import de.techdev.trackr.domain.project.Project;
 
 /**
  * @author Moritz Schulze
@@ -37,8 +46,7 @@ public class BillableTime {
     private Project project;
 
     @NotNull
-    @Temporal(TemporalType.DATE)
-    private Date date;
+    private LocalDate date;
 
     @NotNull
     @Min(0)

@@ -1,6 +1,7 @@
 package de.techdev.trackr.domain.employee;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import de.techdev.trackr.domain.common.FederalState;
 import de.techdev.trackr.domain.employee.expenses.reports.Report;
 import de.techdev.trackr.domain.employee.login.Credential;
@@ -10,13 +11,15 @@ import de.techdev.trackr.domain.project.worktimes.WorkTime;
 import de.techdev.trackr.domain.validation.constraints.EndAfterBegin;
 import lombok.Data;
 import lombok.ToString;
+
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -51,11 +54,9 @@ public class Employee {
 
     private BigDecimal hourlyCostRate;
 
-    @Temporal(TemporalType.DATE)
-    private Date joinDate;
+    private LocalDate joinDate;
 
-    @Temporal(TemporalType.DATE)
-    private Date leaveDate;
+    private LocalDate leaveDate;
 
     @Enumerated(EnumType.STRING)
     @NotNull

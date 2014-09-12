@@ -7,7 +7,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.util.List;
 
-import static de.techdev.trackr.util.LocalDateUtil.fromLocalDate;
 
 /**
  * Marks invoices as overdue if the due date is after today.
@@ -25,7 +24,7 @@ public class InvoiceOverdueService {
      */
     @Transactional
     public void markOverdueInvoices(LocalDate expiryDate) {
-        List<Invoice> invoices = invoiceRepository.findByDueDateBeforeAndInvoiceState(fromLocalDate(expiryDate), Invoice.InvoiceState.OUTSTANDING);
+        List<Invoice> invoices = invoiceRepository.findByDueDateBeforeAndInvoiceState(expiryDate, Invoice.InvoiceState.OUTSTANDING);
         for (Invoice invoice : invoices) {
             log.info("Setting state to overdue on invoice {}", invoice);
             invoice.setInvoiceState(Invoice.InvoiceState.OVERDUE);

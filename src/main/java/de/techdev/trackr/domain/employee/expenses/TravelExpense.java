@@ -7,8 +7,10 @@ import lombok.ToString;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.Instant;
+import java.time.LocalDate;
 
 /**
  * @author Moritz Schulze
@@ -45,16 +47,13 @@ public class TravelExpense {
     private BigDecimal vat;
 
     @NotNull
-    @Temporal(TemporalType.DATE)
-    private Date fromDate;
+    private LocalDate fromDate;
 
     @NotNull
-    @Temporal(TemporalType.DATE)
-    private Date toDate;
+    private LocalDate toDate;
 
     @NotNull
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date submissionDate;
+    private Instant submissionDate;
 
     private String comment;
 }

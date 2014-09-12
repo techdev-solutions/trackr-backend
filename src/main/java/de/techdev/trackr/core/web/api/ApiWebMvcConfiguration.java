@@ -1,26 +1,14 @@
 package de.techdev.trackr.core.web.api;
 
-import de.techdev.trackr.core.web.converters.DateConverter;
-import de.techdev.trackr.domain.ApiBeansConfiguration;
-import de.techdev.trackr.domain.common.StringToEntityConverter;
-import de.techdev.trackr.domain.common.TrackrUserLocaleResolver;
-import de.techdev.trackr.domain.company.Address;
-import de.techdev.trackr.domain.company.Company;
-import de.techdev.trackr.domain.company.ContactPerson;
-import de.techdev.trackr.domain.employee.Employee;
-import de.techdev.trackr.domain.employee.expenses.TravelExpense;
-import de.techdev.trackr.domain.employee.expenses.reports.Report;
-import de.techdev.trackr.domain.employee.expenses.reports.comments.Comment;
-import de.techdev.trackr.domain.employee.login.Authority;
-import de.techdev.trackr.domain.employee.login.Credential;
-import de.techdev.trackr.domain.employee.sickdays.SickDays;
-import de.techdev.trackr.domain.employee.vacation.VacationRequest;
-import de.techdev.trackr.domain.project.billtimes.BillableTime;
-import de.techdev.trackr.domain.project.Project;
-import de.techdev.trackr.domain.project.worktimes.WorkTime;
-import de.techdev.trackr.domain.project.invoice.Invoice;
+import java.time.LocalDate;
+import java.util.List;
+
 import org.springframework.context.MessageSource;
-import org.springframework.context.annotation.*;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.FilterType;
+import org.springframework.context.annotation.Import;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.core.convert.support.ConfigurableConversionService;
@@ -37,7 +25,29 @@ import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
-import java.util.List;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import de.techdev.trackr.core.web.converters.DateConverter;
+import de.techdev.trackr.core.web.converters.LocalDateConverter;
+import de.techdev.trackr.core.web.converters.TimePropertiesToJson;
+import de.techdev.trackr.domain.ApiBeansConfiguration;
+import de.techdev.trackr.domain.common.StringToEntityConverter;
+import de.techdev.trackr.domain.common.TrackrUserLocaleResolver;
+import de.techdev.trackr.domain.company.Address;
+import de.techdev.trackr.domain.company.Company;
+import de.techdev.trackr.domain.company.ContactPerson;
+import de.techdev.trackr.domain.employee.Employee;
+import de.techdev.trackr.domain.employee.expenses.TravelExpense;
+import de.techdev.trackr.domain.employee.expenses.reports.Report;
+import de.techdev.trackr.domain.employee.expenses.reports.comments.Comment;
+import de.techdev.trackr.domain.employee.login.Authority;
+import de.techdev.trackr.domain.employee.login.Credential;
+import de.techdev.trackr.domain.employee.sickdays.SickDays;
+import de.techdev.trackr.domain.employee.vacation.VacationRequest;
+import de.techdev.trackr.domain.project.Project;
+import de.techdev.trackr.domain.project.billtimes.BillableTime;
+import de.techdev.trackr.domain.project.invoice.Invoice;
+import de.techdev.trackr.domain.project.worktimes.WorkTime;
 
 /**
  * @author Moritz Schulze
@@ -69,12 +79,15 @@ public class ApiWebMvcConfiguration extends RepositoryRestMvcConfiguration {
     public EntityLinks entityLinks() {
         return new RepositoryEntityLinksWithoutProjection(repositories(), resourceMappings(), config(), pageableResolver(), backendIdConverterRegistry());
     }
-
+	
+	
     @Bean
     public LocaleResolver localeResolver() {
         return new TrackrUserLocaleResolver();
     }
 
+
+	
     @Bean
     public ExceptionHandlers exceptionHandlers() {
         return new ExceptionHandlers();
@@ -83,6 +96,11 @@ public class ApiWebMvcConfiguration extends RepositoryRestMvcConfiguration {
     @Bean
     public DateConverter dateConverter() {
         return new DateConverter();
+    }
+    
+    @Bean
+    public Converter<String, LocalDate> localDateConverter() {
+        return new LocalDateConverter();
     }
 
     @Bean
@@ -109,6 +127,7 @@ public class ApiWebMvcConfiguration extends RepositoryRestMvcConfiguration {
     protected void configureConversionService(ConfigurableConversionService conversionService) {
         super.configureConversionService(conversionService);
         conversionService.addConverter(dateConverter());
+        conversionService.addConverter(localDateConverter());
     }
 
     /**
@@ -116,6 +135,7 @@ public class ApiWebMvcConfiguration extends RepositoryRestMvcConfiguration {
      */
     @Override
     public void addFormatters(FormatterRegistry registry) {
+    	registry.addConverter(localDateConverter());
         registry.addConverter(dateConverter());
         registry.addConverter(stringInvoiceConverter());
         registry.addConverter(vacationRequestConverter());
@@ -153,6 +173,18 @@ public class ApiWebMvcConfiguration extends RepositoryRestMvcConfiguration {
         validatingListener.addValidator("beforeCreate", validator());
     }
 
+    
+    @Override
+    protected void configureJacksonObjectMapper(ObjectMapper objectMapper) {
+    	super.configureJacksonObjectMapper(objectMapper);
+    	objectMapper.registerModule(localDateTimeModule());
+    }
+
+    @Bean
+	public TimePropertiesToJson localDateTimeModule() {
+		return new TimePropertiesToJson();
+	}
+    
     /**
      * Custom validator that extracts messages with locale. Used by spring-data-rest.
      */

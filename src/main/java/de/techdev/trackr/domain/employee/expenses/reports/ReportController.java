@@ -3,6 +3,7 @@ package de.techdev.trackr.domain.employee.expenses.reports;
 import de.techdev.trackr.core.pdf.PdfCreationException;
 import de.techdev.trackr.core.pdf.PdfRenderer;
 import de.techdev.trackr.domain.employee.expenses.TravelExpense;
+
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,7 +16,7 @@ import org.thymeleaf.context.Context;
 
 import java.math.BigDecimal;
 import java.security.Principal;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -64,12 +65,12 @@ public class ReportController {
 
         Context ctx = new Context();
         ctx.setVariable("report", report);
-        ctx.setVariable("today", new Date());
+        ctx.setVariable("today", LocalDate.now());
         List<TravelExpense> expenses = report.getExpenses();
         BigDecimal totalCost = expenses.stream().map(TravelExpense::getCost).reduce(BigDecimal.ZERO, (b1, b2) -> b1.add(b2));
         ctx.setVariable("totalCost", totalCost);
-        Optional<Date> startDate = expenses.stream().map(TravelExpense::getFromDate).min(Date::compareTo);
-        Optional<Date> endDate = expenses.stream().map(TravelExpense::getToDate).max(Date::compareTo);
+        Optional<LocalDate> startDate = expenses.stream().map(TravelExpense::getFromDate).min(LocalDate::compareTo);
+        Optional<LocalDate> endDate = expenses.stream().map(TravelExpense::getToDate).max(LocalDate::compareTo);
         if (startDate.isPresent()) {
             ctx.setVariable("startDate", startDate.get());
         }

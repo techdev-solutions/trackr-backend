@@ -1,10 +1,11 @@
 package de.techdev.trackr.domain.project.invoice;
 
 import de.techdev.trackr.domain.company.Company;
+
 import org.springframework.data.rest.core.config.Projection;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDate;
 
 /**
  * @author Moritz Schulze
@@ -17,13 +18,13 @@ public interface InvoiceWithDebitorProjection {
 
     String getIdentifier();
 
-    Date getCreationDate();
+    LocalDate getCreationDate();
 
     BigDecimal getInvoiceTotal();
 
     Company getDebitor();
 
-    Date getDueDate();
+    LocalDate getDueDate();
 
     Invoice.InvoiceState getInvoiceState();
 }

@@ -1,6 +1,5 @@
 package de.techdev.trackr.domain.employee.login.support;
 
-import de.techdev.trackr.domain.employee.Employee;
 import de.techdev.trackr.domain.employee.login.Authority;
 import de.techdev.trackr.domain.employee.login.AuthorityRepository;
 import de.techdev.trackr.domain.employee.login.Credential;

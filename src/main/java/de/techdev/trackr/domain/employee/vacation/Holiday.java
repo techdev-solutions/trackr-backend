@@ -4,7 +4,8 @@ import de.techdev.trackr.domain.common.FederalState;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.util.Date;
+
+import java.time.LocalDate;
 
 /**
  * @author Moritz Schulze
@@ -17,8 +18,7 @@ public class Holiday {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Temporal(TemporalType.DATE)
-    private Date day;
+    private LocalDate day;
 
     private String name;
 

@@ -2,11 +2,12 @@ package de.techdev.trackr.domain.employee.expenses.reports;
 
 import de.techdev.trackr.domain.employee.login.Credential;
 import de.techdev.trackr.domain.employee.login.CredentialRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
+import java.time.Instant;
 
 /**
  * @author Moritz Schulze
@@ -41,11 +42,11 @@ public class ReportService {
 
     private Report setStatusOnTravelExpenseReport(Report travelExpenseReport, Report.Status status, String approverName) {
         if (status == Report.Status.SUBMITTED) {
-            travelExpenseReport.setSubmissionDate(new Date());
+            travelExpenseReport.setSubmissionDate(Instant.now());
         } else {
             Credential approver = credentialRepository.findByEmail(approverName);
             travelExpenseReport.setApprover(approver.getEmployee());
-            travelExpenseReport.setApprovalDate(new Date());
+            travelExpenseReport.setApprovalDate(Instant.now());
         }
         travelExpenseReport.setStatus(status);
         return travelExpenseReportRepository.save(travelExpenseReport);

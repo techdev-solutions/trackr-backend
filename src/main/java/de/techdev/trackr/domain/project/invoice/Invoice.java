@@ -3,13 +3,15 @@ package de.techdev.trackr.domain.project.invoice;
 import de.techdev.trackr.domain.company.Company;
 import lombok.Data;
 import lombok.ToString;
+
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDate;
 
 @Entity
 @Data
@@ -32,8 +34,7 @@ public class Invoice {
     private String identifier;
 
     @NotNull
-    @Temporal(TemporalType.DATE)
-    private Date creationDate;
+    private LocalDate creationDate;
 
     @Min(0)
     private BigDecimal invoiceTotal;
@@ -42,8 +43,7 @@ public class Invoice {
     @JoinColumn(name = "debitor")
     private Company debitor;
 
-    @Temporal(TemporalType.DATE)
-    private Date dueDate;
+    private LocalDate dueDate;
 
     @NotNull
     @Enumerated(EnumType.STRING)

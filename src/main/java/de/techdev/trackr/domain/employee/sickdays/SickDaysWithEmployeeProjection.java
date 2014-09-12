@@ -1,9 +1,10 @@
 package de.techdev.trackr.domain.employee.sickdays;
 
 import de.techdev.trackr.domain.employee.Employee;
+
 import org.springframework.data.rest.core.config.Projection;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 /**
  * @author Moritz Schulze
@@ -16,7 +17,7 @@ public interface SickDaysWithEmployeeProjection {
 
     Employee getEmployee();
 
-    Date getStartDate();
+    LocalDate getStartDate();
 
-    Date getEndDate();
+    LocalDate getEndDate();
 }

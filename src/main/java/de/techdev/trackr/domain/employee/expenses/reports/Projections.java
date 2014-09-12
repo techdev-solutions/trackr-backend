@@ -4,9 +4,10 @@ import de.techdev.trackr.domain.company.Company;
 import de.techdev.trackr.domain.employee.Employee;
 import de.techdev.trackr.domain.employee.expenses.TravelExpense;
 import de.techdev.trackr.domain.project.Project;
+
 import org.springframework.data.rest.core.config.Projection;
 
-import java.util.Date;
+import java.time.Instant;
 import java.util.List;
 
 /**
@@ -23,9 +24,9 @@ public class Projections {
 
         List<TravelExpense> getExpenses();
 
-        Date getSubmissionDate();
+        Instant getSubmissionDate();
 
-        Date getApprovalDate();
+        Instant getApprovalDate();
 
         Employee getApprover();
 
@@ -46,7 +47,7 @@ public class Projections {
 
         Report.Status getStatus();
 
-        Date getSubmissionDate();
+        Instant getSubmissionDate();
     }
 
     @Projection(types = Report.class, name = "withExpensesAndDebitor")
@@ -59,9 +60,9 @@ public class Projections {
 
         Report.Status getStatus();
 
-        Date getSubmissionDate();
+        Instant getSubmissionDate();
 
-        Date getApprovalDate();
+        Instant getApprovalDate();
 
         Company getDebitor();
     }
@@ -77,7 +78,7 @@ public class Projections {
 
         Report.Status getStatus();
 
-        Date getSubmissionDate();
+        Instant getSubmissionDate();
 
         Company getDebitor();
 

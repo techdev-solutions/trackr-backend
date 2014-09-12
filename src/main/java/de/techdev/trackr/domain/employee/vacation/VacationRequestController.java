@@ -2,6 +2,7 @@ package de.techdev.trackr.domain.employee.vacation;
 
 import de.techdev.trackr.domain.employee.vacation.support.VacationRequestEmployeeToDaysTotalService;
 import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -9,7 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.Map;
 
 /**
@@ -69,8 +70,8 @@ public class VacationRequestController {
     @RequestMapping(value = "/daysPerEmployeeBetween", method = RequestMethod.GET, produces = "application/hal+json")
     @ResponseStatus(HttpStatus.OK)
     public Map<String, Integer> daysPerEmployeeBetween(
-            @RequestParam("start") Date start,
-            @RequestParam("end") Date end
+            @RequestParam("start") LocalDate start,
+            @RequestParam("end") LocalDate end
     ) {
         return vacationRequestEmployeeToDaysTotalService.mapVacationRequestsToTotalDays(start, end);
     }

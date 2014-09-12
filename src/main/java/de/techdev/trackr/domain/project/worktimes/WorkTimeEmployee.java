@@ -1,17 +1,16 @@
 package de.techdev.trackr.domain.project.worktimes;
 
-import de.techdev.trackr.domain.employee.Employee;
-import de.techdev.trackr.domain.project.billtimes.BillableTime;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import org.springframework.hateoas.ResourceSupport;
-
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
-import static java.util.stream.Collectors.groupingBy;
-import static java.util.stream.Collectors.reducing;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+import org.springframework.hateoas.ResourceSupport;
+
+import de.techdev.trackr.domain.employee.Employee;
+import de.techdev.trackr.domain.project.billtimes.BillableTime;
 
 /**
  * DTO that contains only the needed information for the method findEmployeeMappingByProjectAndDateBetween.
@@ -41,7 +40,7 @@ public class WorkTimeEmployee extends ResourceSupport {
         return workTimeEmployee;
     }
 
-    public void addBilledMinutes(Map<Date, BillableTime> dateBillableTimeMapping) {
+    public void addBilledMinutes(Map<LocalDate, BillableTime> dateBillableTimeMapping) {
         workTimes.forEach(ctw -> {
             if(dateBillableTimeMapping != null && dateBillableTimeMapping.get(ctw.getDate()) != null) {
                 ctw.setBilledTimeId(dateBillableTimeMapping.get(ctw.getDate()).getId());

@@ -1,16 +1,16 @@
 package de.techdev.trackr.domain.project.worktimes;
 
-import lombok.Getter;
-import lombok.Setter;
+import static java.util.stream.Collectors.groupingBy;
+import static java.util.stream.Collectors.reducing;
 
 import java.time.Duration;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static java.util.stream.Collectors.groupingBy;
-import static java.util.stream.Collectors.reducing;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * DTO that contains only the needed information for the method findEmployeeMappingByProjectAndDateBetween.
@@ -18,7 +18,7 @@ import static java.util.stream.Collectors.reducing;
 @Getter
 @Setter
 public class CustomWorkTime implements Comparable<CustomWorkTime> {
-    private Date date;
+    private LocalDate date;
     private Long enteredMinutes;
     private Double hours;
     private Long billedTimeId;
@@ -32,7 +32,7 @@ public class CustomWorkTime implements Comparable<CustomWorkTime> {
     public static List<CustomWorkTime> reduceAndSortWorktimes(List<CustomWorkTime> workTimes) {
         CustomWorkTime identity = new CustomWorkTime();
         identity.setEnteredMinutes(0L);
-        Map<Date, CustomWorkTime> mapped = workTimes.stream().collect(groupingBy(CustomWorkTime::getDate, reducing(identity, CustomWorkTime::addOtherWorkTime)));
+        Map<LocalDate, CustomWorkTime> mapped = workTimes.stream().collect(groupingBy(CustomWorkTime::getDate, reducing(identity, CustomWorkTime::addOtherWorkTime)));
         return mapped.values().stream().sorted().collect(Collectors.toList());
     }
 
@@ -45,7 +45,7 @@ public class CustomWorkTime implements Comparable<CustomWorkTime> {
 
     public static CustomWorkTime valueOf(WorkTime workTime) {
         CustomWorkTime customWorkTime = new CustomWorkTime();
-        customWorkTime.enteredMinutes = Duration.between(workTime.getStartTime().toLocalTime(), workTime.getEndTime().toLocalTime()).toMinutes();
+        customWorkTime.enteredMinutes = Duration.between(workTime.getStartTime(), workTime.getEndTime()).toMinutes();
         customWorkTime.date = workTime.getDate();
         return customWorkTime;
     }

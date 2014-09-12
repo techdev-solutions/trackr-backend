@@ -1,12 +1,10 @@
 package de.techdev.trackr.domain.employee.vacation;
 
 import de.techdev.trackr.domain.common.FederalState;
-import de.techdev.trackr.util.LocalDateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
@@ -19,11 +17,12 @@ public class HolidayCalculator {
     @Autowired
     private HolidayRepository holidayRepository;
 
-    public Integer calculateDifferenceBetweenExcludingHolidaysAndWeekends(Date start, Date end, FederalState federalState) {
+    public Integer calculateDifferenceBetweenExcludingHolidaysAndWeekends(LocalDate start, LocalDate end, FederalState federalState) {
         List<Holiday> holidays = holidayRepository.findByFederalStateAndDayBetween(federalState, start, end);
-        return calculateDifferenceBetweenExcludingHolidaysAndWeekends(LocalDateUtil.fromDate(start), LocalDateUtil.fromDate(end), holidays.stream()
-                                                                                                      .map(holiday -> LocalDateUtil.fromDate(holiday.getDay()))
-                                                                                                      .collect(toList()));
+        return calculateDifferenceBetweenExcludingHolidaysAndWeekends(start, end, 
+                holidays.stream()
+                .map(Holiday::getDay)
+                .collect(toList()));
     }
 
     protected Integer calculateDifferenceBetweenExcludingHolidaysAndWeekends(LocalDate start, LocalDate end, List<LocalDate> holidays) {

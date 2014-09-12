@@ -1,9 +1,11 @@
 package de.techdev.trackr.domain.employee.vacation;
 
 import de.techdev.trackr.domain.employee.Employee;
+
 import org.springframework.data.rest.core.config.Projection;
 
-import java.util.Date;
+import java.time.Instant;
+import java.time.LocalDate;
 
 /**
  * @author Moritz Schulze
@@ -14,17 +16,17 @@ public interface VacationRequestWithEmployeeAndApproverProjection {
 
     Employee getEmployee();
 
-    Date getStartDate();
+    LocalDate getStartDate();
 
-    Date getEndDate();
+    LocalDate getEndDate();
 
     Integer getNumberOfDays();
 
     VacationRequest.VacationRequestStatus getStatus();
 
-    Date getApprovalDate();
-
-    Date getSubmissionTime();
+    Instant getApprovalDate();
+    
+    Instant getSubmissionTime();
 
     Employee getApprover();
 }

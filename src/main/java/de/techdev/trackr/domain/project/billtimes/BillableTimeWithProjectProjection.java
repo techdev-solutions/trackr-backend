@@ -1,9 +1,10 @@
 package de.techdev.trackr.domain.project.billtimes;
 
 import de.techdev.trackr.domain.project.Project;
+
 import org.springframework.data.rest.core.config.Projection;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 /**
  * @author Moritz Schulze
@@ -16,7 +17,7 @@ public interface BillableTimeWithProjectProjection {
 
     Project getProject();
 
-    Date getDate();
+    LocalDate getDate();
 
     Integer getMinutes();
 }

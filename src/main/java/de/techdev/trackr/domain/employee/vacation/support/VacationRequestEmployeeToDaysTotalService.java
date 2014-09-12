@@ -3,9 +3,10 @@ package de.techdev.trackr.domain.employee.vacation.support;
 import de.techdev.trackr.domain.employee.vacation.HolidayCalculator;
 import de.techdev.trackr.domain.employee.vacation.VacationRequest;
 import de.techdev.trackr.domain.employee.vacation.VacationRequestRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.function.ToIntFunction;
@@ -29,7 +30,7 @@ public class VacationRequestEmployeeToDaysTotalService {
      * @param end The end of the period
      * @return A map of employee names to days of vacation in between start and end.
      */
-    public Map<String, Integer> mapVacationRequestsToTotalDays(Date start, Date end) {
+    public Map<String, Integer> mapVacationRequestsToTotalDays(LocalDate start, LocalDate end) {
         List<VacationRequest> vacationRequests = vacationRequestRepository
                 .findByStartDateBetweenOrEndDateBetweenAndStatus(start, end, start, end, VacationRequest.VacationRequestStatus.APPROVED);
         return mapToEmployeesAndSumUp(vacationRequests, vacationRequest -> getVacationDaysBetween(vacationRequest, start, end));
@@ -53,7 +54,7 @@ public class VacationRequestEmployeeToDaysTotalService {
     /**
      * @return Returns the number of days of the vacation request between start and end that aren't holidays or weekends.
      */
-    protected Integer getVacationDaysBetween(VacationRequest vacationRequest, Date start, Date end) {
+    protected Integer getVacationDaysBetween(VacationRequest vacationRequest, LocalDate start, LocalDate end) {
         return holidayCalculator.calculateDifferenceBetweenExcludingHolidaysAndWeekends(
                 // If the start of the vacation request is before the desired period we use the period start
                 getMaximum(start, vacationRequest.getStartDate()),
@@ -66,14 +67,14 @@ public class VacationRequestEmployeeToDaysTotalService {
     /**
      * The minimum of the two dates. No null checks.
      */
-    protected Date getMinimum(Date a, Date b) {
-        return a.before(b) ? a : b;
+    protected LocalDate getMinimum(LocalDate a, LocalDate b) {
+        return a.isBefore(b) ? a : b;
     }
 
     /**
      * The maximum of the two dates. No null checks.
      */
-    protected Date getMaximum(Date a, Date b) {
-        return a.before(b) ? b : a;
+    protected LocalDate getMaximum(LocalDate a, LocalDate b) {
+        return a.isBefore(b) ? b : a;
     }
 }
