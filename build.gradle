@@ -52,7 +52,7 @@ dependencies {
     //web
     compile "org.springframework:spring-webmvc:$project.springVersion"
     compile "com.fasterxml.jackson.core:jackson-databind:$project.jacksonVersion"
-    compile "com.fasterxml.jackson.core:jackson-core:bundle:$project.jacksonVersion"
+    compile "com.fasterxml.jackson.core:jackson-core:$project.jacksonVersion"
     compile "javax.servlet:jstl:1.2"
     compile "org.springframework.data:spring-data-rest-webmvc:2.1.0.RELEASE"
     compile "org.webjars:bootstrap:3.1.1"
