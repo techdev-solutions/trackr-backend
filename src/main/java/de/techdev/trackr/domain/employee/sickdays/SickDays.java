@@ -6,7 +6,8 @@ import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.Date;
+
+import java.time.LocalDate;
 
 /**
  * @author Moritz Schulze
@@ -27,11 +28,9 @@ public class SickDays {
     @NotNull
     private Employee employee;
 
-    @Temporal(TemporalType.DATE)
     @NotNull
-    private Date startDate;
+    private LocalDate startDate;
 
-    @Temporal(TemporalType.DATE)
-    private Date endDate;
+    private LocalDate endDate;
 
 }

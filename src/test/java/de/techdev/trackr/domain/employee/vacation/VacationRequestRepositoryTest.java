@@ -1,12 +1,14 @@
 package de.techdev.trackr.domain.employee.vacation;
 
 import de.techdev.trackr.TransactionalIntegrationTest;
-import de.techdev.trackr.util.LocalDateUtil;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.List;
 
 import static org.echocat.jomon.testing.BaseMatchers.isNotEmpty;
@@ -59,10 +61,12 @@ public class VacationRequestRepositoryTest extends TransactionalIntegrationTest 
     @Test
     public void findBySubmissionTimeBefore() throws Exception {
         VacationRequest vacationRequest = vacationRequestDataOnDemand.getRandomObject();
-        vacationRequest.setSubmissionTime(LocalDateUtil.fromLocalDate(LocalDate.now().minusDays(8)));
+        Instant theDay8DaysBeforeNow = LocalDate.now().minusDays(8).atStartOfDay(ZoneId.systemDefault()).toInstant();
+		vacationRequest.setSubmissionTime(theDay8DaysBeforeNow);
         vacationRequest.setStatus(VacationRequest.VacationRequestStatus.PENDING);
         vacationRequestRepository.save(vacationRequest);
-        List<VacationRequest> all = vacationRequestRepository.findBySubmissionTimeBeforeAndStatus(LocalDateUtil.fromLocalDate(LocalDate.now().minusDays(7)), VacationRequest.VacationRequestStatus.PENDING);
+        Instant sevenDaysBefore = LocalDate.now().minusDays(7).atStartOfDay(ZoneId.systemDefault()).toInstant();
+		List<VacationRequest> all = vacationRequestRepository.findBySubmissionTimeBeforeAndStatus(sevenDaysBefore, VacationRequest.VacationRequestStatus.PENDING);
         assertThat(all, isNotEmpty());
     }
 }

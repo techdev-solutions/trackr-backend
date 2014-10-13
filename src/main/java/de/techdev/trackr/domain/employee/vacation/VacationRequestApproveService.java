@@ -5,14 +5,15 @@ import de.techdev.trackr.domain.employee.Employee;
 import de.techdev.trackr.domain.employee.login.Credential;
 import de.techdev.trackr.domain.employee.login.CredentialRepository;
 import de.techdev.trackr.domain.employee.vacation.support.VacationRequestNotifyService;
-import de.techdev.trackr.util.LocalDateUtil;
 import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
 import java.time.LocalDate;
-import java.util.Date;
+import java.time.ZoneId;
 import java.util.List;
 
 /**
@@ -61,8 +62,8 @@ public class VacationRequestApproveService {
     @Transactional
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void approveSevenDayOldRequests() {
-        LocalDate oneWeekAgo = LocalDate.now().minusDays(7);
-        List<VacationRequest> vacationRequests = vacationRequestRepository.findBySubmissionTimeBeforeAndStatus(LocalDateUtil.fromLocalDate(oneWeekAgo), VacationRequest.VacationRequestStatus.PENDING);
+        Instant oneWeekAgo = LocalDate.now().minusDays(7).atStartOfDay(ZoneId.systemDefault()).toInstant();
+		List<VacationRequest> vacationRequests = vacationRequestRepository.findBySubmissionTimeBeforeAndStatus(oneWeekAgo, VacationRequest.VacationRequestStatus.PENDING);
         vacationRequests.forEach(vacationRequest -> {
             log.info("Approving more then seven days old vacation request {}", vacationRequest);
             approve(vacationRequest, null);
@@ -78,7 +79,7 @@ public class VacationRequestApproveService {
             }
             vacationRequest.setStatus(status);
             vacationRequest.setApprover(supervisor);
-            vacationRequest.setApprovalDate(new Date());
+            vacationRequest.setApprovalDate(Instant.now());
             vacationRequest = vacationRequestRepository.save(vacationRequest);
 
             vacationRequestNotifyService.sendEmailNotification(vacationRequest);

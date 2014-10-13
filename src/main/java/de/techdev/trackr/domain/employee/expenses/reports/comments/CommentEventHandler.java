@@ -1,10 +1,11 @@
 package de.techdev.trackr.domain.employee.expenses.reports.comments;
 
 import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.data.rest.core.annotation.*;
 import org.springframework.security.access.prepost.PreAuthorize;
 
-import java.util.Date;
+import java.time.Instant;
 
 /**
  * @author Moritz Schulze
@@ -16,7 +17,7 @@ public class CommentEventHandler {
     @HandleBeforeCreate
     @PreAuthorize("hasRole('ROLE_SUPERVISOR') or #comment.employee.id == principal?.id")
     public void checkCreateAuthority(Comment comment) {
-        comment.setSubmissionDate(new Date());
+        comment.setSubmissionDate(Instant.now());
         log.debug("Creating comment {}", comment);
     }
 

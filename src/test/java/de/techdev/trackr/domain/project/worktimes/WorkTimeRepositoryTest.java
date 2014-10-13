@@ -1,16 +1,18 @@
 package de.techdev.trackr.domain.project.worktimes;
 
-import de.techdev.trackr.TransactionalIntegrationTest;
+import static org.echocat.jomon.testing.BaseMatchers.isGreaterThanOrEqualTo;
+import static org.echocat.jomon.testing.BaseMatchers.isNotEmpty;
+import static org.echocat.jomon.testing.BaseMatchers.isNotNull;
+import static org.hamcrest.MatcherAssert.assertThat;
+
+import java.time.LocalDate;
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-
-import static org.echocat.jomon.testing.BaseMatchers.*;
-import static org.hamcrest.MatcherAssert.assertThat;
+import de.techdev.trackr.TransactionalIntegrationTest;
 
 /**
  * @author Moritz Schulze
@@ -55,16 +57,16 @@ public class WorkTimeRepositoryTest extends TransactionalIntegrationTest {
      */
     @Test
     public void findByEmployeeAndDateOnlyRespectsDatePart() throws Exception {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+    	//TODO obsolete
         WorkTime workTime1 = workTimeRepository.findOne(20L);
-        workTime1.setDate(sdf.parse("2014-03-04 10:00"));
+        workTime1.setDate(LocalDate.parse("2014-03-04"));
         workTimeRepository.save(workTime1);
         WorkTime workTime2 = workTimeRepository.findOne(21L);
         workTime2.setEmployee(workTime1.getEmployee());
-        workTime2.setDate(sdf.parse("2014-03-04 11:00"));
+        workTime2.setDate(LocalDate.parse("2014-03-04"));
         workTimeRepository.save(workTime2);
 
-        List<WorkTime> workTimes = workTimeRepository.findByEmployeeAndDateOrderByStartTimeAsc(workTime1.getEmployee(), sdf.parse("2014-03-04 09:00:00"));
+        List<WorkTime> workTimes = workTimeRepository.findByEmployeeAndDateOrderByStartTimeAsc(workTime1.getEmployee(), LocalDate.parse("2014-03-04"));
         assertThat(workTimes.size(), isGreaterThanOrEqualTo(2));
     }
 
@@ -74,7 +76,7 @@ public class WorkTimeRepositoryTest extends TransactionalIntegrationTest {
         WorkTime workTime2 = workTimeRepository.findOne(21L);
         workTime2.setEmployee(workTime1.getEmployee());
         workTimeRepository.save(workTime2);
-        Date low, high;
+        LocalDate low, high;
         if(workTime1.getDate().compareTo(workTime2.getDate()) <= 0) {
             low = workTime1.getDate();
             high = workTime2.getDate();
@@ -92,7 +94,7 @@ public class WorkTimeRepositoryTest extends TransactionalIntegrationTest {
         WorkTime workTime2 = workTimeRepository.findOne(21L);
         workTime2.setProject(workTime1.getProject());
         workTimeRepository.save(workTime2);
-        Date low, high;
+        LocalDate low, high;
         if(workTime1.getDate().compareTo(workTime2.getDate()) <= 0) {
             low = workTime1.getDate();
             high = workTime2.getDate();

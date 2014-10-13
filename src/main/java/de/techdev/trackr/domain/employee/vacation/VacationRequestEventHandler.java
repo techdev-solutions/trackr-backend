@@ -3,11 +3,12 @@ package de.techdev.trackr.domain.employee.vacation;
 import de.techdev.trackr.domain.common.UuidMapper;
 import de.techdev.trackr.domain.employee.vacation.support.VacationRequestNotifyService;
 import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.core.annotation.*;
 import org.springframework.security.access.prepost.PreAuthorize;
 
-import java.util.Date;
+import java.time.Instant;
 import java.util.UUID;
 
 /**
@@ -36,7 +37,7 @@ public class VacationRequestEventHandler {
         vacationRequest.setStatus(VacationRequest.VacationRequestStatus.PENDING);
         vacationRequest.setApprover(null);
         vacationRequest.setApprovalDate(null);
-        vacationRequest.setSubmissionTime(new Date());
+        vacationRequest.setSubmissionTime(Instant.now());
         log.debug("Creating vacation request {}", vacationRequest);
     }
 

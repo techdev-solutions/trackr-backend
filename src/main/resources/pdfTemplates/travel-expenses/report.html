@@ -29,8 +29,8 @@
                 </tr>
                 <tr>
                     <td>Period:</td>
-                    <td><span th:if="${startDate}" th:text="${#dates.format(startDate, 'dd.MM.yyyy')}">10.10.2013</span> -
-                        <span th:if="${endDate}" th:text="${#dates.format(endDate, 'dd.MM.yyyy')}">13.10.2013</span></td>
+                    <td><span th:if="${startDate}" th:text="${startDate}">10.10.2013</span> -
+                        <span th:if="${endDate}" th:text="${endDate}">13.10.2013</span></td>
                 </tr>
                 <tr>
                     <td>Total:</td>
@@ -52,8 +52,8 @@
                 </tr>
                 <tr th:each="expense : ${report.expenses}">
                     <td th:text="${expense.type}">TAXI</td>
-                    <td th:text="${#dates.format(expense.fromDate, 'dd.MM.yyyy')}">10.10.2013</td>
-                    <td th:text="${#dates.format(expense.toDate, 'dd.MM.yyyy')}">13.10.2013</td>
+                    <td th:text="${expense.fromDate}">10.10.2013</td>
+                    <td th:text="${expense.toDate}">13.10.2013</td>
                     <td th:text="${expense.vat} + '%'">12%</td>
                     <td th:text="${expense.cost} + ' €'">34 €</td>
                     <td th:text="${expense.comment}">Comment</td>
@@ -63,7 +63,7 @@
     </div>
     <div class="row">
         <div class="col-md-3">
-            Date: <span th:text="${#dates.format(today, 'dd.MM.yyyy')}">24.07.1983</span>
+            Date: <span th:text="${today}">24.07.1983</span>
         </div>
     </div>
     <br/><br/><br/><br/><br/>

@@ -1,17 +1,16 @@
 package de.techdev.trackr.domain.project.worktimes;
 
-import de.techdev.trackr.domain.employee.Employee;
-import de.techdev.trackr.domain.project.Project;
-import org.springframework.data.jpa.repository.Temporal;
+import java.time.LocalDate;
+import java.util.List;
+
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RestResource;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 
-import javax.persistence.TemporalType;
-import java.util.Date;
-import java.util.List;
+import de.techdev.trackr.domain.employee.Employee;
+import de.techdev.trackr.domain.project.Project;
 
 /**
  * @author Moritz Schulze
@@ -31,18 +30,18 @@ public interface WorkTimeRepository extends CrudRepository<WorkTime, Long> {
     WorkTime findOne(Long aLong);
 
     @PreAuthorize("hasRole('ROLE_SUPERVISOR') or #employee.id == principal?.id")
-    List<WorkTime> findByEmployeeAndDateOrderByStartTimeAsc(@Param("employee") Employee employee, @Param("date") @Temporal(TemporalType.DATE) Date date);
+    List<WorkTime> findByEmployeeAndDateOrderByStartTimeAsc(@Param("employee") Employee employee, @Param("date") LocalDate date);
 
     @PreAuthorize("hasRole('ROLE_SUPERVISOR') or #employee.id == principal?.id")
     List<WorkTime> findByEmployeeAndDateBetweenOrderByDateAscStartTimeAsc(@Param("employee") Employee employee,
-                                                                          @Param("start") @Temporal(TemporalType.DATE) Date start,
-                                                                          @Param("end") @Temporal(TemporalType.DATE) Date end);
+                                                                          @Param("start") LocalDate start,
+                                                                          @Param("end") LocalDate end);
 
     @PreAuthorize("hasRole('ROLE_SUPERVISOR')")
     List<WorkTime> findByProjectAndDateBetweenOrderByDateAscStartTimeAsc(@Param("project") Project project,
-                                                                         @Param("start") @Temporal(TemporalType.DATE) Date start,
-                                                                         @Param("end") @Temporal(TemporalType.DATE) Date end);
+                                                                         @Param("start") LocalDate start,
+                                                                         @Param("end") LocalDate end);
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    List<WorkTime> findByDateBetween(@Param("start") Date start, @Param("end") Date end);
+    List<WorkTime> findByDateBetween(@Param("start") LocalDate start, @Param("end") LocalDate end);
 }

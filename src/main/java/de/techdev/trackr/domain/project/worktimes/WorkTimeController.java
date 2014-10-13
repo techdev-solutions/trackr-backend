@@ -1,9 +1,16 @@
 package de.techdev.trackr.domain.project.worktimes;
 
-import de.techdev.trackr.domain.employee.Employee;
-import de.techdev.trackr.domain.project.Project;
-import de.techdev.trackr.domain.project.billtimes.BillableTime;
-import de.techdev.trackr.domain.project.billtimes.BillableTimeRepository;
+import static java.util.stream.Collectors.groupingBy;
+import static java.util.stream.Collectors.mapping;
+import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toMap;
+
+import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.convert.ConversionService;
@@ -17,13 +24,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
-
-import static java.util.stream.Collectors.*;
+import de.techdev.trackr.domain.employee.Employee;
+import de.techdev.trackr.domain.project.Project;
+import de.techdev.trackr.domain.project.billtimes.BillableTime;
+import de.techdev.trackr.domain.project.billtimes.BillableTimeRepository;
 
 /**
  * @author Moritz Schulze
@@ -58,8 +62,8 @@ public class WorkTimeController {
     @ResponseBody
     public Map<Long, WorkTimeEmployee> findEmployeeMappingByProjectAndDateBetween(
             @RequestParam("project") String projectId,
-            @RequestParam("start") Date start,
-            @RequestParam("end") Date end) {
+            @RequestParam("start") LocalDate start,
+            @RequestParam("end") LocalDate end) {
         //TODO: Make spring do the conversion automatically
         Project project = conversionService.convert(Long.valueOf(projectId), Project.class);
         List<WorkTime> workTimes = workTimeRepository.findByProjectAndDateBetweenOrderByDateAscStartTimeAsc(project, start, end);
@@ -74,7 +78,7 @@ public class WorkTimeController {
      * @param project The project
      * @return A map of employee id to a map of date to billable times.
      */
-    protected Map<Long, Map<Date, BillableTime>> getBilledMinutesMapping(Date start, Date end, Project project) {
+    protected Map<Long, Map<LocalDate, BillableTime>> getBilledMinutesMapping(LocalDate start, LocalDate end, Project project) {
         List<BillableTime> billableTimes = billableTimeRepository.findByProjectAndDateBetweenOrderByDateAsc(project, start, end);
         return billableTimes.stream().collect(
                 groupingBy(bt -> bt.getEmployee().getId(),
@@ -90,7 +94,7 @@ public class WorkTimeController {
      * @param billedMinutesMapping Mapping of already billed minutes
      * @return The mapping of Long to WorkTimeEmployee
      */
-    protected Map<Long, WorkTimeEmployee> convertStreamOfWorkTimesToMap(List<WorkTime> workTimes, Map<Long, Map<Date, BillableTime>> billedMinutesMapping) {
+    protected Map<Long, WorkTimeEmployee> convertStreamOfWorkTimesToMap(List<WorkTime> workTimes, Map<Long, Map<LocalDate, BillableTime>> billedMinutesMapping) {
         return workTimes.stream().collect(
                 groupingBy(
                         WorkTime::getEmployee,

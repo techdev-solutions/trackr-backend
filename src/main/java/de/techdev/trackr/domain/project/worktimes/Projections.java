@@ -2,10 +2,11 @@ package de.techdev.trackr.domain.project.worktimes;
 
 import de.techdev.trackr.domain.employee.Employee;
 import de.techdev.trackr.domain.project.Project;
+
 import org.springframework.data.rest.core.config.Projection;
 
-import java.sql.Time;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 /**
  * @author Moritz Schulze
@@ -19,11 +20,11 @@ public class Projections {
 
         Employee getEmployee();
 
-        Date getDate();
+        LocalDate getDate();
 
-        Time getStartTime();
+        LocalTime getStartTime();
 
-        Time getEndTime();
+        LocalTime getEndTime();
 
         String getComment();
     }
@@ -36,11 +37,11 @@ public class Projections {
 
         Project getProject();
 
-        Date getDate();
+        LocalDate getDate();
 
-        Time getStartTime();
+        LocalTime getStartTime();
 
-        Time getEndTime();
+        LocalTime getEndTime();
 
         String getComment();
     }

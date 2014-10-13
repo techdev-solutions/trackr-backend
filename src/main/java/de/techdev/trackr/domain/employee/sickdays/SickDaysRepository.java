@@ -1,6 +1,7 @@
 package de.techdev.trackr.domain.employee.sickdays;
 
 import de.techdev.trackr.domain.employee.Employee;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -10,7 +11,7 @@ import org.springframework.data.rest.core.annotation.RestResource;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -32,10 +33,10 @@ public interface SickDaysRepository extends JpaRepository<SickDays, Long> {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     List<SickDays> findByStartDateBetweenOrEndDateBetween(
-            @Param("startLower") Date startLower,
-            @Param("startHigher") Date startHigher,
-            @Param("endLower") Date endLower,
-            @Param("endHigher") Date endHigher
+            @Param("startLower") LocalDate startLower,
+            @Param("startHigher") LocalDate startHigher,
+            @Param("endLower") LocalDate endLower,
+            @Param("endHigher") LocalDate endHigher
     );
 
 }

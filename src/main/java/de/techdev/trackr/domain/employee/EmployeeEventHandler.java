@@ -1,7 +1,6 @@
 package de.techdev.trackr.domain.employee;
 
 import de.techdev.trackr.domain.employee.login.Credential;
-import de.techdev.trackr.util.LocalDateUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.rest.core.annotation.*;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -32,7 +31,7 @@ public class EmployeeEventHandler {
         // enabled can be null (was needed for TRACKR-20)
         if(employee.getLeaveDate() != null && employee.getCredential().getEnabled() != null && employee.getCredential().getEnabled()) {
             LocalDate today = LocalDate.now();
-            LocalDate leaveDate = LocalDateUtil.fromDate(employee.getLeaveDate());
+            LocalDate leaveDate = employee.getLeaveDate();
             if(leaveDate.isBefore(today) || leaveDate.equals(today)) {
                 log.info("Deactivating employee {}", employee);
                 employee.getCredential().setEnabled(false);

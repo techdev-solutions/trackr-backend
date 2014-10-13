@@ -1,15 +1,22 @@
 package de.techdev.trackr.domain.project.worktimes;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Version;
+import javax.validation.constraints.NotNull;
+
+import lombok.Data;
+import lombok.ToString;
 import de.techdev.trackr.domain.employee.Employee;
 import de.techdev.trackr.domain.project.Project;
 import de.techdev.trackr.domain.validation.constraints.EndAfterBegin;
-import lombok.Data;
-import lombok.ToString;
-
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import java.sql.Time;
-import java.util.Date;
 
 /**
  * @author Moritz Schulze
@@ -38,12 +45,11 @@ public class WorkTime {
     private Project project;
 
     @NotNull
-    @Temporal(TemporalType.DATE)
-    private Date date;
+    private LocalDate date;
 
-    private Time startTime;
+    private LocalTime startTime;
 
-    private Time endTime;
+    private LocalTime endTime;
 
     private String comment;
 

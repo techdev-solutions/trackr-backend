@@ -2,15 +2,19 @@ package de.techdev.trackr.domain.project.invoice;
 
 import de.techdev.trackr.core.security.AuthorityMocks;
 import de.techdev.trackr.domain.AbstractDomainResourceTest;
+
 import org.junit.Test;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import javax.json.stream.JsonGenerator;
+
 import java.io.StringWriter;
-import java.text.SimpleDateFormat;
+
+
 import java.util.Date;
 
 import static de.techdev.trackr.domain.DomainResourceTestMatchers.*;
+import static java.time.format.DateTimeFormatter.ISO_LOCAL_DATE;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -32,15 +36,14 @@ public class InvoiceResourceTest extends AbstractDomainResourceTest<Invoice> {
 
         StringWriter writer = new StringWriter();
         JsonGenerator jg = jsonGeneratorFactory.createGenerator(writer);
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         jg.writeStartObject()
                 .write("identifier", invoice.getIdentifier())
                 .write("invoiceState", invoice.getInvoiceState().toString())
                 .write("invoiceTotal", invoice.getInvoiceTotal())
                 .write("debitor", "/companies/" + invoice.getDebitor().getId())
-                .write("creationDate", sdf.format(invoice.getCreationDate()));
+                .write("creationDate", ISO_LOCAL_DATE.format(invoice.getCreationDate()));
         if (invoice.getDueDate() != null) {
-            jg.write("dueDate", sdf.format(invoice.getDueDate()));
+            jg.write("dueDate", ISO_LOCAL_DATE.format(invoice.getDueDate()));
         }
         if (invoice.getId() != null) {
             jg.write("id", invoice.getId());

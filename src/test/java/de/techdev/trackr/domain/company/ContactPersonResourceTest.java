@@ -7,7 +7,6 @@ import javax.json.stream.JsonGenerator;
 import java.io.StringWriter;
 
 import static de.techdev.trackr.domain.DomainResourceTestMatchers.*;
-import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;

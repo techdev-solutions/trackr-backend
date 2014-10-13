@@ -1,16 +1,18 @@
 package de.techdev.trackr.domain.employee.sickdays;
 
 import de.techdev.trackr.domain.AbstractDomainResourceTest;
+
 import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.mock.web.MockHttpSession;
 
 import javax.json.stream.JsonGenerator;
+
 import java.io.StringWriter;
-import java.text.SimpleDateFormat;
 import java.util.function.Function;
 
 import static de.techdev.trackr.domain.DomainResourceTestMatchers.*;
+import static java.time.format.DateTimeFormatter.ISO_LOCAL_DATE;
 import static org.echocat.jomon.testing.Assert.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -136,12 +138,11 @@ public class SickDaysResourceTest extends AbstractDomainResourceTest<SickDays> {
     protected String getJsonRepresentation(SickDays sickDays) {
         StringWriter writer = new StringWriter();
         JsonGenerator jg = jsonGeneratorFactory.createGenerator(writer);
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         jg.writeStartObject()
-                .write("startDate", sdf.format(sickDays.getStartDate()));
+                .write("startDate", ISO_LOCAL_DATE.format(sickDays.getStartDate()));
 
         if (sickDays.getEndDate() != null) {
-            jg.write("endDate", sdf.format(sickDays.getEndDate()));
+            jg.write("endDate", ISO_LOCAL_DATE.format(sickDays.getEndDate()));
         }
 
         if (sickDays.getEmployee() != null) {

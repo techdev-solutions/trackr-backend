@@ -1,7 +1,6 @@
 package de.techdev.trackr.domain.employee.login;
 
 import de.techdev.trackr.domain.AbstractDataOnDemand;
-import de.techdev.trackr.domain.AbstractDomainResourceTest;
 import de.techdev.trackr.domain.employee.EmployeeDataOnDemand;
 import org.springframework.beans.factory.annotation.Autowired;
 

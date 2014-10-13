@@ -2,10 +2,11 @@ package de.techdev.trackr.domain.employee;
 
 import de.techdev.trackr.domain.common.FederalState;
 import de.techdev.trackr.domain.employee.login.Credential;
+
 import org.springframework.data.rest.core.config.Projection;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDate;
 
 /**
  * @author Moritz Schulze
@@ -28,9 +29,9 @@ public interface EmployeeWithCredentialProjection {
 
     BigDecimal getHourlyCostRate();
 
-    Date getJoinDate();
+    LocalDate getJoinDate();
 
-    Date getLeaveDate();
+    LocalDate getLeaveDate();
 
     FederalState getFederalState();
 

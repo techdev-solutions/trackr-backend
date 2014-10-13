@@ -1,29 +1,38 @@
 package de.techdev.trackr.domain.project.worktimes;
 
-import de.techdev.trackr.domain.AbstractDomainResourceTest;
-import de.techdev.trackr.domain.project.worktimes.WorkTime;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.springframework.mock.web.MockHttpSession;
-
-import javax.json.stream.JsonGenerator;
-import java.io.StringWriter;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.function.Function;
-
-import static de.techdev.trackr.domain.DomainResourceTestMatchers.*;
+import static de.techdev.trackr.domain.DomainResourceTestMatchers.isAccessible;
+import static de.techdev.trackr.domain.DomainResourceTestMatchers.isCreated;
+import static de.techdev.trackr.domain.DomainResourceTestMatchers.isForbidden;
+import static de.techdev.trackr.domain.DomainResourceTestMatchers.isMethodNotAllowed;
+import static de.techdev.trackr.domain.DomainResourceTestMatchers.isNoContent;
+import static de.techdev.trackr.domain.DomainResourceTestMatchers.isUpdated;
 import static org.echocat.jomon.testing.BaseMatchers.isNotNull;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.io.StringWriter;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
+import java.util.function.Function;
+
+import javax.json.stream.JsonGenerator;
+
+import org.junit.Ignore;
+import org.junit.Test;
+import org.springframework.mock.web.MockHttpSession;
+
+import de.techdev.trackr.domain.AbstractDomainResourceTest;
+
 /**
  * @author Moritz Schulze
  */
 public class WorkTimeResourceTest extends AbstractDomainResourceTest<WorkTime> {
 
+	static final DateTimeFormatter LOCAL_DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     private final Function<WorkTime, MockHttpSession> sameEmployeeSessionProvider;
     private final Function<WorkTime, MockHttpSession> otherEmployeeSessionProvider;
 
@@ -130,12 +139,11 @@ public class WorkTimeResourceTest extends AbstractDomainResourceTest<WorkTime> {
     @Test
     public void findByEmployeeAndDateOrderByStartTimeAscAllowedForOwner() throws Exception {
         WorkTime workTime = dataOnDemand.getRandomObject();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         mockMvc.perform(
                 get("/workTimes/search/findByEmployeeAndDateOrderByStartTimeAsc")
                         .session(employeeSession(workTime.getEmployee().getId()))
                         .param("employee", workTime.getEmployee().getId().toString())
-                        .param("date", sdf.format(workTime.getDate())))
+                        .param("date", LOCAL_DATE_FORMAT.format(workTime.getDate())))
                .andExpect(status().isOk())
                .andExpect(jsonPath("_embedded.workTimes[0].id", isNotNull()));
     }
@@ -143,12 +151,11 @@ public class WorkTimeResourceTest extends AbstractDomainResourceTest<WorkTime> {
     @Test
     public void findByEmployeeAndDateOrderByStartTimeAscAllowedForSupervisor() throws Exception {
         WorkTime workTime = dataOnDemand.getRandomObject();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         mockMvc.perform(
                 get("/workTimes/search/findByEmployeeAndDateOrderByStartTimeAsc")
                         .session(supervisorSession())
                         .param("employee", workTime.getEmployee().getId().toString())
-                        .param("date", sdf.format(workTime.getDate())))
+                        .param("date", LOCAL_DATE_FORMAT.format(workTime.getDate())))
                .andExpect(status().isOk())
                .andExpect(jsonPath("_embedded.workTimes[0].id", isNotNull()));
     }
@@ -179,7 +186,7 @@ public class WorkTimeResourceTest extends AbstractDomainResourceTest<WorkTime> {
         WorkTime workTime2 = dataOnDemand.getRandomObject();
         workTime2.setEmployee(workTime1.getEmployee());
         repository.save(workTime2);
-        Date low, high;
+        LocalDate low, high;
         if(workTime1.getDate().compareTo(workTime2.getDate()) <= 0) {
             low = workTime1.getDate();
             high = workTime2.getDate();
@@ -187,13 +194,12 @@ public class WorkTimeResourceTest extends AbstractDomainResourceTest<WorkTime> {
             low = workTime2.getDate();
             high = workTime1.getDate();
         }
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         mockMvc.perform(
                 get("/workTimes/search/findByEmployeeAndDateBetweenOrderByDateAscStartTimeAsc")
                         .session(employeeSession(workTime1.getEmployee().getId()))
                         .param("employee", workTime1.getEmployee().getId().toString())
-                        .param("start", sdf.format(low))
-                        .param("end", sdf.format(high)))
+                        .param("start", LOCAL_DATE_FORMAT.format(low))
+                        .param("end", LOCAL_DATE_FORMAT.format(high)))
                .andExpect(status().isOk())
                .andExpect(jsonPath("_embedded.workTimes[0].id", isNotNull()));
     }
@@ -204,7 +210,7 @@ public class WorkTimeResourceTest extends AbstractDomainResourceTest<WorkTime> {
         WorkTime workTime2 = dataOnDemand.getRandomObject();
         workTime2.setEmployee(workTime1.getEmployee());
         repository.save(workTime2);
-        Date low, high;
+        LocalDate low, high;
         if(workTime1.getDate().compareTo(workTime2.getDate()) <= 0) {
             low = workTime1.getDate();
             high = workTime2.getDate();
@@ -212,13 +218,12 @@ public class WorkTimeResourceTest extends AbstractDomainResourceTest<WorkTime> {
             low = workTime2.getDate();
             high = workTime1.getDate();
         }
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         mockMvc.perform(
                 get("/workTimes/search/findByEmployeeAndDateBetweenOrderByDateAscStartTimeAsc")
                         .session(supervisorSession())
                         .param("employee", workTime1.getEmployee().getId().toString())
-                        .param("start", sdf.format(low))
-                        .param("end", sdf.format(high)))
+                        .param("start", LOCAL_DATE_FORMAT.format(low))
+                        .param("end", LOCAL_DATE_FORMAT.format(high)))
                .andExpect(status().isOk())
                .andExpect(jsonPath("_embedded.workTimes[0].id", isNotNull()));
     }
@@ -267,7 +272,7 @@ public class WorkTimeResourceTest extends AbstractDomainResourceTest<WorkTime> {
         WorkTime workTime2 = dataOnDemand.getRandomObject();
         workTime2.setProject(workTime1.getProject());
         repository.save(workTime2);
-        Date low, high;
+        LocalDate low, high;
         if(workTime1.getDate().compareTo(workTime2.getDate()) <= 0) {
             low = workTime1.getDate();
             high = workTime2.getDate();
@@ -275,13 +280,12 @@ public class WorkTimeResourceTest extends AbstractDomainResourceTest<WorkTime> {
             low = workTime2.getDate();
             high = workTime1.getDate();
         }
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         mockMvc.perform(
                 get("/workTimes/search/findByProjectAndDateBetweenOrderByDateAscStartTimeAsc")
                         .session(supervisorSession())
                         .param("project", workTime1.getProject().getId().toString())
-                        .param("start", sdf.format(low))
-                        .param("end", sdf.format(high)))
+                        .param("start", LOCAL_DATE_FORMAT.format(low))
+                        .param("end", LOCAL_DATE_FORMAT.format(high)))
                .andExpect(status().isOk())
                .andExpect(jsonPath("_embedded.workTimes[0].id", isNotNull()));
     }
@@ -303,9 +307,9 @@ public class WorkTimeResourceTest extends AbstractDomainResourceTest<WorkTime> {
     protected String getJsonRepresentation(WorkTime workTime) {
         StringWriter writer = new StringWriter();
         JsonGenerator jg = jsonGeneratorFactory.createGenerator(writer);
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         jg.writeStartObject()
-          .write("date", sdf.format(workTime.getDate()))
+          .write("date", dtf.format(workTime.getDate()))
           .write("startTime", workTime.getStartTime().toString())
           .write("endTime", workTime.getEndTime().toString())
           .write("employee", "/employees/" + workTime.getEmployee().getId())

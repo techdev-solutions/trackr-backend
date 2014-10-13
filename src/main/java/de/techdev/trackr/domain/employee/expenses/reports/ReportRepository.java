@@ -1,6 +1,7 @@
 package de.techdev.trackr.domain.employee.expenses.reports;
 
 import de.techdev.trackr.domain.employee.Employee;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.CrudRepository;
@@ -10,7 +11,7 @@ import org.springframework.data.rest.core.annotation.RestResource;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 
-import java.util.Date;
+import java.time.Instant;
 import java.util.List;
 
 /**
@@ -34,6 +35,6 @@ public interface ReportRepository extends CrudRepository<Report, Long> {
     Page<Report> findByStatusOrderByEmployee_LastNameAsc(@Param("status") Report.Status status, Pageable pageable);
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    List<Report> findBySubmissionDateBetween(@Param("start") Date start, @Param("end") Date end);
+    List<Report> findBySubmissionDateBetween(@Param("start") Instant start, @Param("end") Instant end);
 }
 

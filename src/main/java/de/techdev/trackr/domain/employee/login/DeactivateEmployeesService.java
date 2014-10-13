@@ -4,7 +4,6 @@ import de.techdev.trackr.core.security.OAuth2ServerConfiguration;
 import de.techdev.trackr.core.security.RemoveTokenService;
 import de.techdev.trackr.domain.employee.Employee;
 import de.techdev.trackr.domain.employee.EmployeeRepository;
-import de.techdev.trackr.util.LocalDateUtil;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +32,7 @@ public class DeactivateEmployeesService {
      */
     @Transactional
     public void deactivateEmployeesWithLeaveDateToday() {
-        List<Employee> employeesToDeactivate = employeeRepository.findByLeaveDateAndCredential_Enabled(LocalDateUtil.fromLocalDate(LocalDate.now()), true);
+        List<Employee> employeesToDeactivate = employeeRepository.findByLeaveDateAndCredential_Enabled(LocalDate.now(), true);
         employeesToDeactivate.forEach(employee -> {
             log.info("Deactivating employee {}", employee);
             employee.getCredential().setEnabled(false);

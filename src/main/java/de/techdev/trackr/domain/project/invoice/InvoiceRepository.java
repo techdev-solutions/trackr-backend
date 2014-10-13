@@ -8,8 +8,8 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RestResource;
 import org.springframework.security.access.prepost.PreAuthorize;
 
-import java.util.Date;
-import java.util.List;
+import java.time.LocalDate;
+import  java.util.List;
 
 /**
  * @author Moritz Schulze
@@ -30,9 +30,10 @@ public interface InvoiceRepository extends JpaRepository<Invoice, Long> {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     Page<Invoice> findByIdentifierLikeIgnoreCaseAndInvoiceState(@Param("identifier") String identifier, @Param("state") Invoice.InvoiceState state, Pageable pageable);
 
+    //TODO Test
     @RestResource(exported = false)
-    List<Invoice> findByDueDateBeforeAndInvoiceState(Date date, Invoice.InvoiceState invoiceState);
+    List<Invoice> findByDueDateBeforeAndInvoiceState(LocalDate date, Invoice.InvoiceState invoiceState);
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    List<Invoice> findByCreationDateBetween(@Param("start") Date start, @Param("end") Date end, @Param("sort") Sort sort);
+    List<Invoice> findByCreationDateBetween(@Param("start") LocalDate start, @Param("end") LocalDate end, @Param("sort") Sort sort);
 }

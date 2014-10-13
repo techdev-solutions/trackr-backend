@@ -1,6 +1,7 @@
 package de.techdev.trackr.domain.employee.vacation;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import de.techdev.trackr.domain.employee.Employee;
 import de.techdev.trackr.domain.validation.constraints.EndAfterBegin;
 import lombok.Data;
@@ -8,7 +9,9 @@ import lombok.ToString;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.Date;
+
+import java.time.Instant;
+import java.time.LocalDate;
 
 /**
  * @author Moritz Schulze
@@ -34,24 +37,20 @@ public class VacationRequest {
     @NotNull
     private Employee employee;
 
-    @Temporal(TemporalType.DATE)
     @NotNull
-    private Date startDate;
+    private LocalDate startDate;
 
-    @Temporal(TemporalType.DATE)
     @NotNull
-    private Date endDate;
+    private LocalDate endDate;
 
     private Integer numberOfDays;
 
     @Enumerated(EnumType.STRING)
     private VacationRequestStatus status;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date approvalDate;
+    private Instant approvalDate;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date submissionTime;
+    private Instant submissionTime;
 
     @ManyToOne
     private Employee approver;

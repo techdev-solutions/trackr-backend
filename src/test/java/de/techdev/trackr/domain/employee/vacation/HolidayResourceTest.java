@@ -1,14 +1,16 @@
 package de.techdev.trackr.domain.employee.vacation;
 
 import de.techdev.trackr.domain.AbstractDomainResourceTest;
+
 import org.junit.Test;
 
 import javax.json.stream.JsonGenerator;
+
 import java.io.StringWriter;
-import java.text.SimpleDateFormat;
 
 import static de.techdev.trackr.domain.DomainResourceTestMatchers.isAccessible;
 import static de.techdev.trackr.domain.DomainResourceTestMatchers.isMethodNotAllowed;
+import static java.time.format.DateTimeFormatter.ISO_LOCAL_DATE;
 import static org.junit.Assert.*;
 
 public class HolidayResourceTest extends AbstractDomainResourceTest<Holiday> {
@@ -45,12 +47,11 @@ public class HolidayResourceTest extends AbstractDomainResourceTest<Holiday> {
 
     @Override
     protected String getJsonRepresentation(Holiday holiday) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         StringWriter writer = new StringWriter();
         JsonGenerator jsonGenerator = jsonGeneratorFactory.createGenerator(writer);
         JsonGenerator jg = jsonGenerator
                 .writeStartObject()
-                .write("startDate", sdf.format(holiday.getDay()))
+                .write("startDate", ISO_LOCAL_DATE.format(holiday.getDay()))
                 .write("status", holiday.getName())
                 .write("federalState", holiday.getFederalState().toString());
 
