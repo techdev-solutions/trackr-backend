@@ -3,6 +3,8 @@ package de.techdev.trackr.core.security;
 import de.techdev.trackr.domain.employee.login.Authority;
 import de.techdev.trackr.domain.employee.login.TrackrUser;
 import de.techdev.trackr.domain.employee.login.TrackrUserDetailsService;
+
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -25,6 +27,7 @@ import org.springframework.security.openid.OpenIDAuthenticationToken;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import javax.servlet.Filter;
+
 import java.util.Locale;
 
 import static java.util.Arrays.asList;
@@ -38,6 +41,9 @@ import static java.util.Arrays.asList;
 @PropertySource({"classpath:application_${spring.profiles.active:dev}.properties"})
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
+    @Value("${auth.module}")
+    private String authModule;
+
     @Bean
     public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
         return new PropertySourcesPlaceholderConfigurer();
@@ -45,7 +51,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(username -> new TrackrUser("admin@techdev.de", "techdev", true, asList(new Authority("ROLE_ADMIN")), 0L, Locale.ENGLISH));
+        auth.userDetailsService(username ->{
+        	return new TrackrUser("admin@techdev.de", "techdev", true, asList(new Authority("ROLE_ADMIN")), 0L, Locale.ENGLISH);});
     }
 
     @Override
@@ -67,24 +74,41 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.addFilterBefore(openIdReturnToFilter(), OpenIDAuthenticationFilter.class);
-
         http
+        .authorizeRequests()
+            .antMatchers("/login", "/admin").permitAll()
+        	.antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+        .and()
+        	.authorizeRequests().antMatchers("/**").hasAnyRole("ADMIN", "EMPLOYEE", "SUPERVISOR")
+        .and()
+        	.csrf().requireCsrfProtectionMatcher(new AntPathRequestMatcher("/oauth/authorize")).disable()
+            .logout().logoutUrl("/logout").logoutSuccessUrl("/login");
+            
+
+
+        if ("mem".equals(authModule)) {
+    		useInMemoryAuthentication(http);
+        }
+
+        if ("openid".equals(authModule)) {
+            useOpenid(http);
+        }
+    }
+
+    private void useInMemoryAuthentication(HttpSecurity http) throws Exception {
+		http
             .authorizeRequests()
-                .antMatchers("/login", "/admin").permitAll()
-                .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-            .and()
-                .authorizeRequests().antMatchers("/**").hasAnyRole("ADMIN", "EMPLOYEE", "SUPERVISOR")
+                .antMatchers("/login").permitAll()
             .and()
             .formLogin() //this is only for the admin account
                 .loginPage("/login") //redirect to /login if no authenticated session is active
                 .loginProcessingUrl("/login/admin") //form has to post to /login/admin
-                .defaultSuccessUrl("/success", false)
-            .and()
-            .csrf().requireCsrfProtectionMatcher(new AntPathRequestMatcher("/oauth/authorize")).disable()
-            .logout().logoutUrl("/logout").logoutSuccessUrl("/login")
-            .and()
-            .openidLogin()
+                .defaultSuccessUrl("/success", false);
+    }
+
+	private void useOpenid(HttpSecurity http) throws Exception {
+        http.addFilterBefore(openIdReturnToFilter(), OpenIDAuthenticationFilter.class);
+        http.openidLogin()
                 .loginPage("/login") //see above
                 .defaultSuccessUrl("/success", false)
                 .failureUrl("/login")
