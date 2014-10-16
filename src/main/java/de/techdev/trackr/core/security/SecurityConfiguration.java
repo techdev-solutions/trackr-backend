@@ -25,6 +25,8 @@ import org.springframework.security.core.userdetails.AuthenticationUserDetailsSe
 import org.springframework.security.openid.OpenIDAuthenticationFilter;
 import org.springframework.security.openid.OpenIDAuthenticationToken;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.Filter;
 
@@ -76,7 +78,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
         .authorizeRequests()
-            .antMatchers("/login", "/admin").permitAll()
+            .antMatchers("/login").permitAll()
         	.antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
         .and()
         	.authorizeRequests().antMatchers("/**").hasAnyRole("ADMIN", "EMPLOYEE", "SUPERVISOR")
@@ -95,16 +97,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         }
     }
 
-    private void useInMemoryAuthentication(HttpSecurity http) throws Exception {
-		http
-            .authorizeRequests()
-                .antMatchers("/login").permitAll()
-            .and()
-            .formLogin() //this is only for the admin account
-                .loginPage("/login") //redirect to /login if no authenticated session is active
-                .loginProcessingUrl("/login/admin") //form has to post to /login/admin
-                .defaultSuccessUrl("/success", false);
-    }
+	private void useInMemoryAuthentication(HttpSecurity http) throws Exception {
+		http.authorizeRequests()
+		.antMatchers("/login").permitAll()
+			.and()
+				.formLogin()
+				.loginPage("/login")
+				.loginProcessingUrl("/login/process")
+				.defaultSuccessUrl("/success", false);
+	}
 
 	private void useOpenid(HttpSecurity http) throws Exception {
         http.addFilterBefore(openIdReturnToFilter(), OpenIDAuthenticationFilter.class);
