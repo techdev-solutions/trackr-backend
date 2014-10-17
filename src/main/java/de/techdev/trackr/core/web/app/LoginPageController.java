@@ -4,11 +4,13 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import de.techdev.trackr.core.security.SecurityConfiguration;
+
 @Controller
 public class LoginPageController {
 	
 
-    @Value("${auth.module}")
+    @Value(SecurityConfiguration.AUTH_MODULE_SPEL)
 	String authModule;
 	 
 

@@ -1,11 +1,13 @@
 package de.techdev.trackr.core.web.app;
 
 import de.techdev.trackr.domain.JpaConfiguration;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
@@ -22,10 +24,20 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 @WebAppConfiguration
 @ContextConfiguration(classes = {AppWebMvcConfiguration.class, JpaConfiguration.class})
 @RunWith(SpringJUnit4ClassRunner.class)
+@TestPropertySource(properties="auth.module=property")
 public class LoginControllerTest {
     protected MockMvc mockMvc;
+    private final String expectedLoginViewName ;
+    
+    public LoginControllerTest() {
+		this( "login");
+	}
 
-    @Autowired
+    protected LoginControllerTest(String expectedLoginViewName) {
+		this.expectedLoginViewName = expectedLoginViewName;
+	}
+
+	@Autowired
     private WebApplicationContext webApplicationContext;
 
     @Before
@@ -35,16 +47,13 @@ public class LoginControllerTest {
 
     @Test
     public void home() throws Exception {
-        mockMvc.perform(get("/login")).andExpect(status().isOk()).andExpect(view().name("login"));
-    }
-
-    @Test
-    public void admin() throws Exception {
-        mockMvc.perform(get("/admin")).andExpect(status().isOk()).andExpect(view().name("admin"));
+		mockMvc.perform(get("/login")).andExpect(status().isOk()).andExpect(view().name(expectedLoginViewName));
     }
 
     @Test
     public void successPage() throws Exception {
         mockMvc.perform(get("/success")).andExpect(status().isOk()).andExpect(view().name("success"));
     }
+
+
 }

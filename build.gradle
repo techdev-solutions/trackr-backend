@@ -7,7 +7,7 @@ apply plugin: 'sonar-runner'
 sourceCompatibility = 1.8
 version = '1.0'
 project.ext {
-    springVersion = '4.0.5.RELEASE'
+    springVersion = '4.1.1.RELEASE'
     springSecurityVersion = '3.2.3.RELEASE'
 }
 compileJava.options.encoding = 'UTF-8'
