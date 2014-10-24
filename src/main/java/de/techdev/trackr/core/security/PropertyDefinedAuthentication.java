@@ -5,8 +5,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.EnableGlobalAuthentication;
 import org.springframework.security.config.annotation.authentication.configurers.GlobalAuthenticationConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
 import de.techdev.trackr.core.security.auth.AuthenticationType;
+import de.techdev.trackr.core.security.auth.UserCredentialSupport;
 
 @AuthenticationType({"property"})
 @EnableGlobalAuthentication
@@ -19,8 +21,13 @@ public class PropertyDefinedAuthentication extends GlobalAuthenticationConfigure
 		auth.userDetailsService(userFromPropertyList());
 	}
 
+	@Bean 
+	public  UserCredentialSupport userCreationSupport(){
+		return UserCredentialSupport.withCreateActivatedEmployees();
+	}
+	
 	@Bean
-	public  UserFromPropertyList userFromPropertyList() {
+	public  UserDetailsService userFromPropertyList() {
 		return new UserFromPropertyList();
 	}
 
