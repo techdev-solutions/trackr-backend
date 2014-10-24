@@ -36,6 +36,10 @@ import de.techdev.trackr.domain.employee.login.TrackrUserDetailsService;
 @PropertySource({"classpath:application_${spring.profiles.active:dev}.properties"})
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
+	public static final String ROLE_EMPLOYEE = "ROLE_EMPLOYEE";
+	public static final String ROLE_ANONYMOUS = "ROLE_ANONYMOUS";
+	public static final String ROLE_SUPERVISOR = "ROLE_SUPERVISOR";
+	public static final String ROLE_ADMIN = "ROLE_ADMIN";
 	public  static final String AUTH_MODULE_PROPERTY_NAME = "auth.module";
 	public static final String AUTH_MODULE_SPEL = "${" + AUTH_MODULE_PROPERTY_NAME + "}";
 	@Value(AUTH_MODULE_SPEL)
@@ -120,7 +124,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	public RoleHierarchy roleHierarchy() {
 		RoleHierarchyImpl roleHierarchy = new RoleHierarchyImpl();
 		//TODO make this configurable
-		roleHierarchy.setHierarchy("ROLE_ADMIN > ROLE_SUPERVISOR ROLE_SUPERVISOR > ROLE_EMPLOYEE ROLE_EMPLOYEE > ROLE_ANONYMOUS");
+		roleHierarchy.setHierarchy(
+				String.join(" ", 
+				ROLE_ADMIN + " > " + ROLE_SUPERVISOR,
+				ROLE_SUPERVISOR	+ " > " + ROLE_EMPLOYEE, 
+				ROLE_EMPLOYEE + " > " + ROLE_ANONYMOUS));
 		return roleHierarchy;
 	}
 
