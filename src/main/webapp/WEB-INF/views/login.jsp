@@ -3,7 +3,7 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>trackr admin login</title>
+    <title>trackr login</title>
     <link rel="stylesheet" href="webjars/bootstrap/3.1.1/css/bootstrap.min.css"/>
 </head>
 <body>
