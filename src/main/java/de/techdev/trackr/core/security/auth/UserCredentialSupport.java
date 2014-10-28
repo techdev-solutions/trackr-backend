@@ -20,6 +20,22 @@ import de.techdev.trackr.domain.employee.login.AuthorityRepository;
 import de.techdev.trackr.domain.employee.login.Credential;
 import de.techdev.trackr.domain.employee.login.CredentialRepository;
 
+
+/**
+ * This class encapsulates the credential load or creation during a login. 
+ * It is configured by
+ * <ol>
+ * 	<li>{@link #setAutoCreationDecider(Predicate)}, which defines a strategy 
+ *   	to determine whether a new user should be created for the passed attributes. 
+ *      The default is always auto create user. 
+ *  <li>{@link #setCreator(Function)}, which creates a new Employee based on the passed 
+ *      attributes and other business requirements, like activated by default. 
+ *      The default is to create a deactivated user with no authority.
+ * </ol>  
+ * 
+ * @author Lars Sadau	
+ *
+ */
 @Slf4j
 @Getter
 @Setter
@@ -53,7 +69,7 @@ public class UserCredentialSupport {
 		}
 	}
 
-	
+
 
 
 	public Credential findByMail(String email) {
@@ -85,7 +101,7 @@ public class UserCredentialSupport {
 		employee.setLastName(attributes.get("last"));
 		employee.setFederalState(FederalState.BERLIN);
 		credential.setEmail(attributes.get("email"));
-		
+
 		credential.setEnabled(false);
 		credential.setEmployee(employee);
 		credential.setLocale("en");
@@ -138,7 +154,7 @@ public class UserCredentialSupport {
 		}
 		return credential;
 	}
-	
+
 	public static UserCredentialSupport withCreateActivatedEmployees(){
 		UserCredentialSupport userCreationSupport = new UserCredentialSupport();
 		userCreationSupport.setCreator(userCreationSupport::createActivatedEmployee);

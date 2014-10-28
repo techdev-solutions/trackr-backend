@@ -91,28 +91,30 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
 
 	private void configureFormBasedLoginAuthentication(HttpSecurity http) throws Exception {
-		http.authorizeRequests()
-		.antMatchers("/login").permitAll()
-		.and()
-		.formLogin()
-		.loginPage("/login")
-		.loginProcessingUrl("/login/process")
-		.defaultSuccessUrl("/success", false);
+		http
+		    .authorizeRequests()
+		        .antMatchers("/login").permitAll()
+		    .and()
+		    .formLogin()
+		        .loginPage("/login")
+		        .loginProcessingUrl("/login/process")
+		        .defaultSuccessUrl("/success", false);
 	}
 
 	private void configureOpenid(HttpSecurity http) throws Exception {
 		http.addFilterBefore(openIdReturnToFilter(), OpenIDAuthenticationFilter.class);
-		http.openidLogin()
-		.loginPage("/login") //see above
-		.defaultSuccessUrl("/success", false)
-		.failureUrl("/login")
-		.authenticationUserDetailsService(trackrUserDetailsService()) //use our user detail service to map google accounts to techdev accounts
-		.attributeExchange("https://www.google.com/.*")
-		.attribute("email").required(true).type("http://schema.openid.net/contact/email")
-		.and()
-		.attribute("first").required(true).type("http://schema.openid.net/namePerson/first")
-		.and()
-		.attribute("last").required(true).type("http://schema.openid.net/namePerson/last");
+		http
+	        .openidLogin()
+		        .loginPage("/login") //see above
+		        .defaultSuccessUrl("/success", false)
+		        .failureUrl("/login")
+		        .authenticationUserDetailsService(trackrUserDetailsService()) //use our user detail service to map google accounts to techdev accounts
+		        .attributeExchange("https://www.google.com/.*")
+		            .attribute("email").required(true).type("http://schema.openid.net/contact/email")
+		            .and()
+		            .attribute("first").required(true).type("http://schema.openid.net/namePerson/first")
+		            .and()
+		            .attribute("last").required(true).type("http://schema.openid.net/namePerson/last");
 	}
 
 	@Bean
