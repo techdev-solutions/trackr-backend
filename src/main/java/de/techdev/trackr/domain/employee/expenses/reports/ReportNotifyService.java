@@ -14,6 +14,7 @@ import java.util.List;
 
 /**
  * @author Moritz Schulze
+ * @author Alexander Hanschke
  */
 public class ReportNotifyService {
 
@@ -46,6 +47,30 @@ public class ReportNotifyService {
         mailMessage.setText(
                 String.format("%s submitted a new travel expense report (#%d) totalling %.2f.\n\nGo to %s to approve or reject it.",
                         fullName(report.getEmployee()), report.getId(), getTotalAmount(report), getWebLink(report))
+        );
+        mailService.sendMail(mailMessage);
+    }
+
+    public void sendApprovedReportMail(Report report) {
+        sendStatusChangeReportMail(report, "approved");
+    }
+
+    public void sendRejectedReportMail(Report report) {
+        sendStatusChangeReportMail(report, "rejected");
+    }
+
+    private void sendStatusChangeReportMail(Report report, String outcome) {
+        String[] emails = supervisorService.getSupervisorEmailsArrayWithout(
+                credential -> !report.getEmployee().getCredential().getEmail().equals(credential.getEmail())
+        );
+
+        SimpleMailMessage mailMessage = new SimpleMailMessage();
+        mailMessage.setFrom("no-reply@techdev.de");
+        mailMessage.setTo(emails);
+        mailMessage.setSubject(String.format("Your travel expense report has been %s", outcome));
+        mailMessage.setText(
+                String.format("%s has %s your travel expense report #%d.",
+                        report.getApprover(), outcome, report.getId())
         );
         mailService.sendMail(mailMessage);
     }

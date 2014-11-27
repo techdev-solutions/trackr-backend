@@ -31,11 +31,13 @@ public class ReportService {
 
     @PreAuthorize("hasRole('ROLE_SUPERVISOR') and #travelExpenseReport.employee.id != principal?.id")
     public Report accept(Report travelExpenseReport, String approverName) {
+        travelExpenseReportNotifyService.sendApprovedReportMail(travelExpenseReport);
         return setStatusOnTravelExpenseReport(travelExpenseReport, Report.Status.APPROVED, approverName);
     }
 
     @PreAuthorize("hasRole('ROLE_SUPERVISOR') and #travelExpenseReport.employee.id != principal?.id")
     public Report reject(Report travelExpenseReport, String rejecterName) {
+        travelExpenseReportNotifyService.sendRejectedReportMail(travelExpenseReport);
         return setStatusOnTravelExpenseReport(travelExpenseReport, Report.Status.REJECTED, rejecterName);
     }
 
