@@ -52,21 +52,17 @@ public class ReportNotifyService {
     }
 
     public void sendApprovedReportMail(Report report) {
-        sendStatusChangeReportMail(report, "approved");
+        notifyEmployeeOnStatusChange(report, "approved");
     }
 
     public void sendRejectedReportMail(Report report) {
-        sendStatusChangeReportMail(report, "rejected");
+        notifyEmployeeOnStatusChange(report, "rejected");
     }
 
-    private void sendStatusChangeReportMail(Report report, String outcome) {
-        String[] emails = supervisorService.getSupervisorEmailsArrayWithout(
-                credential -> !report.getEmployee().getCredential().getEmail().equals(credential.getEmail())
-        );
-
+    private void notifyEmployeeOnStatusChange(Report report, String outcome) {
         SimpleMailMessage mailMessage = new SimpleMailMessage();
         mailMessage.setFrom("no-reply@techdev.de");
-        mailMessage.setTo(emails);
+        mailMessage.setTo(report.getEmployee().getCredential().getEmail());
         mailMessage.setSubject(String.format("Your travel expense report has been %s", outcome));
         mailMessage.setText(
                 String.format("%s has %s your travel expense report #%d.",
