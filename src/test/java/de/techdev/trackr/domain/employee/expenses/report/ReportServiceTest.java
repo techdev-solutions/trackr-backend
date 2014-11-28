@@ -5,7 +5,6 @@ import de.techdev.trackr.core.mail.MailConfiguration;
 import de.techdev.trackr.domain.ApiBeansConfiguration;
 import de.techdev.trackr.domain.company.Company;
 import de.techdev.trackr.domain.company.CompanyDataOnDemand;
-import de.techdev.trackr.domain.employee.expenses.report.ReportDataOnDemand;
 import de.techdev.trackr.domain.employee.expenses.reports.Report;
 import de.techdev.trackr.domain.employee.expenses.reports.ReportService;
 import de.techdev.trackr.util.LocalDateUtil;
@@ -33,7 +32,7 @@ public class ReportServiceTest extends TransactionalIntegrationTest {
 
     @Test
     public void testReject() throws Exception {
-        Report travelExpenseReport = new Report();
+        Report travelExpenseReport = dataOnDemand.getRandomObject();
         travelExpenseReport.setStatus(Report.Status.SUBMITTED);
         Company company = companyDataOnDemand.getRandomObject();
         travelExpenseReport.setDebitor(company);
@@ -44,7 +43,7 @@ public class ReportServiceTest extends TransactionalIntegrationTest {
 
     @Test
     public void testApprove() throws Exception {
-        Report travelExpenseReport = new Report();
+        Report travelExpenseReport = dataOnDemand.getRandomObject();
         travelExpenseReport.setStatus(Report.Status.SUBMITTED);
         Company company = companyDataOnDemand.getRandomObject();
         travelExpenseReport.setDebitor(company);
