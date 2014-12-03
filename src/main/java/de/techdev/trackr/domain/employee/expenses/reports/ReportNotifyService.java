@@ -66,7 +66,7 @@ public class ReportNotifyService {
         mailMessage.setSubject(String.format("Your travel expense report has been %s", outcome));
         mailMessage.setText(
                 String.format("%s has %s your travel expense report #%d.",
-                        report.getApprover(), outcome, report.getId())
+                        fullName(report.getApprover()), outcome, report.getId())
         );
         mailService.sendMail(mailMessage);
     }
