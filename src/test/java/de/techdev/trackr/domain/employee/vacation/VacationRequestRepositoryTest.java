@@ -8,9 +8,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
@@ -22,6 +19,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
  * @author Moritz Schulze
+ * @author Alexander Hanschke
  */
 public class VacationRequestRepositoryTest extends TransactionalIntegrationTest {
     
@@ -77,12 +75,11 @@ public class VacationRequestRepositoryTest extends TransactionalIntegrationTest 
     }
 
     @Test
-    public void findByApprovedBetween() throws ParseException {
+    public void findByApprovedBetween() {
         Employee employee = employeeDataOnDemand.getRandomObject();
-        DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
 
-        Date start = df.parse("01.10.2014");
-        Date end   = df.parse("08.12.2014");
+        Date start = LocalDateUtil.fromLocalDate(LocalDate.of(2014, 10, 1));
+        Date end   = LocalDateUtil.fromLocalDate(LocalDate.of(2014, 12, 8));
 
         VacationRequest vr1 = new VacationRequest();
         vr1.setEmployee(employee);
