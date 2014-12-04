@@ -1,6 +1,7 @@
 package de.techdev.trackr.domain.employee.vacation;
 
 import de.techdev.trackr.domain.employee.Employee;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RestResource;
@@ -36,8 +37,9 @@ public interface VacationRequestRepository extends CrudRepository<VacationReques
      * Find vacation requests of a certain status that overlap with a period.
      */
     @RestResource(exported = false)
+    @Query("SELECT vr FROM VacationRequest vr WHERE (vr.startDate BETWEEN :startLower AND :endLower OR vr.endDate BETWEEN :startHigher AND :endHigher) AND vr.status = :status")
     List<VacationRequest> findByStartDateBetweenOrEndDateBetweenAndStatus(
-            Date startLower, Date startHigher,
-            Date endLower, Date endHigher,
-            VacationRequest.VacationRequestStatus status);
+            @Param("startLower") Date startLower, @Param("startHigher") Date startHigher,
+            @Param("endLower") Date endLower, @Param("endHigher") Date endHigher,
+            @Param("status") VacationRequest.VacationRequestStatus status);
 }
