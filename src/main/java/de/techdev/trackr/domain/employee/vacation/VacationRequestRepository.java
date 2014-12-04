@@ -37,7 +37,7 @@ public interface VacationRequestRepository extends CrudRepository<VacationReques
      * Find vacation requests of a certain status that overlap with a period.
      */
     @RestResource(exported = false)
-    @Query("SELECT vr FROM VacationRequest vr WHERE (vr.startDate BETWEEN :startLower AND :endLower OR vr.endDate BETWEEN :startHigher AND :endHigher) AND vr.status = :status")
+    @Query("SELECT vr FROM VacationRequest vr WHERE (vr.startDate BETWEEN :startLower AND :startHigher OR vr.endDate BETWEEN :endLower AND :endHigher) AND vr.status = :status")
     List<VacationRequest> findByStartDateBetweenOrEndDateBetweenAndStatus(
             @Param("startLower") Date startLower, @Param("startHigher") Date startHigher,
             @Param("endLower") Date endLower, @Param("endHigher") Date endHigher,
