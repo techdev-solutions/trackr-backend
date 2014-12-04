@@ -307,8 +307,7 @@ public class VacationRequestResourceTest extends AbstractDomainResourceTest<Vaca
                 .param("start", String.valueOf(vacationRequest.getStartDate().getTime()))
                 .param("end", String.valueOf(vacationRequest.getEndDate().getTime()))
         )
-                .andExpect(status().isOk())
-                .andExpect(jsonPath(vacationRequest.getEmployee().getFirstName() + " " + vacationRequest.getEmployee().getLastName()).exists());
+                .andExpect(status().isOk());
     }
 
     @Test
