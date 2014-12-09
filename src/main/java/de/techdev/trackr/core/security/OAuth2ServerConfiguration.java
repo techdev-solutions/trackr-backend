@@ -4,10 +4,8 @@ import de.techdev.trackr.core.security.support.DefaultRemoveTokenService;
 import de.techdev.trackr.domain.DataConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.context.annotation.PropertySources;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingClass;
+import org.springframework.context.annotation.*;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpMethod;
@@ -115,12 +113,15 @@ public class OAuth2ServerConfiguration {
         }
 
         @Bean
+        @Profile("dev")
         public ApprovalStore approvalStore() {
-            if (asList(env.getActiveProfiles()).contains("dev")) {
-                return new InMemoryApprovalStore();
-            } else {
-                return new JdbcApprovalStore(tokenDataSource());
-            }
+            return new InMemoryApprovalStore();
+        }
+
+        @Bean
+        @ConditionalOnMissingClass(ApprovalStore.class)
+        public ApprovalStore jdbcApprovalStore() {
+            return new JdbcApprovalStore(tokenDataSource());
         }
 
         @Bean
