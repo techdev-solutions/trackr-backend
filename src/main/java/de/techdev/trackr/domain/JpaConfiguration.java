@@ -11,7 +11,6 @@ import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import javax.sql.DataSource;
 import java.util.Properties;
 
 /**
@@ -29,6 +28,7 @@ import java.util.Properties;
         @PropertySource("classpath:/META-INF/spring/database_${spring.profiles.active:dev}.properties"),
         @PropertySource(value = "${trackr.externalconfig:file:/etc/trackr.properties}", ignoreResourceNotFound = true)
 })
+@Import({JndiDataConfig.class, StandaloneDataConfig.class})
 public class JpaConfiguration {
 
     @Autowired
@@ -46,14 +46,9 @@ public class JpaConfiguration {
     }
 
     @Bean
-    public DataSource dataSource() {
-        return dataConfig.dataSource();
-    }
-
-    @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         LocalContainerEntityManagerFactoryBean emfb = new LocalContainerEntityManagerFactoryBean();
-        emfb.setDataSource(dataSource());
+        emfb.setDataSource(dataConfig.dataSource());
         emfb.setPersistenceProviderClass(HibernatePersistence.class);
         emfb.setPackagesToScan("de.techdev.trackr");
         emfb.setJpaProperties(hibernateProperties());
