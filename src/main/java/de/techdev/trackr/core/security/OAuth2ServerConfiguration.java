@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingClass;
 import org.springframework.context.annotation.*;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
-import org.springframework.core.env.Environment;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
@@ -26,8 +25,6 @@ import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
 import org.springframework.security.web.context.SecurityContextPersistenceFilter;
 
 import javax.sql.DataSource;
-
-import static java.util.Arrays.asList;
 
 /**
  * @author Moritz Schulze
@@ -89,9 +86,6 @@ public class OAuth2ServerConfiguration {
         @Value("${oauth.trackr-page.redirect_uris}")
         private String trackrPageRedirectUris;
 
-        @Autowired
-        private Environment env;
-
         @Bean
         public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
             return new PropertySourcesPlaceholderConfigurer();
@@ -125,12 +119,15 @@ public class OAuth2ServerConfiguration {
         }
 
         @Bean
+        @Profile("dev")
         public TokenStore tokenStore() {
-            if(asList(env.getActiveProfiles()).contains("dev")) {
-                return new InMemoryTokenStore();
-            } else {
-                return new JdbcTokenStore(tokenDataSource());
-            }
+            return new InMemoryTokenStore();
+        }
+
+        @Bean
+        @ConditionalOnMissingClass(TokenStore.class)
+        public TokenStore jdbcTokenStore() {
+            return new JdbcTokenStore(tokenDataSource());
         }
 
         @Bean
