@@ -44,6 +44,7 @@ dependencies {
     compile "org.springframework:spring-context:$project.springVersion"
     compile "org.springframework.integration:spring-integration-core:4.0.2.RELEASE"
     compile "org.springframework.integration:spring-integration-mail:4.0.2.RELEASE"
+    compile "org.springframework.boot:spring-boot-autoconfigure:1.1.9.RELEASE"
 
     //web
     compile "org.springframework:spring-webmvc:$project.springVersion"
