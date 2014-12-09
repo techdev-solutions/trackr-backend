@@ -1,8 +1,8 @@
 package de.techdev.trackr.domain;
 
-import de.techdev.trackr.domain.DataConfig;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.datasource.lookup.JndiDataSourceLookup;
 
 import javax.sql.DataSource;
@@ -11,6 +11,7 @@ import javax.sql.DataSource;
  * @author Alexander Hanschke
  */
 @Configuration
+@Profile("prod")
 public class JndiDataConfig implements DataConfig {
 
     @Value("${tokenDatabase.jndiName}")
