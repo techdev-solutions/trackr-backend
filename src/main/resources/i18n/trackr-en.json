@@ -198,7 +198,8 @@
                 "TITLE": "Track billable hours",
                 "HOURS": "Hours",
                 "SET_ALL": "Set all",
-                "SUM": "Sum"
+                "SUM": "Sum",
+                "TRANSFER_HOURS": "Transfer from hours"
             },
             "BILL_CREATE": {
                 "TITLE": "Create bill",
