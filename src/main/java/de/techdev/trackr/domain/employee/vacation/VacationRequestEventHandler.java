@@ -53,7 +53,8 @@ public class VacationRequestEventHandler {
     }
 
     @HandleBeforeDelete
-    @PreAuthorize("hasRole('ROLE_SUPERVISOR') or @vacationRequestEventHandler.employeeCanDeleteRequest(principal?.id, #vacationRequest)")
+    @PreAuthorize("( hasRole('ROLE_SUPERVISOR') and @vacationRequestEventHandler.supervisorCanDeleteRequest(principal?.id, #vacationRequest) ) " +
+            "or @vacationRequestEventHandler.employeeCanDeleteRequest(principal?.id, #vacationRequest)")
     public void authorizeDelete(VacationRequest vacationRequest) {
         log.debug("Deleting vacation request {}", vacationRequest);
     }
@@ -79,5 +80,10 @@ public class VacationRequestEventHandler {
     public boolean employeeCanDeleteRequest(Long principalId, VacationRequest request) {
         return principalId != null &&
                 principalId.equals(request.getEmployee().getId()) && request.getStatus() == VacationRequest.VacationRequestStatus.PENDING;
+    }
+
+    public boolean supervisorCanDeleteRequest(Long prinicpalId, VacationRequest request) {
+        return prinicpalId != null &&
+                !prinicpalId.equals(request.getEmployee().getId());
     }
 }

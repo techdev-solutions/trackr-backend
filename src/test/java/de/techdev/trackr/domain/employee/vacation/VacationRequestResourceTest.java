@@ -32,6 +32,7 @@ public class VacationRequestResourceTest extends AbstractDomainResourceTest<Vaca
     private EmployeeDataOnDemand employeeDataOnDemand;
 
     private Function<VacationRequest, MockHttpSession> sameEmployeeSessionProvider;
+    private Function<VacationRequest, MockHttpSession> sameSupervisorSessionProvider;
     private Function<VacationRequest, MockHttpSession> otherEmployeeSessionProvider;
     private Function<VacationRequest, MockHttpSession> otherSupervisorSessionProvider;
 
@@ -43,6 +44,7 @@ public class VacationRequestResourceTest extends AbstractDomainResourceTest<Vaca
     public VacationRequestResourceTest() {
         sameEmployeeSessionProvider = vacationRequest -> employeeSession(vacationRequest.getEmployee().getId());
         otherEmployeeSessionProvider = vacationRequest -> employeeSession(vacationRequest.getEmployee().getId() + 1);
+        sameSupervisorSessionProvider = vacationRequest -> supervisorSession(vacationRequest.getEmployee().getId());
         otherSupervisorSessionProvider = vacationRequest -> supervisorSession(vacationRequest.getEmployee().getId() + 1);
     }
 
@@ -182,7 +184,12 @@ public class VacationRequestResourceTest extends AbstractDomainResourceTest<Vaca
 
     @Test
     public void deleteAllowedForSupervisor() throws Exception {
-        assertThat(remove(supervisorSession()), isNoContent());
+        assertThat(remove(otherSupervisorSessionProvider), isNoContent());
+    }
+
+    @Test
+    public void deleteForbiddenForOwningSupervisor() throws Exception {
+        assertThat(remove(sameSupervisorSessionProvider), isForbidden());
     }
 
     @Test
