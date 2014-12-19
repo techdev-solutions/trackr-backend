@@ -206,6 +206,16 @@ public class ReportResourceTest extends AbstractDomainResourceTest<Report> {
                 .andExpect(status().isOk());
     }
 
+    @Test
+    public void pdfExportAsEmployee() throws Exception {
+        Report report = dataOnDemand.getRandomObject();
+        mockMvc.perform(
+                get("/travelExpenseReports/" + report.getId() + "/pdf")
+                        .session(employeeSession(report.getEmployee().getId()))
+        )
+                .andExpect(status().isOk());
+    }
+
     @Override
     protected String getJsonRepresentation(Report travelExpenseReport) {
         StringWriter writer = new StringWriter();
