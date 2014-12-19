@@ -56,7 +56,7 @@ public class ReportController {
         travelExpenseReportService.reject(travelExpenseReport, principal.getName());
     }
 
-    @PreAuthorize("hasRole('ROLE_SUPERVISOR')")
+    @PreAuthorize("hasRole('ROLE_SUPERVISOR') or #travelExpenseReport.employee.id == principal?.id")
     @RequestMapping(value = "/{id}/pdf", produces = "application/pdf")
     @Transactional
     public ResponseEntity<byte[]> asPdf(@PathVariable("id") Report travelExpenseReport) {
