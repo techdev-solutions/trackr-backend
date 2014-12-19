@@ -7,11 +7,13 @@ import org.springframework.mail.javamail.MimeMessagePreparator;
 
 import javax.mail.internet.MimeMessage;
 import java.io.InputStream;
+import java.util.Arrays;
 
 /**
  * Mock class to be used by Spring Integration for dev and qs.
  *
  * @author Moritz Schulze
+ * @author Alexander Hanschke
  */
 @Slf4j
 public class NoOpJavaMailSender implements JavaMailSender {
@@ -50,7 +52,15 @@ public class NoOpJavaMailSender implements JavaMailSender {
 
     @Override
     public void send(SimpleMailMessage simpleMessage) {
-        log.debug("Send simple mail message");
+        StringBuilder builder = new StringBuilder("Send simple mail message..\n");
+        builder
+                .append("From:    ").append(simpleMessage.getFrom()).append("\n")
+                .append("To:      ").append(Arrays.toString(simpleMessage.getTo())).append("\n")
+                .append("Subject: ").append(simpleMessage.getSubject()).append("\n")
+                .append("--------------------------------------------").append("\n")
+                .append(simpleMessage.getText());
+
+        log.debug(builder.toString());
     }
 
     @Override

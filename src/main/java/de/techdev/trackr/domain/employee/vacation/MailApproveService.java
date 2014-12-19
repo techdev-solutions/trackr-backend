@@ -123,6 +123,46 @@ public class MailApproveService {
         }
     }
 
+    /**
+     * Count how often a search string is present in a text.
+     * @param text The text to analyze.
+     * @param search The search string to find.
+     * @return The number of occurrences of search in text, zero if any of the arguments is null.
+     */
+    protected int containsCount(String text, String search) {
+        if (text == null || search == null) {
+            return 0;
+        }
+        int searchLength = search.length();
+        int index = text.indexOf(search);
+        int count = 0;
+        while (index >= 0) {
+            count++;
+            index = text.indexOf(search, index + searchLength);
+        }
+        return count;
+    }
+
+    /**
+     * Analyze the text of a mail and decide if the vacation request should be approved or rejected.
+     * If the word "approve" appears more often approve, if the word "reject" appears more often reject. If
+     * they appear with the same number, throw an {@link java.lang.IllegalArgumentException}.
+     * @param mailContent The content of the mail.
+     * @return The status APPROVED when to approve and the status REJECTED when to reject.
+     */
+    protected VacationRequest.VacationRequestStatus approveOrReject(String mailContent) {
+        String mailContentLowerCase = mailContent.toLowerCase();
+        int approveCount = containsCount(mailContentLowerCase, "approve");
+        int rejectCount = containsCount(mailContentLowerCase, "reject");
+        if (approveCount > rejectCount) {
+            return VacationRequest.VacationRequestStatus.APPROVED;
+        } else if (approveCount < rejectCount) {
+            return VacationRequest.VacationRequestStatus.REJECTED;
+        } else {
+            throw new IllegalStateException("Cannot decide from the text if to approve or reject");
+        }
+    }
+
     protected void actualApprove(Long vacationRequestId, String supervisorEmail, String content) {
         // TODO: this really, really should be in an advice or something like that.
         Credential credential = credentialRepository.findByEmail(supervisorEmail);
@@ -167,10 +207,11 @@ public class MailApproveService {
         VacationRequest vacationRequest = vacationRequestRepository.findOne(vacationRequestId);
 
         if (vacationRequest != null) {
-            if (content.toLowerCase().contains("approve")) {
+            VacationRequest.VacationRequestStatus status = approveOrReject(content);
+            if (status == VacationRequest.VacationRequestStatus.APPROVED) {
                 log.debug("Approving vacation request from mail.");
                 vacationRequestApproveService.approve(vacationRequest, supervisorEmail);
-            } else if (content.toLowerCase().contains("reject")) {
+            } else if (status == VacationRequest.VacationRequestStatus.REJECTED) {
                 log.debug("Rejecting vacation request from mail.");
                 vacationRequestApproveService.reject(vacationRequest, supervisorEmail);
             }

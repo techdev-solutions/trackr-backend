@@ -198,7 +198,8 @@
                 "TITLE": "Track billable hours",
                 "HOURS": "Hours",
                 "SET_ALL": "Set all",
-                "SUM": "Sum"
+                "SUM": "Sum",
+                "TRANSFER_HOURS": "Transfer from hours"
             },
             "BILL_CREATE": {
                 "TITLE": "Create bill",
@@ -208,11 +209,17 @@
                 "GROSS_PRICE": "Gross price"
             },
             "VACATION": {
-                "TITLE": "Vacation requests"
+                "TITLE": "Vacation requests",
+                "REALLY_DELETE": "Do you really want to remove the vacation request?"
             },
             "TRAVEL_EXPENSE_REPORTS": {
                 "TITLE": "Travel expenses",
-                "EMPTY_TEXT": "No submitted travel expense reports."
+                "EMPTY_TEXT": "No submitted travel expense reports.",
+                "JUMP_TO_REPORT": "jump to report"
+            },
+            "TRAVEL_EXPENSE_REPORT": {
+                "NOT_FOUND": "Travel expense report #{{id}} not found.",
+                "BACK_TO_LIST": "Back to list."
             }
         },
         "REPORTR": {
@@ -251,6 +258,7 @@
     "ACTIONS": {
         "OK": "Ok",
         "CONFIRM": "Confirm",
+        "GO": "Go",
         "ACTIONS": "Actions",
         "SAVE": "Save",
         "NEW": "New",
