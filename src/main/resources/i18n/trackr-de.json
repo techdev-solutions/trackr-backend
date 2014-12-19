@@ -202,7 +202,8 @@
                 "TRANSFER_HOURS": "Aus Stunden übernehmen"
             },
             "VACATION": {
-                "TITLE": "Urlaubsanträge"
+                "TITLE": "Urlaubsanträge",
+                "REALLY_DELETE": "Wollen Sie diesen Urlaubsantrag wirklich entfernen?"
             },
             "BILL_CREATE": {
                 "TITLE": "Rechnung erstellen",
