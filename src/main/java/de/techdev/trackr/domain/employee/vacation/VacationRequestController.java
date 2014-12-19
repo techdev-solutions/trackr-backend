@@ -62,7 +62,7 @@ public class VacationRequestController {
      * Create a mapping of employee names to the effective number of vacation days between a start and end date.
      *
      * All approved vacation requests that coincide with the period are collected. Only the cut of every vacation request with the period is used for the calculation.
-     * Public holidays and weekends are exluded.
+     * Public holidays and weekends are excluded.
      */
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @ResponseBody
