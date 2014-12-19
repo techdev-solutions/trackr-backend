@@ -213,7 +213,12 @@
             },
             "TRAVEL_EXPENSE_REPORTS": {
                 "TITLE": "Travel expenses",
-                "EMPTY_TEXT": "Keine Reisekostenberichte"
+                "EMPTY_TEXT": "Keine Reisekostenberichte",
+                "JUMP_TO_REPORT": "zu Report wechseln"
+            },
+            "TRAVEL_EXPENSE_REPORT": {
+                "NOT_FOUND": "Reisekostenbericht #{{id}} nicht gefunden.",
+                "BACK_TO_LIST": "Zurück zur Liste."
             }
         },
         "REPORTR": {
@@ -250,6 +255,7 @@
     "ACTIONS": {
         "OK": "Ok",
         "CONFIRM": "Bestätigen",
+        "GO": "Los",
         "ACTIONS": "Aktionen",
         "SAVE": "Speichern",
         "NEW": "Neu",
