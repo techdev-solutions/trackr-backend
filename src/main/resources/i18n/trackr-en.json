@@ -209,7 +209,8 @@
                 "GROSS_PRICE": "Gross price"
             },
             "VACATION": {
-                "TITLE": "Vacation requests"
+                "TITLE": "Vacation requests",
+                "REALLY_DELETE": "Do you really want to remove the vacation request?"
             },
             "TRAVEL_EXPENSE_REPORTS": {
                 "TITLE": "Travel expenses",
