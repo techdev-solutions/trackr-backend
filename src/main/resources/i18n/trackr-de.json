@@ -198,7 +198,8 @@
                 "TITLE": "Rechnungszeiten erfassen",
                 "HOURS": "Stunden",
                 "SET_ALL": "Alle setzen",
-                "SUM": "Summe"
+                "SUM": "Summe",
+                "TRANSFER_HOURS": "Aus Stunden übernehmen"
             },
             "VACATION": {
                 "TITLE": "Urlaubsanträge"
