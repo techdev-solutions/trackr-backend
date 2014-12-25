@@ -3,10 +3,6 @@ package de.techdev.trackr.domain.employee.vacation;
 import de.techdev.trackr.domain.common.UuidMapper;
 import de.techdev.trackr.domain.employee.login.Credential;
 import de.techdev.trackr.domain.employee.login.CredentialRepository;
-import de.techdev.trackr.domain.employee.vacation.MailApproveService;
-import de.techdev.trackr.domain.employee.vacation.VacationRequest;
-import de.techdev.trackr.domain.employee.vacation.VacationRequestApproveService;
-import de.techdev.trackr.domain.employee.vacation.VacationRequestRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -106,7 +102,7 @@ public class MailApproveService {
         } catch (MessagingException | IOException e) {
             throw new RuntimeException("Could not extract uuid or content from the mail.", e);
         }
-        String uuid = uuidMapper.extractUUUIDfromString(subject);
+        String uuid = uuidMapper.extractUUIDfromString(subject);
 
         if (uuid == null) {
             throw new RuntimeException("Could find a UUID in the subject " + subject);
