@@ -17,4 +17,5 @@ You can read all about trackr in our developer blog:
 * [File Downloads with AngularJS](http://blog.techdev.de/an-angularjs-directive-to-download-pdf-files/)
 * [Processes and Tools](http://blog.techdev.de/trackr-an-angularjs-app-with-a-java-8-backend-part-iii/)
 
-For the API documentation just go [here](http://techdev-solutions.github.io/trackr-api-documentation/getting_started.html)
+For the API documentation just go [here](http://techdev-solutions.github.io/trackr-api-documentation/getting_started.html).
+There is also a [Vagrant](https://www.vagrantup.com/) project building the whole application over [here](https://github.com/techdev-solutions/trackr-vagrant).
