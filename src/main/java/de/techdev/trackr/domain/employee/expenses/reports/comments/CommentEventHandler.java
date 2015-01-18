@@ -6,15 +6,12 @@ import org.springframework.security.access.prepost.PreAuthorize;
 
 import java.util.Date;
 
-/**
- * @author Moritz Schulze
- */
 @RepositoryEventHandler(value = Comment.class)
 @Slf4j
 public class CommentEventHandler {
 
     @HandleBeforeCreate
-    @PreAuthorize("hasRole('ROLE_SUPERVISOR') or #comment.employee.id == principal?.id")
+    @PreAuthorize("hasRole('ROLE_SUPERVISOR') or #comment.employee.email == principal?.username")
     public void checkCreateAuthority(Comment comment) {
         comment.setSubmissionDate(new Date());
         log.debug("Creating comment {}", comment);

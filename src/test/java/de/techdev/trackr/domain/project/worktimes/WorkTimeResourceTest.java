@@ -19,17 +19,14 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-/**
- * @author Moritz Schulze
- */
 public class WorkTimeResourceTest extends AbstractDomainResourceTest<WorkTime> {
 
     private final Function<WorkTime, MockHttpSession> sameEmployeeSessionProvider;
     private final Function<WorkTime, MockHttpSession> otherEmployeeSessionProvider;
 
     public WorkTimeResourceTest() {
-        sameEmployeeSessionProvider = workTime -> employeeSession(workTime.getEmployee().getId());
-        otherEmployeeSessionProvider = workTime -> employeeSession(workTime.getEmployee().getId() + 1);
+        sameEmployeeSessionProvider = workTime -> employeeSession(workTime.getEmployee().getEmail());
+        otherEmployeeSessionProvider = workTime -> employeeSession(workTime.getEmployee().getEmail() + 1);
     }
 
     @Override
@@ -133,7 +130,7 @@ public class WorkTimeResourceTest extends AbstractDomainResourceTest<WorkTime> {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         mockMvc.perform(
                 get("/workTimes/search/findByEmployeeAndDateOrderByStartTimeAsc")
-                        .session(employeeSession(workTime.getEmployee().getId()))
+                        .session(employeeSession(workTime.getEmployee().getEmail()))
                         .param("employee", workTime.getEmployee().getId().toString())
                         .param("date", sdf.format(workTime.getDate())))
                .andExpect(status().isOk())
@@ -190,7 +187,7 @@ public class WorkTimeResourceTest extends AbstractDomainResourceTest<WorkTime> {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         mockMvc.perform(
                 get("/workTimes/search/findByEmployeeAndDateBetweenOrderByDateAscStartTimeAsc")
-                        .session(employeeSession(workTime1.getEmployee().getId()))
+                        .session(employeeSession(workTime1.getEmployee().getEmail()))
                         .param("employee", workTime1.getEmployee().getId().toString())
                         .param("start", sdf.format(low))
                         .param("end", sdf.format(high)))
@@ -235,7 +232,7 @@ public class WorkTimeResourceTest extends AbstractDomainResourceTest<WorkTime> {
         WorkTime workTime = dataOnDemand.getRandomObject();
         mockMvc.perform(
                 get("/workTimes/search/findByEmployeeAndDateBetweenOrderByDateAscStartTimeAsc")
-                        .session(employeeSession(workTime.getEmployee().getId() + 1))
+                        .session(employeeSession(workTime.getEmployee().getEmail() + 1))
                         .param("employee", workTime.getEmployee().getId().toString())
                         .param("start", "2014-01-01")
                         .param("end", "2014-12-01"))
@@ -255,7 +252,7 @@ public class WorkTimeResourceTest extends AbstractDomainResourceTest<WorkTime> {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         mockMvc.perform(
                 get("/workTimes/search/findByEmployeeAndDateOrderByStartTimeAsc")
-                        .session(employeeSession(workTime.getEmployee().getId()))
+                        .session(employeeSession(workTime.getEmployee().getEmail()))
                         .param("employee", workTime.getEmployee().getId().toString())
                         .param("date", sdf.format(workTime.getDate())))
                .andExpect(status().isForbidden());

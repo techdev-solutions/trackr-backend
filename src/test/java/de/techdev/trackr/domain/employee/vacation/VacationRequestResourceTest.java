@@ -23,9 +23,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-/**
- * @author Moritz Schulze
- */
 public class VacationRequestResourceTest extends AbstractDomainResourceTest<VacationRequest> {
 
     @Autowired
@@ -42,10 +39,10 @@ public class VacationRequestResourceTest extends AbstractDomainResourceTest<Vaca
     }
 
     public VacationRequestResourceTest() {
-        sameEmployeeSessionProvider = vacationRequest -> employeeSession(vacationRequest.getEmployee().getId());
-        otherEmployeeSessionProvider = vacationRequest -> employeeSession(vacationRequest.getEmployee().getId() + 1);
-        sameSupervisorSessionProvider = vacationRequest -> supervisorSession(vacationRequest.getEmployee().getId());
-        otherSupervisorSessionProvider = vacationRequest -> supervisorSession(vacationRequest.getEmployee().getId() + 1);
+        sameEmployeeSessionProvider = vacationRequest -> employeeSession(vacationRequest.getEmployee().getEmail());
+        otherEmployeeSessionProvider = vacationRequest -> employeeSession(vacationRequest.getEmployee().getEmail() + 1);
+        sameSupervisorSessionProvider = vacationRequest -> supervisorSession(vacationRequest.getEmployee().getEmail());
+        otherSupervisorSessionProvider = vacationRequest -> supervisorSession(vacationRequest.getEmployee().getEmail() + 1);
     }
 
     @Test
@@ -68,7 +65,7 @@ public class VacationRequestResourceTest extends AbstractDomainResourceTest<Vaca
         VacationRequest vacationRequest = dataOnDemand.getRandomObject();
         mockMvc.perform(
                 get("/vacationRequests/search/findByEmployeeOrderByStartDateAsc")
-                        .session(employeeSession(vacationRequest.getEmployee().getId()))
+                        .session(employeeSession(vacationRequest.getEmployee().getEmail()))
                         .param("employee", vacationRequest.getEmployee().getId().toString())
         )
                .andExpect(status().isOk())
@@ -98,7 +95,7 @@ public class VacationRequestResourceTest extends AbstractDomainResourceTest<Vaca
         VacationRequest vacationRequest = dataOnDemand.getRandomObject();
         mockMvc.perform(
                 get("/vacationRequests/search/findByEmployeeOrderByStartDateAsc")
-                        .session(employeeSession(vacationRequest.getEmployee().getId() + 1))
+                        .session(employeeSession(vacationRequest.getEmployee().getEmail() + 1))
                         .param("employee", vacationRequest.getEmployee().getId().toString())
         )
                .andExpect(status().isForbidden());
@@ -126,7 +123,7 @@ public class VacationRequestResourceTest extends AbstractDomainResourceTest<Vaca
 
     @Test
     public void updateSelfNotAllowedForSupervisor() throws Exception {
-        assertThat(update((vr) -> supervisorSession(vr.getEmployee().getId())), isForbidden());
+        assertThat(update((vr) -> supervisorSession(vr.getEmployee().getEmail())), isForbidden());
     }
 
     /**
@@ -140,7 +137,7 @@ public class VacationRequestResourceTest extends AbstractDomainResourceTest<Vaca
         VacationRequest vacationRequest = dataOnDemand.getRandomObject();
         mockMvc.perform(
                 put("/vacationRequests/" + vacationRequest.getId())
-                        .session(employeeSession(vacationRequest.getEmployee().getId() + 1))
+                        .session(employeeSession(vacationRequest.getEmployee().getEmail() + 1))
                         .content(getJsonRepresentation(vacationRequest))
         )
                .andExpect(status().isForbidden());
@@ -153,7 +150,7 @@ public class VacationRequestResourceTest extends AbstractDomainResourceTest<Vaca
         repository.save(vacationRequest);
         mockMvc.perform(
                 delete("/vacationRequests/" + vacationRequest.getId())
-                        .session(employeeSession(vacationRequest.getEmployee().getId()))
+                        .session(employeeSession(vacationRequest.getEmployee().getEmail()))
         )
                .andExpect(status().isNoContent());
     }
@@ -165,7 +162,7 @@ public class VacationRequestResourceTest extends AbstractDomainResourceTest<Vaca
         repository.save(vacationRequest);
         mockMvc.perform(
                 delete("/vacationRequests/" + vacationRequest.getId())
-                        .session(employeeSession(vacationRequest.getEmployee().getId()))
+                        .session(employeeSession(vacationRequest.getEmployee().getEmail()))
         )
                .andExpect(status().isForbidden());
     }
@@ -177,7 +174,7 @@ public class VacationRequestResourceTest extends AbstractDomainResourceTest<Vaca
         repository.save(vacationRequest);
         mockMvc.perform(
                 delete("/vacationRequests/" + vacationRequest.getId())
-                        .session(employeeSession(vacationRequest.getEmployee().getId()))
+                        .session(employeeSession(vacationRequest.getEmployee().getEmail()))
         )
                .andExpect(status().isForbidden());
     }
@@ -212,7 +209,7 @@ public class VacationRequestResourceTest extends AbstractDomainResourceTest<Vaca
     @Test
     public void deleteEmployeeIsForbidden() throws Exception {
         VacationRequest vacationRequest = dataOnDemand.getRandomObject();
-        assertThat(removeUrl(employeeSession(vacationRequest.getEmployee().getId()), "/vacationRequests/" + vacationRequest.getId() + "/employee"), isForbidden());
+        assertThat(removeUrl(employeeSession(vacationRequest.getEmployee().getEmail()), "/vacationRequests/" + vacationRequest.getId() + "/employee"), isForbidden());
     }
 
     @Test
@@ -220,7 +217,7 @@ public class VacationRequestResourceTest extends AbstractDomainResourceTest<Vaca
         VacationRequest vacationRequest = dataOnDemand.getRandomObject();
         vacationRequest.setApprover(vacationRequest.getEmployee());
         repository.save(vacationRequest);
-        assertThat(removeUrl(employeeSession(vacationRequest.getEmployee().getId()), "/vacationRequests/" + vacationRequest.getId() + "/approver"), isForbidden());
+        assertThat(removeUrl(employeeSession(vacationRequest.getEmployee().getEmail()), "/vacationRequests/" + vacationRequest.getId() + "/approver"), isForbidden());
     }
 
     @Test
@@ -230,7 +227,7 @@ public class VacationRequestResourceTest extends AbstractDomainResourceTest<Vaca
         repository.save(vacationRequest);
         mockMvc.perform(
                 get("/vacationRequests/" + vacationRequest.getId() + "/approver")
-                        .session(employeeSession(vacationRequest.getEmployee().getId()))
+                        .session(employeeSession(vacationRequest.getEmployee().getEmail()))
         )
                .andExpect(status().isOk());
     }
@@ -264,7 +261,7 @@ public class VacationRequestResourceTest extends AbstractDomainResourceTest<Vaca
         repository.save(vacationRequest);
         mockMvc.perform(
                 put("/vacationRequests/" + vacationRequest.getId() + "/approve")
-                        .session(supervisorSession(vacationRequest.getEmployee().getId()))
+                        .session(supervisorSession(vacationRequest.getEmployee().getEmail()))
         )
                 .andExpect(status().isForbidden());
 
@@ -280,7 +277,7 @@ public class VacationRequestResourceTest extends AbstractDomainResourceTest<Vaca
         repository.save(vacationRequest);
         mockMvc.perform(
                 put("/vacationRequests/" + vacationRequest.getId() + "/approve")
-                        .session(employeeSession(vacationRequest.getEmployee().getId()))
+                        .session(employeeSession(vacationRequest.getEmployee().getEmail()))
         )
                 .andExpect(status().isForbidden());
 
@@ -296,7 +293,7 @@ public class VacationRequestResourceTest extends AbstractDomainResourceTest<Vaca
         repository.save(vacationRequest);
         mockMvc.perform(
                 put("/vacationRequests/" + vacationRequest.getId() + "/approve")
-                        .session(supervisorSession(vacationRequest.getEmployee().getId() + 1))
+                        .session(supervisorSession(vacationRequest.getEmployee().getEmail() + 1))
         )
                 .andExpect(status().isOk());
 

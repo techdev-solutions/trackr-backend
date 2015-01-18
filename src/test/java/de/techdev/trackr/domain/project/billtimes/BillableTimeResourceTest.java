@@ -17,15 +17,12 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-/**
- * @author Moritz Schulze
- */
 public class BillableTimeResourceTest extends AbstractDomainResourceTest<BillableTime> {
 
     private final Function<BillableTime, MockHttpSession> sameEmployeeSessionProvider;
 
     public BillableTimeResourceTest() {
-        sameEmployeeSessionProvider = (BillableTime bt) -> employeeSession(bt.getEmployee().getId());
+        sameEmployeeSessionProvider = (BillableTime bt) -> employeeSession(bt.getEmployee().getEmail());
     }
 
     @Override

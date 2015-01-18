@@ -1,12 +1,7 @@
 package de.techdev.trackr.domain.employee.vacation;
 
+import de.techdev.trackr.core.security.AuthorityService;
 import de.techdev.trackr.domain.common.UuidMapper;
-import de.techdev.trackr.domain.employee.login.Credential;
-import de.techdev.trackr.domain.employee.login.CredentialRepository;
-import de.techdev.trackr.domain.employee.vacation.MailApproveService;
-import de.techdev.trackr.domain.employee.vacation.VacationRequest;
-import de.techdev.trackr.domain.employee.vacation.VacationRequestApproveService;
-import de.techdev.trackr.domain.employee.vacation.VacationRequestRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -23,9 +18,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Collection;
 
-/**
- * @author Moritz Schulze
- */
 @Slf4j
 public class MailApproveService {
 
@@ -39,7 +31,7 @@ public class MailApproveService {
     private VacationRequestApproveService vacationRequestApproveService;
 
     @Autowired
-    private CredentialRepository credentialRepository;
+    private AuthorityService authorityService;
 
     /**
      * Extract the content of a Mail as a String depending on the content type.
@@ -165,11 +157,11 @@ public class MailApproveService {
 
     protected void actualApprove(Long vacationRequestId, String supervisorEmail, String content) {
         // TODO: this really, really should be in an advice or something like that.
-        Credential credential = credentialRepository.findByEmail(supervisorEmail);
+        Collection<GrantedAuthority> authorities = authorityService.getByEmployeeMail(supervisorEmail);
         Authentication token = new Authentication() {
             @Override
             public Collection<? extends GrantedAuthority> getAuthorities() {
-                return credential.getAuthorities();
+                return authorities;
             }
 
             @Override
@@ -184,7 +176,7 @@ public class MailApproveService {
 
             @Override
             public Object getPrincipal() {
-                return credential;
+                return null;
             }
 
             @Override
@@ -199,7 +191,7 @@ public class MailApproveService {
 
             @Override
             public String getName() {
-                return credential.getEmail();
+                return supervisorEmail;
             }
         };
         SecurityContextHolder.getContext().setAuthentication(token);

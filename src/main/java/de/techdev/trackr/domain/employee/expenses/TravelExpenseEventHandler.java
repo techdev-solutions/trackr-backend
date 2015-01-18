@@ -5,27 +5,24 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.rest.core.annotation.*;
 import org.springframework.security.access.prepost.PreAuthorize;
 
-/**
- * @author Moritz Schulze
- */
 @RepositoryEventHandler(TravelExpense.class)
 @Slf4j
 public class TravelExpenseEventHandler {
 
     @HandleBeforeCreate
-    @PreAuthorize("@travelExpenseEventHandler.canCreate(principal?.id, #travelExpense)")
+    @PreAuthorize("@travelExpenseEventHandler.canCreate(principal?.username, #travelExpense)")
     public void checkCreateAuthority(TravelExpense travelExpense) {
         log.debug("Creating travel expense {}", travelExpense);
     }
 
     @HandleBeforeSave
-    @PreAuthorize("hasRole('ROLE_SUPERVISOR') or @travelExpenseEventHandler.canEdit(principal?.id, #travelExpense)")
+    @PreAuthorize("hasRole('ROLE_SUPERVISOR') or @travelExpenseEventHandler.canEdit(principal?.username, #travelExpense)")
     public void checkUpdateAuthority(TravelExpense travelExpense) {
         log.debug("Updating travel expense {}", travelExpense);
     }
 
     @HandleBeforeDelete
-    @PreAuthorize("hasRole('ROLE_SUPERVISOR') or @travelExpenseEventHandler.canDelete(principal?.id, #travelExpense)")
+    @PreAuthorize("hasRole('ROLE_SUPERVISOR') or @travelExpenseEventHandler.canDelete(principal?.username, #travelExpense)")
     public void checkDeleteAuthority(TravelExpense travelExpense) {
         log.debug("Deleting travel expense {}", travelExpense);
     }
@@ -42,20 +39,20 @@ public class TravelExpenseEventHandler {
         //links are not deletable.
     }
 
-    public boolean canCreate(Long id, TravelExpense travelExpense) {
-        return id != null &&travelExpense.getReport().getEmployee().getId().equals(id) &&
+    public boolean canCreate(String email, TravelExpense travelExpense) {
+        return email != null &&travelExpense.getReport().getEmployee().getEmail().equals(email) &&
                 travelExpense.getReport().getStatus() != Report.Status.APPROVED &&
                 travelExpense.getReport().getStatus() != Report.Status.SUBMITTED;
     }
 
-    public boolean canEdit(Long id, TravelExpense travelExpense) {
-        return id != null && travelExpense.getReport().getEmployee().getId().equals(id) &&
+    public boolean canEdit(String email, TravelExpense travelExpense) {
+        return email != null && travelExpense.getReport().getEmployee().getEmail().equals(email) &&
                 travelExpense.getReport().getStatus() != Report.Status.APPROVED &&
                 travelExpense.getReport().getStatus() != Report.Status.SUBMITTED;
     }
 
-    public boolean canDelete(Long id, TravelExpense travelExpense) {
-        return id != null && travelExpense.getReport().getEmployee().getId().equals(id) &&
+    public boolean canDelete(String email, TravelExpense travelExpense) {
+        return email != null && travelExpense.getReport().getEmployee().getEmail().equals(email) &&
                 travelExpense.getReport().getStatus() != Report.Status.APPROVED &&
                 travelExpense.getReport().getStatus() != Report.Status.SUBMITTED;
     }

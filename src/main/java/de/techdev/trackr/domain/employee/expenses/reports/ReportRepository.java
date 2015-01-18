@@ -13,9 +13,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import java.util.Date;
 import java.util.List;
 
-/**
- * @author Moritz Schulze
- */
 @RepositoryRestResource(path = "travelExpenseReports")
 public interface ReportRepository extends CrudRepository<Report, Long> {
 
@@ -24,10 +21,10 @@ public interface ReportRepository extends CrudRepository<Report, Long> {
     Iterable<Report> findAll();
 
     @Override
-    @PostAuthorize("hasRole('ROLE_SUPERVISOR') or returnObject.employee.id == principal?.id")
+    @PostAuthorize("hasRole('ROLE_SUPERVISOR') or returnObject?.employee?.email == principal?.username")
     Report findOne(Long aLong);
 
-    @PreAuthorize("#employee.id == principal?.id")
+    @PreAuthorize("#employee.email == principal?.username")
     Page<Report> findByEmployeeAndStatusOrderByStatusAsc(@Param("employee") Employee employee, @Param("status") Report.Status status, Pageable pageable);
 
     @PreAuthorize("hasRole('ROLE_SUPERVISOR')")

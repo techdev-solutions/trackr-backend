@@ -9,9 +9,6 @@ import org.springframework.mail.SimpleMailMessage;
 import java.text.SimpleDateFormat;
 import java.util.UUID;
 
-/**
- * @author Moritz Schulze
- */
 public class VacationRequestNotifyService {
 
     @Autowired
@@ -27,7 +24,7 @@ public class VacationRequestNotifyService {
     public void sendEmailNotification(VacationRequest request) {
         SimpleMailMessage mailMessage = new SimpleMailMessage();
         mailMessage.setFrom("no-reply@techdev.de");
-        mailMessage.setTo(request.getEmployee().getCredential().getEmail());
+        mailMessage.setTo(request.getEmployee().getEmail());
         mailMessage.setSubject("Your vacation request has been " + statusPastVerb(request.getStatus()));
         mailMessage.setText(getStatusMailText(request));
         mailService.sendMail(mailMessage);

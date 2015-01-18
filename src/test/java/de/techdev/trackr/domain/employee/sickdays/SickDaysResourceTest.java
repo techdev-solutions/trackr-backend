@@ -15,13 +15,10 @@ import static org.echocat.jomon.testing.Assert.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-/**
- * @author Moritz Schulze
- */
 public class SickDaysResourceTest extends AbstractDomainResourceTest<SickDays> {
 
-    private Function<SickDays, MockHttpSession> sameEmployeeSessionProvider = sickDays -> employeeSession(sickDays.getEmployee().getId());
-    private Function<SickDays, MockHttpSession> otherEmployeeSessionProvider = sickDays -> employeeSession(sickDays.getEmployee().getId() + 1);
+    private Function<SickDays, MockHttpSession> sameEmployeeSessionProvider = sickDays -> employeeSession(sickDays.getEmployee().getEmail());
+    private Function<SickDays, MockHttpSession> otherEmployeeSessionProvider = sickDays -> employeeSession(sickDays.getEmployee().getEmail() + 1);
 
     @Override
     protected String getResourceName() {
@@ -87,7 +84,7 @@ public class SickDaysResourceTest extends AbstractDomainResourceTest<SickDays> {
         SickDays sickDays = dataOnDemand.getRandomObject();
         mockMvc.perform(
                 get("/sickDays/search/findByEmployee")
-                        .session(employeeSession(sickDays.getEmployee().getId()))
+                        .session(employeeSession(sickDays.getEmployee().getEmail()))
                         .param("employee", sickDays.getEmployee().getId().toString())
         )
                 .andExpect(status().isOk());
@@ -100,7 +97,7 @@ public class SickDaysResourceTest extends AbstractDomainResourceTest<SickDays> {
         SickDays sickDays = dataOnDemand.getRandomObject();
         mockMvc.perform(
                 get("/sickDays/search/findByEmployee")
-                        .session(employeeSession(sickDays.getEmployee().getId() + 1))
+                        .session(employeeSession(sickDays.getEmployee().getEmail() + 1))
                         .param("employee", sickDays.getEmployee().getId().toString())
         )
                 .andExpect(status().isForbidden());

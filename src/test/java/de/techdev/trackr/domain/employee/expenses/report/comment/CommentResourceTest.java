@@ -32,7 +32,7 @@ public class CommentResourceTest extends AbstractDomainResourceTest<Comment> {
 
     @Test
     public void createAllowedForOwningEmployee() throws Exception {
-        assertThat(create(comment -> employeeSession(comment.getEmployee().getId())), isCreated());
+        assertThat(create(comment -> employeeSession(comment.getEmployee().getEmail())), isCreated());
     }
 
     @Test

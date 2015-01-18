@@ -8,11 +8,12 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.support.GenericMessage;
+import org.springframework.stereotype.Component;
 
 /**
  * Puts the mail message into a queue to be sent by Spring Integration.
- * @author Moritz Schulze
  */
+@Component
 public class AsyncMailService implements MailService {
 
     @Autowired

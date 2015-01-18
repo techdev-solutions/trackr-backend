@@ -10,10 +10,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-/**
- * @author Moritz Schulze
- */
-
 public class VacationRequestControllerIntegrationTest extends MockMvcTest {
 
     @Autowired
@@ -46,7 +42,7 @@ public class VacationRequestControllerIntegrationTest extends MockMvcTest {
         vacationRequestRepository.save(vacationRequest);
         mockMvc.perform(
                 put("/vacationRequests/" + vacationRequest.getId() + "/approve")
-                        .session(supervisorSession(vacationRequest.getEmployee().getId())))
+                        .session(supervisorSession(vacationRequest.getEmployee().getEmail())))
                .andExpect(status().isForbidden());
     }
 
@@ -80,7 +76,7 @@ public class VacationRequestControllerIntegrationTest extends MockMvcTest {
         vacationRequestRepository.save(vacationRequest);
         mockMvc.perform(
                 put("/vacationRequests/" + vacationRequest.getId() + "/reject")
-                        .session(supervisorSession(vacationRequest.getEmployee().getId())))
+                        .session(supervisorSession(vacationRequest.getEmployee().getEmail())))
                .andExpect(status().isForbidden());
     }
 }

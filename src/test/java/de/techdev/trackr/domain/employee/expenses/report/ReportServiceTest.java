@@ -1,11 +1,9 @@
 package de.techdev.trackr.domain.employee.expenses.report;
 
 import de.techdev.trackr.TransactionalIntegrationTest;
-import de.techdev.trackr.core.mail.MailConfiguration;
 import de.techdev.trackr.domain.ApiBeansConfiguration;
 import de.techdev.trackr.domain.company.Company;
 import de.techdev.trackr.domain.company.CompanyDataOnDemand;
-import de.techdev.trackr.domain.employee.expenses.report.ReportDataOnDemand;
 import de.techdev.trackr.domain.employee.expenses.reports.Report;
 import de.techdev.trackr.domain.employee.expenses.reports.ReportService;
 import de.techdev.trackr.util.LocalDateUtil;
@@ -19,7 +17,7 @@ import java.util.Date;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
-@ContextConfiguration(classes = {MailConfiguration.class, ApiBeansConfiguration.class})
+@ContextConfiguration(classes = {ApiBeansConfiguration.class})
 public class ReportServiceTest extends TransactionalIntegrationTest {
 
     @Autowired

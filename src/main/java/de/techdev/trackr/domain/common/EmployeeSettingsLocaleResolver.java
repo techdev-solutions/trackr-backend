@@ -1,10 +1,14 @@
 package de.techdev.trackr.domain.common;
 
-import de.techdev.trackr.domain.employee.login.TrackrUser;
+import de.techdev.trackr.domain.employee.settings.Settings;
+import de.techdev.trackr.domain.employee.settings.SettingsRepository;
+import de.techdev.trackr.domain.employee.settings.SettingsType;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContext;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.web.servlet.LocaleContextResolver;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import org.springframework.web.util.WebUtils;
@@ -13,10 +17,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Locale;
 
-/**
- * @author Moritz Schulze
- */
-public class TrackrUserLocaleResolver implements LocaleContextResolver {
+public class EmployeeSettingsLocaleResolver implements LocaleContextResolver {
+
+    @Autowired
+    private SettingsRepository settingsRepository;
 
     @Override
     public Locale resolveLocale(HttpServletRequest request) {
@@ -57,8 +61,12 @@ public class TrackrUserLocaleResolver implements LocaleContextResolver {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             if(authentication != null) {
                 Object principal = authentication.getPrincipal();
-                if (TrackrUser.class.isAssignableFrom(principal.getClass())) {
-                    locale = ((TrackrUser) principal).getLocale();
+                if (User.class.isAssignableFrom(principal.getClass())) {
+                    String username = ((User) principal).getUsername();
+                    Settings localeSetting = settingsRepository.findByTypeAndEmployee_Email(SettingsType.LOCALE, username);
+                    if (localeSetting != null) {
+                        locale = Locale.forLanguageTag(localeSetting.getValue());
+                    }
                 }
             }
             //Either no authentication or admin user

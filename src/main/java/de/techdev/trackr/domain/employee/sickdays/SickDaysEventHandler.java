@@ -5,9 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.core.annotation.*;
 import org.springframework.security.access.prepost.PreAuthorize;
 
-/**
- * @author Moritz Schulze
- */
 @RepositoryEventHandler(value = SickDays.class)
 @Slf4j
 public class SickDaysEventHandler {
@@ -16,14 +13,14 @@ public class SickDaysEventHandler {
     private SickDaysNotifyService sickDaysNotifyService;
 
     @HandleBeforeCreate
-    @PreAuthorize("#sickDays.employee.id == principal?.id or hasRole('ROLE_ADMIN')")
+    @PreAuthorize("#sickDays.employee.email == principal?.username or hasRole('ROLE_ADMIN')")
     public void checkSaveAuthority(SickDays sickDays) {
         log.debug("Creating sickdays {}", sickDays);
         sickDaysNotifyService.notifySupervisorsAboutNew(sickDays);
     }
 
     @HandleBeforeSave
-    @PreAuthorize("#sickDays.employee.id == principal?.id or hasRole('ROLE_ADMIN')")
+    @PreAuthorize("#sickDays.employee.email == principal?.username or hasRole('ROLE_ADMIN')")
     public void checkUpdateAuthority(SickDays sickDays) {
         log.debug("Updating sickDays {}", sickDays);
         sickDaysNotifyService.notifySupervisorsAboutUpdate(sickDays);

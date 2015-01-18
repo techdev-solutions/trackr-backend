@@ -1,25 +1,15 @@
 package de.techdev.trackr.domain.employee.login.support;
 
-import de.techdev.trackr.domain.employee.Employee;
-import de.techdev.trackr.domain.employee.login.Authority;
-import de.techdev.trackr.domain.employee.login.AuthorityRepository;
-import de.techdev.trackr.domain.employee.login.Credential;
-import de.techdev.trackr.domain.employee.login.CredentialRepository;
+import de.techdev.trackr.core.security.AuthorityService;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.List;
+import java.util.Collection;
 import java.util.function.Predicate;
 
-/**
- * @author Moritz Schulze
- */
 public class SupervisorService {
 
     @Autowired
-    private CredentialRepository credentialRepository;
-
-    @Autowired
-    private AuthorityRepository authorityRepository;
+    private AuthorityService authorityService;
 
     /**
      * @return Email addresses of all supervisors
@@ -32,9 +22,8 @@ public class SupervisorService {
      * @param withoutThese A predicate to filter out supervisors, e.g. the logged in principal.
      * @return Email addresses of all supervisors for whose credentials the predicate returns true.
      */
-    public String[] getSupervisorEmailsArrayWithout(Predicate<Credential> withoutThese) {
-        Authority supervisorRole = authorityRepository.findByAuthority("ROLE_SUPERVISOR");
-        List<Credential> supervisors = credentialRepository.findByAuthorities(supervisorRole);
-        return supervisors.stream().filter(withoutThese).map(Credential::getEmail).toArray(String[]::new);
+    public String[] getSupervisorEmailsArrayWithout(Predicate<String> withoutThese) {
+        Collection<String> supervisor = authorityService.getEmployeeEmailsByAuthority("ROLE_SUPERVISOR");
+        return supervisor.stream().filter(withoutThese).toArray(String[]::new);
     }
 }

@@ -8,16 +8,13 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-/**
- * @author Moritz Schulze
- */
 public class PrincipalControllerTest extends MockMvcTest {
 
     @Test
     public void principal() throws Exception {
         mockMvc.perform(
                 get("/principal")
-                        .session(adminSession()))
+                        .session(employeeSession("moritz.schulze@techdev.de")))
                .andExpect(status().isOk())
                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
     }

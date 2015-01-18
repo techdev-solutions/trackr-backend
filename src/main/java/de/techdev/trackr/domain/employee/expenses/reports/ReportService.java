@@ -1,16 +1,13 @@
 package de.techdev.trackr.domain.employee.expenses.reports;
 
-import de.techdev.trackr.domain.employee.login.Credential;
-import de.techdev.trackr.domain.employee.login.CredentialRepository;
+import de.techdev.trackr.domain.employee.Employee;
+import de.techdev.trackr.domain.employee.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 
-/**
- * @author Moritz Schulze
- */
 @Transactional
 public class ReportService {
 
@@ -18,23 +15,23 @@ public class ReportService {
     private ReportRepository travelExpenseReportRepository;
 
     @Autowired
-    private CredentialRepository credentialRepository;
+    private EmployeeRepository employeeRepository;
 
     @Autowired
     private ReportNotifyService travelExpenseReportNotifyService;
 
-    @PreAuthorize("#travelExpenseReport.employee.id == principal?.id")
+    @PreAuthorize("#travelExpenseReport.employee.email == principal?.username")
     public Report submit(Report travelExpenseReport) {
         travelExpenseReportNotifyService.sendSubmittedReportMail(travelExpenseReport);
         return setStatusOnTravelExpenseReport(travelExpenseReport, Report.Status.SUBMITTED, null);
     }
 
-    @PreAuthorize("hasRole('ROLE_SUPERVISOR') and #travelExpenseReport.employee.id != principal?.id")
+    @PreAuthorize("hasRole('ROLE_SUPERVISOR') and #travelExpenseReport.employee.email != principal?.username")
     public Report accept(Report travelExpenseReport, String approverName) {
         return setStatusOnTravelExpenseReport(travelExpenseReport, Report.Status.APPROVED, approverName);
     }
 
-    @PreAuthorize("hasRole('ROLE_SUPERVISOR') and #travelExpenseReport.employee.id != principal?.id")
+    @PreAuthorize("hasRole('ROLE_SUPERVISOR') and #travelExpenseReport.employee.email != principal?.username")
     public Report reject(Report travelExpenseReport, String rejecterName) {
         return setStatusOnTravelExpenseReport(travelExpenseReport, Report.Status.REJECTED, rejecterName);
     }
@@ -43,8 +40,8 @@ public class ReportService {
         if (status == Report.Status.SUBMITTED) {
             travelExpenseReport.setSubmissionDate(new Date());
         } else {
-            Credential approver = credentialRepository.findByEmail(approverName);
-            travelExpenseReport.setApprover(approver.getEmployee());
+            Employee approver = employeeRepository.findByEmail(approverName);
+            travelExpenseReport.setApprover(approver);
             travelExpenseReport.setApprovalDate(new Date());
         }
         travelExpenseReport.setStatus(status);

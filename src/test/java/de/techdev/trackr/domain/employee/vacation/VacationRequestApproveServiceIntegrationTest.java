@@ -1,10 +1,8 @@
 package de.techdev.trackr.domain.employee.vacation;
 
 import de.techdev.trackr.IntegrationTest;
-import de.techdev.trackr.core.mail.MailConfiguration;
 import de.techdev.trackr.core.security.AuthorityMocks;
 import de.techdev.trackr.core.security.MethodSecurityConfiguration;
-import de.techdev.trackr.core.security.SecurityConfiguration;
 import de.techdev.trackr.domain.ApiBeansConfiguration;
 import de.techdev.trackr.util.LocalDateUtil;
 import org.junit.Test;
@@ -18,10 +16,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.fail;
 
-/**
- * @author Moritz Schulze
- */
-@ContextConfiguration(classes = {SecurityConfiguration.class, MethodSecurityConfiguration.class, ApiBeansConfiguration.class, MailConfiguration.class})
+@ContextConfiguration(classes = { MethodSecurityConfiguration.class, ApiBeansConfiguration.class})
 public class VacationRequestApproveServiceIntegrationTest extends IntegrationTest {
 
     @Autowired
@@ -38,7 +33,7 @@ public class VacationRequestApproveServiceIntegrationTest extends IntegrationTes
         VacationRequest vacationRequest = vacationRequestDataOnDemand.getRandomObject();
         vacationRequest.setStatus(VacationRequest.VacationRequestStatus.PENDING);
         vacationRequestRepository.save(vacationRequest);
-        SecurityContextHolder.getContext().setAuthentication(AuthorityMocks.supervisorAuthentication(vacationRequest.getEmployee().getId()));
+        SecurityContextHolder.getContext().setAuthentication(AuthorityMocks.supervisorAuthentication(vacationRequest.getEmployee().getEmail()));
         try {
             vacationRequestApproveService.approve(vacationRequest, "");
             fail("An exception must be thrown.");
@@ -53,7 +48,7 @@ public class VacationRequestApproveServiceIntegrationTest extends IntegrationTes
         VacationRequest vacationRequest = vacationRequestDataOnDemand.getRandomObject();
         vacationRequest.setStatus(VacationRequest.VacationRequestStatus.PENDING);
         vacationRequestRepository.save(vacationRequest);
-        SecurityContextHolder.getContext().setAuthentication(AuthorityMocks.supervisorAuthentication(vacationRequest.getEmployee().getId()));
+        SecurityContextHolder.getContext().setAuthentication(AuthorityMocks.supervisorAuthentication(vacationRequest.getEmployee().getEmail()));
         try {
             vacationRequestApproveService.reject(vacationRequest, "");
             fail("An exception must be thrown.");

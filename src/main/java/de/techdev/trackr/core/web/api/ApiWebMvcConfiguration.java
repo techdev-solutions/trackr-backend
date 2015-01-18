@@ -1,9 +1,7 @@
 package de.techdev.trackr.core.web.api;
 
 import de.techdev.trackr.core.web.converters.DateConverter;
-import de.techdev.trackr.domain.ApiBeansConfiguration;
-import de.techdev.trackr.domain.common.StringToEntityConverter;
-import de.techdev.trackr.domain.common.TrackrUserLocaleResolver;
+import de.techdev.trackr.domain.common.EmployeeSettingsLocaleResolver;
 import de.techdev.trackr.domain.company.Address;
 import de.techdev.trackr.domain.company.Company;
 import de.techdev.trackr.domain.company.ContactPerson;
@@ -11,98 +9,58 @@ import de.techdev.trackr.domain.employee.Employee;
 import de.techdev.trackr.domain.employee.expenses.TravelExpense;
 import de.techdev.trackr.domain.employee.expenses.reports.Report;
 import de.techdev.trackr.domain.employee.expenses.reports.comments.Comment;
-import de.techdev.trackr.domain.employee.login.Authority;
-import de.techdev.trackr.domain.employee.login.Credential;
 import de.techdev.trackr.domain.employee.sickdays.SickDays;
 import de.techdev.trackr.domain.employee.vacation.VacationRequest;
-import de.techdev.trackr.domain.project.billtimes.BillableTime;
 import de.techdev.trackr.domain.project.Project;
-import de.techdev.trackr.domain.project.worktimes.WorkTime;
+import de.techdev.trackr.domain.project.billtimes.BillableTime;
 import de.techdev.trackr.domain.project.invoice.Invoice;
+import de.techdev.trackr.domain.project.worktimes.WorkTime;
 import org.springframework.context.MessageSource;
-import org.springframework.context.annotation.*;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
-import org.springframework.core.convert.converter.Converter;
 import org.springframework.core.convert.support.ConfigurableConversionService;
-import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 import org.springframework.data.rest.core.event.ValidatingRepositoryEventListener;
 import org.springframework.data.rest.webmvc.config.RepositoryRestMvcConfiguration;
+import org.springframework.data.rest.webmvc.support.RepositoryEntityLinks;
 import org.springframework.format.FormatterRegistry;
-import org.springframework.hateoas.EntityLinks;
-import org.springframework.stereotype.Controller;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.LocaleResolver;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import java.util.List;
 
-/**
- * @author Moritz Schulze
- */
 @Configuration
-@EnableWebMvc
-@ComponentScan(basePackages = "de.techdev.trackr.domain",
-        useDefaultFilters = false,
-        includeFilters = {
-                @ComponentScan.Filter(type = FilterType.ANNOTATION, value = {Controller.class, ControllerAdvice.class, RepositoryEventHandler.class})
-        })
-@Import({ApiBeansConfiguration.class})
 public class ApiWebMvcConfiguration extends RepositoryRestMvcConfiguration {
 
     @Override
     protected void configureRepositoryRestConfiguration(RepositoryRestConfiguration config) {
-        config.exposeIdsFor(new Class[]{Employee.class, Credential.class, Authority.class, Company.class, ContactPerson.class,
+        config.exposeIdsFor(Employee.class, Company.class, ContactPerson.class,
                 Address.class, Project.class, WorkTime.class, BillableTime.class, VacationRequest.class, TravelExpense.class,
-                Report.class, Comment.class, Invoice.class, SickDays.class});
+                Report.class, Comment.class, Invoice.class, SickDays.class);
         config.setReturnBodyOnUpdate(true);
         config.setReturnBodyOnCreate(true);
     }
 
     /**
-     * Needed temporary because Spring-Data-Rest 2.1 destroys the self href for entities with a projection.
+     * The self HREF for entities contains {?projection} to indiciate the parameter is available, but we don't want that.
+     * The {@link de.techdev.trackr.core.web.api.RepositoryEntityLinksWithoutProjection} switches {?projection} off.
      */
     @Override
     @Bean
-    public EntityLinks entityLinks() {
+    public RepositoryEntityLinks entityLinks() {
         return new RepositoryEntityLinksWithoutProjection(repositories(), resourceMappings(), config(), pageableResolver(), backendIdConverterRegistry());
     }
 
     @Bean
     public LocaleResolver localeResolver() {
-        return new TrackrUserLocaleResolver();
-    }
-
-    @Bean
-    public ExceptionHandlers exceptionHandlers() {
-        return new ExceptionHandlers();
+        return new EmployeeSettingsLocaleResolver();
     }
 
     @Bean
     public DateConverter dateConverter() {
         return new DateConverter();
-    }
-
-    @Bean
-    public Converter<String, Invoice> stringInvoiceConverter() {
-        return new StringToEntityConverter.StringToInvoiceConverter();
-    }
-
-    @Bean
-    public Converter<String, VacationRequest> vacationRequestConverter() {
-        return new StringToEntityConverter.StringToVacationRequestConverter();
-    }
-
-    @Bean
-    public Converter<String, Report> travelExpenseReportConverter() {
-        return new StringToEntityConverter.StringToTravelExpenseReportConverter();
-    }
-
-    @Bean
-    public Converter<String, Employee> employeeConverter() {
-        return new StringToEntityConverter.StringToEmployeeConverter();
     }
 
     @Override
@@ -117,12 +75,11 @@ public class ApiWebMvcConfiguration extends RepositoryRestMvcConfiguration {
     @Override
     public void addFormatters(FormatterRegistry registry) {
         registry.addConverter(dateConverter());
-        registry.addConverter(stringInvoiceConverter());
-        registry.addConverter(vacationRequestConverter());
-        registry.addConverter(travelExpenseReportConverter());
-        registry.addConverter(employeeConverter());
     }
 
+    /**
+     * Needed for mapping exceptions in jackson that otherwise would get an ugly error message.
+     */
     @Bean
     public JsonMappingHandlerExceptionResolver jsonMappingHandlerExceptionResolver() {
         return new JsonMappingHandlerExceptionResolver();

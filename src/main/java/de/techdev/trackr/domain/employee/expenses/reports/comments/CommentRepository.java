@@ -9,9 +9,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 
 import java.util.List;
 
-/**
- * @author Moritz Schulze
- */
 @RepositoryRestResource(path = "travelExpenseReportComments")
 public interface CommentRepository extends CrudRepository<Comment, Long> {
 
@@ -27,6 +24,6 @@ public interface CommentRepository extends CrudRepository<Comment, Long> {
     @RestResource(exported = false)
     void delete(Long aLong);
 
-    @PreAuthorize("hasRole('ROLE_SUPERVISOR') or #travelExpenseReport.employee.id == principal?.id")
+    @PreAuthorize("hasRole('ROLE_SUPERVISOR') or #travelExpenseReport.employee.email == principal?.username")
     List<Comment> findByTravelExpenseReportOrderBySubmissionDateAsc(@Param("report") Report travelExpenseReport);
 }

@@ -2,8 +2,7 @@ package de.techdev.trackr.domain.employee.vacation;
 
 import de.techdev.trackr.domain.common.UuidMapper;
 import de.techdev.trackr.domain.employee.Employee;
-import de.techdev.trackr.domain.employee.login.Credential;
-import de.techdev.trackr.domain.employee.login.CredentialRepository;
+import de.techdev.trackr.domain.employee.EmployeeRepository;
 import de.techdev.trackr.domain.employee.vacation.support.VacationRequestNotifyService;
 import de.techdev.trackr.util.LocalDateUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -15,9 +14,6 @@ import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
-/**
- * @author Moritz Schulze
- */
 @Slf4j
 public class VacationRequestApproveService {
 
@@ -25,7 +21,7 @@ public class VacationRequestApproveService {
     private VacationRequestRepository vacationRequestRepository;
 
     @Autowired
-    private CredentialRepository credentialRepository;
+    private EmployeeRepository employeeRepository;
 
     @Autowired
     private VacationRequestNotifyService vacationRequestNotifyService;
@@ -34,7 +30,7 @@ public class VacationRequestApproveService {
     private UuidMapper uuidMapper;
 
     @Transactional
-    @PreAuthorize("hasRole('ROLE_SUPERVISOR') and principal?.id != #vacationRequest.employee.id")
+    @PreAuthorize("hasRole('ROLE_SUPERVISOR') and principal?.username != #vacationRequest.employee.email")
     public VacationRequest approve(VacationRequest vacationRequest, String supervisorEmail) {
         return setStatusOnVacationRequest(vacationRequest, supervisorEmail, VacationRequest.VacationRequestStatus.APPROVED);
     }
@@ -50,7 +46,7 @@ public class VacationRequestApproveService {
      * @return The approved (or not) vacation request.
      */
     @Transactional
-    @PreAuthorize("hasRole('ROLE_SUPERVISOR') and principal?.id != #vacationRequest.employee.id")
+    @PreAuthorize("hasRole('ROLE_SUPERVISOR') and principal?.username != #vacationRequest.employee.email")
     public VacationRequest reject(VacationRequest vacationRequest, String supervisorEmail) {
         return setStatusOnVacationRequest(vacationRequest, supervisorEmail, VacationRequest.VacationRequestStatus.REJECTED);
     }
@@ -72,9 +68,9 @@ public class VacationRequestApproveService {
     protected VacationRequest setStatusOnVacationRequest(VacationRequest vacationRequest, String supervisorEmail, VacationRequest.VacationRequestStatus status) {
         if (vacationRequest.getStatus() == VacationRequest.VacationRequestStatus.PENDING) {
             Employee supervisor = null;
-            Credential byEmail = credentialRepository.findByEmail(supervisorEmail);
+            Employee byEmail = employeeRepository.findByEmail(supervisorEmail);
             if (byEmail != null) {
-                supervisor = byEmail.getEmployee();
+                supervisor = byEmail;
             }
             vacationRequest.setStatus(status);
             vacationRequest.setApprover(supervisor);

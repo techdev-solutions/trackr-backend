@@ -1,23 +1,17 @@
 package de.techdev.trackr.domain.employee;
 
-import de.techdev.trackr.domain.employee.login.Credential;
-import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.core.RepositoryConstraintViolationException;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
 
 /**
  * A controller for special operations on Employees not exportable by spring-data-rest
- *
- * @author Moritz Schulze
  */
 @Controller
 @RequestMapping(value = "/employees")
@@ -34,7 +28,7 @@ public class EmployeeController {
      * @param selfEmployee The request body, i.e. the data to change
      * @return The updated data.
      */
-    @PreAuthorize("#employee.id == principal?.id")
+    @PreAuthorize("#employee.email == principal?.username")
     @ResponseBody
     @RequestMapping(value = "/{employee}/self", method = {RequestMethod.PUT, RequestMethod.PATCH}, consumes = MediaType.APPLICATION_JSON_VALUE)
     public SelfEmployee updateSelf(@PathVariable("employee") Employee employee, @RequestBody @Valid SelfEmployee selfEmployee, BindingResult bindingResult) {
@@ -60,39 +54,5 @@ public class EmployeeController {
     public SelfEmployee get(@PathVariable("employee") Long employeeId) {
         Employee employee = employeeRepository.findOne(employeeId);
         return SelfEmployee.valueOf(employee);
-    }
-
-    /**
-     * Create a new employee along with his/her credentials. Used so binding errors for both entities are displayed at the same time.
-     * @param createEmployee Wrapper for an employee and a credential entity.
-     * @param bindingResult Spring binding result.
-     * @return The newly created employee
-     */
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @RequestMapping(value = "/createWithCredential", method = {RequestMethod.POST}, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody
-    @ResponseStatus(HttpStatus.CREATED)
-    public Employee createWithCredential(@RequestBody @Valid CreateEmployee createEmployee, BindingResult bindingResult) {
-        if(bindingResult.hasErrors()) {
-            throw new RepositoryConstraintViolationException(bindingResult);
-        }
-        createEmployee.getEmployee().setCredential(createEmployee.getCredential());
-        createEmployee.getCredential().setEmployee(createEmployee.getEmployee());
-
-        return employeeRepository.save(createEmployee.getEmployee());
-    }
-
-    /**
-     * Wrapper DTO for an employee and a credential.
-     * <p>
-     * This class <b>must</b> be static, otherwise the binding errors will not work correctly.
-     */
-    @Data
-    protected static class CreateEmployee {
-        @Valid
-        private Employee employee;
-
-        @Valid
-        private Credential credential;
     }
 }

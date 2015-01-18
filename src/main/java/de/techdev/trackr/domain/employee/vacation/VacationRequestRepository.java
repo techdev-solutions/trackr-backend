@@ -11,20 +11,17 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import java.util.Date;
 import java.util.List;
 
-/**
- * @author Moritz Schulze
- */
 public interface VacationRequestRepository extends CrudRepository<VacationRequest, Long> {
 
     @Override
-    @PostAuthorize("hasRole('ROLE_SUPERVISOR') or principal?.id == returnObject.employee.id")
+    @PostAuthorize("hasRole('ROLE_SUPERVISOR') or principal?.username == returnObject.employee.email")
     VacationRequest findOne(Long aLong);
 
     @Override
     @RestResource(exported = false)
     Iterable<VacationRequest> findAll();
 
-    @PreAuthorize("hasRole('ROLE_SUPERVISOR') or principal?.id == #employee.id")
+    @PreAuthorize("hasRole('ROLE_SUPERVISOR') or principal?.username == #employee.email")
     List<VacationRequest> findByEmployeeOrderByStartDateAsc(@Param("employee") Employee employee);
 
     @PreAuthorize("hasRole('ROLE_SUPERVISOR')")

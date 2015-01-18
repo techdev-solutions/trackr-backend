@@ -1,21 +1,19 @@
 package de.techdev.trackr.core.mail.support;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Profile;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessagePreparator;
+import org.springframework.stereotype.Component;
 
 import javax.mail.internet.MimeMessage;
 import java.io.InputStream;
 import java.util.Arrays;
 
-/**
- * Mock class to be used by Spring Integration for dev and qs.
- *
- * @author Moritz Schulze
- * @author Alexander Hanschke
- */
 @Slf4j
+@Profile("!gmail")
+@Component("mailSender")
 public class NoOpJavaMailSender implements JavaMailSender {
 
     @Override

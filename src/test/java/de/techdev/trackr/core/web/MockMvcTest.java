@@ -1,10 +1,7 @@
 package de.techdev.trackr.core.web;
 
 import de.techdev.trackr.TransactionalIntegrationTest;
-import de.techdev.trackr.core.mail.MailConfiguration;
 import de.techdev.trackr.core.security.AuthorityMocks;
-import de.techdev.trackr.core.security.MethodSecurityConfiguration;
-import de.techdev.trackr.core.security.SecurityConfiguration;
 import de.techdev.trackr.core.web.api.ApiWebMvcConfiguration;
 import org.junit.Before;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +10,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.web.FilterChainProxy;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
@@ -25,11 +23,10 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 
 /**
  * A base class for tests that access the web mvc resources.
- *
- * @author Moritz Schulze
  */
 @WebAppConfiguration
-@ContextConfiguration(classes = {ApiWebMvcConfiguration.class, MethodSecurityConfiguration.class, SecurityConfiguration.class, MailConfiguration.class})
+@ContextConfiguration(classes = {ApiWebMvcConfiguration.class})
+@ActiveProfiles({"granular-security"})
 public abstract class MockMvcTest extends TransactionalIntegrationTest {
 
     public static final String STANDARD_CONTENT_TYPE = "application/hal+json";
@@ -62,11 +59,11 @@ public abstract class MockMvcTest extends TransactionalIntegrationTest {
     /**
      * An http session for an employee.
      *
-     * @param id The desired id of the employee.
+     * @param username The desired id of the employee.
      * @return The mock session object.
      */
-    protected MockHttpSession employeeSession(Long id) {
-        return buildSession(AuthorityMocks.employeeAuthentication(id));
+    protected MockHttpSession employeeSession(String username) {
+        return buildSession(AuthorityMocks.employeeAuthentication(username));
     }
 
     /**
@@ -87,8 +84,8 @@ public abstract class MockMvcTest extends TransactionalIntegrationTest {
         return buildSession(AuthorityMocks.supervisorAuthentication());
     }
 
-    protected MockHttpSession supervisorSession(Long id) {
-        return buildSession(AuthorityMocks.supervisorAuthentication(id));
+    protected MockHttpSession supervisorSession(String username) {
+        return buildSession(AuthorityMocks.supervisorAuthentication(username));
     }
 
     /**

@@ -12,8 +12,6 @@ import java.util.List;
 
 /**
  * Remind employees to track their working times.
- *
- * @author Moritz Schulze
  */
 public class WorkTimeTrackingReminderService {
 
@@ -40,7 +38,7 @@ public class WorkTimeTrackingReminderService {
 
     protected SimpleMailMessage getReminderMailMessage(Employee employee) {
         SimpleMailMessage mailMessage = new SimpleMailMessage();
-        mailMessage.setTo(employee.getCredential().getEmail());
+        mailMessage.setTo(employee.getEmail());
         mailMessage.setFrom("no-reply@techdev.de");
         mailMessage.setSubject("Track your working time");
         mailMessage.setText("Please make sure to track your working time by the end of the month: " + frontendUrl + "/employee/timesheet");
