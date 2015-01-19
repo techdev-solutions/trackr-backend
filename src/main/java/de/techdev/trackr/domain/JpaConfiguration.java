@@ -1,26 +1,21 @@
 package de.techdev.trackr.domain;
 
-import org.apache.commons.dbcp.BasicDataSource;
 import org.hibernate.ejb.HibernatePersistence;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.*;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
-import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.data.repository.Repository;
-import org.springframework.jdbc.datasource.lookup.JndiDataSourceLookup;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import javax.sql.DataSource;
 import java.util.Properties;
-
-import static java.util.Arrays.asList;
 
 /**
  * @author Moritz Schulze
+ * @author Alexander Hanschke
  */
 @Configuration
 @EnableTransactionManagement
@@ -33,19 +28,11 @@ import static java.util.Arrays.asList;
         @PropertySource("classpath:/META-INF/spring/database_${spring.profiles.active:dev}.properties"),
         @PropertySource(value = "${trackr.externalconfig:file:/etc/trackr.properties}", ignoreResourceNotFound = true)
 })
+@Import({JndiDataConfig.class, StandaloneDataConfig.class})
 public class JpaConfiguration {
 
-    @Value("${database.driverClassName}")
-    private String dbDriver;
-
-    @Value("${database.url}")
-    private String dbUrl;
-
-    @Value("${database.username}")
-    private String username;
-
-    @Value("${database.password}")
-    private String password;
+    @Autowired
+    private DataConfig dataConfig;
 
     @Value("${database.hibernateDialect}")
     private String hibernateDialect;
@@ -53,36 +40,15 @@ public class JpaConfiguration {
     @Value("${database.hbm2ddlAuto}")
     private String hbm2ddlAuto;
 
-    @Value("${database.jndiName}")
-    private String jndiName;
-
-    @Autowired
-    private Environment env;
-
     @Bean
     public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
         return new PropertySourcesPlaceholderConfigurer();
     }
 
     @Bean
-    public DataSource dataSource() {
-        if (asList(env.getActiveProfiles()).contains("prod")) {
-            JndiDataSourceLookup lookup = new JndiDataSourceLookup();
-            return lookup.getDataSource(jndiName);
-        } else {
-            BasicDataSource dataSource = new BasicDataSource();
-            dataSource.setDriverClassName(dbDriver);
-            dataSource.setUrl(dbUrl);
-            dataSource.setUsername(username);
-            dataSource.setPassword(password);
-            return dataSource;
-        }
-    }
-
-    @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         LocalContainerEntityManagerFactoryBean emfb = new LocalContainerEntityManagerFactoryBean();
-        emfb.setDataSource(dataSource());
+        emfb.setDataSource(dataConfig.dataSource());
         emfb.setPersistenceProviderClass(HibernatePersistence.class);
         emfb.setPackagesToScan("de.techdev.trackr");
         emfb.setJpaProperties(hibernateProperties());

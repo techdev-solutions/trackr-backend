@@ -1,14 +1,13 @@
 package de.techdev.trackr.core.security;
 
 import de.techdev.trackr.core.security.support.DefaultRemoveTokenService;
-import org.apache.commons.dbcp.BasicDataSource;
+import de.techdev.trackr.domain.DataConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingClass;
 import org.springframework.context.annotation.*;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
-import org.springframework.core.env.Environment;
 import org.springframework.http.HttpMethod;
-import org.springframework.jdbc.datasource.lookup.JndiDataSourceLookup;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
@@ -27,10 +26,9 @@ import org.springframework.security.web.context.SecurityContextPersistenceFilter
 
 import javax.sql.DataSource;
 
-import static java.util.Arrays.asList;
-
 /**
  * @author Moritz Schulze
+ * @author Alexander Hanschke
  */
 @Configuration
 public class OAuth2ServerConfiguration {
@@ -82,26 +80,11 @@ public class OAuth2ServerConfiguration {
     })
     protected static class AuthorizationServerConfiguration extends AuthorizationServerConfigurerAdapter {
 
-        @Value("${tokenDatabase.driverClassName}")
-        private String dbDriver;
-
-        @Value("${tokenDatabase.url}")
-        private String dbUrl;
-
-        @Value("${tokenDatabase.username}")
-        private String username;
-
-        @Value("${tokenDatabase.password}")
-        private String password;
-
-        @Value("${tokenDatabase.jndiName}")
-        private String jndiName;
+        @Autowired
+        private DataConfig dataConfig;
 
         @Value("${oauth.trackr-page.redirect_uris}")
         private String trackrPageRedirectUris;
-
-        @Autowired
-        private Environment env;
 
         @Bean
         public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
@@ -119,37 +102,32 @@ public class OAuth2ServerConfiguration {
         }
 
         @Bean
-        @Profile({"qs", "prod"})
         public DataSource tokenDataSource() {
-            if (asList(env.getActiveProfiles()).contains("prod")) {
-                JndiDataSourceLookup lookup = new JndiDataSourceLookup();
-                return lookup.getDataSource(jndiName);
-            } else {
-                BasicDataSource dataSource = new BasicDataSource();
-                dataSource.setDriverClassName(dbDriver);
-                dataSource.setUrl(dbUrl);
-                dataSource.setUsername(username);
-                dataSource.setPassword(password);
-                return dataSource;
-            }
+            return dataConfig.dataSource();
         }
 
         @Bean
+        @Profile("dev")
         public ApprovalStore approvalStore() {
-            if (asList(env.getActiveProfiles()).contains("dev")) {
-                return new InMemoryApprovalStore();
-            } else {
-                return new JdbcApprovalStore(tokenDataSource());
-            }
+            return new InMemoryApprovalStore();
         }
 
         @Bean
+        @ConditionalOnMissingClass(ApprovalStore.class)
+        public ApprovalStore jdbcApprovalStore() {
+            return new JdbcApprovalStore(tokenDataSource());
+        }
+
+        @Bean
+        @Profile("dev")
         public TokenStore tokenStore() {
-            if(asList(env.getActiveProfiles()).contains("dev")) {
-                return new InMemoryTokenStore();
-            } else {
-                return new JdbcTokenStore(tokenDataSource());
-            }
+            return new InMemoryTokenStore();
+        }
+
+        @Bean
+        @ConditionalOnMissingClass(TokenStore.class)
+        public TokenStore jdbcTokenStore() {
+            return new JdbcTokenStore(tokenDataSource());
         }
 
         @Bean
