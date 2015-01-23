@@ -12,7 +12,13 @@ apply plugin: 'sonar-runner'
 apply plugin: 'spring-boot'
 
 sourceCompatibility = 1.8
+archivesBaseName = 'trackr-backend'
 version = '1.0'
+if(project.hasProperty('teamcity')) {
+    version += '-build-' + project.teamcity['build.number']
+} else {
+    version += '-localbuild'
+}
 compileJava.options.encoding = 'UTF-8'
 
 repositories {
@@ -33,8 +39,8 @@ sonarRunner {
         property "sonar.sourceEncoding", "UTF-8"
     }
 }
-dependencies {
 
+dependencies {
     compile "org.springframework.boot:spring-boot-starter-data-rest"
     compile "org.springframework.boot:spring-boot-starter-data-jpa"
     compile "org.springframework.boot:spring-boot-starter-mail"
@@ -54,8 +60,9 @@ dependencies {
 
     compile "org.projectlombok:lombok:1.12.4"
 
-    testCompile "org.springframework.boot:spring-boot-starter-test"
     compile "org.glassfish:javax.json:1.0"
+
+    testCompile "org.springframework.boot:spring-boot-starter-test"
     testCompile("org.echocat.jomon:testing:1.4.3") {
         exclude group: "org.mockito"
     }
