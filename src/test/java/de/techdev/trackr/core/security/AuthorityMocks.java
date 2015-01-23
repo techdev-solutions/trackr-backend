@@ -1,38 +1,33 @@
 package de.techdev.trackr.core.security;
 
-import de.techdev.trackr.domain.employee.login.Authority;
-import de.techdev.trackr.domain.employee.login.TrackrUser;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 
 import java.util.Collection;
-import java.util.Locale;
 
 import static java.util.Arrays.asList;
 
-/**
- * @author Moritz Schulze
- */
 public class AuthorityMocks {
 
     /**
      * @return An authentication object for an employee with the id 100.
      */
     public static Authentication basicAuthentication() {
-        return employeeAuthentication(100L);
+        return employeeAuthentication("some@techdev.de");
     }
 
     /**
      * An authentication of an employee with the id id.
      *
-     * @param id The desired id of the employee.
      * @return An authentication object for an employee.
      */
-    public static Authentication employeeAuthentication(Long id) {
+    public static Authentication employeeAuthentication(String username) {
         return new Authentication() {
             @Override
             public Collection<? extends GrantedAuthority> getAuthorities() {
-                return asList(new Authority("ROLE_EMPLOYEE"));
+                return asList(new SimpleGrantedAuthority("ROLE_EMPLOYEE"));
             }
 
             @Override
@@ -47,7 +42,7 @@ public class AuthorityMocks {
 
             @Override
             public Object getPrincipal() {
-                return new TrackrUser("user@techdev.de", true, getAuthorities(), id, Locale.GERMAN);
+                return new User(getName(), "", getAuthorities());
             }
 
             @Override
@@ -62,7 +57,7 @@ public class AuthorityMocks {
 
             @Override
             public String getName() {
-                return "user@techdev.de";
+                return username;
             }
         };
     }
@@ -77,7 +72,7 @@ public class AuthorityMocks {
         return new Authentication() {
             @Override
             public Collection<? extends GrantedAuthority> getAuthorities() {
-                return asList(new Authority("ROLE_ADMIN"));
+                return asList(new SimpleGrantedAuthority("ROLE_ADMIN"));
             }
 
             @Override
@@ -92,7 +87,7 @@ public class AuthorityMocks {
 
             @Override
             public Object getPrincipal() {
-                return new TrackrUser(getName(), true, getAuthorities(), 0L, Locale.GERMAN);
+                return new User(getName(), "", getAuthorities());
             }
 
             @Override
@@ -107,20 +102,20 @@ public class AuthorityMocks {
 
             @Override
             public String getName() {
-                return "admin@techdev.de";
+                return "moritz.schulze@techdev.de";
             }
         };
     }
 
     public static Authentication supervisorAuthentication() {
-        return supervisorAuthentication(5000L);
+        return supervisorAuthentication("supervisor@techdev.de");
     }
 
-    public static Authentication supervisorAuthentication(Long id) {
+    public static Authentication supervisorAuthentication(String username) {
         return new Authentication() {
             @Override
             public Collection<? extends GrantedAuthority> getAuthorities() {
-                return asList(new Authority("ROLE_SUPERVISOR"));
+                return asList(new SimpleGrantedAuthority("ROLE_SUPERVISOR"));
             }
 
             @Override
@@ -135,7 +130,7 @@ public class AuthorityMocks {
 
             @Override
             public Object getPrincipal() {
-                return new TrackrUser(getName(), true, getAuthorities(), id, Locale.GERMAN);
+                return new User(getName(), "", getAuthorities());
             }
 
             @Override
@@ -150,7 +145,7 @@ public class AuthorityMocks {
 
             @Override
             public String getName() {
-                return "supervisor@techdev.de";
+                return username;
             }
         };
     }

@@ -5,7 +5,6 @@ import lombok.Data;
 
 /**
  * Employee only containing the information needed for the address book.
- * @author Moritz Schulze
  */
 @Data
 public class ReducedEmployee {
@@ -26,7 +25,7 @@ public class ReducedEmployee {
         reducedEmployee.setLastName(employee.getLastName());
         reducedEmployee.setPhoneNumber(employee.getPhoneNumber());
         reducedEmployee.setTitle(employee.getTitle());
-        reducedEmployee.setEmail(employee.getCredential().getEmail());
+        reducedEmployee.setEmail(employee.getEmail());
         return reducedEmployee;
     }
 }

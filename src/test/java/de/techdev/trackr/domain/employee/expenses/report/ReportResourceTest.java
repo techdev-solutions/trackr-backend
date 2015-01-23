@@ -20,17 +20,14 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-/**
- * @author Moritz Schulze
- */
 public class ReportResourceTest extends AbstractDomainResourceTest<Report> {
 
     private final Function<Report, MockHttpSession> sameEmployeeSessionProvider;
     private final Function<Report, MockHttpSession> otherEmployeeSessionProvider;
 
     public ReportResourceTest() {
-        this.sameEmployeeSessionProvider = travelExpenseReport -> employeeSession(travelExpenseReport.getEmployee().getId());
-        this.otherEmployeeSessionProvider = travelExpenseReport -> employeeSession(travelExpenseReport.getEmployee().getId() + 1);
+        this.sameEmployeeSessionProvider = travelExpenseReport -> employeeSession(travelExpenseReport.getEmployee().getEmail());
+        this.otherEmployeeSessionProvider = travelExpenseReport -> employeeSession(travelExpenseReport.getEmployee().getEmail() + 1);
     }
 
     @Override
@@ -77,7 +74,7 @@ public class ReportResourceTest extends AbstractDomainResourceTest<Report> {
     @Test
     public void travelExpensesAllowedForSelf() throws Exception {
         Report travelExpenseReport = dataOnDemand.getRandomObject();
-        assertThat(oneUrl(employeeSession(travelExpenseReport.getEmployee().getId()), "/travelExpenseReports/" + travelExpenseReport.getId() + "/expenses"), isAccessible());
+        assertThat(oneUrl(employeeSession(travelExpenseReport.getEmployee().getEmail()), "/travelExpenseReports/" + travelExpenseReport.getId() + "/expenses"), isAccessible());
     }
 
     @Test
@@ -106,7 +103,7 @@ public class ReportResourceTest extends AbstractDomainResourceTest<Report> {
         Report travelExpenseReport = dataOnDemand.getRandomObject();
         travelExpenseReport.setStatus(Report.Status.PENDING);
         repository.save(travelExpenseReport);
-        assertThat(removeUrl(employeeSession(travelExpenseReport.getEmployee().getId()), "/travelExpenseReports/" + travelExpenseReport.getId()), isNoContent());
+        assertThat(removeUrl(employeeSession(travelExpenseReport.getEmployee().getEmail()), "/travelExpenseReports/" + travelExpenseReport.getId()), isNoContent());
     }
 
     @Test
@@ -119,7 +116,7 @@ public class ReportResourceTest extends AbstractDomainResourceTest<Report> {
         Report travelExpenseReport = dataOnDemand.getRandomObject();
         travelExpenseReport.setStatus(Report.Status.PENDING);
         repository.save(travelExpenseReport);
-        assertThat(removeUrl(employeeSession(travelExpenseReport.getEmployee().getId() + 1), "/travelExpenseReports/" + travelExpenseReport.getId()), isForbidden());
+        assertThat(removeUrl(employeeSession(travelExpenseReport.getEmployee().getEmail() + 1), "/travelExpenseReports/" + travelExpenseReport.getId()), isForbidden());
     }
 
     @Test
@@ -127,7 +124,7 @@ public class ReportResourceTest extends AbstractDomainResourceTest<Report> {
         Report travelExpenseReport = dataOnDemand.getRandomObject();
         travelExpenseReport.setStatus(Report.Status.SUBMITTED);
         repository.save(travelExpenseReport);
-        assertThat(removeUrl(employeeSession(travelExpenseReport.getEmployee().getId()), "/travelExpenseReports/" + travelExpenseReport.getId()), isForbidden());
+        assertThat(removeUrl(employeeSession(travelExpenseReport.getEmployee().getEmail()), "/travelExpenseReports/" + travelExpenseReport.getId()), isForbidden());
     }
 
     @Test
@@ -137,7 +134,7 @@ public class ReportResourceTest extends AbstractDomainResourceTest<Report> {
         repository.save(travelExpenseReport);
         mockMvc.perform(
                 put("/travelExpenseReports/" + travelExpenseReport.getId() + "/submit")
-                        .session(supervisorSession(travelExpenseReport.getEmployee().getId() + 1))
+                        .session(supervisorSession(travelExpenseReport.getEmployee().getEmail() + 1))
         )
                 .andExpect(status().isForbidden());
 
@@ -153,7 +150,7 @@ public class ReportResourceTest extends AbstractDomainResourceTest<Report> {
         repository.save(travelExpenseReport);
         mockMvc.perform(
                 put("/travelExpenseReports/" + travelExpenseReport.getId() + "/approve")
-                        .session(supervisorSession(travelExpenseReport.getEmployee().getId()))
+                        .session(supervisorSession(travelExpenseReport.getEmployee().getEmail()))
         )
                 .andExpect(status().isForbidden());
 
@@ -169,7 +166,7 @@ public class ReportResourceTest extends AbstractDomainResourceTest<Report> {
         repository.save(travelExpenseReport);
         mockMvc.perform(
                 put("/travelExpenseReports/" + travelExpenseReport.getId() + "/approve")
-                        .session(supervisorSession(travelExpenseReport.getEmployee().getId() + 1))
+                        .session(supervisorSession(travelExpenseReport.getEmployee().getEmail() + 1))
         )
                 .andExpect(status().isNoContent());
 
@@ -186,7 +183,7 @@ public class ReportResourceTest extends AbstractDomainResourceTest<Report> {
         repository.save(travelExpenseReport);
         mockMvc.perform(
                 put("/travelExpenseReports/" + travelExpenseReport.getId() + "/reject")
-                        .session(supervisorSession(travelExpenseReport.getEmployee().getId() + 1))
+                        .session(supervisorSession(travelExpenseReport.getEmployee().getEmail() + 1))
         )
                 .andExpect(status().isNoContent());
 
@@ -211,7 +208,7 @@ public class ReportResourceTest extends AbstractDomainResourceTest<Report> {
         Report report = dataOnDemand.getRandomObject();
         mockMvc.perform(
                 get("/travelExpenseReports/" + report.getId() + "/pdf")
-                        .session(employeeSession(report.getEmployee().getId()))
+                        .session(employeeSession(report.getEmployee().getEmail()))
         )
                 .andExpect(status().isOk());
     }

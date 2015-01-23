@@ -12,9 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.util.List;
 
-/**
- * @author Moritz Schulze
- */
 public class ReportNotifyService {
 
     @Autowired
@@ -35,8 +32,8 @@ public class ReportNotifyService {
      * @param report The report for which the mail is to be sent.
      */
     public void sendSubmittedReportMail(Report report) {
-        String[] emails = supervisorService.getSupervisorEmailsArrayWithout(credential ->
-                        !report.getEmployee().getCredential().getEmail().equals(credential.getEmail())
+        String[] emails = supervisorService.getSupervisorEmailsArrayWithout(email ->
+                        !report.getEmployee().getEmail().equals(email)
         );
 
         SimpleMailMessage mailMessage = new SimpleMailMessage();
@@ -61,7 +58,7 @@ public class ReportNotifyService {
         List<TravelExpense> expenses = travelExpenseReportRepository.findOne(report.getId()).getExpenses();
         return expenses.stream()
                 .map(TravelExpense::getCost)
-                .reduce(BigDecimal.ZERO, (bd1, bd2) -> bd1.add(bd2));
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
     protected String fullName(Employee employee) {

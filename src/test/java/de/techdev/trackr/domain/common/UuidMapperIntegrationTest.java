@@ -1,7 +1,6 @@
 package de.techdev.trackr.domain.common;
 
 import de.techdev.trackr.TransactionalIntegrationTest;
-import de.techdev.trackr.core.mail.MailConfiguration;
 import de.techdev.trackr.domain.ApiBeansConfiguration;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +13,7 @@ import static org.echocat.jomon.testing.BaseMatchers.isNull;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-@ContextConfiguration(classes = {ApiBeansConfiguration.class, MailConfiguration.class})
+@ContextConfiguration(classes = {ApiBeansConfiguration.class})
 public class UuidMapperIntegrationTest extends TransactionalIntegrationTest {
 
     @Autowired

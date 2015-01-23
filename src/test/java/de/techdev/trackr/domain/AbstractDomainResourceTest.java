@@ -11,9 +11,6 @@ import java.util.function.Function;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 
-/**
- * @author Moritz Schulze
- */
 public abstract class AbstractDomainResourceTest<T> extends MockMvcTest {
 
     @Autowired
@@ -131,7 +128,7 @@ public abstract class AbstractDomainResourceTest<T> extends MockMvcTest {
     protected ResultActions update(Function<T, MockHttpSession> sessionProvider) throws Exception {
         T randomObject = dataOnDemand.getRandomObject();
         return mockMvc.perform(
-                put("/" + getResourceName() + "/" + dataOnDemand.getId(randomObject))
+                patch("/" + getResourceName() + "/" + dataOnDemand.getId(randomObject))
                         .session(sessionProvider.apply(randomObject))
                         .content(getJsonRepresentation(randomObject))
         );

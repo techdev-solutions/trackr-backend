@@ -20,17 +20,14 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-/**
- * @author Moritz Schulze
- */
 public class TravelExpenseResourceTest extends AbstractDomainResourceTest<TravelExpense> {
 
     private final Function<TravelExpense, MockHttpSession> sameEmployeeSessionProvider;
     private final Function<TravelExpense, MockHttpSession> otherEmployeeSessionProvider;
 
     public TravelExpenseResourceTest() {
-        sameEmployeeSessionProvider = travelExpense -> employeeSession(travelExpense.getReport().getEmployee().getId());
-        otherEmployeeSessionProvider = travelExpense -> employeeSession(travelExpense.getReport().getEmployee().getId() + 1);
+        sameEmployeeSessionProvider = travelExpense -> employeeSession(travelExpense.getReport().getEmployee().getEmail());
+        otherEmployeeSessionProvider = travelExpense -> employeeSession(travelExpense.getReport().getEmployee().getEmail() + 1);
     }
 
     @Override
@@ -87,7 +84,7 @@ public class TravelExpenseResourceTest extends AbstractDomainResourceTest<Travel
         TravelExpense travelExpense = dataOnDemand.getRandomObject();
         travelExpense.getReport().setStatus(Report.Status.PENDING);
         repository.save(travelExpense);
-        assertThat(removeUrl(employeeSession(travelExpense.getReport().getEmployee().getId()), "/travelExpenses/" + travelExpense.getId()), isNoContent());
+        assertThat(removeUrl(employeeSession(travelExpense.getReport().getEmployee().getEmail()), "/travelExpenses/" + travelExpense.getId()), isNoContent());
     }
 
     @Test
@@ -95,7 +92,7 @@ public class TravelExpenseResourceTest extends AbstractDomainResourceTest<Travel
         TravelExpense travelExpense = dataOnDemand.getRandomObject();
         travelExpense.getReport().setStatus(Report.Status.APPROVED);
         repository.save(travelExpense);
-        assertThat(removeUrl(employeeSession(travelExpense.getReport().getEmployee().getId()), "/travelExpenses/" + travelExpense.getId()), isForbidden());
+        assertThat(removeUrl(employeeSession(travelExpense.getReport().getEmployee().getEmail()), "/travelExpenses/" + travelExpense.getId()), isForbidden());
     }
 
     @Test
@@ -103,7 +100,7 @@ public class TravelExpenseResourceTest extends AbstractDomainResourceTest<Travel
         TravelExpense travelExpense = dataOnDemand.getRandomObject();
         travelExpense.getReport().setStatus(Report.Status.SUBMITTED);
         repository.save(travelExpense);
-        assertThat(removeUrl(employeeSession(travelExpense.getReport().getEmployee().getId()), "/travelExpenses/" + travelExpense.getId()), isForbidden());
+        assertThat(removeUrl(employeeSession(travelExpense.getReport().getEmployee().getEmail()), "/travelExpenses/" + travelExpense.getId()), isForbidden());
     }
 
     @Test

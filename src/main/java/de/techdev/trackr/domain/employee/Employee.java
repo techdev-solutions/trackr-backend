@@ -3,13 +3,13 @@ package de.techdev.trackr.domain.employee;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import de.techdev.trackr.domain.common.FederalState;
 import de.techdev.trackr.domain.employee.expenses.reports.Report;
-import de.techdev.trackr.domain.employee.login.Credential;
 import de.techdev.trackr.domain.employee.vacation.VacationRequest;
 import de.techdev.trackr.domain.project.billtimes.BillableTime;
 import de.techdev.trackr.domain.project.worktimes.WorkTime;
 import de.techdev.trackr.domain.validation.constraints.EndAfterBegin;
 import lombok.Data;
 import lombok.ToString;
+import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
@@ -21,11 +21,10 @@ import java.util.List;
 
 /**
  * Represents any employee of techdev.
- * @author Moritz Schulze
  */
 @Data
 @Entity
-@ToString(exclude = {"credential", "workTimes", "billableTimes", "vacationRequests", "approvedRequests", "travelExpenseReports"})
+@ToString(exclude = {"workTimes", "billableTimes", "vacationRequests", "approvedRequests", "travelExpenseReports"})
 @JsonIgnoreProperties({"credential", "workTimes", "billableTimes", "vacationRequests", "approvedRequests", "travelExpenseReports"})
 @EndAfterBegin(begin = "joinDate", end = "leaveDate")
 public class Employee {
@@ -42,6 +41,11 @@ public class Employee {
 
     @NotEmpty
     private String lastName;
+
+    @Column(unique = true)
+    @Email
+    @NotEmpty
+    private String email;
 
     private String phoneNumber;
 
@@ -62,10 +66,6 @@ public class Employee {
     private FederalState federalState;
 
     private Float vacationEntitlement;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @PrimaryKeyJoinColumn
-    private Credential credential;
 
     @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "employee")
     private List<WorkTime> workTimes = new ArrayList<>();

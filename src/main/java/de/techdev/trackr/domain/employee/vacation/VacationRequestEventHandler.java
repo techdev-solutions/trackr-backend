@@ -10,9 +10,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import java.util.Date;
 import java.util.UUID;
 
-/**
- * @author Moritz Schulze
- */
 @RepositoryEventHandler(VacationRequest.class)
 @Slf4j
 public class VacationRequestEventHandler {
@@ -27,7 +24,7 @@ public class VacationRequestEventHandler {
     private UuidMapper uuidMapper;
 
     @HandleBeforeCreate
-    @PreAuthorize("hasRole('ROLE_ADMIN') or principal?.id == #vacationRequest.employee.id")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or principal?.username == #vacationRequest.employee.email")
     public void prepareVacationRequest(VacationRequest vacationRequest) {
         Integer difference = holidayCalculator.calculateDifferenceBetweenExcludingHolidaysAndWeekends(vacationRequest.getStartDate(),
                 vacationRequest.getEndDate(),
@@ -47,14 +44,14 @@ public class VacationRequestEventHandler {
     }
 
     @HandleBeforeSave
-    @PreAuthorize("hasRole('ROLE_SUPERVISOR') and principal?.id != #vacationRequest.employee.id")
+    @PreAuthorize("hasRole('ROLE_SUPERVISOR') and principal?.username != #vacationRequest.employee.email")
     public void authorizeUpdate(VacationRequest vacationRequest) {
         log.debug("Updating vacation request {}", vacationRequest);
     }
 
     @HandleBeforeDelete
-    @PreAuthorize("( hasRole('ROLE_SUPERVISOR') and @vacationRequestEventHandler.supervisorCanDeleteRequest(principal?.id, #vacationRequest) ) " +
-            "or @vacationRequestEventHandler.employeeCanDeleteRequest(principal?.id, #vacationRequest)")
+    @PreAuthorize("( hasRole('ROLE_SUPERVISOR') and @vacationRequestEventHandler.supervisorCanDeleteRequest(principal?.username, #vacationRequest) ) " +
+            "or @vacationRequestEventHandler.employeeCanDeleteRequest(principal?.username, #vacationRequest)")
     public void authorizeDelete(VacationRequest vacationRequest) {
         log.debug("Deleting vacation request {}", vacationRequest);
     }
@@ -73,17 +70,17 @@ public class VacationRequestEventHandler {
 
     /**
      * Test if an employee may delete a vacation request. This means it is his own request and it is pending.
-     * @param principalId The id of the logged in user.
+     * @param username The email of the logged in user
      * @param request The vacation request
      * @return true if the user may delete, false otherwise.
      */
-    public boolean employeeCanDeleteRequest(Long principalId, VacationRequest request) {
-        return principalId != null &&
-                principalId.equals(request.getEmployee().getId()) && request.getStatus() == VacationRequest.VacationRequestStatus.PENDING;
+    public boolean employeeCanDeleteRequest(String username, VacationRequest request) {
+        return username != null &&
+                username.equals(request.getEmployee().getEmail()) && request.getStatus() == VacationRequest.VacationRequestStatus.PENDING;
     }
 
-    public boolean supervisorCanDeleteRequest(Long prinicpalId, VacationRequest request) {
-        return prinicpalId != null &&
-                !prinicpalId.equals(request.getEmployee().getId());
+    public boolean supervisorCanDeleteRequest(String username, VacationRequest request) {
+        return username != null &&
+                !username.equals(request.getEmployee().getEmail());
     }
 }

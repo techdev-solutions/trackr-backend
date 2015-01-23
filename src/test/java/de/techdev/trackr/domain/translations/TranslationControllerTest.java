@@ -1,14 +1,10 @@
 package de.techdev.trackr.domain.translations;
 
-import de.techdev.trackr.domain.employee.login.Credential;
-import de.techdev.trackr.domain.employee.login.CredentialRepository;
-import org.junit.Before;
+import de.techdev.trackr.domain.employee.settings.SettingsRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
@@ -18,10 +14,9 @@ import java.util.Locale;
 
 import static org.echocat.jomon.testing.BaseMatchers.isNotEmpty;
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class TranslationControllerTest {
@@ -33,12 +28,7 @@ public class TranslationControllerTest {
     private LocaleResolver localeResolver;
 
     @Mock
-    private CredentialRepository credentialRepository;
-
-    @Before
-    public void setUp() throws Exception {
-        when(credentialRepository.findByEmail("admin")).thenReturn(new Credential());
-    }
+    private SettingsRepository settingsRepository;
 
     @Test
     public void testGetTranslations() throws Exception {
@@ -54,7 +44,6 @@ public class TranslationControllerTest {
         MockHttpServletResponse response = new MockHttpServletResponse();
         translationController.setLocale(Locale.ENGLISH, request, response, () -> "admin");
 
-        verify(credentialRepository, atLeastOnce()).findByEmail("admin");
         verify(localeResolver, atLeastOnce()).setLocale(request, response, Locale.ENGLISH);
     }
 }

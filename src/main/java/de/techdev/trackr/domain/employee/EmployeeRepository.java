@@ -8,18 +8,15 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RestResource;
+import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 
-import java.util.Date;
 import java.util.List;
 
-/**
- * @author Moritz Schulze
- */
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 
     @Override
-    @PreAuthorize("hasRole('ROLE_SUPERVISOR') or #id == principal?.id")
+    @PostAuthorize("hasRole('ROLE_SUPERVISOR') or returnObject?.email == principal?.username")
     Employee findOne(@Param("id") Long id);
 
     @Override
@@ -39,10 +36,6 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
     Page<Employee> findAll(Pageable pageable);
 
     @RestResource(exported = false)
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    List<Employee> findByLeaveDateAndCredential_Enabled(Date leaveDate, Boolean credentialEnabled);
-
-    @RestResource(exported = false)
     List<Employee> findByFederalState(FederalState berlin);
 
     /**
@@ -51,6 +44,9 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
      * Filters the admin out. Only used for the address book.
      */
     @RestResource(exported = false)
-    @Query("select e from Employee e where e.credential.email <> 'admin@techdev.de'")
+    @Query("select e from Employee e where e.email <> 'admin@techdev.de'")
     Page<Employee> findAllForAddressBook(Pageable pageable);
+
+    @RestResource(exported = false)
+    Employee findByEmail(String email);
 }

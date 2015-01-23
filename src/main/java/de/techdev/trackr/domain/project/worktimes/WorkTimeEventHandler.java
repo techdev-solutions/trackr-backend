@@ -6,33 +6,30 @@ import org.springframework.data.rest.core.annotation.*;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 
-/**
- * @author Moritz Schulze
- */
 @RepositoryEventHandler(WorkTime.class)
 @Slf4j
 public class WorkTimeEventHandler {
 
     @HandleBeforeCreate
-    @PreAuthorize("#workTime.employee.id == principal?.id")
+    @PreAuthorize("#workTime.employee.email == principal?.username")
     public void checkCreateAuthority(WorkTime workTime) {
         log.debug("Creating work time {}", workTime);
     }
 
     @HandleBeforeSave
-    @PreAuthorize("hasRole('ROLE_ADMIN') or #workTime.employee.id == principal?.id")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or #workTime.employee.email == principal?.username")
     public void checkUpdateAuthority(WorkTime workTime) {
         log.debug("Updating work time {}", workTime);
     }
 
     @HandleBeforeDelete
-    @PreAuthorize("hasRole('ROLE_ADMIN') or #workTime.employee.id == principal?.id")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or #workTime.employee.email == principal?.username")
     public void checkDeleteAuthority(WorkTime workTime) {
         log.debug("Deleting work time {}", workTime);
     }
 
     @HandleBeforeLinkSave
-    @PreAuthorize("hasRole('ROLE_ADMIN') or #workTime.employee.id == principal?.id")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or #workTime.employee.email == principal?.username")
     public void checkUpdateLinkAuthority(WorkTime workTime, Object link) throws HttpRequestMethodNotSupportedException {
         if(Employee.class.isAssignableFrom(link.getClass())) {
             throw new HttpRequestMethodNotSupportedException("POST", new String[0]);

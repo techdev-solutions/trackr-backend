@@ -6,15 +6,12 @@ import org.springframework.data.rest.core.annotation.*;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;
 
-/**
- * @author Moritz Schulze
- */
 @RepositoryEventHandler(Report.class)
 @Slf4j
 public class ReportEventHandler {
 
     @HandleBeforeCreate
-    @PreAuthorize("#travelExpenseReport.employee.id == principal?.id")
+    @PreAuthorize("#travelExpenseReport.employee.email == principal?.username")
     public void checkCreateAuthority(Report travelExpenseReport) {
         log.debug("Creating travel expense report {}", travelExpenseReport);
     }
@@ -26,13 +23,13 @@ public class ReportEventHandler {
     }
 
     @HandleBeforeDelete
-    @PreAuthorize("@reportEventHandler.employeeCanDeleteReport(#travelExpenseReport, principal?.id) or hasRole('ROLE_ADMIN')")
+    @PreAuthorize("@reportEventHandler.employeeCanDeleteReport(#travelExpenseReport, principal?.username) or hasRole('ROLE_ADMIN')")
     public void checkDeleteAuthority(Report travelExpenseReport) {
         log.debug("Deleting travel expense report {}", travelExpenseReport);
     }
 
     @HandleBeforeLinkSave
-    @PreAuthorize("hasRole('ROLE_SUPERVISOR') or #travelExpenseReport.employee.id == principal?.id")
+    @PreAuthorize("hasRole('ROLE_SUPERVISOR') or #travelExpenseReport.employee.email == principal?.username")
     public void checkLinkSaveAuthority(Report travelExpenseReport, Object links) {
         //TODO: links is the _old_ content of the link
         //TODO: how to check for security? the employee should not be able to edit debitor/project but how do we check that?
@@ -43,15 +40,15 @@ public class ReportEventHandler {
     }
 
     @HandleBeforeLinkDelete
-    @PreAuthorize("hasRole('ROLE_SUPERVISOR') or #travelExpenseReport.employee.id == principal?.id")
+    @PreAuthorize("hasRole('ROLE_SUPERVISOR') or #travelExpenseReport.employee.email == principal?.username")
     public void checkLinkDeleteAuthority(Report travelExpenseReport) {
         if(travelExpenseReport.getEmployee() == null) {
             throw new AccessDeniedException("Employee is not deletable on a travel expense report.");
         }
     }
 
-    public boolean employeeCanDeleteReport(Report report, Long principalId) {
-        return principalId != null && report.getEmployee().getId().equals(principalId) &&
+    public boolean employeeCanDeleteReport(Report report, String username) {
+        return username != null && report.getEmployee().getEmail().equals(username) &&
                 (report.getStatus() == Report.Status.PENDING || report.getStatus() == Report.Status.REJECTED);
     }
 }

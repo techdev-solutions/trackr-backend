@@ -1,38 +1,16 @@
 package de.techdev.trackr.domain.employee;
 
-import de.techdev.trackr.core.security.AuthorityMocks;
 import de.techdev.trackr.domain.AbstractDomainResourceTest;
-import de.techdev.trackr.domain.employee.login.Credential;
-import de.techdev.trackr.domain.employee.login.CredentialDataOnDemand;
-import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 
 import javax.json.stream.JsonGenerator;
 import java.io.StringWriter;
 import java.text.SimpleDateFormat;
 
 import static de.techdev.trackr.domain.DomainResourceTestMatchers.*;
-import static org.echocat.jomon.testing.BaseMatchers.isTrue;
-import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-/**
- * @author Moritz Schulze
- */
 public class EmployeeResourceTest extends AbstractDomainResourceTest<Employee> {
-
-    @Autowired
-    private CredentialDataOnDemand credentialDataOnDemand;
-
-    @Before
-    public void setUp() throws Exception {
-        credentialDataOnDemand.init();
-    }
 
     @Override
     protected String getResourceName() {
@@ -76,7 +54,7 @@ public class EmployeeResourceTest extends AbstractDomainResourceTest<Employee> {
      */
     @Test
     public void oneIsAllowedForSelf() throws Exception {
-        assertThat(one(employee -> employeeSession(employee.getId())), isAccessible());
+        assertThat(one(employee -> employeeSession(employee.getEmail())), isAccessible());
     }
 
     /**
@@ -86,40 +64,7 @@ public class EmployeeResourceTest extends AbstractDomainResourceTest<Employee> {
      */
     @Test
     public void oneIsForbiddenForOtherEmployee() throws Exception {
-        assertThat(one(employee -> employeeSession(employee.getId() + 1)), isForbidden());
-    }
-
-    /**
-     * Credentials are accessible for supervisors.
-     *
-     * @throws Exception
-     */
-    @Test
-    public void getCredentialAllowedForSupervisor() throws Exception {
-        Employee employee = credentialDataOnDemand.getRandomObject().getEmployee();
-        assertThat(oneUrl(supervisorSession(), "/employees/" + employee.getId() + "/credential"), isAccessible());
-    }
-
-    /**
-     * An employee may access his own credentials.
-     *
-     * @throws Exception
-     */
-    @Test
-    public void getCredentialAllowedForSelf() throws Exception {
-        Employee employee = credentialDataOnDemand.getRandomObject().getEmployee();
-        assertThat(oneUrl(employeeSession(employee.getId()), "/employees/" + employee.getId() + "/credential"), isAccessible());
-    }
-
-    /**
-     * An employee may not access other employees credentials.
-     *
-     * @throws Exception
-     */
-    @Test
-    public void getCredentialForbiddenForOther() throws Exception {
-        Employee employee = credentialDataOnDemand.getRandomObject().getEmployee();
-        assertThat(oneUrl(employeeSession(employee.getId() + 1), "/employees/" + employee.getId() + "/credential"), isForbidden());
+        assertThat(one(employee -> employeeSession(employee.getEmail() + 1)), isForbidden());
     }
 
     /**
@@ -179,7 +124,7 @@ public class EmployeeResourceTest extends AbstractDomainResourceTest<Employee> {
      */
     @Test
     public void putForbiddenForEmployee() throws Exception {
-        assertThat(update(employee -> employeeSession(employee.getId())), isForbidden());
+        assertThat(update(employee -> employeeSession(employee.getEmail())), isForbidden());
     }
 
     /**
@@ -192,62 +137,6 @@ public class EmployeeResourceTest extends AbstractDomainResourceTest<Employee> {
         assertThat(remove(supervisorSession()), isForbidden());
     }
 
-    /**
-     * The credentials reference is not changeable.
-     *
-     * @throws Exception
-     */
-    @Test
-    public void changeCredentialForbidden() throws Exception {
-        assertThat(updateLink(adminSession(), "credential", "/credentials/0"), isForbidden());
-    }
-
-    /**
-     * The credentials reference is not deletable.
-     *
-     * @throws Exception
-     */
-    @Test
-    @Ignore //for some bloody reason this test fails on the build server, no idea why
-    public void deleteCredentialForbidden() throws Exception {
-        Employee employee = dataOnDemand.getRandomObject();
-        assertThat(removeUrl(adminSession(), "/employees/" + employee.getId() + "/credential"), isForbidden());
-    }
-
-    @Test
-    public void setLeaveDateDeactivatesEmployeeIfIsInPast() throws Exception {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        Employee employee = dataOnDemand.getRandomObject();
-        SecurityContextHolder.getContext().setAuthentication(AuthorityMocks.adminAuthentication());
-        employee.getCredential().setEnabled(true);
-        employee.setJoinDate(sdf.parse("2013-12-01"));
-        repository.save(employee);
-        mockMvc.perform(
-                patch("/employees/" + employee.getId())
-                        .session(adminSession())
-                        .content("{\"leaveDate\": \"2014-01-01\"}"))
-               .andExpect(status().isOk());
-        SecurityContextHolder.getContext().setAuthentication(AuthorityMocks.adminAuthentication());
-        Credential credential = repository.findOne(employee.getId()).getCredential();
-        assertThat(credential.getEnabled(), is(false));
-    }
-
-    @Test
-    public void setLeaveDateDoesNotDeactivateEmployeeIfIsInFuture() throws Exception {
-        Employee employee = dataOnDemand.getRandomObject();
-        SecurityContextHolder.getContext().setAuthentication(AuthorityMocks.adminAuthentication());
-        employee.getCredential().setEnabled(true);
-        repository.save(employee);
-        mockMvc.perform(
-                patch("/employees/" + employee.getId())
-                        .session(adminSession())
-                        .content("{\"leaveDate\": \"3014-01-01\"}"))
-               .andExpect(status().isOk());
-        SecurityContextHolder.getContext().setAuthentication(AuthorityMocks.adminAuthentication());
-        Credential credential = repository.findOne(employee.getId()).getCredential();
-        assertThat(credential.getEnabled(), isTrue());
-    }
-
     @Override
     protected String getJsonRepresentation(Employee employee) {
         StringWriter writer = new StringWriter();
@@ -258,6 +147,7 @@ public class EmployeeResourceTest extends AbstractDomainResourceTest<Employee> {
           .write("lastName", employee.getLastName())
           .write("hourlyCostRate", employee.getHourlyCostRate())
           .write("salary", employee.getSalary())
+          .write("email", employee.getEmail())
           .write("title", employee.getTitle())
           .write("federalState", employee.getFederalState().getName());
 
@@ -277,9 +167,6 @@ public class EmployeeResourceTest extends AbstractDomainResourceTest<Employee> {
             jg.write("phoneNumber", employee.getPhoneNumber());
         }
 
-        if (employee.getCredential() != null) {
-            jg.write("credential", "/api/credentials/" + employee.getCredential().getId());
-        }
         if (employee.getId() != null) {
             jg.write("id", employee.getId());
         }
