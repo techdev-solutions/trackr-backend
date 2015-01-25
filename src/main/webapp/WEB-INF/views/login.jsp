@@ -1,9 +1,4 @@
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
-<%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-         pageEncoding="UTF-8"%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,30 +7,44 @@
     <link rel="stylesheet" href="webjars/bootstrap/3.1.1/css/bootstrap.min.css"/>
 </head>
 <body>
+
+<br/><br/><br/><br/><br/><br/><br/><br/>
+
 <div class="container">
+
     <div class="row">
-        <div class="col-lg-12">
-            <div class="panel panel-default">
-                <div class="panel-heading"><h3 class="panel-title">Login</h3></div>
-                <div class="panel-body">
-                    <c:if test="${not empty SPRING_SECURITY_LAST_EXCEPTION}">
-                        <div class="alert alert-warning">
-                            <c:out value="${SPRING_SECURITY_LAST_EXCEPTION.message}"/>
+        <div class="col-lg-offset-4 col-lg-4">
+
+            <!-- the form takes one third in the middle of the display !-->
+            <div class="row">
+                <div class="col-sm-12">
+
+                    <form class="form-horizontal" action="login/process" method="post">
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">Username</label>
+                            <div class="col-sm-8">
+                                <input type="text" id="username" name="username" class="form-control"/>
+                            </div>
                         </div>
-                    </c:if>
-                    <c:if test="${param.logout == 'true'}">
-                        <div class="alert alert-success">Erfolgreich ausgeloggt!</div>
-                    </c:if>
-                    <p>Um sich bei Trackr mit Google einzuloggen bitte auf den Knopf drücken.</p>
-                    <form class="form" action="login/openid" method="post">
-                        <input name="openid_identifier" type="hidden" value="https://www.google.com/accounts/o8/id"/>
-                        <button type="submit" class="btn btn-primary">Login mit Google</button>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">Password</label>
+                            <div class="col-sm-8">
+                                <input type="password" id="password" name="password" class="form-control"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-4 col-sm-8">
+                                <button type="submit" class="btn btn-primary">Log in</button>
+                            </div>
+                        </div>
                     </form>
+
                 </div>
             </div>
+
         </div>
     </div>
-</div>
 
+</div>
 </body>
 </html>

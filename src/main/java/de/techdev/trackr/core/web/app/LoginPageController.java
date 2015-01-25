@@ -1,28 +1,28 @@
 package de.techdev.trackr.core.web.app;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-/**
- * @author Moritz Schulze
- */
+import de.techdev.trackr.core.security.SecurityConfiguration;
+
 @Controller
 public class LoginPageController {
+	
 
-    /*
-        TODO: I don't know why this controller is needed.
-        Resolving the JSPs directly does not work.
-     */
+    @Value(SecurityConfiguration.AUTH_MODULE_SPEL)
+	String authModule;
+	 
 
     @RequestMapping("/login")
     public String loginForm() {
-        return "login";
+    	if("openid".equals(authModule)){
+    		return  "openid";
+    	} else {
+    		return "login"; 
+    	}
     }
 
-    @RequestMapping("/admin")
-    public String adminForm() {
-        return "admin";
-    }
 
     @RequestMapping("/success")
     public String successPage() {
