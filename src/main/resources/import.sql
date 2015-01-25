@@ -399,6 +399,3 @@ INSERT INTO invoice (id, version, identifier, debitor, creationDate, invoiceTota
 INSERT INTO invoice (id, version, identifier, debitor, creationDate, invoiceTotal, invoiceState, dueDate) VALUES (7, 0, '1000.2014.1-2014.06-2', 20, '2014-06-03', 7600.00, 'PAID', '2014-07-01');
 INSERT INTO invoice (id, version, identifier, debitor, creationDate, invoiceTotal, invoiceState, dueDate) VALUES (8, 0, '1002.2014.1-2014.06-1', 21, '2014-06-01', 13000.00, 'PAID', '2014-06-15');
 INSERT INTO invoice (id, version, identifier, debitor, creationDate, invoiceTotal, invoiceState, dueDate) VALUES (9, 0, '1002.2014.1-2014.06-2', 21, '2014-06-01', 25100.00, 'PAID', '2014-07-15');
-
-DROP SEQUENCE IF EXISTS hibernate_sequence;
-CREATE SEQUENCE hibernate_sequence START WITH 10000;
