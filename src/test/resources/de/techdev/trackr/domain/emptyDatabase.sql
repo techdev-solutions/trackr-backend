@@ -1,0 +1,15 @@
+DELETE FROM billabletime;
+DELETE FROM contactperson;
+DELETE FROM holiday;
+DELETE FROM invoice;
+DELETE FROM settings;
+DELETE FROM sickdays;
+DELETE FROM travelexpense;
+DELETE FROM travelexpensereportcomment;
+DELETE FROM travelexpensereport;
+DELETE FROM vacationrequest;
+DELETE FROM worktime;
+DELETE FROM project;
+DELETE FROM company;
+DELETE FROM address;
+DELETE FROM employee;

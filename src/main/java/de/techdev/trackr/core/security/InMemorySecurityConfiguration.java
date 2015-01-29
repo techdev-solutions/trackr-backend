@@ -23,7 +23,7 @@ import static java.util.Arrays.asList;
  */
 @EnableWebSecurity
 @Configuration
-@Profile("!oauth")
+@Profile("http-basic")
 public class InMemorySecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired

@@ -1,7 +1,5 @@
 package de.techdev.trackr.domain.project.worktimes;
 
-import de.techdev.trackr.domain.project.worktimes.CustomWorkTime;
-import de.techdev.trackr.domain.project.worktimes.WorkTime;
 import org.junit.Test;
 
 import java.sql.Time;
@@ -14,9 +12,6 @@ import static java.util.Arrays.asList;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-/**
- * @author Moritz Schulze
- */
 public class CustomWorkTimeTest {
     @Test
     public void reduceAndSortWorktimes() throws Exception {

@@ -53,19 +53,21 @@ Profiles
 --------
 trackr has a lot of Spring profiles to add/switch features.
 
-| profile            | description                                                | notes                                                                         |
-|--------------------|------------------------------------------------------------|-------------------------------------------------------------------------------|
-| in-memory-database | uses a H2 database, creates the schema und runs import.sql | excluse with real-database                                                    |
-| real-database      | uses a configurable database, executes flyway              | exclusive with in-memory-database                                             |
-| oauth              | protects the API as a OAuth2 resource server               | when off, HTTP basic authentication is on. Database for OAuth2 tokens needed. |
-| granular-security  | roles and per endpoint security                            |                                                                               |
-| gmail              | sends mail with Gmail and enables mail receiving           | when off, does not receive mails and uses a logging mail sender.              |
-| dev, prod          | just textual properties for different environments         |                                                                               |
+| profile            | description                                                | notes                                                            |
+|--------------------|------------------------------------------------------------|------------------------------------------------------------------|
+| in-memory-database | uses a H2 database, creates the schema with hibernate      | excluse with real-database                                       |
+| real-database      | uses a configurable database, executes flyway              | exclusive with in-memory-database                                |
+| http-basic         | protects the API with HTTP basic authentication            | exclusive with oauth                                             |
+| oauth              | protects the API as a OAuth2 resource server               | exclusive with http-basic. Database for OAuth2 tokens needed.    |
+| granular-security  | roles and per endpoint security                            |                                                                  |
+| gmail              | sends mail with Gmail and enables mail receiving           | when off, does not receive mails and uses a logging mail sender. |
+| dev                | initialize the database with data.sql                      |                                                                  |
+| prod               | Just some different settings for our production env        |                                                                  |
 
 Take a look in the application.yaml to see what properties these profiles need.
 
-The default profiles are `in-memory-database,dev,granular-security`. If you want to use other profiles, there are several possible ways.
-1. You can change the `spring.profiles.acitve` value in application.yaml
+The default profiles are `in-memory-database,dev,granular-security,http-basic`. If you want to use other profiles, there are several possible ways.
+1. You can change the `spring.profiles.active` value in application.yaml
 2. If you use `gradle run` you can prepend (example) `SPRING_PROFILES_ACTIVE=dev,gmail,real-database`. You can also use this to overwrite e.g. the port with `SERVER_PORT=8000`.
 3. If you run from your IDE, you can add `--spring.profiles.active=dev,gmail,real-database` as program arguments to the run configuration.
 
@@ -75,7 +77,6 @@ Please refer to the [Spring Boot Reference](http://docs.spring.io/spring-boot/do
 The oauth profile marks the trackr backend as a OAuth2 resource server, that means access is only possible with a valid access token issued by an authorization server. We use a
 JDBC token store, so valid tokens need to be put there. Please take a look at our (soon to be open sourced) techdev portal to see how we do this.
 
-Switching this profile off is currently only meant for test purposes and has no real authentication method behind it. But it is much easier for local development.
 
 ### The granular-security profile
 When this is not selected, to access the API the user needs to be authenticated. With granular security the access to some endpoints depend on the role of the user or even the

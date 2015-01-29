@@ -26,9 +26,6 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.when;
 
-/**
- * @author Moritz Schulze
- */
 @RunWith(MockitoJUnitRunner.class)
 public class LastWorkdayDayOfMonthTriggerTest {
 
