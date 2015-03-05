@@ -1,37 +1,29 @@
 package de.techdev.trackr.domain.project.billtimes;
 
-import de.techdev.trackr.core.web.MockMvcTest;
+import de.techdev.test.oauth.OAuthRequest;
+import de.techdev.test.rest.AbstractRestIntegrationTest;
 import org.junit.Test;
+import org.springframework.http.ResponseEntity;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static de.techdev.test.rest.DomainResourceTestMatchers.isAccessible;
+import static de.techdev.test.rest.DomainResourceTestMatchers.isForbidden;
+import static org.junit.Assert.assertThat;
 
-/**
- * @author Moritz Schulze
- */
-public class BillableTimeControllerIntegrationTest extends MockMvcTest {
+public class BillableTimeControllerIntegrationTest extends AbstractRestIntegrationTest {
 
     @Test
+    @OAuthRequest
     public void findEmployeeMappingByProjectAndDateBetweenForbiddenForEmployee() throws Exception {
-        mockMvc.perform(
-                get("/billableTimes/findEmployeeMappingByProjectAndDateBetween")
-                        .param("project", "0")
-                        .param("start", "2014-01-01")
-                        .param("end", "2014-01-31")
-                        .session(employeeSession()))
-               .andExpect(status().isForbidden());
+        ResponseEntity<String> response = restTemplate
+                .getForEntity(host + "/billableTimes/findEmployeeMappingByProjectAndDateBetween?project=0&start=2014-01-01&end=2014-01-31", String.class);
+        assertThat(response, isForbidden());
     }
 
     @Test
+    @OAuthRequest("ROLE_SUPERVISOR")
     public void findEmployeeMappingByProjectAndDateBetweenAllowedForSupervisor() throws Exception {
-        mockMvc.perform(
-                get("/billableTimes/findEmployeeMappingByProjectAndDateBetween")
-                        .param("project", "0")
-                        .param("start", "2014-01-01")
-                        .param("end", "2014-01-31")
-                        .session(supervisorSession()))
-               .andExpect(status().isOk())
-               .andExpect(content().contentType("application/json"));
+        ResponseEntity<String> response = restTemplate
+                .getForEntity(host + "/billableTimes/findEmployeeMappingByProjectAndDateBetween?project=0&start=2014-01-01&end=2014-01-31", String.class);
+        assertThat(response, isAccessible());
     }
 }

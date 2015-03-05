@@ -13,9 +13,6 @@ import javax.persistence.TemporalType;
 import java.util.Date;
 import java.util.List;
 
-/**
- * @author Moritz Schulze
- */
 public interface WorkTimeRepository extends CrudRepository<WorkTime, Long> {
 
     @Override
@@ -27,13 +24,13 @@ public interface WorkTimeRepository extends CrudRepository<WorkTime, Long> {
     List<WorkTime> findAll(Iterable<Long> longs);
 
     @Override
-    @PostAuthorize("hasRole('ROLE_SUPERVISOR') or returnObject.employee.id == principal?.id")
+    @PostAuthorize("hasRole('ROLE_SUPERVISOR') or returnObject.employee.email == principal?.username")
     WorkTime findOne(Long aLong);
 
-    @PreAuthorize("hasRole('ROLE_SUPERVISOR') or #employee.id == principal?.id")
+    @PreAuthorize("hasRole('ROLE_SUPERVISOR') or #employee.email == principal?.username")
     List<WorkTime> findByEmployeeAndDateOrderByStartTimeAsc(@Param("employee") Employee employee, @Param("date") @Temporal(TemporalType.DATE) Date date);
 
-    @PreAuthorize("hasRole('ROLE_SUPERVISOR') or #employee.id == principal?.id")
+    @PreAuthorize("hasRole('ROLE_SUPERVISOR') or #employee.email == principal?.username")
     List<WorkTime> findByEmployeeAndDateBetweenOrderByDateAscStartTimeAsc(@Param("employee") Employee employee,
                                                                           @Param("start") @Temporal(TemporalType.DATE) Date start,
                                                                           @Param("end") @Temporal(TemporalType.DATE) Date end);

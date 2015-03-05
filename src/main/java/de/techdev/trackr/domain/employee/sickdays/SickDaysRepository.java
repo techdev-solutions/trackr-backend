@@ -13,9 +13,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import java.util.Date;
 import java.util.List;
 
-/**
- * @author Moritz Schulze
- */
 @RepositoryRestResource(path = "sickDays")
 public interface SickDaysRepository extends JpaRepository<SickDays, Long> {
 
@@ -24,10 +21,10 @@ public interface SickDaysRepository extends JpaRepository<SickDays, Long> {
     Page<SickDays> findAll(Pageable pageable);
 
     @Override
-    @PostAuthorize("hasRole('ROLE_ADMIN') or principal?.id == returnObject.employee.id")
+    @PostAuthorize("hasRole('ROLE_ADMIN') or principal?.username == returnObject.employee.email")
     SickDays findOne(Long aLong);
 
-    @PreAuthorize("#employee.id == principal?.id")
+    @PreAuthorize("#employee.email == principal?.username")
     List<SickDays> findByEmployee(@Param("employee") Employee employee);
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")

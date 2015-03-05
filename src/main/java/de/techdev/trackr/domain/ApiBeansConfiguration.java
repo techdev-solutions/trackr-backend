@@ -4,7 +4,6 @@ import de.techdev.trackr.core.pdf.PdfRenderer;
 import de.techdev.trackr.domain.common.UuidMapper;
 import de.techdev.trackr.domain.employee.expenses.reports.ReportNotifyService;
 import de.techdev.trackr.domain.employee.expenses.reports.ReportService;
-import de.techdev.trackr.domain.employee.login.DeactivateEmployeesService;
 import de.techdev.trackr.domain.employee.login.support.SupervisorService;
 import de.techdev.trackr.domain.employee.sickdays.SickDaysNotifyService;
 import de.techdev.trackr.domain.employee.vacation.HolidayCalculator;
@@ -15,30 +14,17 @@ import de.techdev.trackr.domain.employee.vacation.support.VacationRequestNotifyS
 import de.techdev.trackr.domain.employee.worktimetracking.WorkTimeTrackingReminderService;
 import de.techdev.trackr.domain.project.invoice.ChangeStateService;
 import de.techdev.trackr.domain.project.invoice.InvoiceOverdueService;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.context.annotation.PropertySources;
-import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.context.annotation.*;
+import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
 
 /**
  * All Beans needed for the API that have nothing to do with web.
- *
- * @author Moritz Schulze
  */
 @Configuration
-@EnableTransactionManagement
-@PropertySources({
-        @PropertySource({"classpath:application_${spring.profiles.active:dev}.properties"}),
-        @PropertySource(value = "${trackr.externalconfig:file:/etc/trackr.properties}", ignoreResourceNotFound = true)
+@ComponentScan(includeFilters = {
+        @ComponentScan.Filter(type = FilterType.ANNOTATION, value = RepositoryEventHandler.class)
 })
 public class ApiBeansConfiguration {
-
-    @Bean
-    public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
-        return new PropertySourcesPlaceholderConfigurer();
-    }
 
     @Bean
     public ReportService travelExpenseReportService() {
@@ -53,11 +39,6 @@ public class ApiBeansConfiguration {
     @Bean
     public WorkTimeTrackingReminderService workTimeTrackingReminderService() {
         return new WorkTimeTrackingReminderService();
-    }
-
-    @Bean
-    public DeactivateEmployeesService deactivateEmployeesService() {
-        return new DeactivateEmployeesService();
     }
 
     @Bean
@@ -106,6 +87,7 @@ public class ApiBeansConfiguration {
     }
 
     @Bean
+    @Profile("gmail")
     public MailApproveService mailApproveService() {
         return new MailApproveService();
     }

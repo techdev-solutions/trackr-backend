@@ -1,17 +1,18 @@
 package de.techdev.trackr.domain.employee.vacation;
 
-import de.techdev.trackr.domain.AbstractDomainResourceTest;
+import de.techdev.test.oauth.OAuthRequest;
+import de.techdev.test.rest.AbstractDomainResourceSecurityTest;
 import org.junit.Test;
+import org.springframework.test.context.jdbc.Sql;
 
-import javax.json.stream.JsonGenerator;
-import java.io.StringWriter;
-import java.text.SimpleDateFormat;
+import static de.techdev.test.rest.DomainResourceTestMatchers.isAccessible;
+import static de.techdev.test.rest.DomainResourceTestMatchers.isMethodNotAllowed;
+import static org.junit.Assert.assertThat;
 
-import static de.techdev.trackr.domain.DomainResourceTestMatchers.isAccessible;
-import static de.techdev.trackr.domain.DomainResourceTestMatchers.isMethodNotAllowed;
-import static org.junit.Assert.*;
-
-public class HolidayResourceTest extends AbstractDomainResourceTest<Holiday> {
+@Sql("holiday/resourceTest.sql")
+@Sql(value = AbstractDomainResourceSecurityTest.EMPTY_DATABASE_FILE, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+@OAuthRequest
+public class HolidayResourceTest extends AbstractDomainResourceSecurityTest {
 
     @Override
     protected String getResourceName() {
@@ -20,45 +21,27 @@ public class HolidayResourceTest extends AbstractDomainResourceTest<Holiday> {
 
     @Test
     public void rootAccessible() throws Exception {
-        assertThat(root(employeeSession()), isAccessible());
+        assertThat(root(), isAccessible());
     }
 
     @Test
     public void oneAccessible() throws Exception {
-        assertThat(one(employeeSession()), isAccessible());
+        assertThat(one(0L), isAccessible());
     }
 
     @Test
     public void createNotExported() throws Exception {
-        assertThat(create(employeeSession()), isMethodNotAllowed());
+        assertThat(create("{}"), isMethodNotAllowed());
     }
 
     @Test
     public void updateNotExported() throws Exception {
-        assertThat(update(employeeSession()), isMethodNotAllowed());
+        assertThat(update(0L, "{}"), isMethodNotAllowed());
     }
 
     @Test
     public void deleteNotExported() throws Exception {
-        assertThat(remove(employeeSession()), isMethodNotAllowed());
+        assertThat(remove(0L), isMethodNotAllowed());
     }
 
-    @Override
-    protected String getJsonRepresentation(Holiday holiday) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        StringWriter writer = new StringWriter();
-        JsonGenerator jsonGenerator = jsonGeneratorFactory.createGenerator(writer);
-        JsonGenerator jg = jsonGenerator
-                .writeStartObject()
-                .write("startDate", sdf.format(holiday.getDay()))
-                .write("status", holiday.getName())
-                .write("federalState", holiday.getFederalState().toString());
-
-        if (holiday.getId() != null) {
-            jg.write("id", holiday.getId());
-        }
-
-        jg.writeEnd().close();
-        return writer.toString();
-    }
 }

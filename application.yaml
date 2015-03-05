@@ -1,0 +1,77 @@
+spring:
+    jpa:
+        hibernate:
+            naming_strategy: org.hibernate.cfg.EJB3NamingStrategy
+    datasource:
+        initialize: false
+    profiles:
+        active: in-memory-database,dev,granular-security,http-basic
+trackr:
+    frontendUrl: http://localhost
+
+---
+spring:
+    profiles: prod
+trackr:
+    frontendUrl:
+
+---
+spring:
+    profiles: dev
+    datasource:
+        initialize: true
+
+---
+spring:
+    profiles: real-database
+    jpa:
+        hibernate:
+            dialect: org.hibernate.dialect.PostgreSQLDialect
+            ddl-auto: validate
+    datasource:
+        driverClassName: org.postgresql.Driver
+        url: jdbc:postgresql://127.0.0.1:5432/trackr
+        username:
+        password:
+flyway:
+    schemas: public
+
+---
+spring:
+    profiles: in-memory-database
+    datasource:
+        driverClassName: org.h2.Driver
+        url: jdbc:h2:mem:trackr;DB_CLOSE_DELAY\=-1
+        username: sa
+        password:
+    jpa:
+        hibernate:
+            dialect: org.hibernate.dialect.H2Dialect
+            ddl-auto: create
+flyway:
+    enabled: false
+
+---
+spring:
+    profiles: oauth
+trackr:
+    database:
+        oauth:
+            driverClassName: org.postgresql.Driver
+            url: jdbc:postgresql://127.0.0.1:5432/techdev_oauth
+            username:
+            password:
+
+---
+spring:
+    profiles: gmail
+    mail:
+        host: smtp.gmail.com
+        port: 465
+        username:
+        password:
+        properties:
+            mail.smtp.auth: true
+            mail.smtp.starttls.enable: true
+            mail.transport.protocol: smtp
+            mail.smtp.socketFactory.class: javax.net.ssl.SSLSocketFactory

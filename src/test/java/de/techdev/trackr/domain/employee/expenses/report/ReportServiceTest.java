@@ -1,42 +1,53 @@
 package de.techdev.trackr.domain.employee.expenses.report;
 
-import de.techdev.trackr.TransactionalIntegrationTest;
-import de.techdev.trackr.core.mail.MailConfiguration;
-import de.techdev.trackr.domain.ApiBeansConfiguration;
-import de.techdev.trackr.domain.company.Company;
-import de.techdev.trackr.domain.company.CompanyDataOnDemand;
-import de.techdev.trackr.domain.employee.expenses.report.ReportDataOnDemand;
+import de.techdev.trackr.domain.employee.EmployeeRepository;
 import de.techdev.trackr.domain.employee.expenses.reports.Report;
+import de.techdev.trackr.domain.employee.expenses.reports.ReportNotifyService;
+import de.techdev.trackr.domain.employee.expenses.reports.ReportRepository;
 import de.techdev.trackr.domain.employee.expenses.reports.ReportService;
 import de.techdev.trackr.util.LocalDateUtil;
+import org.junit.Before;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 
 import java.time.LocalDate;
 import java.util.Date;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
-@ContextConfiguration(classes = {MailConfiguration.class, ApiBeansConfiguration.class})
-public class ReportServiceTest extends TransactionalIntegrationTest {
+@RunWith(MockitoJUnitRunner.class)
+public class ReportServiceTest {
 
-    @Autowired
+    @InjectMocks
     private ReportService service;
 
-    @Autowired
-    private ReportDataOnDemand dataOnDemand;
+    @Mock
+    private ReportRepository reportRepository;
 
-    @Autowired
-    private CompanyDataOnDemand companyDataOnDemand;
+    @Mock
+    private EmployeeRepository employeeRepository;
+
+    @Mock
+    private ReportNotifyService reportNotifyService;
+
+    @Before
+    public void setUp() throws Exception {
+        when(reportRepository.save(any(Report.class))).then(invocation -> invocation.getArguments()[0]);
+    }
 
     @Test
     public void testReject() throws Exception {
         Report travelExpenseReport = new Report();
         travelExpenseReport.setStatus(Report.Status.SUBMITTED);
-        Company company = companyDataOnDemand.getRandomObject();
-        travelExpenseReport.setDebitor(company);
 
         Report result = service.reject(travelExpenseReport, "admin@techdev.de");
         assertThat(result.getStatus(), is(Report.Status.REJECTED));
@@ -46,8 +57,6 @@ public class ReportServiceTest extends TransactionalIntegrationTest {
     public void testApprove() throws Exception {
         Report travelExpenseReport = new Report();
         travelExpenseReport.setStatus(Report.Status.SUBMITTED);
-        Company company = companyDataOnDemand.getRandomObject();
-        travelExpenseReport.setDebitor(company);
 
         Report result = service.accept(travelExpenseReport, "admin@techdev.de");
         assertThat(result.getStatus(), is(Report.Status.APPROVED));
@@ -55,7 +64,7 @@ public class ReportServiceTest extends TransactionalIntegrationTest {
 
     @Test
     public void testSubmit() throws Exception {
-        Report travelExpenseReport = dataOnDemand.getRandomObject();
+        Report travelExpenseReport = new Report();
         LocalDate localDate = LocalDate.of(2014, 1, 1);
         Date date = LocalDateUtil.fromLocalDate(localDate);
         travelExpenseReport.setStatus(Report.Status.PENDING);
@@ -64,5 +73,6 @@ public class ReportServiceTest extends TransactionalIntegrationTest {
         Report result = service.submit(travelExpenseReport);
         assertThat(result.getStatus(), is(Report.Status.SUBMITTED));
         assertThat(result.getSubmissionDate().after(date), is(true));
+        verify(reportNotifyService, times(1)).sendSubmittedReportMail(eq(travelExpenseReport));
     }
 }

@@ -19,9 +19,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-/**
- * @author Moritz Schulze
- */
 @Controller
 @RequestMapping("/travelExpenseReports")
 public class ReportController {
@@ -56,7 +53,7 @@ public class ReportController {
         travelExpenseReportService.reject(travelExpenseReport, principal.getName());
     }
 
-    @PreAuthorize("hasRole('ROLE_SUPERVISOR') or #travelExpenseReport.employee.id == principal?.id")
+    @PreAuthorize("hasRole('ROLE_SUPERVISOR') or #travelExpenseReport.employee.email == principal?.username")
     @RequestMapping(value = "/{id}/pdf", produces = "application/pdf")
     @Transactional
     public ResponseEntity<byte[]> asPdf(@PathVariable("id") Report travelExpenseReport) {

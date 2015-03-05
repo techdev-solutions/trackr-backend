@@ -1,7 +1,9 @@
 package de.techdev.trackr.domain.translations;
 
-import de.techdev.trackr.domain.employee.login.Credential;
-import de.techdev.trackr.domain.employee.login.CredentialRepository;
+import de.techdev.trackr.domain.employee.settings.Settings;
+import de.techdev.trackr.domain.employee.settings.SettingsRepository;
+import de.techdev.trackr.domain.employee.settings.SettingsType;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
@@ -19,18 +21,16 @@ import java.io.IOException;
 import java.security.Principal;
 import java.util.Locale;
 
-/**
- * @author Moritz Schulze
- */
 @Controller
 @RequestMapping("/translations")
+@Slf4j
 public class TranslationController {
 
     @Autowired
     private LocaleResolver localeResolver;
 
     @Autowired
-    private CredentialRepository credentialRepository;
+    private SettingsRepository settingsRepository;
 
     @RequestMapping(method = RequestMethod.GET)
     public void getTranslations(Locale locale, HttpServletResponse response) {
@@ -50,9 +50,13 @@ public class TranslationController {
     @ResponseBody
     public String setLocale(@RequestParam("locale") Locale locale, HttpServletRequest request, HttpServletResponse response, Principal principal) {
         localeResolver.setLocale(request, response, locale);
-        Credential credential = credentialRepository.findByEmail(principal.getName());
-        credential.setLocale(locale.toLanguageTag());
-        credentialRepository.save(credential);
+        Settings localeSettings = settingsRepository.findByTypeAndEmployee_Email(SettingsType.LOCALE, principal.getName());
+        if (localeSettings == null) {
+            log.error("Employee {} without locale settings.", principal.getName());
+            return "Ok.";
+        }
+        localeSettings.setValue(locale.getLanguage());
+        settingsRepository.save(localeSettings);
         return "Ok.";
     }
 }
