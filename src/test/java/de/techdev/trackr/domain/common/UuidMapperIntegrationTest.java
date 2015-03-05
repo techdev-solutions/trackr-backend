@@ -1,10 +1,9 @@
 package de.techdev.trackr.domain.common;
 
-import de.techdev.trackr.TransactionalIntegrationTest;
-import de.techdev.trackr.domain.ApiBeansConfiguration;
+import de.techdev.test.TransactionalIntegrationTest;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.util.UUID;
 
@@ -13,7 +12,7 @@ import static org.echocat.jomon.testing.BaseMatchers.isNull;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-@ContextConfiguration(classes = {ApiBeansConfiguration.class})
+@ActiveProfiles("dev")
 public class UuidMapperIntegrationTest extends TransactionalIntegrationTest {
 
     @Autowired
