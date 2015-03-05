@@ -1,5 +1,6 @@
 package de.techdev.trackr.domain.employee.vacation;
 
+import de.techdev.test.TestConstants;
 import de.techdev.test.oauth.OAuthRequest;
 import de.techdev.test.rest.AbstractRestIntegrationTest;
 import de.techdev.test.rest.AbstractDomainResourceSecurityTest;
@@ -17,7 +18,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 @Sql("resourceTest.sql")
-@Sql("tableUuidMapping.sql")
+@Sql(TestConstants.CREATE_UUID_MAPPING_TABLE_SQL_FILE)
 @Sql(value = AbstractDomainResourceSecurityTest.EMPTY_DATABASE_FILE, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
 @OAuthRequest("ROLE_SUPERVISOR")
 public class VacationRequestControllerSecurityTest extends AbstractRestIntegrationTest {

@@ -1,9 +1,11 @@
 package de.techdev.trackr.domain.common;
 
+import de.techdev.test.TestConstants;
 import de.techdev.test.TransactionalIntegrationTest;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.jdbc.Sql;
 
 import java.util.UUID;
 
@@ -12,7 +14,7 @@ import static org.echocat.jomon.testing.BaseMatchers.isNull;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-@ActiveProfiles("dev")
+@Sql(TestConstants.CREATE_UUID_MAPPING_TABLE_SQL_FILE)
 public class UuidMapperIntegrationTest extends TransactionalIntegrationTest {
 
     @Autowired

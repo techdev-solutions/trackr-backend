@@ -1,5 +1,6 @@
 package de.techdev.trackr.domain.employee.vacation;
 
+import de.techdev.test.TestConstants;
 import de.techdev.test.oauth.OAuthRequest;
 import de.techdev.test.rest.AbstractDomainResourceSecurityTest;
 import org.junit.Ignore;
@@ -11,7 +12,7 @@ import static de.techdev.test.rest.DomainResourceTestMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 @Sql("resourceTest.sql")
-@Sql("tableUuidMapping.sql")
+@Sql(TestConstants.CREATE_UUID_MAPPING_TABLE_SQL_FILE)
 @Sql(value = AbstractDomainResourceSecurityTest.EMPTY_DATABASE_FILE, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
 @OAuthRequest
 public class VacationRequestResourceSecurityTest extends AbstractDomainResourceSecurityTest {
