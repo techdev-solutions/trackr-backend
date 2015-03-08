@@ -8,6 +8,8 @@ spring:
         active: in-memory-database,dev,granular-security,http-basic
 trackr:
     frontendUrl: http://localhost
+endpoints:
+    enabled: false
 
 ---
 spring:
