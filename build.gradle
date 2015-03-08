@@ -46,6 +46,7 @@ dependencies {
     compile "org.springframework.boot:spring-boot-starter-mail"
     compile "org.springframework.boot:spring-boot-starter-integration"
     compile "org.springframework.boot:spring-boot-starter-security"
+    compile "org.springframework.boot:spring-boot-starter-actuator"
 
     // not included in boot
     compile "org.springframework.integration:spring-integration-mail:4.1.1.RELEASE"
