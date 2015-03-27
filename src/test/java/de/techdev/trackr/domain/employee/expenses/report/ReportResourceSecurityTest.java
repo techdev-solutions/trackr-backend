@@ -138,7 +138,6 @@ public class ReportResourceSecurityTest extends AbstractDomainResourceSecurityTe
     public void approveAllowedForSupervisor() throws Exception {
         ResponseEntity<String> response = restTemplate.exchange(host + "/travelExpenseReports/0/approve", HttpMethod.PUT, HttpEntity.EMPTY, String.class);
         assertThat(response, isNoContent());
-
     }
 
     @Test

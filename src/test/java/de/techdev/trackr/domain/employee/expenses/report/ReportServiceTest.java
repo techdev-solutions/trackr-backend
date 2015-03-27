@@ -73,6 +73,6 @@ public class ReportServiceTest {
         Report result = service.submit(travelExpenseReport);
         assertThat(result.getStatus(), is(Report.Status.SUBMITTED));
         assertThat(result.getSubmissionDate().after(date), is(true));
-        verify(reportNotifyService, times(1)).sendSubmittedReportMail(eq(travelExpenseReport));
+        verify(reportNotifyService, times(1)).notifySupervisorsOnSubmission(eq(travelExpenseReport));
     }
 }
