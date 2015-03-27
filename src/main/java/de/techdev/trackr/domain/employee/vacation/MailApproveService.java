@@ -98,7 +98,7 @@ public class MailApproveService {
         } catch (MessagingException | IOException e) {
             throw new RuntimeException("Could not extract uuid or content from the mail.", e);
         }
-        String uuid = uuidMapper.extractUUUIDfromString(subject);
+        String uuid = uuidMapper.extractUUIDFromString(subject);
 
         if (uuid == null) {
             throw new RuntimeException("Could find a UUID in the subject " + subject);

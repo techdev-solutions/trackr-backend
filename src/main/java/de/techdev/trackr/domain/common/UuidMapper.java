@@ -21,7 +21,7 @@ public class UuidMapper {
     @Autowired
     private DataSource dataSource;
 
-    public String extractUUUIDfromString(String input) {
+    public String extractUUIDFromString(String input) {
         Matcher matcher = UuidMapper.UUID_PATTERN.matcher(input);
         if (matcher.matches()) {
             return matcher.group(1);
