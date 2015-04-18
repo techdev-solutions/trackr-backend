@@ -1,3 +1,6 @@
+# OS
+application.pid
+
 # gradle / Maven
 target/
 build/
