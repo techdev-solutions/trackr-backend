@@ -31,7 +31,7 @@ public class ReportNotifyService {
      *
      * @param report The report for which the mail is to be sent.
      */
-    public void sendSubmittedReportMail(Report report) {
+    public void notifySupervisorsOnSubmission(Report report) {
         String[] emails = supervisorService.getSupervisorEmailsArrayWithout(email ->
                         !report.getEmployee().getEmail().equals(email)
         );
@@ -49,6 +49,26 @@ public class ReportNotifyService {
 
     protected String getWebLink(Report report) {
         return frontendUrl + "/supervisor/expenses/" + report.getId();
+    }
+
+    public void notifyEmployeeOnApproval(Report report) {
+        notifyEmployeeOnStatusChange(report, "approved");
+    }
+
+    public void notifyEmployeeOnRejection(Report report) {
+        notifyEmployeeOnStatusChange(report, "rejected");
+    }
+
+    private void notifyEmployeeOnStatusChange(Report report, String outcome) {
+        SimpleMailMessage mail = new SimpleMailMessage();
+        mail.setFrom("no-reply@techdev.de");
+        mail.setTo(report.getEmployee().getEmail());
+        mail.setSubject(String.format("Your travel expense report has been %s", outcome));
+        mail.setText(
+                String.format("%s has %s your travel expense report #%d.",
+                        fullName(report.getApprover()), outcome, report.getId())
+        );
+        mailService.sendMail(mail);
     }
 
     @Transactional
