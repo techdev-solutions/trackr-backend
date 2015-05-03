@@ -8,10 +8,13 @@ buildscript {
 }
 
 apply plugin: 'java'
-apply plugin: 'sonar-runner'
+apply plugin: 'jacoco'
 apply plugin: 'spring-boot'
 
 sourceCompatibility = 1.8
+compileJava.options.encoding = 'UTF-8'
+
+// Options for naming the JAR file
 archivesBaseName = 'trackr-backend'
 version = '1.0'
 if(project.hasProperty('teamcity')) {
@@ -19,25 +22,9 @@ if(project.hasProperty('teamcity')) {
 } else {
     version += '-localbuild'
 }
-compileJava.options.encoding = 'UTF-8'
 
 repositories {
     mavenCentral()
-    maven {
-        url 'http://repo.springsource.org/libs-milestone/'
-    }
-}
-
-sonarRunner {
-    sonarProperties {
-        property "sonar.projectKey", "a5e626097d2cedbf"
-        property "sonar.projectName", "trackr"
-        property "sonar.host.url", "http://localhost:8112"
-        property "sonar.jdbc.url", "jdbc:postgresql://localhost:5432/sonar"
-        property "sonar.jdbc.driverClassName", "org.postgresql.Driver"
-        property "sonar.jdbc.username", "sonar"
-        property "sonar.sourceEncoding", "UTF-8"
-    }
 }
 
 dependencies {
