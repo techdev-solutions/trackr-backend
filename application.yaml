@@ -8,12 +8,16 @@ spring:
         active: in-memory-database,dev,granular-security,http-basic
 trackr:
     frontendUrl: http://localhost
+logging:
+    config: file:logback-console.xml
 
 ---
 spring:
     profiles: prod
 trackr:
     frontendUrl:
+logging:
+    config: file:logback-file.xml
 
 ---
 spring:
