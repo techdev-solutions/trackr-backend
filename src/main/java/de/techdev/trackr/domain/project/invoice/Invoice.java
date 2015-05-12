@@ -1,7 +1,8 @@
 package de.techdev.trackr.domain.project.invoice;
 
 import de.techdev.trackr.domain.company.Company;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -12,7 +13,8 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 @Entity
-@Data
+@Getter
+@Setter
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = "identifier"))
 @ToString(exclude = "debitor")
 public class Invoice {

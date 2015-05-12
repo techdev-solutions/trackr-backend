@@ -2,23 +2,22 @@ package de.techdev.trackr.domain.project.worktimes;
 
 import de.techdev.trackr.domain.employee.Employee;
 import de.techdev.trackr.domain.project.billtimes.BillableTime;
-import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.hateoas.ResourceSupport;
 
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import static java.util.stream.Collectors.groupingBy;
-import static java.util.stream.Collectors.reducing;
-
 /**
  * DTO that contains only the needed information for the method findEmployeeMappingByProjectAndDateBetween.
  * <p>
  * It extends {@link org.springframework.hateoas.ResourceSupport} so a link to the employee entity can be added.
  */
-@Data
+@Getter
+@Setter
 @EqualsAndHashCode(callSuper = false)
 public class WorkTimeEmployee extends ResourceSupport {
     private String name;

@@ -2,7 +2,9 @@ package de.techdev.trackr.domain.employee.sickdays;
 
 import de.techdev.trackr.domain.employee.Employee;
 import de.techdev.trackr.domain.validation.constraints.EndAfterBegin;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -12,7 +14,9 @@ import java.util.Date;
  * @author Moritz Schulze
  */
 @Entity
-@Data
+@Getter
+@Setter
+@ToString
 @EndAfterBegin(begin = "startDate", end = "endDate")
 public class SickDays {
 

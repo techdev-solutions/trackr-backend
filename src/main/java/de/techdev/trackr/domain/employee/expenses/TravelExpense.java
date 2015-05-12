@@ -2,7 +2,8 @@ package de.techdev.trackr.domain.employee.expenses;
 
 import de.techdev.trackr.domain.employee.expenses.reports.Report;
 import de.techdev.trackr.domain.validation.constraints.EndAfterBegin;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
@@ -13,7 +14,8 @@ import java.util.Date;
 /**
  * @author Moritz Schulze
  */
-@Data
+@Getter
+@Setter
 @ToString(exclude = "report")
 @Entity
 @EndAfterBegin(begin = "fromDate", end = "toDate")

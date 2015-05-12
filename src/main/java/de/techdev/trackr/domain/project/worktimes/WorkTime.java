@@ -3,7 +3,8 @@ package de.techdev.trackr.domain.project.worktimes;
 import de.techdev.trackr.domain.employee.Employee;
 import de.techdev.trackr.domain.project.Project;
 import de.techdev.trackr.domain.validation.constraints.EndAfterBegin;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
@@ -15,7 +16,8 @@ import java.util.Date;
  * @author Moritz Schulze
  */
 @Entity
-@Data
+@Getter
+@Setter
 @ToString(exclude = {"employee", "project"})
 @EndAfterBegin(begin = "startTime", end = "endTime")
 public class WorkTime {

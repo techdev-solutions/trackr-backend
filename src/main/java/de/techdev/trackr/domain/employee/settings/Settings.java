@@ -1,14 +1,16 @@
 package de.techdev.trackr.domain.employee.settings;
 
 import de.techdev.trackr.domain.employee.Employee;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Data
+@Getter
+@Setter
 @Table( uniqueConstraints = { @UniqueConstraint(columnNames = {"type", "employee_id"}) } )
 public class Settings {
 

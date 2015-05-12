@@ -5,7 +5,8 @@ import de.techdev.trackr.domain.employee.EmployeeRepository;
 import de.techdev.trackr.domain.employee.settings.Settings;
 import de.techdev.trackr.domain.employee.settings.SettingsRepository;
 import de.techdev.trackr.domain.employee.settings.SettingsType;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -22,7 +23,8 @@ import java.util.Collection;
 @Slf4j
 public class PrincipalController {
 
-    @Data
+    @Getter
+    @Setter
     static class ReturnValue {
         Collection<? extends GrantedAuthority> authorities;
         String locale;
