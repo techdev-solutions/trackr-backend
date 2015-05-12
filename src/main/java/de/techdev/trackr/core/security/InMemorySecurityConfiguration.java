@@ -34,7 +34,9 @@ public class InMemorySecurityConfiguration extends WebSecurityConfigurerAdapter 
         auth
             .userDetailsService(username -> {
                         Employee employee = employeeRepository.findByEmail(username);
-                        if (employee == null) throw new BadCredentialsException("User not found");
+                        if (employee == null) {
+                            throw new BadCredentialsException("User not found");
+                        }
                         return new User(username, "", asList(new SimpleGrantedAuthority("ROLE_ADMIN")));
                     }
             );

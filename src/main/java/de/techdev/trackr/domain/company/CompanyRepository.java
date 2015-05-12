@@ -12,8 +12,8 @@ import java.util.List;
 @RepositoryRestResource(path = "/companies")
 public interface CompanyRepository extends JpaRepository<Company, Long> {
 
-    public Company findByCompanyId(@Param("companyId") Long companyId);
+    Company findByCompanyId(@Param("companyId") Long companyId);
 
-    public List<Company> findByNameLikeIgnoreCaseOrderByNameAsc(@Param("name") String name);
+    List<Company> findByNameLikeIgnoreCaseOrderByNameAsc(@Param("name") String name);
 
 }

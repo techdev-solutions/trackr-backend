@@ -36,19 +36,19 @@ public class TravelExpenseEventHandler {
     }
 
     public boolean canCreate(String email, TravelExpense travelExpense) {
-        return email != null &&travelExpense.getReport().getEmployee().getEmail().equals(email) &&
+        return email != null && email.equals(travelExpense.getReport().getEmployee().getEmail()) &&
                 travelExpense.getReport().getStatus() != Report.Status.APPROVED &&
                 travelExpense.getReport().getStatus() != Report.Status.SUBMITTED;
     }
 
     public boolean canEdit(String email, TravelExpense travelExpense) {
-        return email != null && travelExpense.getReport().getEmployee().getEmail().equals(email) &&
+        return email != null && email.equals(travelExpense.getReport().getEmployee().getEmail()) &&
                 travelExpense.getReport().getStatus() != Report.Status.APPROVED &&
                 travelExpense.getReport().getStatus() != Report.Status.SUBMITTED;
     }
 
     public boolean canDelete(String email, TravelExpense travelExpense) {
-        return email != null && travelExpense.getReport().getEmployee().getEmail().equals(email) &&
+        return email != null && email.equals(travelExpense.getReport().getEmployee().getEmail()) &&
                 travelExpense.getReport().getStatus() != Report.Status.APPROVED &&
                 travelExpense.getReport().getStatus() != Report.Status.SUBMITTED;
     }
