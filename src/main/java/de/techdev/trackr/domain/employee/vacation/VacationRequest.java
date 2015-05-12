@@ -5,7 +5,6 @@ import de.techdev.trackr.domain.employee.Employee;
 import de.techdev.trackr.domain.validation.constraints.EndAfterBegin;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -18,10 +17,9 @@ import java.util.Date;
 @Getter
 @Setter
 @EndAfterBegin(begin = "startDate", end = "endDate")
-@ToString(exclude = {"employee"})
 public class VacationRequest {
 
-    public static enum VacationRequestStatus {
+    public enum VacationRequestStatus {
         APPROVED, PENDING, REJECTED
     }
 

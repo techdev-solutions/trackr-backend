@@ -3,7 +3,6 @@ package de.techdev.trackr.domain.project.invoice;
 import de.techdev.trackr.domain.company.Company;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
@@ -16,10 +15,9 @@ import java.util.Date;
 @Getter
 @Setter
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = "identifier"))
-@ToString(exclude = "debitor")
 public class Invoice {
 
-    public static enum InvoiceState {
+    public enum InvoiceState {
         OUTSTANDING, PAID, OVERDUE
     }
 

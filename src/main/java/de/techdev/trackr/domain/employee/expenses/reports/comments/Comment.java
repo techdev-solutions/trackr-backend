@@ -4,7 +4,6 @@ import de.techdev.trackr.domain.employee.Employee;
 import de.techdev.trackr.domain.employee.expenses.reports.Report;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
@@ -17,7 +16,6 @@ import java.util.Date;
 @Entity
 @Getter
 @Setter
-@ToString
 @Table(name = "travelExpenseReportComment")
 public class Comment {
 

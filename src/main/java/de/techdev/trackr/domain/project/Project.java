@@ -6,7 +6,6 @@ import de.techdev.trackr.domain.project.billtimes.BillableTime;
 import de.techdev.trackr.domain.project.worktimes.WorkTime;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
@@ -21,7 +20,6 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-@ToString(exclude = {"company", "debitor", "workTimes", "billableTimes"})
 @JsonIgnoreProperties({"workTimes", "billableTimes"})
 public class Project {
 

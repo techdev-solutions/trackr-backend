@@ -1,6 +1,5 @@
 package de.techdev.trackr.domain.company;
 
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.rest.core.annotation.HandleBeforeCreate;
 import org.springframework.data.rest.core.annotation.HandleBeforeDelete;
 import org.springframework.data.rest.core.annotation.HandleBeforeSave;
@@ -16,24 +15,21 @@ import org.springframework.security.access.prepost.PreAuthorize;
  * @author Moritz Schulze
  */
 @RepositoryEventHandler(Address.class)
-@Slf4j
+@SuppressWarnings("unused")
 public class AddressEventHandler {
 
     @HandleBeforeCreate
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void checkSaveAuthority(Address address) {
-        log.debug("Creating address {}", address);
     }
 
     @HandleBeforeSave
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void checkUpdateAuthority(Address address) {
-        log.debug("Updating address {}", address);
     }
 
     @HandleBeforeDelete
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void checkDeleteAuthority(Address address) {
-        log.debug("Deleting address {}", address);
     }
 }

@@ -2,7 +2,6 @@ package de.techdev.trackr.domain.employee.vacation;
 
 import de.techdev.trackr.domain.common.UuidMapper;
 import de.techdev.trackr.domain.employee.vacation.support.VacationRequestNotifyService;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.core.annotation.*;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -11,7 +10,7 @@ import java.util.Date;
 import java.util.UUID;
 
 @RepositoryEventHandler(VacationRequest.class)
-@Slf4j
+@SuppressWarnings("unused")
 public class VacationRequestEventHandler {
 
     @Autowired
@@ -34,7 +33,6 @@ public class VacationRequestEventHandler {
         vacationRequest.setApprover(null);
         vacationRequest.setApprovalDate(null);
         vacationRequest.setSubmissionTime(new Date());
-        log.debug("Creating vacation request {}", vacationRequest);
     }
 
     @HandleAfterCreate
@@ -46,14 +44,12 @@ public class VacationRequestEventHandler {
     @HandleBeforeSave
     @PreAuthorize("hasRole('ROLE_SUPERVISOR') and principal?.username != #vacationRequest.employee.email")
     public void authorizeUpdate(VacationRequest vacationRequest) {
-        log.debug("Updating vacation request {}", vacationRequest);
     }
 
     @HandleBeforeDelete
     @PreAuthorize("( hasRole('ROLE_SUPERVISOR') and @vacationRequestEventHandler.supervisorCanDeleteRequest(principal?.username, #vacationRequest) ) " +
             "or @vacationRequestEventHandler.employeeCanDeleteRequest(principal?.username, #vacationRequest)")
     public void authorizeDelete(VacationRequest vacationRequest) {
-        log.debug("Deleting vacation request {}", vacationRequest);
     }
 
     @HandleBeforeLinkSave

@@ -8,7 +8,6 @@ import de.techdev.trackr.domain.project.Project;
 import de.techdev.trackr.domain.validation.constraints.ProjectBelongsToCompany;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -22,11 +21,10 @@ import java.util.List;
 @Setter
 @Entity
 @Table(name = "travelExpenseReport")
-@ToString(exclude = {"expenses", "employee", "approver", "comments"})
 @ProjectBelongsToCompany(companyField = "debitor")
 public class Report {
 
-    public static enum Status {
+    public enum Status {
         SUBMITTED, PENDING, APPROVED, REJECTED
     }
 

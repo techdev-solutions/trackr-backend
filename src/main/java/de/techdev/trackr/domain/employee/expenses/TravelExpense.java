@@ -4,7 +4,6 @@ import de.techdev.trackr.domain.employee.expenses.reports.Report;
 import de.techdev.trackr.domain.validation.constraints.EndAfterBegin;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -16,12 +15,11 @@ import java.util.Date;
  */
 @Getter
 @Setter
-@ToString(exclude = "report")
 @Entity
 @EndAfterBegin(begin = "fromDate", end = "toDate")
 public class TravelExpense {
 
-    public static enum Type {
+    public enum Type {
         HOTEL, TAXI, FLIGHT, TRAIN, PARKING, OEPNV, MILEAGE_ALLOWANCE, OTHER
     }
 

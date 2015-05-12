@@ -2,7 +2,6 @@ package de.techdev.trackr.domain.company;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
@@ -13,7 +12,6 @@ import javax.persistence.*;
 @Entity
 @Getter
 @Setter
-@ToString
 public class Address {
 
     @Id
