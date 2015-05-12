@@ -1,12 +1,14 @@
 package de.techdev.trackr.domain.employee.addressbook;
 
 import de.techdev.trackr.domain.employee.Employee;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Employee only containing the information needed for the address book.
  */
-@Data
+@Getter
+@Setter
 public class ReducedEmployee {
 
     private String firstName;

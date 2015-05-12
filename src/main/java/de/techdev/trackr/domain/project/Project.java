@@ -4,8 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import de.techdev.trackr.domain.company.Company;
 import de.techdev.trackr.domain.project.billtimes.BillableTime;
 import de.techdev.trackr.domain.project.worktimes.WorkTime;
-import lombok.Data;
-import lombok.ToString;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
@@ -18,8 +18,8 @@ import java.util.List;
  * @author Moritz Schulze
  */
 @Entity
-@Data
-@ToString(exclude = {"company", "debitor", "workTimes", "billableTimes"})
+@Getter
+@Setter
 @JsonIgnoreProperties({"workTimes", "billableTimes"})
 public class Project {
 

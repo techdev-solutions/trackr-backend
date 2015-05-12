@@ -3,8 +3,8 @@ package de.techdev.trackr.domain.employee.vacation;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import de.techdev.trackr.domain.employee.Employee;
 import de.techdev.trackr.domain.validation.constraints.EndAfterBegin;
-import lombok.Data;
-import lombok.ToString;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -14,12 +14,12 @@ import java.util.Date;
  * @author Moritz Schulze
  */
 @Entity
-@Data
+@Getter
+@Setter
 @EndAfterBegin(begin = "startDate", end = "endDate")
-@ToString(exclude = {"employee"})
 public class VacationRequest {
 
-    public static enum VacationRequestStatus {
+    public enum VacationRequestStatus {
         APPROVED, PENDING, REJECTED
     }
 

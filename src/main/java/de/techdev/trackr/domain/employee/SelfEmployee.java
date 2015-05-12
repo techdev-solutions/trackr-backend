@@ -1,6 +1,7 @@
 package de.techdev.trackr.domain.employee;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.validator.constraints.NotEmpty;
 
 /**
@@ -8,7 +9,8 @@ import org.hibernate.validator.constraints.NotEmpty;
  *
  * @author Moritz Schulze
  */
-@Data
+@Getter
+@Setter
 public class SelfEmployee {
 
     @NotEmpty

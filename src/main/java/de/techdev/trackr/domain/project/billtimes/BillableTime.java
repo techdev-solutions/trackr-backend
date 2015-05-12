@@ -2,8 +2,8 @@ package de.techdev.trackr.domain.project.billtimes;
 
 import de.techdev.trackr.domain.employee.Employee;
 import de.techdev.trackr.domain.project.Project;
-import lombok.Data;
-import lombok.ToString;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
@@ -14,8 +14,8 @@ import java.util.Date;
  * @author Moritz Schulze
  */
 @Entity
-@Data
-@ToString(exclude = {"employee", "project"})
+@Getter
+@Setter
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = {"employee", "project", "date"}))
 public class BillableTime {
 

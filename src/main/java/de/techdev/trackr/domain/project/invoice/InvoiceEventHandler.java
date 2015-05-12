@@ -2,7 +2,6 @@ package de.techdev.trackr.domain.project.invoice;
 
 import de.techdev.trackr.domain.company.Company;
 import de.techdev.trackr.util.LocalDateUtil;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.rest.core.annotation.*;
 import org.springframework.security.access.prepost.PreAuthorize;
 
@@ -14,7 +13,7 @@ import static de.techdev.trackr.util.LocalDateUtil.fromLocalDate;
  * @author Moritz Schulze
  */
 @RepositoryEventHandler(Invoice.class)
-@Slf4j
+@SuppressWarnings("unused")
 public class InvoiceEventHandler {
 
     @HandleBeforeCreate
@@ -22,7 +21,6 @@ public class InvoiceEventHandler {
     public void authorizeCreate(Invoice invoice) {
         setDueDateFromTimeForPayment(invoice);
         setInvoiceStateIfNecessary(invoice);
-        log.debug("Creating invoice {}", invoice);
     }
 
     @HandleBeforeSave
@@ -30,13 +28,11 @@ public class InvoiceEventHandler {
     public void authorizeUpdate(Invoice invoice) {
         setDueDateFromTimeForPayment(invoice);
         setInvoiceStateIfNecessary(invoice);
-        log.debug("Updating invoice {}", invoice);
     }
 
     @HandleBeforeDelete
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void authorizeDelete(Invoice invoice) {
-        log.debug("Deleting invoice {}", invoice);
     }
 
     @HandleBeforeLinkSave

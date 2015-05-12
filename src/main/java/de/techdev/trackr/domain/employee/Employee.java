@@ -7,8 +7,8 @@ import de.techdev.trackr.domain.employee.vacation.VacationRequest;
 import de.techdev.trackr.domain.project.billtimes.BillableTime;
 import de.techdev.trackr.domain.project.worktimes.WorkTime;
 import de.techdev.trackr.domain.validation.constraints.EndAfterBegin;
-import lombok.Data;
-import lombok.ToString;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -22,9 +22,9 @@ import java.util.List;
 /**
  * Represents any employee of techdev.
  */
-@Data
 @Entity
-@ToString(exclude = {"workTimes", "billableTimes", "vacationRequests", "approvedRequests", "travelExpenseReports"})
+@Getter
+@Setter
 @JsonIgnoreProperties({"credential", "workTimes", "billableTimes", "vacationRequests", "approvedRequests", "travelExpenseReports"})
 @EndAfterBegin(begin = "joinDate", end = "leaveDate")
 public class Employee {

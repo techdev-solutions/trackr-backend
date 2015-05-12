@@ -6,8 +6,8 @@ import de.techdev.trackr.domain.employee.expenses.TravelExpense;
 import de.techdev.trackr.domain.employee.expenses.reports.comments.Comment;
 import de.techdev.trackr.domain.project.Project;
 import de.techdev.trackr.domain.validation.constraints.ProjectBelongsToCompany;
-import lombok.Data;
-import lombok.ToString;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -17,14 +17,14 @@ import java.util.List;
 /**
  * @author Moritz Schulze
  */
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "travelExpenseReport")
-@ToString(exclude = {"expenses", "employee", "approver", "comments"})
 @ProjectBelongsToCompany(companyField = "debitor")
 public class Report {
 
-    public static enum Status {
+    public enum Status {
         SUBMITTED, PENDING, APPROVED, REJECTED
     }
 
