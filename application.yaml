@@ -9,7 +9,7 @@ spring:
 trackr:
     frontendUrl: http://localhost
 logging:
-    config: file:logback-console.xml
+    config: classpath:logback-console.xml
 
 ---
 spring:
@@ -17,7 +17,7 @@ spring:
 trackr:
     frontendUrl:
 logging:
-    config: file:logback-file.xml
+    config: classpath:logback-file.xml
 
 ---
 spring:
