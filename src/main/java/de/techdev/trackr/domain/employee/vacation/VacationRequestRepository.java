@@ -39,4 +39,12 @@ public interface VacationRequestRepository extends CrudRepository<VacationReques
             @Param("startLower") Date startLower, @Param("startHigher") Date startHigher,
             @Param("endLower") Date endLower, @Param("endHigher") Date endHigher,
             @Param("status") VacationRequest.VacationRequestStatus status);
+
+    /**
+     * Find one by id without security.
+     * @param id The id of the vacation request to find.
+     */
+    @RestResource(exported = false)
+    @Query("SELECT vr FROM VacationRequest vr WHERE vr.id = :id")
+    VacationRequest findOneWithoutSecurity(@Param("id") Long id);
 }
