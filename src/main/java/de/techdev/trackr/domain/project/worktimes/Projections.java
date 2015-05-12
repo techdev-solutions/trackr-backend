@@ -12,7 +12,7 @@ import java.util.Date;
  */
 public class Projections {
     @Projection(types = WorkTime.class, name = "withEmployee")
-    public static interface WorkTimeWithEmployeeProjection {
+    public interface WorkTimeWithEmployeeProjection {
         Long getId();
 
         Integer getVersion();

@@ -10,7 +10,7 @@ import java.util.Date;
  * Convert {@link java.util.Date} from and to {@link java.time.LocalDate}
  * @author Moritz Schulze
  */
-public class LocalDateUtil {
+public final class LocalDateUtil {
 
     private LocalDateUtil() {
     }
