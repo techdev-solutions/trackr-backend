@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -58,26 +59,6 @@ public class MailApproveService {
     }
 
     /**
-     * Count how often a search string is present in a text.
-     * @param text The text to analyze.
-     * @param search The search string to find.
-     * @return The number of occurrences of search in text, zero if any of the arguments is null.
-     */
-    protected int containsCount(String text, String search) {
-        if (text == null || search == null) {
-            return 0;
-        }
-        int searchLength = search.length();
-        int index = text.indexOf(search);
-        int count = 0;
-        while (index >= 0) {
-            count++;
-            index = text.indexOf(search, index + searchLength);
-        }
-        return count;
-    }
-
-    /**
      * Analyze the text of a mail and decide if the vacation request should be approved or rejected.
      * If the word "approve" appears more often approve, if the word "reject" appears more often reject. If
      * they appear with the same number, throw an {@link java.lang.IllegalArgumentException}.
@@ -86,8 +67,9 @@ public class MailApproveService {
      */
     protected VacationRequest.VacationRequestStatus approveOrReject(String mailContent) {
         String mailContentLowerCase = mailContent.toLowerCase();
-        int approveCount = containsCount(mailContentLowerCase, "approve");
-        int rejectCount = containsCount(mailContentLowerCase, "reject");
+
+        int approveCount = StringUtils.countOccurrencesOf(mailContentLowerCase, "approve");
+        int rejectCount = StringUtils.countOccurrencesOf(mailContentLowerCase, "reject");
         if (approveCount > rejectCount) {
             return VacationRequest.VacationRequestStatus.APPROVED;
         } else if (approveCount < rejectCount) {
