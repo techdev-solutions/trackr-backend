@@ -7,14 +7,16 @@ import de.techdev.trackr.domain.employee.expenses.reports.ReportService;
 import de.techdev.trackr.domain.employee.login.support.SupervisorService;
 import de.techdev.trackr.domain.employee.sickdays.SickDaysNotifyService;
 import de.techdev.trackr.domain.employee.vacation.HolidayCalculator;
-import de.techdev.trackr.domain.employee.vacation.MailApproveService;
 import de.techdev.trackr.domain.employee.vacation.VacationRequestApproveService;
 import de.techdev.trackr.domain.employee.vacation.support.VacationRequestEmployeeToDaysTotalService;
 import de.techdev.trackr.domain.employee.vacation.support.VacationRequestNotifyService;
 import de.techdev.trackr.domain.employee.worktimetracking.WorkTimeTrackingReminderService;
 import de.techdev.trackr.domain.project.invoice.ChangeStateService;
 import de.techdev.trackr.domain.project.invoice.InvoiceOverdueService;
-import org.springframework.context.annotation.*;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.FilterType;
 import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
 
 /**
@@ -84,12 +86,6 @@ public class ApiBeansConfiguration {
     @Bean
     public PdfRenderer pdfRenderer() {
         return new PdfRenderer();
-    }
-
-    @Bean
-    @Profile("gmail")
-    public MailApproveService mailApproveService() {
-        return new MailApproveService();
     }
 
     @Bean
