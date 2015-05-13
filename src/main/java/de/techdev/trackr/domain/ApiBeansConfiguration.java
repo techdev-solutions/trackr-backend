@@ -64,7 +64,7 @@ public class ApiBeansConfiguration {
     }
 
     @Bean
-    public InvoiceOverdueService invoiceOverduer() {
+    public InvoiceOverdueService invoiceOverdueService() {
         return new InvoiceOverdueService();
     }
 
