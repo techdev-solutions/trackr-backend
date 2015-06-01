@@ -10,9 +10,6 @@ import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.Date;
 
-/**
- * @author Moritz Schulze
- */
 @Getter
 @Setter
 @Entity
@@ -57,4 +54,6 @@ public class TravelExpense {
     private Date submissionDate;
 
     private String comment;
+
+    private boolean paid;
 }

@@ -111,7 +111,8 @@
         "VAT": "Mehrwertsteuer",
         "COST": "Gesamt",
         "COMMENT": "Kommentar",
-        "SUBMITTED": "Eingereicht am"
+        "SUBMITTED": "Eingereicht am",
+        "PAID": "Bezahlt"
     },
     "TRAVEL_EXPENSE_REPORT": {
         "TRAVEL_EXPENSE_REPORT": "Reisekostenbericht",

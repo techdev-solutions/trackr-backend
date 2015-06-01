@@ -103,7 +103,8 @@
         "VAT": "VAT",
         "COST": "Total",
         "COMMENT": "Comment",
-        "SUBMITTED": "Submitted"
+        "SUBMITTED": "Submitted",
+        "PAID": "Paid"
     },
     "TRAVEL_EXPENSE_REPORT": {
         "TRAVEL_EXPENSE_REPORT": "Travel expense report",
