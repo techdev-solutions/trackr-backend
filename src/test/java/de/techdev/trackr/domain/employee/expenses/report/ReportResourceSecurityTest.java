@@ -147,4 +147,17 @@ public class ReportResourceSecurityTest extends AbstractDomainResourceSecurityTe
         assertThat(response, isNoContent());
     }
 
+    @Test
+    @OAuthRequest("ROLE_SUPERVISOR")
+    public void findByStatusAllowedForSupervisor() throws Exception {
+        ResponseEntity<String> response = restTemplate.getForEntity(host + "/travelExpenseReports/search/findByStatus?status=SUBMITTED", String.class);
+        assertThat(response, isAccessible());
+    }
+
+    @Test
+    public void findByStatusNotAllowedForEmployee() throws Exception {
+        ResponseEntity<String> response = restTemplate.getForEntity(host + "/travelExpenseReports/search/findByStatus?status=SUBMITTED", String.class);
+        assertThat(response, isForbidden());
+    }
+
 }
