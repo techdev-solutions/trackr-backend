@@ -66,23 +66,4 @@ public class Projections {
         Company getDebitor();
     }
 
-    @Projection(types = Report.class, name = "withExpensesAndDebitorAndProject")
-    public interface TravelExpenseReportWithTravelExpensesProjection {
-
-        Long getId();
-
-        Integer getVersion();
-
-        List<TravelExpense> getExpenses();
-
-        Report.Status getStatus();
-
-        Date getSubmissionDate();
-
-        Company getDebitor();
-
-        Project getProject();
-    }
-
-
 }
