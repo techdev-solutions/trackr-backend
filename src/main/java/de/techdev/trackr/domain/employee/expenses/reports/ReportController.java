@@ -63,8 +63,11 @@ public class ReportController {
         ctx.setVariable("report", report);
         ctx.setVariable("today", new Date());
         List<TravelExpense> expenses = report.getExpenses();
-        BigDecimal totalCost = expenses.stream().map(TravelExpense::getCost).reduce(BigDecimal.ZERO, (b1, b2) -> b1.add(b2));
+        BigDecimal totalCost = expenses.stream().map(TravelExpense::getCost).reduce(BigDecimal.ZERO, BigDecimal::add);
+        BigDecimal totalReimbursement = expenses.stream()
+                .filter(te -> !te.isPaid()).map(TravelExpense::getCost).reduce(BigDecimal.ZERO, BigDecimal::add);
         ctx.setVariable("totalCost", totalCost);
+        ctx.setVariable("totalReimbursement", totalReimbursement);
         Optional<Date> startDate = expenses.stream().map(TravelExpense::getFromDate).min(Date::compareTo);
         Optional<Date> endDate = expenses.stream().map(TravelExpense::getToDate).max(Date::compareTo);
         if (startDate.isPresent()) {
