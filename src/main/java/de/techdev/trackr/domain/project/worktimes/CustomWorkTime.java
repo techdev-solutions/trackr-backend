@@ -18,10 +18,15 @@ import static java.util.stream.Collectors.reducing;
 @Getter
 @Setter
 public class CustomWorkTime implements Comparable<CustomWorkTime> {
+
     private Date date;
+
     private Long enteredMinutes;
+
     private Double hours;
+
     private Long billedTimeId;
+
     private String comment;
 
     /**
