@@ -215,7 +215,8 @@
             "TRAVEL_EXPENSE_REPORTS": {
                 "TITLE": "Travel expenses",
                 "EMPTY_TEXT": "No submitted travel expense reports.",
-                "JUMP_TO_REPORT": "jump to report"
+                "JUMP_TO_REPORT": "jump to report",
+                "APPROVED_BY": "Approved by"
             },
             "TRAVEL_EXPENSE_REPORT": {
                 "NOT_FOUND": "Travel expense report #{{id}} not found.",

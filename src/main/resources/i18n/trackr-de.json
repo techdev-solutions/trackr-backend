@@ -213,9 +213,10 @@
                 "GROSS_PRICE": "Brutto"
             },
             "TRAVEL_EXPENSE_REPORTS": {
-                "TITLE": "Travel expenses",
+                "TITLE": "Reisekosten",
                 "EMPTY_TEXT": "Keine Reisekostenberichte",
-                "JUMP_TO_REPORT": "zu Report wechseln"
+                "JUMP_TO_REPORT": "zu Report wechseln",
+                "APPROVED_BY": "Genehmigt von"
             },
             "TRAVEL_EXPENSE_REPORT": {
                 "NOT_FOUND": "Reisekostenbericht #{{id}} nicht gefunden.",
