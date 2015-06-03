@@ -111,7 +111,8 @@
         "VAT": "Mehrwertsteuer",
         "COST": "Gesamt",
         "COMMENT": "Kommentar",
-        "SUBMITTED": "Eingereicht am"
+        "SUBMITTED": "Eingereicht am",
+        "PAID": "Bezahlt"
     },
     "TRAVEL_EXPENSE_REPORT": {
         "TRAVEL_EXPENSE_REPORT": "Reisekostenbericht",
@@ -175,7 +176,8 @@
             "TEXT_VACATION": "Urlaubsanträge",
             "EXPENSES": {
                 "TITLE": "Reisekosten",
-                "DELETE_FORBIDDEN": "Dieser Report darf nicht gelöscht werden."
+                "DELETE_FORBIDDEN": "Dieser Report darf nicht gelöscht werden.",
+                "REIMBURSEMENT": "Rückerstattung"
             },
             "TEXT_TIMESHEET_OVERVIEW": "Arbeitszeiten Übersicht",
             "TIMESHEET_OVERVIEW": {

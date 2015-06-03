@@ -1,0 +1,1 @@
+ALTER TABLE travelexpense ADD COLUMN paid BOOLEAN DEFAULT false;

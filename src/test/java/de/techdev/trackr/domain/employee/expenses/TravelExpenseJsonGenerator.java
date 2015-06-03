@@ -33,6 +33,7 @@ public class TravelExpenseJsonGenerator extends AbstractJsonGenerator<TravelExpe
           .write("toDate", sdf.format(object.getToDate()))
           .write("submissionDate", sdf2.format(object.getSubmissionDate()))
           .write("type", object.getType().toString())
+          .write("paid", object.isPaid())
           .write("report", "/objectReports/" + reportId);
 
         if(object.getComment() != null) {

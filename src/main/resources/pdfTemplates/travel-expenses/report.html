@@ -36,6 +36,10 @@
                     <td>Total:</td>
                     <td th:text="${totalCost} + ' €'">500 €</td>
                 </tr>
+                <tr>
+                    <td>Reimbursement:</td>
+                    <td th:text="${totalReimbursement} + ' €'">500 €</td>
+                </tr>
             </table>
         </div>
     </div>
@@ -48,6 +52,7 @@
                     <th>To</th>
                     <th>VAT</th>
                     <th>Total</th>
+                    <th>Paid</th>
                     <th>Comment</th>
                 </tr>
                 <tr th:each="expense : ${report.expenses}">
@@ -56,6 +61,9 @@
                     <td th:text="${#dates.format(expense.toDate, 'dd.MM.yyyy')}">13.10.2013</td>
                     <td th:text="${expense.vat} + '%'">12%</td>
                     <td th:text="${expense.cost} + ' €'">34 €</td>
+                    <td>
+                        <span th:if="${expense.paid}">x</span>
+                    </td>
                     <td th:text="${expense.comment}">Comment</td>
                 </tr>
             </table>
