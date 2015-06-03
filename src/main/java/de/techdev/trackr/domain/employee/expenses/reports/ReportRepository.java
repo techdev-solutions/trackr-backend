@@ -28,7 +28,7 @@ public interface ReportRepository extends CrudRepository<Report, Long> {
     Page<Report> findByEmployeeAndStatusOrderByStatusAsc(@Param("employee") Employee employee, @Param("status") Report.Status status, Pageable pageable);
 
     @PreAuthorize("hasRole('ROLE_SUPERVISOR')")
-    Page<Report> findByStatusOrderByEmployee_LastNameAsc(@Param("status") Report.Status status, Pageable pageable);
+    Page<Report> findByStatus(@Param("status") Report.Status status, Pageable pageable);
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     List<Report> findBySubmissionDateBetween(@Param("start") Date start, @Param("end") Date end);
