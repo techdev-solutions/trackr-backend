@@ -1,6 +1,10 @@
 CREATE TABLE IF NOT EXISTS uuid_mapping (id int, uuid varchar);
+
+/* EMPLOYEE ADDRESSES */
+INSERT INTO address (id, version, street, housenumber, zipCode, city, country) VALUES (19, 0, 'Berliner Strasse', '94', '10117', 'Berlin', 'Deutschland');
+
 /* EMPLOYEES */
-INSERT INTO employee (id, version, email, firstName, lastName, title, hourlyCostRate, salary, federalState, joinDate, vacationEntitlement) VALUES (1, 0, 'moritz.schulze@techdev.de', 'John', 'Johnson', 'Software Engineer', 80, 50000, 'BERLIN', '2014-02-01', 30);
+INSERT INTO employee (id, version, email, firstName, lastName, title, hourlyCostRate, salary, federalState, joinDate, vacationEntitlement, address_id) VALUES (1, 0, 'moritz.schulze@techdev.de', 'John', 'Johnson', 'Software Engineer', 80, 50000, 'BERLIN', '2014-02-01', 30, 19);
 INSERT INTO employee (id, version, email, firstName, lastName, title, hourlyCostRate, salary, federalState, joinDate) VALUES (2, 0, 'viktor.widiker@techdev.de', 'Adam', 'Smith', 'Software Consultant', 85, 55000, 'BERLIN', '2014-07-01');
 INSERT INTO employee (id, version, email, firstName, lastName, title, hourlyCostRate, salary, federalState, joinDate) VALUES (3, 0, 'alexander.hanschke@techdev.de', 'William', 'Hanson', 'CEO', 85, 60000, 'BADEN_WUERTTEMBERG', '2013-09-01');
 INSERT INTO employee (id, version, email, firstName, lastName, title, hourlyCostRate, salary, federalState, joinDate) VALUES (4, 0, 'adrian.krion@techdev.de','Bill', 'Rust', 'Processes Consultant', 87, 58000, 'HESSEN', '2014-01-01');

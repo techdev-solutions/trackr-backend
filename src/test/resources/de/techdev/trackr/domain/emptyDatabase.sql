@@ -11,5 +11,5 @@ DELETE FROM vacationrequest;
 DELETE FROM worktime;
 DELETE FROM project;
 DELETE FROM company;
-DELETE FROM address;
 DELETE FROM employee;
+DELETE FROM address;
