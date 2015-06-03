@@ -18,10 +18,16 @@ import static java.util.stream.Collectors.reducing;
 @Getter
 @Setter
 public class CustomWorkTime implements Comparable<CustomWorkTime> {
+
     private Date date;
+
     private Long enteredMinutes;
+
     private Double hours;
+
     private Long billedTimeId;
+
+    private String comment;
 
     /**
      * Add up work times that belong to the same date.
@@ -36,17 +42,28 @@ public class CustomWorkTime implements Comparable<CustomWorkTime> {
         return mapped.values().stream().sorted().collect(Collectors.toList());
     }
 
-    public CustomWorkTime addOtherWorkTime(CustomWorkTime other) {
+    private CustomWorkTime addOtherWorkTime(CustomWorkTime other) {
         CustomWorkTime added = new CustomWorkTime();
         added.setDate(other.getDate());
         added.setEnteredMinutes(this.getEnteredMinutes() + other.getEnteredMinutes());
+        added.addComment(this.getComment());
+        added.addComment(other.getComment());
         return added;
+    }
+
+    private void addComment(String comment) {
+        if (getComment() == null) {
+            setComment(comment);
+        } else if(comment != null) {
+            setComment(this.comment + "\n" + comment);
+        }
     }
 
     public static CustomWorkTime valueOf(WorkTime workTime) {
         CustomWorkTime customWorkTime = new CustomWorkTime();
         customWorkTime.enteredMinutes = Duration.between(workTime.getStartTime().toLocalTime(), workTime.getEndTime().toLocalTime()).toMinutes();
         customWorkTime.date = workTime.getDate();
+        customWorkTime.comment = workTime.getComment();
         return customWorkTime;
     }
 
