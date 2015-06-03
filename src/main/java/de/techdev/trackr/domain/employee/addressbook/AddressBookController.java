@@ -35,7 +35,7 @@ public class AddressBookController {
     ) {
         Page<Employee> pageOfEmployees = employeeRepository.findAllForAddressBook(pageable);
         List<ReducedEmployee> reducedEmployees = transformToReducedEmployees(pageOfEmployees.getContent());
-        return new PagedResources<ReducedEmployee>(reducedEmployees, pageMetadataFromPage(pageOfEmployees));
+        return new PagedResources<>(reducedEmployees, pageMetadataFromPage(pageOfEmployees));
     }
 
     /**

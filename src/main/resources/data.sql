@@ -2,16 +2,22 @@ CREATE TABLE IF NOT EXISTS uuid_mapping (id int, uuid varchar);
 
 /* EMPLOYEE ADDRESSES */
 INSERT INTO address (id, version, street, housenumber, zipCode, city, country) VALUES (19, 0, 'Berliner Strasse', '94', '10117', 'Berlin', 'Deutschland');
+INSERT INTO address (id, version, street, housenumber, zipCode, city, country) VALUES (20, 0, 'Frankfurter Strasse', '1a', '10318', 'Berlin', 'Deutschland');
+INSERT INTO address (id, version, street, housenumber, zipCode, city, country) VALUES (21, 0, 'Architektenallee', '666', '76123', 'Karlsruhe', 'Deutschland');
+INSERT INTO address (id, version, street, housenumber, zipCode, city, country) VALUES (22, 0, 'Holzweg', '5', '64291', 'Darmstadt', 'Deutschland');
+INSERT INTO address (id, version, street, housenumber, zipCode, city, country) VALUES (23, 0, 'Ahornallee', '187', '10589', 'Berlin', 'Deutschland');
+INSERT INTO address (id, version, street, housenumber, zipCode, city, country) VALUES (24, 0, 'Markgrafenstrasse', '79', '15230', 'Berlin', 'Deutschland');
+INSERT INTO address (id, version, street, housenumber, zipCode, city, country) VALUES (25, 0, 'Kurfuerstendamm', '461', '10234', 'Berlin', 'Deutschland');
 
 /* EMPLOYEES */
 INSERT INTO employee (id, version, email, firstName, lastName, title, hourlyCostRate, salary, federalState, joinDate, vacationEntitlement, address_id) VALUES (1, 0, 'moritz.schulze@techdev.de', 'John', 'Johnson', 'Software Engineer', 80, 50000, 'BERLIN', '2014-02-01', 30, 19);
-INSERT INTO employee (id, version, email, firstName, lastName, title, hourlyCostRate, salary, federalState, joinDate) VALUES (2, 0, 'viktor.widiker@techdev.de', 'Adam', 'Smith', 'Software Consultant', 85, 55000, 'BERLIN', '2014-07-01');
-INSERT INTO employee (id, version, email, firstName, lastName, title, hourlyCostRate, salary, federalState, joinDate) VALUES (3, 0, 'alexander.hanschke@techdev.de', 'William', 'Hanson', 'CEO', 85, 60000, 'BADEN_WUERTTEMBERG', '2013-09-01');
-INSERT INTO employee (id, version, email, firstName, lastName, title, hourlyCostRate, salary, federalState, joinDate) VALUES (4, 0, 'adrian.krion@techdev.de','Bill', 'Rust', 'Processes Consultant', 87, 58000, 'HESSEN', '2014-01-01');
+INSERT INTO employee (id, version, email, firstName, lastName, title, hourlyCostRate, salary, federalState, joinDate, address_id) VALUES (2, 0, 'markus.kappel@techdev.de', 'Adam', 'Smith', 'Software Consultant', 85, 55000, 'BERLIN', '2014-07-01', 20);
+INSERT INTO employee (id, version, email, firstName, lastName, title, hourlyCostRate, salary, federalState, joinDate, address_id) VALUES (3, 0, 'alexander.hanschke@techdev.de', 'William', 'Hanson', 'CEO', 85, 60000, 'BADEN_WUERTTEMBERG', '2013-09-01', 21);
+INSERT INTO employee (id, version, email, firstName, lastName, title, hourlyCostRate, salary, federalState, joinDate, address_id) VALUES (4, 0, 'adrian.krion@techdev.de','Bill', 'Rust', 'Processes Consultant', 87, 58000, 'HESSEN', '2014-01-01', 22);
 INSERT INTO employee (id, version, email, firstName, lastName, title, hourlyCostRate, salary, federalState, joinDate) VALUES (5, 0, 'angelika.gutjahr@techdev.de', 'Jane', 'Dafoe', 'HR', 0, 500000, 'BADEN_WUERTTEMBERG', '2013-10-01');
-INSERT INTO employee (id, version, email, firstName, lastName, title, hourlyCostRate, salary, federalState) VALUES (6, 0, 'nikolaj.weise@techdev.de', 'Horace', 'Nottingham', 'External Consultant', 90, 0, 'BERLIN');
-INSERT INTO employee (id, version, email, firstName, lastName, title, hourlyCostRate, salary, federalState, joinDate, leaveDate) VALUES (7, 0, 'noop1@techdev.de', 'Vladimir', 'Wichowsko', 'Software Engineer', 80, 49000, 'BERLIN', '2013-11-01', '2014-02-15');
-INSERT INTO employee (id, version, email, firstName, lastName, title, hourlyCostRate, salary, federalState, joinDate) VALUES (8, 0, 'noop2@techdev.de', 'June', 'Hooper', 'Software Architect', 90, 65000, 'BAYERN', '2014-09-01');
+INSERT INTO employee (id, version, email, firstName, lastName, title, hourlyCostRate, salary, federalState, address_id) VALUES (6, 0, 'nikolaj.weise@techdev.de', 'Horace', 'Nottingham', 'External Consultant', 90, 0, 'BERLIN', 23);
+INSERT INTO employee (id, version, email, firstName, lastName, title, hourlyCostRate, salary, federalState, joinDate, address_id) VALUES (7, 0, 'jochen.toepfer@techdev.de', 'Vladimir', 'Wichowsko', 'Software Engineer', 80, 49000, 'BERLIN', '2013-11-01', 24);
+INSERT INTO employee (id, version, email, firstName, lastName, title, hourlyCostRate, salary, federalState, joinDate, address_id) VALUES (8, 0, 'mehmed.halilovic@techdev.de', 'John', 'Hooper', 'Software Architect', 90, 65000, 'BERLIN', '2014-09-01', 25);
 INSERT INTO employee (id, version, email, firstName, lastName, title, hourlyCostRate, salary, federalState, joinDate) VALUES (9, 0, 'noop3@techdev.de', 'Todd', 'Floyd', 'HR', 0, 45000, 'BADEN_WUERTTEMBERG', '2014-03-16');
 INSERT INTO employee (id, version, email, firstName, lastName, title, hourlyCostRate, salary, federalState, joinDate, leaveDate) VALUES (10, 0, 'noop4@techdev.de', 'Joanne', 'Doughty', 'Practicant', 0, 25000, 'SCHLESWIG_HOLSTEIN', '2013-11-01', '2013-12-15');
 INSERT INTO employee (id, version, email, firstName, lastName, title, hourlyCostRate, salary, federalState, joinDate) VALUES (11, 0, 'supervisor@techdev.de', 'Sean', 'Robinson', 'Software Engineer', 75, 51000, 'MECKLENBURG_VORPOMMERN', '2014-05-01');
