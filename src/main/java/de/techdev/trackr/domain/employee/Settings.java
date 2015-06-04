@@ -1,6 +1,5 @@
-package de.techdev.trackr.domain.employee.settings;
+package de.techdev.trackr.domain.employee;
 
-import de.techdev.trackr.domain.employee.Employee;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -13,6 +12,10 @@ import javax.validation.constraints.NotNull;
 @Setter
 @Table( uniqueConstraints = { @UniqueConstraint(columnNames = {"type", "employee_id"}) } )
 public class Settings {
+
+    public enum SettingsType {
+        LOCALE
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

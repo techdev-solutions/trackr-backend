@@ -1,4 +1,4 @@
-package de.techdev.trackr.domain.employee.settings;
+package de.techdev.trackr.domain.employee;
 
 import org.springframework.data.repository.Repository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
@@ -12,6 +12,6 @@ public interface SettingsRepository extends Repository<Settings, Long> {
 
     List<Settings> findByEmployee_Email(String email);
 
-    Settings findByTypeAndEmployee_Email(SettingsType type, String email);
+    Settings findByTypeAndEmployee_Email(Settings.SettingsType type, String email);
 
 }

@@ -2,9 +2,8 @@ package de.techdev.trackr.domain.employee.login;
 
 import de.techdev.trackr.domain.employee.Employee;
 import de.techdev.trackr.domain.employee.EmployeeRepository;
-import de.techdev.trackr.domain.employee.settings.Settings;
-import de.techdev.trackr.domain.employee.settings.SettingsRepository;
-import de.techdev.trackr.domain.employee.settings.SettingsType;
+import de.techdev.trackr.domain.employee.Settings;
+import de.techdev.trackr.domain.employee.SettingsRepository;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -44,7 +43,7 @@ public class PrincipalController {
         if (principal != null) {
             Employee employee = employeeRepository.findByEmail(principal.getName());
             if (employee != null) {
-                Settings localeSettings = settingsRepository.findByTypeAndEmployee_Email(SettingsType.LOCALE, employee.getEmail());
+                Settings localeSettings = settingsRepository.findByTypeAndEmployee_Email(Settings.SettingsType.LOCALE, employee.getEmail());
                 ReturnValue value = new ReturnValue();
                 value.locale = localeSettings.getValue();
                 value.id = employee.getId();
