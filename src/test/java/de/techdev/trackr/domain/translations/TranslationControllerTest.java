@@ -1,6 +1,6 @@
 package de.techdev.trackr.domain.translations;
 
-import de.techdev.trackr.domain.employee.settings.SettingsRepository;
+import de.techdev.trackr.domain.employee.SettingsRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;

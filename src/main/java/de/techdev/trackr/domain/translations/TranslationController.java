@@ -1,8 +1,7 @@
 package de.techdev.trackr.domain.translations;
 
-import de.techdev.trackr.domain.employee.settings.Settings;
-import de.techdev.trackr.domain.employee.settings.SettingsRepository;
-import de.techdev.trackr.domain.employee.settings.SettingsType;
+import de.techdev.trackr.domain.employee.Settings;
+import de.techdev.trackr.domain.employee.SettingsRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,7 +49,7 @@ public class TranslationController {
     @ResponseBody
     public String setLocale(@RequestParam("locale") Locale locale, HttpServletRequest request, HttpServletResponse response, Principal principal) {
         localeResolver.setLocale(request, response, locale);
-        Settings localeSettings = settingsRepository.findByTypeAndEmployee_Email(SettingsType.LOCALE, principal.getName());
+        Settings localeSettings = settingsRepository.findByTypeAndEmployee_Email(Settings.SettingsType.LOCALE, principal.getName());
         if (localeSettings == null) {
             log.error("Employee {} without locale settings.", principal.getName());
             return "Ok.";
