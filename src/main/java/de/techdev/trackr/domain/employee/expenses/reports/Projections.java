@@ -14,7 +14,7 @@ import java.util.List;
  */
 public class Projections {
     @Projection(types = Report.class, name = "overview")
-    public static interface TravelExpenseReportForOverviewProjection {
+    public interface TravelExpenseReportForOverviewProjection {
         Long getId();
 
         Employee getEmployee();
@@ -35,7 +35,7 @@ public class Projections {
     }
 
     @Projection(types = Report.class, name = "withEmployeeAndExpenses")
-    public static interface TravelExpenseReportWithEmployeeAndTravelExpensesProjection {
+    public interface TravelExpenseReportWithEmployeeAndTravelExpensesProjection {
         Long getId();
 
         Integer getVersion();
@@ -50,7 +50,7 @@ public class Projections {
     }
 
     @Projection(types = Report.class, name = "withExpensesAndDebitor")
-    public static interface TravelExpenseReportWithExpensesAndDebitorProjection {
+    public interface TravelExpenseReportWithExpensesAndDebitorProjection {
         Long getId();
 
         Integer getVersion();
@@ -65,24 +65,5 @@ public class Projections {
 
         Company getDebitor();
     }
-
-    @Projection(types = Report.class, name = "withExpensesAndDebitorAndProject")
-    public static interface TravelExpenseReportWithTravelExpensesProjection {
-
-        Long getId();
-
-        Integer getVersion();
-
-        List<TravelExpense> getExpenses();
-
-        Report.Status getStatus();
-
-        Date getSubmissionDate();
-
-        Company getDebitor();
-
-        Project getProject();
-    }
-
 
 }

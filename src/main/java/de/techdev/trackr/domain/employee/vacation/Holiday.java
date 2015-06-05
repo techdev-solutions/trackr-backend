@@ -1,7 +1,8 @@
 package de.techdev.trackr.domain.employee.vacation;
 
 import de.techdev.trackr.domain.common.FederalState;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -10,7 +11,8 @@ import java.util.Date;
  * @author Moritz Schulze
  */
 @Entity
-@Data
+@Getter
+@Setter
 public class Holiday {
 
     @Id

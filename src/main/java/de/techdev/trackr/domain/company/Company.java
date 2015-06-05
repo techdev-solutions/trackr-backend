@@ -2,9 +2,9 @@ package de.techdev.trackr.domain.company;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import de.techdev.trackr.domain.project.Project;
-import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
@@ -16,8 +16,8 @@ import java.util.List;
 /**
  * @author Moritz Schulze
  */
-@Data
-@ToString(exclude = {"contactPersons", "address", "projects", "debitorProjects"})
+@Getter
+@Setter
 @EqualsAndHashCode(exclude = "contactPersons")
 @Entity
 @JsonIgnoreProperties({"debitorProjects"})

@@ -138,7 +138,6 @@ public class ReportResourceSecurityTest extends AbstractDomainResourceSecurityTe
     public void approveAllowedForSupervisor() throws Exception {
         ResponseEntity<String> response = restTemplate.exchange(host + "/travelExpenseReports/0/approve", HttpMethod.PUT, HttpEntity.EMPTY, String.class);
         assertThat(response, isNoContent());
-
     }
 
     @Test
@@ -146,6 +145,19 @@ public class ReportResourceSecurityTest extends AbstractDomainResourceSecurityTe
     public void rejectAllowedForSupervisor() throws Exception {
         ResponseEntity<String> response = restTemplate.exchange(host + "/travelExpenseReports/0/reject", HttpMethod.PUT, HttpEntity.EMPTY, String.class);
         assertThat(response, isNoContent());
+    }
+
+    @Test
+    @OAuthRequest("ROLE_SUPERVISOR")
+    public void findByStatusAllowedForSupervisor() throws Exception {
+        ResponseEntity<String> response = restTemplate.getForEntity(host + "/travelExpenseReports/search/findByStatus?status=SUBMITTED", String.class);
+        assertThat(response, isAccessible());
+    }
+
+    @Test
+    public void findByStatusNotAllowedForEmployee() throws Exception {
+        ResponseEntity<String> response = restTemplate.getForEntity(host + "/travelExpenseReports/search/findByStatus?status=SUBMITTED", String.class);
+        assertThat(response, isForbidden());
     }
 
 }

@@ -1,6 +1,7 @@
 package de.techdev.trackr.domain.company;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
@@ -9,7 +10,8 @@ import javax.persistence.*;
  * @author Moritz Schulze
  */
 @Entity
-@Data
+@Getter
+@Setter
 public class Address {
 
     @Id

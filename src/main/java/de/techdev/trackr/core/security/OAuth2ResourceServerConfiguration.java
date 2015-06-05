@@ -9,6 +9,8 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
@@ -16,6 +18,7 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
 
 import javax.sql.DataSource;
+import java.util.Collections;
 
 @Profile("oauth")
 @Configuration
@@ -44,8 +47,12 @@ public class OAuth2ResourceServerConfiguration extends ResourceServerConfigurerA
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
+        User anonymousUser =
+                new User("anonymous", "EMPTY", Collections.singletonList(new SimpleGrantedAuthority("ROLE_ANONYMOUS")));
+
         http
-                .anonymous().authorities("ROLE_ANONYMOUS") //TODO not sure if this is needed anymore
+                .anonymous()
+                .principal(anonymousUser)
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // since this is just a REST API we don't need a state.
                 .and().requestMatchers().antMatchers("/**")
                 .and().authorizeRequests()
@@ -55,7 +62,6 @@ public class OAuth2ResourceServerConfiguration extends ResourceServerConfigurerA
                 .antMatchers(HttpMethod.POST, "/**").access("#oauth2.hasScope('write')")
                 .antMatchers(HttpMethod.PUT, "/**").access("#oauth2.hasScope('write')")
                 .antMatchers(HttpMethod.DELETE, "/**").access("#oauth2.hasScope('write')");
-
 
         http.headers().addHeaderWriter((request, response) -> {
             response.setHeader("Access-Control-Allow-Origin", "*");

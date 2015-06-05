@@ -1,31 +1,27 @@
 package de.techdev.trackr.domain.employee.expenses.reports;
 
 import de.techdev.trackr.domain.employee.Employee;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.rest.core.annotation.*;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;
 
 @RepositoryEventHandler(Report.class)
-@Slf4j
+@SuppressWarnings("unused")
 public class ReportEventHandler {
 
     @HandleBeforeCreate
     @PreAuthorize("#travelExpenseReport.employee.email == principal?.username")
     public void checkCreateAuthority(Report travelExpenseReport) {
-        log.debug("Creating travel expense report {}", travelExpenseReport);
     }
 
     @HandleBeforeSave
     @PreAuthorize("hasRole('ROLE_SUPERVISOR')")
     public void checkUpdateAuthority(Report travelExpenseReport) {
-        log.debug("Updating travel expense report {}", travelExpenseReport);
     }
 
     @HandleBeforeDelete
     @PreAuthorize("@reportEventHandler.employeeCanDeleteReport(#travelExpenseReport, principal?.username) or hasRole('ROLE_ADMIN')")
     public void checkDeleteAuthority(Report travelExpenseReport) {
-        log.debug("Deleting travel expense report {}", travelExpenseReport);
     }
 
     @HandleBeforeLinkSave

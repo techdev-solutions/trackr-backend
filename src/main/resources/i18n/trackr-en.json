@@ -103,7 +103,8 @@
         "VAT": "VAT",
         "COST": "Total",
         "COMMENT": "Comment",
-        "SUBMITTED": "Submitted"
+        "SUBMITTED": "Submitted",
+        "PAID": "Paid"
     },
     "TRAVEL_EXPENSE_REPORT": {
         "TRAVEL_EXPENSE_REPORT": "Travel expense report",
@@ -175,7 +176,8 @@
             "TEXT_VACATION": "Vacation request",
             "EXPENSES": {
                 "TITLE": "Travel expenses",
-                "DELETE_FORBIDDEN": "You cannot delete this report."
+                "DELETE_FORBIDDEN": "You cannot delete this report.",
+                "REIMBURSEMENT": "Reimbursement"
             },
             "TEXT_TIMESHEET_OVERVIEW": "Working times overview",
             "TIMESHEET_OVERVIEW": {
@@ -215,7 +217,8 @@
             "TRAVEL_EXPENSE_REPORTS": {
                 "TITLE": "Travel expenses",
                 "EMPTY_TEXT": "No submitted travel expense reports.",
-                "JUMP_TO_REPORT": "jump to report"
+                "JUMP_TO_REPORT": "jump to report",
+                "APPROVED_BY": "Approved by"
             },
             "TRAVEL_EXPENSE_REPORT": {
                 "NOT_FOUND": "Travel expense report #{{id}} not found.",

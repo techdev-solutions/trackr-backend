@@ -17,19 +17,19 @@ public class UuidMapperTest {
 
     @Test
     public void extractUuid() throws Exception {
-        String uuid = uuidMapper.extractUUUIDfromString("7f08028d-700e-47b4-bec0-b82192d0f1c0");
+        String uuid = uuidMapper.extractUUIDFromString("7f08028d-700e-47b4-bec0-b82192d0f1c0");
         assertThat(uuid, is("7f08028d-700e-47b4-bec0-b82192d0f1c0"));
     }
 
     @Test
     public void extractUuidWithPrefix() throws Exception {
-        String uuid = uuidMapper.extractUUUIDfromString("TEST 7f08028d-700e-47b4-bec0-b82192d0f1c0");
+        String uuid = uuidMapper.extractUUIDFromString("TEST 7f08028d-700e-47b4-bec0-b82192d0f1c0");
         assertThat(uuid, is("7f08028d-700e-47b4-bec0-b82192d0f1c0"));
     }
 
     @Test
     public void extractUuidWithPrefixAndSuffix() throws Exception {
-        String uuid = uuidMapper.extractUUUIDfromString("TEST 7f08028d-700e-47b4-bec0-b82192d0f1c0 TEST2");
+        String uuid = uuidMapper.extractUUIDFromString("TEST 7f08028d-700e-47b4-bec0-b82192d0f1c0 TEST2");
         assertThat(uuid, is("7f08028d-700e-47b4-bec0-b82192d0f1c0"));
     }
 }

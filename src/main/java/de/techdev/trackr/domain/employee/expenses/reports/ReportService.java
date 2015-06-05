@@ -22,18 +22,22 @@ public class ReportService {
 
     @PreAuthorize("#travelExpenseReport.employee.email == principal?.username")
     public Report submit(Report travelExpenseReport) {
-        travelExpenseReportNotifyService.sendSubmittedReportMail(travelExpenseReport);
+        travelExpenseReportNotifyService.notifySupervisorsOnSubmission(travelExpenseReport);
         return setStatusOnTravelExpenseReport(travelExpenseReport, Report.Status.SUBMITTED, null);
     }
 
     @PreAuthorize("hasRole('ROLE_SUPERVISOR') and #travelExpenseReport.employee.email != principal?.username")
     public Report accept(Report travelExpenseReport, String approverName) {
-        return setStatusOnTravelExpenseReport(travelExpenseReport, Report.Status.APPROVED, approverName);
+        Report acceptedReport = setStatusOnTravelExpenseReport(travelExpenseReport, Report.Status.APPROVED, approverName);
+        travelExpenseReportNotifyService.notifyEmployeeOnApproval(acceptedReport);
+        return acceptedReport;
     }
 
     @PreAuthorize("hasRole('ROLE_SUPERVISOR') and #travelExpenseReport.employee.email != principal?.username")
     public Report reject(Report travelExpenseReport, String rejecterName) {
-        return setStatusOnTravelExpenseReport(travelExpenseReport, Report.Status.REJECTED, rejecterName);
+        Report rejectedReport = setStatusOnTravelExpenseReport(travelExpenseReport, Report.Status.REJECTED, rejecterName);
+        travelExpenseReportNotifyService.notifyEmployeeOnRejection(rejectedReport);
+        return rejectedReport;
     }
 
     private Report setStatusOnTravelExpenseReport(Report travelExpenseReport, Report.Status status, String approverName) {

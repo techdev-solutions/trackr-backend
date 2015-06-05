@@ -1,8 +1,7 @@
 package de.techdev.trackr.domain.common;
 
-import de.techdev.trackr.domain.employee.settings.Settings;
-import de.techdev.trackr.domain.employee.settings.SettingsRepository;
-import de.techdev.trackr.domain.employee.settings.SettingsType;
+import de.techdev.trackr.domain.employee.Settings;
+import de.techdev.trackr.domain.employee.SettingsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContext;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -63,7 +62,7 @@ public class EmployeeSettingsLocaleResolver implements LocaleContextResolver {
                 Object principal = authentication.getPrincipal();
                 if (User.class.isAssignableFrom(principal.getClass())) {
                     String username = ((User) principal).getUsername();
-                    Settings localeSetting = settingsRepository.findByTypeAndEmployee_Email(SettingsType.LOCALE, username);
+                    Settings localeSetting = settingsRepository.findByTypeAndEmployee_Email(Settings.SettingsType.LOCALE, username);
                     if (localeSetting != null) {
                         locale = Locale.forLanguageTag(localeSetting.getValue());
                     }

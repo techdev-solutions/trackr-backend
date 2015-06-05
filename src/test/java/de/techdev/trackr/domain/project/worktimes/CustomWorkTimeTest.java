@@ -21,15 +21,25 @@ public class CustomWorkTimeTest {
         assertThat(reduced.get(1).getEnteredMinutes(), is(480L));
     }
 
+    @Test
+    public void reduceAndSortWorkTimesPreservesComments() throws Exception {
+        List<CustomWorkTime> reduced = CustomWorkTime.reduceAndSortWorktimes(createCustomWorkTimes());
+        assertThat(reduced.get(0).getComment(), is("Hallo1\nHallo2"));
+        assertThat(reduced.get(1).getComment(), is("Hallo3"));
+    }
+
     private List<CustomWorkTime> createCustomWorkTimes() throws ParseException {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         CustomWorkTime ctw1 = new CustomWorkTime();
         ctw1.setDate(sdf.parse("2014-01-01"));
         ctw1.setEnteredMinutes(240L);
+        ctw1.setComment("Hallo1");
         CustomWorkTime ctw2 = new CustomWorkTime();
         ctw2.setDate(sdf.parse("2014-01-01"));
+        ctw2.setComment("Hallo2");
         ctw2.setEnteredMinutes(60L);
         CustomWorkTime ctw3 = new CustomWorkTime();
+        ctw3.setComment("Hallo3");
         ctw3.setDate(sdf.parse("2014-01-02"));
         ctw3.setEnteredMinutes(480L);
         return asList(ctw1, ctw2, ctw3);
@@ -43,5 +53,16 @@ public class CustomWorkTimeTest {
         workTime21.setEndTime(Time.valueOf("17:00:00"));
         CustomWorkTime customWorkTime = CustomWorkTime.valueOf(workTime21);
         assertThat(customWorkTime.getEnteredMinutes(), is(480L));
+    }
+
+    @Test
+    public void customWorkTimeTransfersTheCommentFromTheWorkTime() throws Exception {
+        WorkTime workTime21 = new WorkTime();
+        workTime21.setDate(new Date());
+        workTime21.setComment("Hallo");
+        workTime21.setStartTime(Time.valueOf("09:00:00"));
+        workTime21.setEndTime(Time.valueOf("17:00:00"));
+        CustomWorkTime customWorkTime = CustomWorkTime.valueOf(workTime21);
+        assertThat(customWorkTime.getComment(), is("Hallo"));
     }
 }

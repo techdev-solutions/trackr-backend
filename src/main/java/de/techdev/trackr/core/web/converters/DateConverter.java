@@ -39,13 +39,13 @@ public class DateConverter implements Converter<String, Date> {
             try {
                 date = date10.parse(source);
             } catch (ParseException e) {
-                throw new IllegalArgumentException(String.format("%s is not a valid yyyy-MM-dd date.", source));
+                throw new IllegalArgumentException(String.format("%s is not a valid yyyy-MM-dd date.", source), e);
             }
         } else if(source.length() == 19) {
             try {
                 date = date19.parse(source);
             } catch (ParseException e) {
-                throw new IllegalArgumentException(String.format("%s is not a valid yyyy-MM-dd HH:mm:ss date.", source));
+                throw new IllegalArgumentException(String.format("%s is not a valid yyyy-MM-dd HH:mm:ss date.", source), e);
             }
         } else {
             throw new IllegalArgumentException(String.format("%s is not convertible by this Date converter", source));
