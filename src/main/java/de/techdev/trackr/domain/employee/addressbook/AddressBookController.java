@@ -30,12 +30,12 @@ public class AddressBookController {
     @PreAuthorize("hasRole('ROLE_EMPLOYEE')")
     @ResponseBody
     @RequestMapping(method = RequestMethod.GET, produces = "application/hal+json")
-    public Resources<ReducedEmployee> getAddressList(
+    public Resources<EmployeeForAddressBookDTO> getAddressList(
             @PageableDefault(sort = "lastName") Pageable pageable
     ) {
         Page<Employee> pageOfEmployees = employeeRepository.findAllForAddressBook(pageable);
-        List<ReducedEmployee> reducedEmployees = transformToReducedEmployees(pageOfEmployees.getContent());
-        return new PagedResources<>(reducedEmployees, pageMetadataFromPage(pageOfEmployees));
+        List<EmployeeForAddressBookDTO> employeeForAddressBookDTOs = transformToReducedEmployees(pageOfEmployees.getContent());
+        return new PagedResources<>(employeeForAddressBookDTOs, pageMetadataFromPage(pageOfEmployees));
     }
 
     /**
@@ -44,10 +44,10 @@ public class AddressBookController {
      * @param listOfEmployees The list to transform
      * @return The transformed list.
      */
-    protected List<ReducedEmployee> transformToReducedEmployees(List<Employee> listOfEmployees) {
+    protected List<EmployeeForAddressBookDTO> transformToReducedEmployees(List<Employee> listOfEmployees) {
         return listOfEmployees
                 .stream()
-                .map(ReducedEmployee::valueOf)
+                .map(EmployeeForAddressBookDTO::valueOf)
                 .collect(Collectors.toList());
     }
 

@@ -8,7 +8,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.util.LinkedMultiValueMap;
@@ -21,7 +20,6 @@ import java.math.BigDecimal;
 import static de.techdev.test.rest.DomainResourceTestMatchers.isAccessible;
 import static de.techdev.test.rest.DomainResourceTestMatchers.isForbidden;
 import static java.util.Collections.singletonList;
-import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 @Sql("resourceTest.sql")
@@ -52,18 +50,6 @@ public class EmployeeControllerSecurityTest extends AbstractRestIntegrationTest 
         ResponseEntity<String> response = restTemplate
                 .exchange(host + "/employees/0/self", HttpMethod.PUT, request, String.class);
         assertThat(response, isAccessible());
-    }
-
-    @Test
-    public void updateSelfViaPutReturns400() throws Exception {
-        MultiValueMap<String, String> headers = new LinkedMultiValueMap<String, String>() {{
-            put("Content-Type", singletonList("application/json; charset=utf-8"));
-        }};
-        HttpEntity<String> request = new HttpEntity<>("{\"phoneNumber\": \"12345\"}", headers);
-
-        ResponseEntity<String> response = restTemplate
-                .exchange(host + "/employees/0/self", HttpMethod.PUT, request, String.class);
-        assertThat(response.getStatusCode(), is(HttpStatus.BAD_REQUEST));
     }
 
     @Test
