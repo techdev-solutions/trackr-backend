@@ -6,9 +6,6 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
 
-/**
- * @author Moritz Schulze
- */
 @Entity
 @Getter
 @Setter
