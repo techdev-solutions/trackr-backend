@@ -46,7 +46,8 @@
         "JOIN_DATE": "Join date",
         "LEAVE_DATE": "Leave date",
         "FEDERAL_STATE": "Federal state",
-        "VACATION_ENTITLEMENT": "Vacation entitlement"
+        "VACATION_ENTITLEMENT": "Vacation entitlement",
+        "DELETED": "deleted"
     },
     "CREDENTIAL": {
         "EMAIL": "E-Mail",
