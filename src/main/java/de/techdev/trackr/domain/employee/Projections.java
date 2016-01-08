@@ -40,6 +40,8 @@ public class Projections {
 
         Address getAddress();
 
+        boolean isDeleted();
+
     }
 
 }

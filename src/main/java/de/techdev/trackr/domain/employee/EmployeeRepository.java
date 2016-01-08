@@ -44,7 +44,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
      * Filters the admin out. Only used for the address book.
      */
     @RestResource(exported = false)
-    @Query("select e from Employee e where e.email <> 'admin@techdev.de'")
+    @Query("select e from Employee e where e.email <> 'admin@techdev.de' and e.deleted = false")
     Page<Employee> findAllForAddressBook(Pageable pageable);
 
     @RestResource(exported = false)

@@ -86,6 +86,8 @@ public class Employee {
     @OneToOne(orphanRemoval = true)
     private Address address;
 
+    private boolean deleted;
+
     public String fullName() {
         return getFirstName() + " " + getLastName();
     }

@@ -46,7 +46,8 @@
         "JOIN_DATE": "Eintrittsdatum",
         "LEAVE_DATE": "Austrittsdatum",
         "FEDERAL_STATE": "Bundesland",
-        "VACATION_ENTITLEMENT": "Urlaubsanspruch"
+        "VACATION_ENTITLEMENT": "Urlaubsanspruch",
+        "DELETED": "gelöscht"
     },
     "CREDENTIAL": {
         "EMAIL": "E-Mail",

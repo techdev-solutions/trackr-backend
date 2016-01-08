@@ -1,6 +1,6 @@
 -- data for the travel expense report comment resource test
-INSERT INTO employee (id, federalstate, firstname, hourlycostrate, joindate, lastname, phonenumber, salary, title, vacationentitlement, version, email)
- VALUES (0, 'BERLIN', 'Firstname', 100, '2014-06-06', 'Lastname', 'Phonenumber', 40000, 'Title', 30, 0, 'employee@techdev.de');
+INSERT INTO employee (id, federalstate, firstname, hourlycostrate, joindate, lastname, phonenumber, salary, title, vacationentitlement, version, email, deleted)
+ VALUES (0, 'BERLIN', 'Firstname', 100, '2014-06-06', 'Lastname', 'Phonenumber', 40000, 'Title', 30, 0, 'employee@techdev.de', false);
 
 INSERT INTO address (id, city, country, housenumber, street, version, zipcode)
   VALUES (0, 'City', 'Country', '13', 'Street', 0, 'zipcode');
