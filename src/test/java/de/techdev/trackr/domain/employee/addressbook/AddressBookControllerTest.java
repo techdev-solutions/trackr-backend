@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import java.util.List;
 
-import static java.util.Arrays.asList;
+import static java.util.Collections.singletonList;
 import static org.echocat.jomon.testing.BaseMatchers.isNotEmpty;
 import static org.junit.Assert.assertThat;
 
@@ -22,8 +22,8 @@ public class AddressBookControllerTest {
     @Test
     public void transformEmployees() throws Exception {
         Employee employee = new Employee();
-        List<Employee> listOfEmployees = asList(employee);
-        List<ReducedEmployee> reducedEmployees = addressBookController.transformToReducedEmployees(listOfEmployees);
-        assertThat(reducedEmployees, isNotEmpty());
+        List<Employee> listOfEmployees = singletonList(employee);
+        List<EmployeeForAddressBookDTO> employeeForAddressBookDTOs = addressBookController.transformToReducedEmployees(listOfEmployees);
+        assertThat(employeeForAddressBookDTOs, isNotEmpty());
     }
 }
