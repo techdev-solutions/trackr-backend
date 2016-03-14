@@ -36,7 +36,7 @@ public class SickDaysEventHandler {
 
     @HandleBeforeLinkDelete
     @PreAuthorize("denyAll()")
-    public void checkLiknkSaveAuthority(SickDays sickDays) {
+    public void checkLinkSaveAuthority(SickDays sickDays, Object linkedEntity) {
         //deny all
     }
 }

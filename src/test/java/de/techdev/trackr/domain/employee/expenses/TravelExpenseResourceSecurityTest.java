@@ -29,9 +29,14 @@ public class TravelExpenseResourceSecurityTest extends AbstractDomainResourceSec
     }
 
     @Test
-    @OAuthRequest("ROLE_ADMIN")
-    public void oneNotExported() throws Exception {
-        assertThat(one(0L), isMethodNotAllowed());
+    @OAuthRequest(value = "ROLE_ADMIN", username = "admin@techdev.de")
+    public void oneForbiddenForOther() throws Exception {
+        assertThat(one(0L), isForbidden());
+    }
+
+    @Test
+    public void oneAllowedForSelf() throws Exception {
+        assertThat(one(0L), isAccessible());
     }
 
     @Test

@@ -42,14 +42,14 @@ public class VacationRequestResourceSecurityTest extends AbstractDomainResourceS
 
     @Test
     public void findByEmployeeOrderByStartDateAscAllowedForEmployee() throws Exception {
-        ResponseEntity<String> response = restTemplate.getForEntity(host + "/vacationRequests/search/findByEmployeeOrderByStartDateAsc?employee=0", String.class);
+        ResponseEntity<String> response = restTemplate.getForEntity(host + "/vacationRequests/search/findByEmployeeOrderByStartDateAsc?employee=/employees/0", String.class);
         assertThat(response, isAccessible());
     }
 
     @Test
     @OAuthRequest(value = "ROLE_SUPERVISOR", username = "supervisor@techdev.de")
     public void findByEmployeeOrderByStartDateAscAllowedForSupervisor() throws Exception {
-        ResponseEntity<String> response = restTemplate.getForEntity(host + "/vacationRequests/search/findByEmployeeOrderByStartDateAsc?employee=0", String.class);
+        ResponseEntity<String> response = restTemplate.getForEntity(host + "/vacationRequests/search/findByEmployeeOrderByStartDateAsc?employee=/employees/0", String.class);
         assertThat(response, isAccessible());
     }
 
