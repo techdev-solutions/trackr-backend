@@ -29,7 +29,7 @@ public class CommentEventHandler {
 
     @HandleBeforeLinkDelete
     @PreAuthorize("denyAll()")
-    public void checkLinkDeleteAuthority(Comment comment) {
+    public void checkLinkDeleteAuthority(Comment comment, Object linkedEntity) {
         //deny all
     }
 }

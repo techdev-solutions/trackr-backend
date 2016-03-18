@@ -33,7 +33,7 @@ public class ContactPersonEventHandler {
 
     @HandleBeforeLinkDelete
     @PreAuthorize("denyAll()")
-    public void checkLinkDeleteAuthority(ContactPerson contactPerson) {
+    public void checkLinkDeleteAuthority(ContactPerson contactPerson, Object linkedEntity) {
         // only security check
     }
 }

@@ -37,7 +37,7 @@ public class ReportEventHandler {
 
     @HandleBeforeLinkDelete
     @PreAuthorize("hasRole('ROLE_SUPERVISOR') or #travelExpenseReport.employee.email == principal?.username")
-    public void checkLinkDeleteAuthority(Report travelExpenseReport) {
+    public void checkLinkDeleteAuthority(Report travelExpenseReport, Object linkedEntity) {
         if(travelExpenseReport.getEmployee() == null) {
             throw new AccessDeniedException("Employee is not deletable on a travel expense report.");
         }

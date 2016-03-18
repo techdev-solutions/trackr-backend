@@ -34,6 +34,6 @@ public class CompanyEventHandler {
 
     @HandleBeforeLinkDelete
     @PreAuthorize("hasRole('ROLE_SUPERVISOR')")
-    public void beforeDeleteContactPerson(Company company) {
+    public void beforeDeleteContactPerson(Company company, Object contactPerson) {
     }
 }

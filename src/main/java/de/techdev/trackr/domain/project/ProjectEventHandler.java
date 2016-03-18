@@ -32,6 +32,6 @@ public class ProjectEventHandler {
 
     @HandleBeforeLinkDelete
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public void checkLinkDeletePermission(Project project) {
+    public void checkLinkDeletePermission(Project project, Object linkedEntity) {
     }
 }

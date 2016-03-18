@@ -3,10 +3,10 @@
     <property name="charset" value="UTF-8"/>
     <property name="pattern" value="%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"/>
 
-    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
-        <file>/var/log/trackr-backend.log</file>
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>/opt/techdev/trackr-backend/logs/trackr-backend.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>/var/log/trackr-backend_%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <fileNamePattern>/opt/techdev/trackr-backend/logs/trackr-backend_%d{yyyy-MM-dd}.%i.log</fileNamePattern>
             <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
                 <maxFileSize>5MB</maxFileSize>
             </timeBasedFileNamingAndTriggeringPolicy>

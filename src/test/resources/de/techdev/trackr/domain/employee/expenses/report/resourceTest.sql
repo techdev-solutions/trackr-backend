@@ -16,3 +16,6 @@ INSERT INTO travelExpenseReport (id, version, employee_id, status, submissionDat
 
 INSERT INTO travelExpenseReport (id, version, employee_id, status, submissionDate, debitor_id)
  VALUES (1, 0, 0, 'SUBMITTED', '2015-01-25 09:30:21', 0);
+
+INSERT INTO travelexpense (id, cost, fromdate, submissiondate, todate, type, vat, version, report_id, comment, paid)
+  VALUES (0, 100, '2015-01-01', '2015-02-01 13:41:13', '2015-02-13', 'TAXI', 13, 0, 0, 'Comment', false);
