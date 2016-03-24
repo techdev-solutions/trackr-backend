@@ -32,6 +32,6 @@ public class BillableTimeEventHandler {
 
     @HandleBeforeLinkDelete
     @PreAuthorize("denyAll()")
-    public void checkLinkDeleteAuthority(BillableTime billableTime) {
+    public void checkLinkDeleteAuthority(BillableTime billableTime, Object linkedEntity) {
     }
 }

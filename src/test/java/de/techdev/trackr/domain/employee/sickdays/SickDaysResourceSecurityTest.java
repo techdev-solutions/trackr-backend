@@ -82,7 +82,7 @@ public class SickDaysResourceSecurityTest extends AbstractDomainResourceSecurity
 
     @Test
     public void findByEmployeeIsAllowedForEmployee() throws Exception {
-        assertThat(oneUrl("/sickDays/search/findByEmployee?employee=0"), isAccessible());
+        assertThat(oneUrl("/sickDays/search/findByEmployee?employee=/employees/0"), isAccessible());
     }
 
     @Test

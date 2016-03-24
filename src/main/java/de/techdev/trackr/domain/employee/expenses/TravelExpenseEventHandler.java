@@ -31,7 +31,7 @@ public class TravelExpenseEventHandler {
 
     @HandleBeforeLinkDelete
     @PreAuthorize("denyAll()")
-    public void denyLinkDelete(TravelExpense travelExpense) {
+    public void denyLinkDelete(TravelExpense travelExpense, Object linkedEntity) {
         //links are not deletable.
     }
 

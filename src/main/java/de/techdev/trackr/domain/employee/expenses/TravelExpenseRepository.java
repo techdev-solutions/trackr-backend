@@ -2,6 +2,7 @@ package de.techdev.trackr.domain.employee.expenses;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.rest.core.annotation.RestResource;
+import org.springframework.security.access.prepost.PostAuthorize;
 
 /**
  * @author Moritz Schulze
@@ -13,6 +14,6 @@ public interface TravelExpenseRepository extends CrudRepository<TravelExpense, L
     Iterable<TravelExpense> findAll();
 
     @Override
-    @RestResource(exported = false)
+    @PostAuthorize("returnObject?.report.employee.email == principal?.username")
     TravelExpense findOne(Long aLong);
 }

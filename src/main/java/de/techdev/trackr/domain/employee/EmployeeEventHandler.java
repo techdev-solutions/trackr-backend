@@ -37,7 +37,7 @@ public class EmployeeEventHandler {
 
     @HandleBeforeLinkDelete
     @PreAuthorize("denyAll()")
-    public void deleteCredentialForbidden(Employee employee) {
+    public void deleteCredentialForbidden(Employee employee, Object credential) {
         //deny all, cannot be called
     }
 }

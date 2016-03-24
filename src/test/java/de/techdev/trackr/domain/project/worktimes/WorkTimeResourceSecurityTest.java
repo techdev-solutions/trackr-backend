@@ -126,7 +126,7 @@ public class WorkTimeResourceSecurityTest extends AbstractDomainResourceSecurity
     @Test
     public void findByEmployeeAndDateOrderByStartTimeAscAllowedForOwner() throws Exception {
         ResponseEntity<String> response = restTemplate
-                .getForEntity(host + "/workTimes/search/findByEmployeeAndDateOrderByStartTimeAsc?employee=0&date=2014-01-01", String.class);
+                .getForEntity(host + "/workTimes/search/findByEmployeeAndDateOrderByStartTimeAsc?employee=/employees/0&date=2014-01-01", String.class);
         assertThat(response, isAccessible());
     }
 
@@ -134,7 +134,7 @@ public class WorkTimeResourceSecurityTest extends AbstractDomainResourceSecurity
     @OAuthRequest(value = "ROLE_SUPERVISOR", username = "supervisor@techdev.de")
     public void findByEmployeeAndDateOrderByStartTimeAscAllowedForSupervisor() throws Exception {
         ResponseEntity<String> response = restTemplate
-                .getForEntity(host + "/workTimes/search/findByEmployeeAndDateOrderByStartTimeAsc?employee=0&date=2014-01-01", String.class);
+                .getForEntity(host + "/workTimes/search/findByEmployeeAndDateOrderByStartTimeAsc?employee=/employees/0&date=2014-01-01", String.class);
         assertThat(response, isAccessible());
     }
 
@@ -157,7 +157,7 @@ public class WorkTimeResourceSecurityTest extends AbstractDomainResourceSecurity
     @Test
     public void findByEmployeeAndDateBetweenOrderByDateAscStartTimeAscAllowedForOwner() throws Exception {
         ResponseEntity<String> response = restTemplate
-                .getForEntity(host + "/workTimes/search/findByEmployeeAndDateBetweenOrderByDateAscStartTimeAsc?employee=0&start=2014-01-01&end=2014-01-31", String.class);
+                .getForEntity(host + "/workTimes/search/findByEmployeeAndDateBetweenOrderByDateAscStartTimeAsc?employee=/employees/0&start=2014-01-01&end=2014-01-31", String.class);
         assertThat(response, isAccessible());
     }
 
@@ -165,7 +165,7 @@ public class WorkTimeResourceSecurityTest extends AbstractDomainResourceSecurity
     @OAuthRequest(value = "ROLE_SUPERVISOR", username = "supervisor@techdev.de")
     public void findByEmployeeAndDateBetweenOrderByDateAscStartTimeAscAllowedForSupervisor() throws Exception {
         ResponseEntity<String> response = restTemplate
-                .getForEntity(host + "/workTimes/search/findByEmployeeAndDateBetweenOrderByDateAscStartTimeAsc?employee=0&start=2014-01-01&end=2014-01-31", String.class);
+                .getForEntity(host + "/workTimes/search/findByEmployeeAndDateBetweenOrderByDateAscStartTimeAsc?employee=/employees/0&start=2014-01-01&end=2014-01-31", String.class);
         assertThat(response, isAccessible());
     }
 
@@ -179,7 +179,7 @@ public class WorkTimeResourceSecurityTest extends AbstractDomainResourceSecurity
     @OAuthRequest(username = "someone.else@techdev.de")
     public void findByEmployeeAndDateBetweenOrderByDateAscStartTimeAscForbiddenForOther() throws Exception {
         ResponseEntity<String> response = restTemplate
-                .getForEntity(host + "/workTimes/search/findByEmployeeAndDateBetweenOrderByDateAscStartTimeAsc?employee=0&start=2014-01-01&end=2014-01-31", String.class);
+                .getForEntity(host + "/workTimes/search/findByEmployeeAndDateBetweenOrderByDateAscStartTimeAsc?employee=/employees/0&start=2014-01-01&end=2014-01-31", String.class);
         assertThat(response, isForbidden());
     }
 
@@ -193,7 +193,7 @@ public class WorkTimeResourceSecurityTest extends AbstractDomainResourceSecurity
     @OAuthRequest(username = "someone.else@techdev.de")
     public void findByEmployeeAndDateOrderByStartTimeAscForbiddenForOther() throws Exception {
         ResponseEntity<String> response = restTemplate
-                .getForEntity(host + "/workTimes/search/findByEmployeeAndDateOrderByStartTimeAsc?employee=0&date=2014-01-01", String.class);
+                .getForEntity(host + "/workTimes/search/findByEmployeeAndDateOrderByStartTimeAsc?employee=/employees/0&date=2014-01-01", String.class);
         assertThat(response, isForbidden());
     }
 
@@ -201,14 +201,14 @@ public class WorkTimeResourceSecurityTest extends AbstractDomainResourceSecurity
     @OAuthRequest(value = "ROLE_SUPERVISOR")
     public void findByProjectAndDateBetweenOrderByDateAscStartTimeAscAllowedForSupervisor() throws Exception {
         ResponseEntity<String> response = restTemplate
-                .getForEntity(host + "/workTimes/search/findByProjectAndDateBetweenOrderByDateAscStartTimeAsc?project=0&start=2014-01-01&end=2014-01-31", String.class);
+                .getForEntity(host + "/workTimes/search/findByProjectAndDateBetweenOrderByDateAscStartTimeAsc?project=/projects/0&start=2014-01-01&end=2014-01-31", String.class);
         assertThat(response, isAccessible());
     }
 
     @Test
     public void findByProjectAndDateBetweenOrderByDateAscStartTimeAscForbiddenForEmployee() throws Exception {
         ResponseEntity<String> response = restTemplate
-                .getForEntity(host + "/workTimes/search/findByProjectAndDateBetweenOrderByDateAscStartTimeAsc?project=0&start=2014-01-01&end=2014-01-31", String.class);
+                .getForEntity(host + "/workTimes/search/findByProjectAndDateBetweenOrderByDateAscStartTimeAsc?project=/projects/0&start=2014-01-01&end=2014-01-31", String.class);
         assertThat(response, isForbidden());
     }
 

@@ -109,6 +109,7 @@ public class ReportResourceSecurityTest extends AbstractDomainResourceSecurityTe
     }
 
     @Test
+    // TODO: Not a really useful test as expenses are never added this way (they need to have the report first...)
     public void addTravelExpenseAllowedForSelf() throws Exception {
         assertThat(updateLink(0L, "expenses", "/travelExpenses/0"), isNoContent());
     }

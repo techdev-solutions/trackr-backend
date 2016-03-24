@@ -2,6 +2,7 @@ package de.techdev.trackr.core.web.api;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.data.rest.core.RepositoryConstraintViolationException;
 import org.springframework.data.rest.webmvc.support.RepositoryConstraintViolationExceptionMessage;
@@ -21,8 +22,12 @@ import static org.springframework.http.HttpStatus.CONFLICT;
 @Slf4j
 public class ExceptionHandlers {
 
+    private final MessageSourceAccessor messageSourceAccessor;
+
     @Autowired
-    private MessageSourceAccessor messageSourceAccessor;
+    public ExceptionHandlers(MessageSource messageSource) {
+        this.messageSourceAccessor = new MessageSourceAccessor(messageSource);
+    }
 
     /**
      * This exception handler <i>should</i> handle violations of unique constraints.
