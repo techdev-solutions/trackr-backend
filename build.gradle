@@ -3,7 +3,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.3.3.RELEASE")
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.4.1.RELEASE")
     }
 }
 
@@ -48,6 +48,8 @@ dependencies {
 
     compile("org.xhtmlrenderer:flying-saucer-pdf-itext5:9.0.6")
     compile("org.thymeleaf:thymeleaf:2.1.3.RELEASE")
+
+    compile "commons-io:commons-io:2.4"
 
     compile "org.projectlombok:lombok:1.12.4"
 
