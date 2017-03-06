@@ -32,4 +32,8 @@ public class Settings {
     @JoinColumn(name = "employee_id")
     private Employee employee;
 
+    public String getValue() {
+        // TODO lombok is not really compatible with the Kotlin compiler, as long as we have separate classes we need this getter.
+        return value;
+    }
 }

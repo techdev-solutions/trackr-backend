@@ -2,6 +2,7 @@ package de.techdev.trackr.core.web.api;
 
 import de.techdev.trackr.core.web.converters.DateConverter;
 import de.techdev.trackr.domain.common.EmployeeSettingsLocaleResolver;
+import de.techdev.trackr.domain.employee.SettingsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -31,8 +32,8 @@ public class ApiWebMvcConfiguration extends RepositoryRestMvcConfiguration {
     }
 
     @Bean
-    public LocaleResolver localeResolver() {
-        return new EmployeeSettingsLocaleResolver();
+    public LocaleResolver localeResolver(SettingsRepository settingsRepository) {
+        return new EmployeeSettingsLocaleResolver(settingsRepository);
     }
 
     @Override
