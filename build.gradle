@@ -1,8 +1,21 @@
+buildscript {
+    ext.kotlin_version = '1.1.0'
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath group: 'org.jetbrains.kotlin', name: 'kotlin-gradle-plugin', version: "$kotlin_version"
+        classpath group: 'org.jetbrains.kotlin', name: 'kotlin-allopen', version: "$kotlin_version" // contains the kotlin-spring plugin to automatically make classes with certain annotations open
+    }
+}
+
 plugins {
     id 'org.springframework.boot' version '1.5.2.RELEASE'
 }
 
 apply plugin: 'java'
+apply plugin: 'kotlin'
+apply plugin: 'kotlin-spring'
 apply plugin: 'jacoco'
 
 sourceCompatibility = 1.8
@@ -26,6 +39,7 @@ springBoot {
 }
 
 dependencies {
+    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     compile "org.springframework.boot:spring-boot-starter-data-rest"
     compile "org.springframework.boot:spring-boot-starter-data-jpa"
     compile "org.springframework.boot:spring-boot-starter-mail"
