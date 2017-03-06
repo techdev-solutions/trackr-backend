@@ -40,7 +40,7 @@ public class EndAfterBeginValidator implements ConstraintValidator<EndAfterBegin
             context.disableDefaultConstraintViolation();
             context.
                     buildConstraintViolationWithTemplate(messageTemplate)
-                    .addNode(endFieldName).addConstraintViolation();
+                    .addPropertyNode(endFieldName).addConstraintViolation();
         }
         return isValid;
     }

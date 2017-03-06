@@ -36,7 +36,7 @@ public class ProjectBelongsToCompanyValidator implements ConstraintValidator<Pro
         if (!isValid) {
             context.disableDefaultConstraintViolation();
             context.buildConstraintViolationWithTemplate(messageTemplateName)
-                    .addNode(projectFieldName).addConstraintViolation();
+                    .addPropertyNode(projectFieldName).addConstraintViolation();
         }
         return isValid;
     }
