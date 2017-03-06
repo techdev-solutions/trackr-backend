@@ -1,7 +1,9 @@
 spring:
     jpa:
         hibernate:
-            naming_strategy: org.hibernate.cfg.EJB3NamingStrategy
+            naming:
+              physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+              implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
     datasource:
         initialize: false
     profiles:

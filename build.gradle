@@ -3,7 +3,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.3.3.RELEASE")
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.5.2.RELEASE")
     }
 }
 
@@ -52,6 +52,8 @@ dependencies {
     compile "org.projectlombok:lombok:1.12.4"
 
     compile "org.glassfish:javax.json:1.0"
+
+    compile "commons-io:commons-io:2.5"
 
     testCompile "org.springframework.boot:spring-boot-starter-test"
     testCompile("org.echocat.jomon:testing:1.4.3") {
