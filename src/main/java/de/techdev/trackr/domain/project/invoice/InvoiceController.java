@@ -18,10 +18,14 @@ public class InvoiceController {
     @Autowired
     private ChangeStateService changeStateService;
 
+    @Autowired
+    private InvoiceRepository invoiceRepository;
+
     @RequestMapping(value = "{id}/markPaid", method = RequestMethod.POST)
     @ResponseBody
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public String markAsPaid(@PathVariable("id") Invoice invoice) {
+    public String markAsPaid(@PathVariable("id") Long invoiceId) {
+        Invoice invoice = invoiceRepository.findOne(invoiceId);
         changeStateService.changeState(invoice, Invoice.InvoiceState.PAID);
         return "Ok.";
     }
