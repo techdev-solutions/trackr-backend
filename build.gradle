@@ -43,7 +43,10 @@ dependencies {
     compile("org.xhtmlrenderer:flying-saucer-pdf-itext5:9.0.6")
     compile("org.thymeleaf:thymeleaf")
 
-    compile "org.projectlombok:lombok:1.12.4"
+    compileOnly "org.projectlombok:lombok:1.12.4"
+    testCompileOnly "org.projectlombok:lombok:1.12.4"
+    annotationProcessor "org.projectlombok:lombok:1.12.4"
+    testAnnotationProcessor "org.projectlombok:lombok:1.12.4"
 
     compile "org.glassfish:javax.json:1.0"
 
